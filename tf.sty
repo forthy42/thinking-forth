@@ -144,11 +144,12 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 
 \def\raggedlr{\noindent\ifodd\c@page\raggedleft \else\raggedright\fi}
 
-\def\section#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
+\def\section@ditionalsp@ce{0pt}
+\def\section#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
     minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\protect\raggedlr #1\kern-.66in}}
-\def\subsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsection}{2}{0in}{2ex plus 1ex
+\def\subsection#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{subsection}{2}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
-\def\subsubsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
+\def\subsubsection#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
 
 \parindent 2.5em
