@@ -49,7 +49,7 @@ depends on what it is.
 
 \subsection{Factoring Out Data}
 \index{D!Data, factoring out|(}
-The simplest thing to factor out is data thanks to \Forth{}'s data
+The simplest thing to factor out is data, thanks to \Forth{}'s data
 stack. For instance, to compute two-thirds of 1,000, we write
 
 \begin{Code}
@@ -166,8 +166,8 @@ BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
 Don't pass control flags downward.
 \end{tip}
 Why not? First, you are asking your running application to make a
-pointless decision-one you knew the answer to while
-programming-thereby reducing efficiency. Second, the terminology
+pointless decision---one you knew the answer to while
+programming---thereby reducing efficiency. Second, the terminology
 doesn't match the conceptual model. What are \forth{TRUE BLETCHES}
 as opposed to \forth{FALSE BLETCHES}?
 \index{C!Control flags|)}
@@ -315,7 +315,7 @@ Even in the most innocent cases, a little data structure can eliminate
 extra names. By convention \Forth{} handles text in ``counted
 strings'' (i.e., with the count in the first byte). Any word that
 returns the ``address of a string'' actually returns this beginning
-address, where the count is. not only does use of this two-element
+address, where the count is. Not only does use of this two-element
 data structure eliminate the need for separate names for string and
 count, it also makes it easier to move a string in memory, because you
 can copy the string \emph{and} the count with a single \forthb{CMOVE}.
@@ -414,21 +414,22 @@ Short words give you a good feeling.
 \end{interview}
 An informal examination of one of \person{Moore}'s applications shows
 that he averages seven references, including both words and numbers,
-per definition. These are remarkably short definitions. (Actually his
+per definition. These are remarkably short definitions. (Actually, his
 code was divided about 50--50 between one-line and two-line
 definitions.)
 
 Psychological tests have shown that the human mind can only focus its
 conscious attention on seven things, plus or minus two, at a time
-\cite{miller56}. Yet all the while, day and night, the vast amounts of
-data, making connections and associations and solving problems.
+\cite{miller56}. Yet all the while, day and night, the vast resources
+of the mind are subconsciously storing immense amounts of data, making
+connections and associations and solving problems.
 
 Even if out subconscious mind knows each part of an application inside
 out, our narrow-viewed conscious mind can only correlate seven
 elements of it at once. Beyond that, our grasp wavers. Short
 definitions match our mental capabilities.
 
-Something that many \Forth{} programmers to write overly long
+Something that tempts many \Forth{} programmers to write overly long
 definitions is the knowledge that headers take space in the
 dictionary. The coarser the factoring, the fewer the names, and the
 less memory that will be wasted.
@@ -566,7 +567,7 @@ In a later revision, I unexpectedly had to write:
 BLK @ BLOCK  >IN @ +  C!
 \end{Code}
 I could have used the existing \forth{LETTER} were it not for its
-\forth{C@} at the end. Rather than duplicated the bulk of the phrase
+\forth{C@} at the end. Rather than duplicate the bulk of the phrase
 in the new section, I chose to refactor \forth{LETTER} to a finer
 resolution, taking out the \forth{C@}.  The usage was then either
 \forth{LETTER C@} or \forth{LETTER C!}. This change required me to
@@ -598,7 +599,8 @@ Be sure you can name what you factor.
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
-If you have a concept that you can't assign a single name to , not a
+%%style: better use m-dashes here
+If you have a concept that you can't assign a single name to, not a
 hyphenated name, but a name, it's not a well-formed concept. The
 ability to assign a name is a necessary part of decomposition.
 Certainly you get more confidence in the idea.
@@ -607,7 +609,7 @@ Certainly you get more confidence in the idea.
 \index{N!Nameability|)}%
 Compare this view with the criteria for decomposing a module espoused
 by structured design in \Chap{1}. According to that method, a module
-should exhibit ``functional binding,'' Which can be verified by
+should exhibit ``functional binding,'' which can be verified by
 describing its function in a single, non-compound, \emph{sentence}.
 \Forth{}'s ``atom,'' a \emph{name}, is an order of magnitude more
 refined.
@@ -664,7 +666,7 @@ Factor calculations algorithms out of definitions that display results.
 This is really a question of decomposition.
 
 Here's an example. The word defined below, pronounced
-``people-to-paths,'' computes how many paths of communication there are
+``people-to-paths'', computes how many paths of communication there are
 between a given number of people in a group. (This is a good thing for
 managers of programmer teams to know---the number of communication
 paths increases drastically with each new addition to the team.)
@@ -688,7 +690,7 @@ This produces:
 \end{Code}
 Even if you think you're going to perform a particular calculation
 only once, to display it in a certain way, believe me, you're wrong.
-You will have to come back later an factor out the calculation part.
+You will have to come back later and factor out the calculation part.
 Perhaps you'll need to display the information in a right-justified
 column, or perhaps you'll want to record the results in a data
 base---you never know. But you'll always have to factor it, so you
@@ -740,7 +742,8 @@ with the new word \forth{FRAME,} because you may change the definition of
 \begin{tip}
 If a repeated code fragment is likely to change in some cases but not
 others, factor out only those instances that might change. If the
-fragment is likely to change in more than one definition.
+fragment is likely to change in more than one way, factor it into more
+than one definition.
 \end{tip}
 Knowing when to hide information requires intuition and experience.
 Having made many design changes in your career, you'll learn the hard
