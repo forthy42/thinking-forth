@@ -40,6 +40,7 @@
 \newif\iflatextoc
 \newif\ifisbn
 \newif\ifinitial
+\newif\ifprelim
 \isbnfalse
 \latextocfalse
 \splitcoverfalse
@@ -51,6 +52,7 @@
 \thinkerfalse
 \spineuptrue
 \initialfalse
+\prelimfalse
 
 \newdimen\hangout
 \newdimen\hangmark
@@ -96,6 +98,7 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{latextoc}{\latextoctrue}
 \DeclareOption{isbn}{\isbntrue}
 \DeclareOption{initial}{\initialtrue}
+\DeclareOption{preliminary}{\prelimtrue}
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -491,6 +494,8 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 
 %\def\iffloatpage#1#2{\if@fcolmade #1\else #2\fi}
 
+\def\prelimtext{\ifprelim{\gray\small\sf Preprint: Please report typos}\fi}
+
 \def\ps@headings{\let\@mkboth\markboth
   \def\@oddhead{}
   \def\@evenhead{}
@@ -498,11 +503,11 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
       \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{\hbox to 0pt{\hss\hbox to \hangout{\sf\bfseries\thepage\hss}}%
         \vrule height0pt depth3.2pt width 0pt%
-        {\kern-\hangmark\small\sf\leftmark}\hfil}}\fi}
+        {\kern-\hangmark\small\sf\leftmark}\hfil\prelimtext}}\fi}
   \def\@oddfoot{\if@fcolmade\else
       \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{%
-        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-\hangmark}%
+        \prelimtext\hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-\hangmark}%
         \hbox to 0pt{\hbox to \hangout{\hss\sf\bfseries\thepage}\hss}}}\fi}
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
