@@ -37,12 +37,13 @@ PNGSOURCES = \
 	img2-047.png img2-060.png img2-063.png img2-066.png \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
 	no-scrambled.png \
-	img-by.png img-nc.png img-sa.png img-cc.png
+	img-by.png img-nc.png img-sa.png img-cc.png \
+	pointing-l.png pointing-r.png
 
 WIDTH = 6.8125
 HEIGHT = 9.125
 
-VERSION = 0.1
+VERSION = 0.2
 CP = cp
 TAR = tar jcf
 MD = mkdir
