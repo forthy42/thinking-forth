@@ -45,13 +45,15 @@ footskip=0.5in}
 \DeclareGraphicsExtensions{.eps}
 \fi
 
+\usepackage{makeidx}
+\makeindex
+
 % stuff left to Bernd:
 
 % chapter title page
 % page footer
 % section and subsection header style
 % caption style
-
 
 \begin{document}
 \pagestyle{headings}
@@ -86,4 +88,8 @@ footskip=0.5in}
 \input{appendixc}
 \input{appendixd}
 \input{appendixe}
+% Index
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Index}
+\printindex
 \end{document}

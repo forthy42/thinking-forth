@@ -651,7 +651,7 @@ should contain about 20-40 percent code and 80-60 percent whitespace [1].
 Don't skip a line between each definition.  You may, however, skip a
 line between groups of definitions.'
 \begin{tip}
-All screens must leave BASE set to DECIMAL.
+All screens must leave BASE\index{B!BASE} set to DECIMAL.
 \end{tip}
 Even if you have three screens in a row in which the code is written in
 HEX (three screens of assembler code, for instance), each screen must set
@@ -675,10 +675,11 @@ R> BASE !               \ restore it
 %Page 148 in first edition.
 
 Sometimes an argument is passed on the stack from screen to screen,
-such as the value returned by BEG IN or IF in a multiscreen assembler
+such as the value returned by BEGIN or IF in a multiscreen assembler
 definition, or the base address passed from one defining word to
 another-see ``Compile-Time Factoring'' in Chapter Six.  In these cases,
-it's best to save the value of BASE on the return stack like this:
+it's best to save the value of BASE on
+the return stack like this:
 \begin{Code}
 BASE @ >R HEX
 ... etc. ...
@@ -686,7 +687,7 @@ R> BASE !
 \end{Code}
 
 Some folks make it a policy to use this approach on any screen that
-changes BASE, so they don't have to worry about it.
+changes BASE\index{B!BASE}, so they don't have to worry about it.
 
 Moore prefers to define LOAD to invoke DECIMAL after loading.
 This approach simplifies the screen's contents because you don't have to
@@ -842,6 +843,7 @@ to place these values correctly on the stack.
 %Page 151 in first edition.
 A stack picture can include either abbreviations, such as ``n1,'' or
 fully spelled-out words.  Usually abbreviations are used.  Some standard
+\index{A!Abbreviations!in stack diagrams}
 abbreviations appear in \ref{tab-5-2}.  Whether abbreviations or fully
 spelled-out words are used, each stack item should be separated by a
 space.
@@ -927,8 +929,8 @@ definitions that consume nothing and return arguments.
 \subsection{Stack Abbreviation Standards}
 
 Abbreviations used in stack notation should be consistent.  \ref{tab-5-2} lists
-most of the commonly used abbreviations.  (This table reappears in
-Appendix E.) The terms ``single-length,'' ``double-length,'' etc. refer to
+most of the commonly used abbreviations.  (This table reappears in Appendix E.)
+The terms ``single-length,'' ``double-length,'' etc. refer to
 the size of a ``cell'' in the particular FORTH system.  (If the system uses a
 16-bit cell, ``n'' represents a 16-bit number; if the system uses a 32-bit
 cell, ``n'' represents a 32-bit number.)
@@ -937,6 +939,7 @@ cell, ``n'' represents a 32-bit number.)
 
 \ref{tab-5-2} shows three ways to represent a boolean flag.  To illustrate, here
 are three versions of the same stack comment for the word -TEXT:
+\index{A!Abbreviations!in stack diagrams}
 \begin{Code}
 ( at u a2 -- ?)
 ( at u a2 -- t=no-match)
@@ -1591,9 +1594,10 @@ you mean.
 The worst problem with abbreviating a word is that you forget just
 how you abbreviated it.  Was that DSPL or DSPLY?
 
-Another problem is that abbreviations hinder readability.  Any programming
-language is hard enough to read without compounding the
-difficulty.
+Another problem is that abbreviations
+\index{A!Abbreviations!hinder readability}hinder readability.
+Any programming language is hard enough to read without compounding
+the difficulty.
 
 Still, there are exceptions.  Here ate a few:
 %!!<ENUMERATION>

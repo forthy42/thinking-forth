@@ -79,6 +79,7 @@ name, just as though the programmer had written them out in full.
 
 
 \subsection{Abstraction}
+\index{A!Abstraction}
 A major advance was the invention of the {}``high-level language.\char`\"{}
 Again this was a translator program, but a more powerful one. High-level
 languages make it possible for programmers to write code like this:
@@ -115,7 +116,7 @@ over the same sections of code repeatedly, usually testing for the
 moment to branch out of the loop. Both assembler and high-level languages
 provide branching and looping capabilities. In assembly languages
 you use {}``jump instructions''; in some high-level languages you
-use {}``GO TO'' commands. When these capabilities are used in the
+use {}``GO TO'' commands\index{G!GOTO commands}. When these capabilities are used in the
 most brute-force way, programs tend to look like the jumble you see
 in \Fig{fig1-1}. This approach, still widely used in languages like
 FORTRAN and BASIC, suffers from being difficult to write and difficult
@@ -130,6 +131,8 @@ programmer had to make the translation from code to flow chart and
 back by hand. Many programmers found old-fashioned flow charts less
 than useful.
 
+\wtexfigt{fig1-1}{Unstructured code\index{G!GOTO commands},
+using jumps or {}``GOTOs.''}
 
 \subsection{Modularity}
 A significant advance arose with the invention of {}``Structured
@@ -137,10 +140,6 @@ Programming,'' a methodology based on the observation that large problems
 are more easily solved if treated as collections of smaller problems
 {[}1{]}. Each piece is called a module. Programs consist of modules
 within modules.
-
-
-\wtexfigt{fig1-1}{Unstructured code, using jumps or {}``GOTOs.''}
-
 
 Structured programming eliminates spaghetti coding by insisting that
 control flow can be diverted only within a module. You can't jump
@@ -427,7 +426,8 @@ is considered bad form. The worst case is when one module actually
 modifies code inside another module. Even passing control flags to
 other modules with the intent to control their function is dangerous.
 
-An acceptable form of coupling is {}``data coupling,'' which involves
+An acceptable form of coupling\index{D!Data coupling}
+is {}``data coupling,'' which involves
 passing data (not control information) from one module to another.
 Even then, systems are easiest to build and maintain when the data
 interfaces between modules are as simple as possible.
@@ -565,7 +565,8 @@ view. This {}``module'' is a collection of routines, usually very
 small, which together hide information about some aspect of the problem. 
 
 Two other writers describe the same idea in a different way, using
-the term {}``data abstraction'' {[}5{]}. Their example is a push-down
+the term {}``data abstraction'' {[}5{]}.\index{A!Abstraction}
+Their example is a push-down
 stack. The stack {}``module'' consists of routines to initialize
 the stack, push a value onto the stack, pop a value from the stack,
 and determine whether the stack is empty. This {}``multiprocedure
@@ -611,7 +612,8 @@ This is structurally identical to the procedure MAKE-BREAKFAST on
 page 8. (If you're new to FORTH, refer to Appendix A for an explanation.)
 The words HURRIED?, CEREAL, EGGS, and CLEAN are (most likely) also
 defined. as colon definitions. Up to a point, FORTH exhibits all the
-traits we've studied: mnemonic value, abstraction, power, structured
+traits we've studied: mnemonic value,
+abstraction,\index{A!Abstraction} power, structured
 control operators, strong functional binding, limited coupling, and
 modularity. But regarding modularity, we encounter what may be FORTH's
 most significant breakthrough:
@@ -727,7 +729,7 @@ What have we done? We've inserted a new stage in the development process:
 We decomposed by components in our \emph{design}, then we described
 the sequence, hierarchy, and input-process-output in our \emph{implementation}.
 Yes, it's an extra step, but we now have an extra dimension for decomposition---not
-just slicing but \emph{dicing}.
+just slicing but \emph{dicing}\index{D!Dicing}.
 
 Suppose that, after the program is written, we need to change the
 record structure. In the sequential, hierarchical design, this change
@@ -1062,9 +1064,10 @@ piano remain simple and yielding. Why let a programming language try
 to out think you?
 
 So is FORTH a high-level language? On the question of syntax checking,
-it strikes out. On the question of abstraction and power, it seems
-to be of \emph{infinite} level---supporting everything from bit manipulation
-at an output port to business applications.
+it strikes out. On the question of abstraction\index{A!Abstraction}
+and power, it seems to be of \emph{infinite} level---supporting
+everything from bit manipulation at an output port to business
+applications.
 
 You decide. (FORTH doesn't care.)
 
@@ -1074,7 +1077,8 @@ FORTH is a design language. To the student of traditional computer
 science, this statement is self-contradictory. {}``One doesn't design
 with a language, one implements with a language. Design precedes implementation.''
 
-Experienced FORTH programmers disagree. In FORTH you can write abstract,
+Experienced FORTH programmers disagree. In FORTH you can write
+abstract,\index{A!Abstraction}
 design-level code and still be able to test it at any time by taking
 advantage of decomposition into lexicons. A component can easily be
 rewritten, as development proceeds, underneath any components that
@@ -1163,7 +1167,8 @@ a creative environment in which to design fast applications.
 
 
 \subsection{Capability}
-FORTH can do anything any other language can do---usually easier.
+FORTH\index{C!Capability} can do anything any other language can
+do---usually easier.
 
 At the low end, nearly all FORTH systems include assemblers. These
 support control-structure operators for writing conditionals and loops

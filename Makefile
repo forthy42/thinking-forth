@@ -52,6 +52,14 @@ dvi thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
+thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
+	latex thinking-forth.tex
+
+# makeindex log in: thinking-forth.ilg
+index thinking-forth.ind: thinking-forth.idx
+	makeindex thinking-forth.idx
+	latex thinking-forth.tex
+
 #fig%.pdf fig%.eps:	fig%.tex
 #	./tex2pdf $<
 #
