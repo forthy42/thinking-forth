@@ -35,7 +35,7 @@
 }
 \newcommand{\wepsfigt}[2]{
 \begin{figure*}[tttt]
-\caption{#2}
+\caption{#2}\par
 \vspace{1ex}
 \centerline{\includegraphics{#1}}\vspace{1ex}
 \labelfig{#1}
@@ -43,7 +43,7 @@
 }
 \newcommand{\wepsfigpp}[2]{
 \begin{figure*}[pppp]
-\caption{#2}
+\caption{#2}\par
 \vspace{1ex}
 \centerline{\includegraphics{#1}}\vspace{1ex}
 \labelfig{#1}
@@ -51,7 +51,7 @@
 }
 \newcommand{\wepsfigb}[2]{
 \begin{figure*}[bbbb]
-\caption{#2}
+\caption{#2}\par
 \vspace{1ex}
 \centerline{\includegraphics{#1}}\vspace{1ex}
 \labelfig{#1}
@@ -156,6 +156,12 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
   \pagebreak
   \vspace*{1.7in}\blackline{10pt}
 }}
+\def\@makeschapterhead#1{{\HUGE\sffamily\bfseries\slshape
+  \vbox{\advance\textwidth1em\hrule \@height 2pt
+    \vspace*{1ex}\hbox to \textwidth{\uppercase{#1}\hss}\vspace*{1ex}
+    \hrule \@height 2pt}
+  \vspace*{100pt}
+}}
 
 \def\ps@headings{\let\@mkboth\markboth
   \def\@oddhead{}
@@ -179,11 +185,12 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 \def\wordchapter{\ifcase\c@chapter\or ONE\or TWO\or THREE\or FOUR\or
 FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 
+\def\epilog{\gdef\wordchapter{EPILOGUE}}
 \renewcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
   \gdef\thechapter{\@Alph\c@chapter}%
-  \gdef\wordchapter{\appendixname\hss\@Alph\c@chapter}}
+  \gdef\wordchapter{APPENDIX \@Alph\c@chapter\hss}}
 
 \newif\ifotherside
 \othersidefalse
@@ -206,11 +213,61 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
   \vskip\abovecaptionskip
   \sbox\@tempboxa{{\bf #1:} {\it #2}}%
   \ifdim \wd\@tempboxa >\hsize
-    #1: #2\par
+    \textbf{#1:} \emph{#2}\par
   \else
     \global \@minipagefalse
     \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
   \fi
   \vskip\belowcaptionskip}
+
+%% original table of contents style
+
+\renewcommand\numberline[1]{}
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.5em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \leavevmode
+      \hfill {\sf\bfseries\slshape#1},~\emph{#2}\par
+      \penalty\@highpenalty
+    \endgroup
+    \vskip 1.0em \@plus\p@
+  \fi}
+\def\@dottedtocline#1#2#3#4#5{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+     {\hfill #4},~\emph{#5}\par}%
+  \fi}
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                       \if@mainmatter
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\protect\numberline{\thechapter}\uppercase{#1}}%
+                       \else
+                         \addcontentsline{toc}{chapter}{\uppercase{#1}}%
+                       \fi
+                    \else
+                      \addcontentsline{toc}{chapter}{\uppercase{#1}}%
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+
+\setcounter{tocdepth}{1}
 
 \makeatother

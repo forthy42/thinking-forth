@@ -55,9 +55,15 @@ footskip=0.5in}
 
 \begin{document}
 \pagestyle{headings}
+\pagenumbering{roman}
+\setcounter{page}{3}
+\addcontentsline{toc}{section}{\contentsname}
 \tableofcontents
 \listoffigures
 \input{preface}
+\vfill\pagebreak
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \input{chapter1}
 %\input{chapter2}
 \setcounter{chapter}{2}
