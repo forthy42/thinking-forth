@@ -32,9 +32,23 @@ PNGSOURCES = \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
 	no-scrambled.png
 
+WIDTH = 6.8125
+HEIGHT = 9.125
+
 all:	pspdf ps
 
 pspdf:	thinking-forth.pdf
+
+thinking-forth-book.pdf: thinking-forth-book.ps
+	ps2pdf $< $@
+
+booka4 : thinking-forth.ps
+	psbook <$< | psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | psnup -2 -pa4 | sed -e 's/%%BoundingBox:.*/%%PageSize: a4/' >$(<:.ps=-book.ps)
+	ps2pdf $(<:.ps=-book.ps) tf-a4.pdf
+
+bookletter : thinking-forth.ps
+	psbook <$< | psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | psnup -2 -pletter | sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >$(<:.ps=-book.ps)
+	ps2pdf $(<:.ps=-book.ps) tf-letter.pdf
 
 thinking-forth.pdf : thinking-forth.ps
 	ps2pdf thinking-forth.ps thinking-forth.pdf
@@ -90,4 +104,4 @@ no-scramble.pdf:	no-scramble.eps
 	./eps2pdf $<
 
 view : thinking-forth.dvi
-	xdvi -paper 6.8125x9.125in thinking-forth.dvi
+	xdvi -paper $(WIDTH)x$(HEIGHT)in thinking-forth.dvi
