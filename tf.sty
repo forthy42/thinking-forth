@@ -58,4 +58,13 @@
 \newcommand{\chapternum}[1]{}
 
 \newcounter{screen}
-\DefineVerbatimEnvironment{Screen}{LVerbatim}{frame=single,framesep=3pt,fontsize=\small,label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,samepage=true}
+\DefineVerbatimEnvironment{Screen}{LVerbatim}{frame=single,framesep=3pt,%
+label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
+labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
+samepage=true,xleftmargin=2em,xrightmargin=4em}
+
+\lstloadaspects{labels}
+\lstset{language=Forth,basicstyle=\ttfamily,keywordstyle=\bfseries,%
+basewidth=0.5em,frame=tlbr,frameround=tttt,%
+%fancyvrb=true% set this to true if you want fancyvrb use
+}
