@@ -107,7 +107,7 @@ the commands needed so far---not all the valid codes that could be
 sent to the ``control register.'' If later in the project cycle you
 realize that you need an additional command, say one to change the
 baud rate, the new command would be added to the I/O chip lexicon, not
-to the code that needed to set the baud rate. There's no penalty for
+to the code needed to set the baud rate. There's no penalty for
 making this change except the few minutes (at most) it takes to edit
 and recompile.
 
@@ -160,7 +160,7 @@ the screen might look like this:
 
 %!! no bf cmtt font (use Courier?)
 \begin{quote}
-\textsf{\textbf{Name of Member}\quad Justine Time}
+\textsf{\textbf{Name of Member}\quad \fbox{Justine Time\underline{~}\quad}}
 \end{quote}
 The editor will provide three modes for users to change the contents of
 the input field:
@@ -304,13 +304,13 @@ hidden within this component.
 Let's attempt to rewrite these algorithms in code:
 
 \begin{Code}
-: KEYS ( returns value of key last pressed ) ... ;
-: POSITION ( returns address of character pointed-to) ;
-: FORWARD ( advance pointer, stopping at last position) ;
-: BACKWARD ( decrement pointer, stopping at first position) ;
-: OVERWRITE KEY# POSITION C! FORWARD ;
-: INSERT SLIDE> OVERWRITE ;
-: DELETE SLIDE< BLANK-END ;
+: KEY#  ( returns value of key last pressed )  ... ;
+: POSITION  ( returns address of character pointed-to)  ;
+: FORWARD  ( advance pointer, stopping at last position)  ;
+: BACKWARD  ( decrement pointer, stopping at first position)  ;
+: OVERWRITE   KEY# POSITION C!  FORWARD ;
+: INSERT   SLIDE>  OVERWRITE ;
+: DELETE   SLIDE<  BLANK-END ;
 \end{Code}
 To copy the text leftwards and rightwards, we had to invent two new
 names as we went along, \forth{SLIDE<} and \forth{SLIDE>} (pronounced
@@ -408,7 +408,7 @@ BACKWARD
 OVERWRITE
 INSERT
 DELETE
-<INSERT
+INSERT<
 \end{Code}
 None of their descriptions make any reference to the video refresh
 process, because that was originally assumed to happen later.
@@ -431,7 +431,7 @@ are in boldface:
 : INSERT SLIDE> RETYPE OVERWRITE ;
 : DELETE SLIDE< BLANK-END RETYPE ;
 \end{Code}
-Since these are the only three functions which change memory, they are
+Since these are the only three functions that change memory, they are
 the only three functions that need to refresh the screen. This idea is
 critical. We must be able to make such assertions to assure program
 correctness. The assertion is intrinsic to the nature of the problem.
@@ -460,7 +460,6 @@ To prove this assertion, we'll have to start all over again from
 scratch.
 
 \section{Designing and Maintaining a Traditional Application}
-\wepsfigt{fig3-3}{The traditional approach: view from the top.}
 
 Let's pretend we haven't studied the Tiny Editor problem yet, and
 we're back with a minimal set of specs. We'll also start with our
@@ -474,6 +473,7 @@ the editor is actually a loop which keeps getting keystrokes and
 performing some editing function, until the user presses the return
 key.
 
+\wepsfigb{fig3-3}{The traditional approach: view from the top.}
 Inside the loop we have three modules: getting a character from the
 keyboard, editing the data, and finally refreshing the display to match
 the data.
@@ -665,7 +665,7 @@ single component.
 In writing my text formatter, I failed to answer this question fully
 and found myself with a bug. The problem was this:
 
-I allow different type widths to be used: condensed, double widths,
+I allow different type widths to be used: condensed, double width,
 etc. This means not only sending different signals to the printer, but
 changing the number of characters allowed per line.
 
@@ -778,7 +778,7 @@ How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is
 not defined until much later?
 
 While it's theoretically possible to organize the listing so that the
-advance capability is defined before the root function, that approach is
+advanced capability is defined before the root function, that approach is
 bad news for two reasons.
 
 First, the natural organization (by degree of capability) is
@@ -886,7 +886,7 @@ routines that have anything to do with drawing squares.
 %   that was fixed in the '94 edition and here
 
 On the other hand, if the application required hardware support (such as a
-graphics package) that we didn't have or couldn't buy, we might want to
+graphics package) that we didn't have on hand, we might want to
 substitute something available, such as displaying an asterisk, just to
 get into the problem. Thinking in terms of lexicons is like painting a
 huge mural that spans several canvases. You work on all the canvases at
@@ -951,9 +951,9 @@ buttons when a new function is needed. The tools inside the object
 have not been designed for reuse.%
 \index{O!Object|)}
 
-The idea of levels pervades the design of my own personal computer,
-the IBM Personal Computer. Besides the processor itself (with its own
-machine instruction set, of course), there are these software levels:
+The idea of levels pervades the design of the IBM Personal
+Computer. Besides the processor itself (with its own machine
+instruction set, of course), there are these software levels:
 
 \begin{itemize}
 \item the set of utilities written in assembler and burned into the
@@ -1002,7 +1002,7 @@ It's not that anything's wrong with the concept of a bit-switch
 function interface between components, when it's necessary. The
 problem here is that this video component was incompletely
 designed. On the other hand, if the system had been fully
-integrated-operating system and drivers written in \Forth{}---the video
+integrated---operating system and drivers written in \Forth{}---the video
 component would not \emph{have} to be designed to suit all needs. An
 application programmer could either rewrite the driver or write an
 extension to the driver using available tools from the video lexicon.
