@@ -17,9 +17,9 @@
 \input{pagecount}
 
 \ifpdf
-\documentclass[10pt,american,pdftex]{book}
+\documentclass[10pt,\tflang,pdftex]{book}
 \else
-\documentclass[10pt,american,dvips]{book}
+\documentclass[10pt,\tflang,dvips]{book}
 \fi
 
 \usepackage[T1]{fontenc}
@@ -89,7 +89,12 @@ footskip=0pt}
 \end{minipage}
 \vline
 \begin{minipage}{\spine}
-\rotateleft{\vbox to \spine{\vss\hbox to \pheight{%
+\ifspineup
+\expandafter\rotateleft
+\else
+\expandafter\rotateright
+\fi
+{\vbox to \spine{\vss\hbox to \pheight{%
     \fontfamily{phv}\selectfont
     \noindent\hspace{0.5in}%
     \Huge\bfseries\person{Leo Brodie}\hss
@@ -107,7 +112,8 @@ footskip=0pt}
   \vspace*{100pt}
 %%if you want the thinker on the cover, use that:
 \ifthinker
-  \smash{\lower4.8in\hbox to\oldpwidth{\hss\smash{\includegraphics{rodin_thinker}}}}
+  \smash{\lower4.8in\hbox to\oldpwidth{\hss
+  \smash{\includegraphics{rodin_thinker}}\hspace{0.125in}}}
 \fi
   \hbox{\hspace{\evenmargin}
   \begin{minipage}{\twidth}

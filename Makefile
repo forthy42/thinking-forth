@@ -18,7 +18,9 @@ SOURCES = thinking-forth.tex \
 	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
 	fig7-7.tex fig7-8.tex fig7-9.tex \
 	backpage.tex cover.tex legalcode-by-nc-sa.tex \
-	autoscale eps2pdf
+	autoscale eps2pdf \
+	rodin_thinker.jpg rodin_thinker.eps \
+	leobrodie.jpg leobrodie.eps
 
 ALL_SOURCES = $(SOURCES) Makefile
 
@@ -55,7 +57,8 @@ PRICE = 90000
 # or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
 # pages rounded up to 4, last page empty.
 
-OPTIONS = 2004,tip,tipno
+OPTIONS = 2004,tip,tipno,leo,thinker
+LANG = american
 # BoD options:
 # 6x9 for 6" x 9" format (standard US book format)
 # 17x22 for 17cm x 22cm format (one of the standard metric formats)
@@ -109,6 +112,7 @@ bookletter : thinking-forth.ps
 
 tfoptions.tex:	Makefile
 	echo "\def\tfoptions{$(OPTIONS)}" >$@
+	echo "\def\tflang{$(LANG)}" >>$@
 	echo "\def\isbn{$(ISBN)}" >>$@
 
 %.pdf : %.ps
@@ -130,7 +134,8 @@ thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
-cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex
+cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex \
+	rodin_thinker.eps
 	latex cover.tex
 
 # get bookland.py from http://www.cgpp.com/bookland/

@@ -35,12 +35,14 @@
 \newif\iftip
 \newif\ifleo
 \newif\ifthinker
+\newif\ifspineup
 \eightyfourfalse
 \ofourfalse
 \tipnofalse
 \tipfalse
 \leofalse
 \thinkerfalse
+\spineupfalse
 
 \newdimen\hangout
 \newdimen\hangmark
@@ -80,6 +82,8 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{17x24}{\seventeenbytwentyfour}
 \DeclareOption{leo}{\leotrue}
 \DeclareOption{thinker}{\thinkertrue}
+\DeclareOption{american}{\spineupfalse}
+\DeclareOption{english}{\spineuptrue}
 \ExecuteOptions{}
 \ProcessOptions
 
