@@ -11,7 +11,7 @@ What is this philosophy? How can you apply it to solve your software
 problems? Before we can answer these questions, let's take 100 steps
 backwards and examine some of the major philosophies advanced by computer
 scientists over the years. After tracing the trajectory of these advances,
-we'll compare---and contrast---FORTH with these state-of-the-art progamming
+we'll compare---and contrast---FORTH with these state-of-the-art programming
 principles.
 
 
@@ -93,7 +93,7 @@ X = Y (456/A) - 2
 
 \wepsfigp{img1-004}{So then I typed GOTO 500---and here I am!}
 
-which looks a lot like algebra. Thanks to high-level langages, engineers,
+which looks a lot like algebra. Thanks to high-level languages, engineers,
 not just bizarre bit-jockeys, could start writing programs. BASIC
 and FORTRAN are examples of high-level languages. High-level languages
 are clearly more {}``powerful'' than assembly languages in the sense
@@ -289,7 +289,7 @@ to be executed. When the subroutine has finished being executed, control
 returns back to the calling program at the point following the call.
 Subroutines obey the rules of structured programming.
 
-As you can see, the effect of the subroutine call is as if the sub-routine
+As you can see, the effect of the subroutine call is as if the subroutine
 code were written out in full within the calling module. But unlike
 the code produced by the macro assembler, the subroutine can be compiled
 elsewhere in memory and merely referenced. It doesn't necessarily
@@ -335,7 +335,7 @@ You continue this process to greater levels of detail until the procedures
 can only be written in the computer language itself.
 
 At each step the programmer must make decisions about the algorithms
-being used and about the data stuctures they're being used on. Decisions
+being used and about the data structures they're being used on. Decisions
 about the algorithms and associated data structures should be made
 in parallel.
 
@@ -473,7 +473,7 @@ another.
 
 To help designers think along these new lines, a graphic representation
 was invented, called the {}``structure chart.'' (A slightly different
-form is calledthe {}``HIPO chart,'' which stands for {}``hierarchical
+form is called the {}``HIPO chart,'' which stands for {}``hierarchical
 input-process-output.'') Structure charts include two parts, a hierarchy
 chart and an input-output chart.
 
@@ -485,7 +485,7 @@ consists of three subordinate modules, which in turn invoke the other
 modules shown below them. As you can see, the design emphasizes the
 transformation of input to output. 
 
-The tiny numbers ofthe hierarchy chart refer to the lines on the in-out
+The tiny numbers of the hierarchy chart refer to the lines on the in-out
 chart. At point 1 (the module READ), the output is the value A. At
 point 2 (the module TRANSFORM-TO-B), the input is A, and the output
 is B. 
@@ -495,7 +495,7 @@ that decisions about control flow should not dominate the emerging
 design. As we' ll see, control flow is a superficial aspect of the
 problem. Minor changes in the requirements can profoundly change the
 program's control structures, and {}``deep-six'' years of work.
-But if programs aredesigned around other concerns, such as the flow
+But if programs are designed around other concerns, such as the flow
 of data, t hen a change in plan won' t have so disastrous an effect.
 
 
@@ -522,7 +522,7 @@ takes over. The new duplicate forms have green and yellow sheets,
 not blue and orange. The red binder fills up and gets replaced with
 a black one. Your entire manual is obsolete. You could have avoided
 the obsolescence by using the term {}``Shipping Clerk'' instead
-of the name Jay, the terms {}``BookkeepingDept. copy and'' {}``ShippingDept.
+of the name Jay, the terms {}``Bookkeeping Dept. copy and'' {}``Shipping Dept.
 copy'' instead of {}``blue'' and {}``orange,'' etc.
 
 This example illustrates that in order to maintain correctness in
@@ -640,7 +640,7 @@ or a procedure, but a {}``word.''
 Furthermore, there are no subroutines, main programs, utilities, or
 executives, each of which must be invoked differently. Everything
 in FORTH is a word. Before we explore the significance of a word-based
-environment, let's first study two FORTH inventions that make it poss;ble.
+environment, let's first study two FORTH inventions that make it possible.
 
 
 \subsection{Implicit Calls}
@@ -737,7 +737,7 @@ or in problem- oriented words such as CEREAL and EGGS.
 
 \Fig{fig1-7} contrasts the results of structured design with the results
 of designing by components. Instead of \emph{modules} called READ--RECORD,
-EDIT--RECORD, and WRITE--RECORD, we're con- cerned with components
+EDIT--RECORD, and WRITE--RECORD, we're concerned with components
 that describe the structure of records, provide a set of editor commands,
 and provide read/write routines to storage.
 
@@ -773,8 +773,8 @@ words.
 
 \wepsfiga{fig1-8}{A lexicon describes a component.}
 
-The lexcon provides the logical equivalents to the data objects and
-algorithms in the form of names. The lexicon veils the compnent's
+The lexicon provides the logical equivalents to the data objects and
+algorithms in the form of names. The lexicon veils the component's
 data structures and algorithms---the {}``how it works.'' It presents
 to the world only a {}``conceptual model'' of the component described
 in simple words---the {}``what it does.''
@@ -952,10 +952,10 @@ and
 \end{verbatim}
 Look again at what we did. We changed the definition of APPLES from
 that of a variable to a colon definition, without affecting its usage.
-FORTH allows us to hide the details fo how APPLES is defined from
+FORTH allows us to hide the details of how APPLES is defined from
 the code that uses it. What appears to be {}``thing'' (a variable)
 to the original code is actually defined as an {}``action'' (a colon
-definition) within th component.
+definition) within the component.
 
 FORTH encourages the use of abstract data types by allowing data structures
 to be defined in terms of lower level components. Only FORTH, which
@@ -1079,7 +1079,7 @@ definitions if you want to.
 An artist's paintbrush doesn't notify the artist of a mistake; the
 painter will be the judge of that. The chef's skillet and the composer's
 piano remain simple and yielding. Why let a programming language try
-to outthink you?
+to out think you?
 
 So is FORTH a high-level language? On the question of syntax checking,
 it strikes out. On the question of abstraction and power, it seems
@@ -1268,7 +1268,7 @@ FORTH than any other contemporary language.
 \section{References}
 
 \begin{enumerate}
-\item O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare, Structured Progromming,
+\item O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare, Structured Programming,
 London, Academic Press, 1972.
 \item Niklaus Wirth, {}``Program Development by Stepwise Refinement,\char`\"{}
 Com- munications of ACM, 14, No. 4 (1971), 221-27.
