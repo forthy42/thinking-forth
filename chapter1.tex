@@ -678,10 +678,16 @@ the primary basis for design!
 \index{S!Structured programming!new view of|(}
 \person{Parnas}\index{P!Parnas, David} proposes two criteria for decomposition:
 
+%% special case: uses second level without outer level
+\begin{tfquot}
+%%!!!this is to avoid an error
+\makeatletter\@newlistfalse\makeatother
+%%!!!
 \begin{enumerate}
-\item[a.] possible (though currently unplanned) reuse, and
-\item[b.] possible (though unplanned) change.
+\item possible (though currently unplanned) reuse, and
+\item possible (though unplanned) change.
 \end{enumerate}
+\end{tfquot}
 This new view of a ``module'' is different than the traditional
 view. This ``module'' is a collection of routines, usually very
 small, which together hide information about some aspect of the problem. 
@@ -737,7 +743,7 @@ Here's an example of FORTH code;
 \end{Code}
 This is structurally identical to the procedure \forth{MAKE-BREAKFAST} on
 page \pageref{make-breakfast}. (If you're new to \Forth{}, refer to
-\Chap{A} for an explanation.)  The words \forth{HURRIED?},
+\App{A} for an explanation.)  The words \forth{HURRIED?},
 \forth{CEREAL}, \forth{EGGS}, and \forth{CLEAN} are (most likely) also
 defined. as colon definitions.
 

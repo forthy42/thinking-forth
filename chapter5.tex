@@ -205,7 +205,7 @@ is the run-time routine for semicolon.  In these systems the use of EXIT is
 acceptable.  Some \Forth{} systems, however, require for internal reasons
 a different routine for the ``skip-screen'' function.
 
-Definitions for $\backslash${} and $\backslash${}S can be found in \Chap{C}.
+Definitions for $\backslash${} and $\backslash${}S can be found in \App{C}.
 
 \subsection{Chapter-load Screens}
 
@@ -264,7 +264,7 @@ and
 \end{Code}
 
 My own way, which I submit as a more useful factoring, requires a single
-word, FH (see \Chap{C} for its definition).
+word, FH (see \App{C} for its definition).
 
 The phrase
 \begin{Code}
@@ -567,7 +567,7 @@ This form requires fewer characters than
 \end{Code}
 and eliminates possible confusion between dates and months.
 
-If your system has $\backslash${} (``skip-line''-see \Chap{C}), you can write
+If your system has $\backslash${} (``skip-line''-see \App{C}), you can write
 the comment line like this:
 \begin{Code}
 \ Chapter name          Screen Name -- pg.#         JPJ 06/10/83
@@ -624,7 +624,7 @@ be indented.)
 %Page 147 in first edition.
 
 VARIABLES and CONSTANTS should also be defined one per
-line.  (See ``Samples of Good Commenting Style'' in \Chap{E}.) This
+line.  (See ``Samples of Good Commenting Style'' in \App{E}.) This
 leaves room for an explanatory comment on the same line.  The exception
 is a large ``family'' of words (defined by a common defining-word) which
 do not need unique comments:
@@ -745,15 +745,15 @@ definitions
 The last position of each line should be blank except for:
 %!!<ENUMERATION>
 %% special case: uses second level without outer level
-\begin{enumerate}
-%%!!!this is to avoid an error for a
-\makeatletter\@newlistfalse\makeatother
+%\begin{enumerate}
+%%!!!this is to avoid an error
+%\makeatletter\@newlistfalse\makeatother
 %%!!!
 \begin{enumerate}
 \item quoted strings that continue onto the next line, or
 \item the end of a comment.
 \end{enumerate}
-\end{enumerate}
+%\end{enumerate}
 %!!</ENUMERATION>
 A comment that begins with $\backslash$ may continue right to the end of the line.
 Also, a comment that begins with ( may have its delimiting right parenthesis
@@ -761,7 +761,7 @@ in the last column.
 
 Here are some common errors of spacing and indentation:
 
-\bigskip\noindent
+\goodbreak\bigskip\noindent
 \emph{Bad} (name not separated from the body of the definition):
 \begin{Code}
 : PUSH HEAVE HO ;
@@ -784,6 +784,7 @@ DARKEN   NEVER AGAIN;
 \begin{Code}
 : GETTYSBURG   4 SCORE 7 YEARS + AGO ;
 \end{Code}
+\goodbreak\noindent
 \emph{Good:}
 \begin{Code}
 : GETTYSBURG   4 SCORE   7 YEARS +   AGO ;
@@ -847,6 +848,7 @@ nl n2
 \end{Code}
 indicates two numbers on the stack, with n2 on the top (the most accessible
 position).
+
 This is the same order that you would use to type these values in;
 i.e., if n1 is 100 and n2 is 5000, then you would type
 \begin{Code}
@@ -892,12 +894,11 @@ repeated in the output picture; e.g.,
 \begin{Code}
 3rd 2nd top-input -- 3rd 2nd top-output
 \end{Code}
-
 Conversely, if the word changes any arguments, the stack comment must
 use a different descriptor:
 \begin{Code}
 nl -- n2
-n  -- n'
+n -- n'
 \end{Code}
 A stack effect might appear in a formatted glossary.
 
@@ -927,6 +928,7 @@ On the other hand, you may want to use an empty stack comment-i.e.,
 : BAKE  ( -- )  COOKIES OVEN ! ;
 \end{Code}
 to emphasize that the word has no effect on the stack.
+
 If a definition consumes arguments but returns none, the double-hyphen
 is optional.  For instance,
 \begin{Code}
@@ -943,7 +945,7 @@ definitions that consume nothing and return arguments.
 \subsection{Stack Abbreviation Standards}
 
 Abbreviations used in stack notation should be consistent. Table \ref{tab-5-2} lists
-most of the commonly used abbreviations.  (This table reappears in \Chap{E}.)
+most of the commonly used abbreviations.  (This table reappears in \App{E}.)
 The terms ``single-length,'' ``double-length,'' etc. refer to
 the size of a ``cell'' in the particular \Forth{} system.  (If the system uses a
 16-bit cell, ``n'' represents a 16-bit number; if the system uses a 32-bit
@@ -1058,7 +1060,8 @@ A ``bit comment'' uses the same format as a data-structure comment
 to depict the meaning of bits in a byte or cell.  For instance, the bit
 comment
 \begin{Code}
-{ Ibusy? | lacknowledge? | 2x | 6input-device | 6output-device}
+{ 1busy? | 1acknowledge? | 2x | 6input-device |
+   6output-device }
 \end{Code}
 describes the format of a 16-bit status register of a communications channel.
 The first two bits are flags, the second two bits are unused, and the
@@ -1131,11 +1134,11 @@ by three spaces on each side.  For instance, here's one way to
 comment the definition of ' (tick) showing first the input-stream comment,
 then the stack comment:
 \begin{Code}
-: ,   \ name   ( -- a)
+: '   \ name   ( -- a)
 \end{Code}
 If you prefer to use ( , the comment would look like this:
 \begin{Code}
-: ,   ( name   ( -- a)
+: '   ( name   ( -- a)
 \end{Code}
 
 Incidentally, there are three distinct ways to receive string input.  To
@@ -1157,8 +1160,10 @@ The input-stream comment is only appropriate for input being scanned-for.
 
 \begin{tip}
 Every definition should bear a purpose comment unless:
-a. its purpose is clear from its name or its stack-effect comment, or
-b. if it consists of three or fewer words.
+\begin{enumerate}
+\item its purpose is clear from its name or its stack-effect comment, or
+\item if it consists of three or fewer words.
+\end{enumerate}
 \end{tip}
 
 The purpose comment should be kept to a minimum-never more than a
@@ -1181,7 +1186,6 @@ or
 \begin{Code}
 : SPACES  ( #spaces-to-type -- )  ... ;
 \end{Code}
-
 This definition takes as its incoming argument a number that represents
 the number of spaces to type.
 \begin{Code}
@@ -1213,7 +1217,6 @@ If you prefer to use (, then write:
 \begin{Code}
 : GET  (  name  ( -- a) ( get first match
 \end{Code}
-
 If necessary, you can put the purpose comment on a second line:
 \begin{Code}
 : WORD   \   name   (c -- a)
@@ -1223,12 +1226,13 @@ If necessary, you can put the purpose comment on a second line:
 \subsection{Comments for Defining Words}
 The definition of a defining word involves two behaviors:
 %!!<ENUMERATION>
-that of the defining word as it defines its ``child'' (compile-time behavior),
-and
-that of the child itself (run-time behavior).
+\begin{itemize}
+\item that of the defining word as it defines its ``child''
+(compile-time behavior), and
+\item that of the child itself (run-time behavior).
+\end{itemize}
 %!!</ENUMERATION>
 %Page 158 in first edition.
-
 These two behaviors must be commented separately.
 
 \begin{tip}
@@ -1236,25 +1240,25 @@ Comment a defining word's compile-time behavior in the usual way; comment
 its run-time behavior separately, following the word DOES> (or
 ;CODE).
 \end{tip}
-
 For instance,
 \begin{Code}
 : CONSTANT   ( n )
    DOES> ( -- n)  @ ;
 \end{Code}
-
 The stack-effect comment for the run-time (child's) behavior represents
 the net stack effect for the child word.  Therefore it does not include the
 address returned by DOES>, even though this address is on the stack
 when the run-time code begins.
 
-Bad (run-time comment includes apf):
+\bigskip\noindent
+\emph{Bad} (run-time comment includes apf):
 \begin{Code}
 : ARRAY    \  name ( #cells)
    CREATE 2* ALLOT
     DOES>   ( i apf -- 'cell)   SWAP  2* + ;
 \end{Code}
-Good:
+\goodbreak\noindent
+\emph{Good:}
 \begin{Code}
 : ARRAY \  name ( #cells)
    CREATE 2* ALLOT
@@ -1296,21 +1300,23 @@ In the case of compiling words, the first comment describes the run-time
 behavior, which is usually the \emph{syntax for using} the word.  The second comment
 describes what the word \emph{actually does} in compiling (which is of less
 importance to the user).
+
 Other examples:
 %!!<\Forth{}CODE>
+\begin{Code}
 : ABORT"  ( ? -- )
 \ Compile:    text"   ( -- )
-
-Occasionally a compiling word may exhibit a different behavior when it is
-invoked outside a colon definition.  Such words (to be fastidious about it)
-require three comments.  For instance:
+\end{Code}
+Occasionally a compiling word may exhibit a different behavior when it
+is invoked \emph{outside} a colon definition.  Such words (to be
+fastidious about it) require three comments.  For instance:
 \begin{Code}
 : ASCII  (-- c)
 \ Compile:   c   (--)
 \ Interpret:   c   (-- c)
      ... ; IMMEDIATE
 \end{Code}
-\Chap{E} includes two screens showing good commenting style.
+\App{E} includes two screens showing good commenting style.
 
 \section{Vertical Format vs.\ Horizontal Format}
 The purpose of commenting is to allow a reader of your code to easily
@@ -1318,8 +1324,10 @@ determine what's going on.  But how much commenting is necessary? To
 determine the level of commenting appropriate for your circumstances,
 you must ask yourself two questions:
 %!!<ENUMERATION>
-Who will be reading my code?
-How readable are my definitions?
+\begin{enumerate}
+\item Who will be reading my code?
+\item How readable are my definitions?
+\end{enumerate}
 %!!</ENUMERATION>
 There are two basic styles of commenting to choose from.  The first style,
 often called the ``vertical format,'' includes a step-by-step description of
@@ -1453,8 +1461,8 @@ consider the vertical format.
 %!!<SMALLPRINT>
 \begin{tfquot}
 Besides a mathematical inclination, an exceptionally good mastery of one's
-native tongue is the most vital asset of a competent programmer (Prof.
-Edsger W. Dijkstra \cite{dijkstra82}).
+native tongue is the most vital asset of a competent programmer \emph{(Prof.
+Edsger W. Dijkstra \cite{dijkstra82}).}
 \end{tfquot}
 %!!</SMALLPRINT>
 We've talked about the significance of using names to symbolize ideas
@@ -1495,15 +1503,17 @@ Find the most expressive word.
 \end{tip}
 %Page 164 in first edition.
 %!!<SMALLPRINT>
+\begin{tfquot}
 A powerful agent is the right word.  Whenever we come upon one of those intensely
 right words in a book or a newspaper the resulting effect is physical
-as well as spiritual, and electrically prompt (Mark Twain).
+as well as spiritual, and electrically prompt \emph{(Mark Twain).}
 
 The difference between the right word and the almost-right word is like the
-difference between lightning and the lightning bug (Mark Twain).
+difference between lightning and the lightning bug \emph{(Mark Twain).}
 
-Suit the action to the word, the word to the action (Shakespeare, Hamlet,
-Act III).
+Suit the action to the word, the word to the action \emph{(Shakespeare, Hamlet,
+Act III).}
+\end{tfquot}
 %!!</SMALLPRINT>
 Henry Laxen, a \Forth{} consultant and author, suggests that the most
 important \Forth{} development tool is a good thesaurus \cite{laxen}.
@@ -1539,52 +1549,43 @@ Choose names that work in phrases.
 \end{tip}
 Faced with a definition you don't know what to call, think about how the
 word will be used in context.  For instance:
-\begin{Code}
+\begin{Code}[fontfamily=cmss,commandchars=\&\{\}]
 SHUTTER OPEN
-\end{Code}
-OPEN is the appropriate name for a word that sets a
-bit in an 1/0 address identified with the name
-SHUTTER.
-%Page 165 in first edition.
-\begin{Code}
+  OPEN is the appropriate name for a word that sets a
+  bit in an 1/0 address identified with the name
+  SHUTTER.&medskip
 3 BUTTON DOES IGNITION
-\end{Code}
-%!!<INDENT3LEVELS>
-DOES is a good choice for a word that vectors the
-address of the function IGNITION into a table of
-functions, so that IGNITION will be executed when
-Button 3 is pushed.
-%!!</INDENT3LEVELS>
-\begin{Code}
+  DOES is a good choice for a word that vectors the
+  address of the function IGNITION into a table of
+  functions, so that IGNITION will be executed when
+  Button 3 is pushed.&medskip
 SAY HELLO
-\end{Code}
-%!!<INDENT3LEVELS>
-SAY is the perfect choice for vectoring HELLO into an
-execution variable.  (When I first wrote this example
-for Starting \Forth{}, I called it VERSION.  \person{Moore}\index{M!Moore, Charles|(}
-reviewed the manuscript and suggested SAY, which is
-clearly much better.)
-%!!</INDENT3LEVELS>
-\begin{Code}
+  SAY is the perfect choice for vectoring HELLO into an
+  execution variable.  (When I first wrote this example
+  for Starting &Forth{}, I called it VERSION.  &person{Moore}&index{M!Moore, Charles|(}
+  reviewed the manuscript and suggested SAY, which is
+  clearly much better.)&medskip
 I'M HARRY
+  The word I'M seems more natural than LOGON HARRY,
+  LOGIN HARRY or SESSION HARRY, as often seen.
 \end{Code}
-%!!<INDENT3LEVELS>
-The word I'M seems more natural than LOGON HARRY,
-LOGIN HARRY or SESSION HARRY, as often seen.
-%!!</INDENT3LEVELS>
 %!!<SMALLPRINT>
+\begin{interview}
 The choice of I'M is another invention of \person{Moore}, who says:
 
-I detest the word LOGON.  There is no such word in English.  I was looking
-for a word that said, ``I'm. ...'' It was a natural.  I just stumbled across it.
-Even though it's clumsy with that apostrophe, it has that sense of
-rightness.
+\begin{tfquot}
+I detest the word LOGON.  There is no such word in English.  I was
+looking for a word that said, ``I'm. \dots{}'' It was a natural.  I just
+stumbled across it.  Even though it's clumsy with that apostrophe, it
+has that sense of rightness.
 
 All these little words are the nicest way of getting the ``Aha!'' reaction.  If
 you think of the right word, it is obviously the right word.
 
 If you have a wide recall vocabulary, you're in a better position to come up
 with the right word.
+\end{tfquot}
+\end{interview}\index{M!Moore, Charles|)}
 %!!</SMALLPRINT>
 Another of \person{Moore}'s favorite words is TH, which he uses as an array indexing
 word.  For instance, the phrase
@@ -1592,7 +1593,6 @@ word.  For instance, the phrase
 5 TH
 \end{Code}
 returns the address of the ``fifth'' element of the array.
-\index{M!Moore, Charles|)}
 
 \begin{tip}
 Spell names in full.
@@ -1663,6 +1663,7 @@ Hyphenated names may be a sign of bad factoring.
 \end{tip}
 %Page 168 in first edition.
 
+\begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
@@ -1676,6 +1677,7 @@ carefully enough, that the hyphen should be broken and the words defined
 separately.  That isn't always possible, and it isn't always advantageous.
 But I suspect a hyphenated word of mixing two concepts.
 \end{tfquot}\index{M!Moore, Charles|)}
+\end{interview}
 
 Compare the following two strategies for saying the same thing:
 \begin{Code}
@@ -1727,7 +1729,7 @@ We'll amplify on these ideas in the next chapter on ``Factoring.''
 Learn and adopt \Forth{}'s naming conventions.
 \end{tip}
 In the quest for short, yet meaningful names, \Forth{} programmers
-have adopted certain naming conventions.  \Chap{E} includes a list of
+have adopted certain naming conventions.  \App{E} includes a list of
 the most useful conventions developed over the years.
 
 An example of the power of naming conventions is the use of ``dot''
@@ -1796,7 +1798,7 @@ Had \Forth{} been designed by committee, we would not love it so.
 \section{More Tips for Readability}
 
 Here are some final suggestions to make your code more readable.
-(Definitions appear in \Chap{C}.)
+(Definitions appear in \App{C}.)
 
 One constant that pays for itself in most applications is
 BL\index{B!Blank space(BL)} (the ASCII value for ``blank-space'').

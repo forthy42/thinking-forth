@@ -401,7 +401,7 @@ invoke them from within a higher-level definition and expect them to
 behave as they do interpretively.
 \end{tip}
 \textbf{ASCII}\index{A!ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
-(See \Chap{C}.)
+(See \App{C}.)
 
 \subsection{Nesting and Combining Conditionals}
 \begin{tip}
@@ -727,7 +727,7 @@ moment's (in)decision.
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< NEGATE ;
 \end{Code}
-See \Chap{C}.)
+See \App{C}.)
 
 We can do even more with ``hybrid values'':
 
@@ -1432,7 +1432,7 @@ looking for a match. If we find a match, we want to return the address
 where we found it; if we don't find a match, we want the address of the
 last row of the functions table.
 
-We can introduce the word LEAP (see \Chap{C}), which will work
+We can introduce the word LEAP (see \App{C}), which will work
 like \textbf{EXIT} (it will simulate a semicolon). Now we can write:
 
 \begin{Code}

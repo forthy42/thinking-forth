@@ -919,31 +919,29 @@ approach.
 Suppose we must write code to fulfill this specification:
 
 %!! sans-serif
-\medskip
-{\sf if the input argument is 1, the output is 10}
-
-{\sf if the input argument is 2, the output is 12}
-
-{\sf if the input argument is 3, the output is 14}
-
-\medskip
+\begin{Code}[fontfamily=cmss]
+if the input argument is 1, the output is 10
+if the input argument is 2, the output is 12
+if the input argument is 3, the output is 14
+\end{Code}
 
 There are three approaches we could take:
 
-\emph{Calculation}
+\begin{description}
+\item[Calculation]~
 
 \begin{Code}
 ( n)  1-  2*  10 +
 \end{Code}
 
-\emph{Data Structure}
+\item[Data Structure]~
 
 \begin{Code}
 CREATE TABLE  10 C,  12 C,  14 C,
 ( n)  1- TABLE + C@
 \end{Code}
 
-\emph{Logic}
+\item[Logic]~
 
 \begin{Code}
 ( n)  CASE
@@ -951,6 +949,7 @@ CREATE TABLE  10 C,  12 C,  14 C,
          2 OF 12 ENDOF
          3 OF 14 ENDOF  ENDCASE
 \end{Code}
+\end{description}
 In this problem, calculation is simplest. Assuming it is also adequate
 (speed is not critical), calculation is best.
 
@@ -982,6 +981,7 @@ In \Chap{3} we designed a keystroke interpreter for our Tiny
 Editor using a decision table:
 
 %!! this shoulde be a table; see pg 119
+\medskip
 \begin{tabular}{lll}
 \emph{Key}         & \emph{Not-Inserting} & \emph{Inserting} \\
 \texttt{Cntrl-D}   & \texttt{DELETE}      & \texttt{INSERT-OFF} \\
@@ -989,6 +989,7 @@ Editor using a decision table:
 \texttt{backspace} & \texttt{BACKWARD}    & \texttt{INSERT<} \\
 etc. & &
 \end{tabular}
+\medskip
 
 We could have achieved this same result with logic:
 
@@ -1572,7 +1573,7 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
             ( thousands)  ASCII M  C,
 \end{Code}
 Note: This use of \textbf{ASCII} requires that \textbf{ASCII} be
-``\textbf{STATE}-dependent'' (see \Chap{C}). If you don't have \textbf{ASCII},
+``\textbf{STATE}-dependent'' (see \App{C}). If you don't have \textbf{ASCII},
 or if it is not state-dependent, use:
 
 \begin{Code}

@@ -45,7 +45,8 @@
 \newcommand{\sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Chapmark}[1]{{\def\@currentlabel{\refchapter}\label{chapter-#1}}}
-\newcommand{\Chap}[1]{\ref{chapter-#1}}
+\newcommand{\Chap}[1]{Chapter \ref{chapter-#1}}
+\newcommand{\App}[1]{\ref{chapter-#1}}
 
 % Hurenkinder und Schusterjungen verbieten
 
@@ -278,13 +279,33 @@ TIP\\[1ex]\small
   \vbox{{\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}%
     \vspace*{0.2ex}{\advance\textwidth-1em\sloppy\uppercase{#1}}\vspace*{0.2ex}%
 	    {\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}}%
-  \vspace*{100pt}
-}}
+  \vspace*{100pt}}}
 
 \def\enumchap#1{\ifcase#1\or One\or Two\or Three\or Four\or
 Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \def\wordchapter{\MakeUppercase{\enumchap\c@chapter}}
-\def\refchapter{Chapter \enumchap{\c@chapter}}
+\def\refchapter{\enumchap{\c@chapter}}
+
+%% environments that go into TOC
+
+\renewenvironment{theindex}
+               {\if@twocolumn
+                  \@restonecolfalse
+                \else
+                  \@restonecoltrue
+                \fi
+                \columnseprule \z@
+                \columnsep 35\p@
+                \twocolumn[\@makeschapterhead{\indexname}]%
+                \@mkboth{\MakeUppercase\indexname}%
+                        {\MakeUppercase\indexname}%
+		\addcontentsline{toc}{chapter}{\indexname}
+                \thispagestyle{plain}\parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem}
+               {\if@restonecol\onecolumn\else\clearpage\fi}
+
+%% appendix stuff
 
 \def\epilog{\gdef\wordchapter{EPILOGUE}}
 \renewcommand\appendix{\par
