@@ -30,10 +30,13 @@ PNGSOURCES = \
 	img1-030.png img1-033.png \
 	img2-047.png img2-060.png img2-063.png img2-066.png \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
-	no-scrambled.png
+	no-scrambled.png \
+	img-by.png img-nc.png img-sa.png img-cc.png
 
 WIDTH = 6.8125
 HEIGHT = 9.125
+
+TOGETHER = 20 # how many pags you bind together
 
 all:	pspdf ps
 
@@ -43,11 +46,17 @@ thinking-forth-book.pdf: thinking-forth-book.ps
 	ps2pdf $< $@
 
 booka4 : thinking-forth.ps
-	psbook <$< | psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | psnup -2 -pa4 | sed -e 's/%%BoundingBox:.*/%%PageSize: a4/' >tf-a4.ps
+	psbook -s$(TOGETHER) <$< | \
+	psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | \
+	psnup -2 -pa4 | \
+	sed -e 's/%%BoundingBox:.*/%%PageSize: a4/' >tf-a4.ps
 	ps2pdf tf-a4.ps tf-a4.pdf
 
 bookletter : thinking-forth.ps
-	psbook <$< | psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | psnup -2 -pletter | sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
+	psbook -s$(TOGETHER) <$< | \
+	psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | \
+	psnup -2 -pletter | \
+	sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
 
 thinking-forth.pdf : thinking-forth.ps

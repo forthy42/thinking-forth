@@ -961,8 +961,7 @@ etc.
 
 \begin{figure*}[tttt]
 \verbfig{fig8-4}{A solution to the phone rate problem.}
-\begin{center}
-\begin{BVerbatim}
+\begin{Screen}
 \ Telephone rates                                   03/30/84
 CREATE FULL     30 , 20 , 12 ,
 CREATE LOWER    22 , 15 , 10 ,
@@ -975,7 +974,9 @@ FULL RATE !  \ for instance
 O CHARGE 1MINUTE   \ rate for first minute
 2 CHARGE +MINUTES  \ rate for each additional minute
 4 CHARGE /MILES    \ rate per each 100 miles
+\end{Screen}
 
+\begin{Screen}
 \ Telephone rates                                   03/30/84
 VARIABLE OPERATOR?  \ 90 if operator assisted; else O
 VARIABLE #MILES  \ hundreds of miles
@@ -986,8 +987,7 @@ VARIABLE #MILES  \ hundreds of miles
 : ADDITIONAL  ( -- charge)  +MINUTES  MILEAGE + ;
 : TOTAL ( #minutes -- total charge)
    1- ADDITIONAL *  FIRST + ;
-\end{BVerbatim}
-\end{center}
+\end{Screen}
 \end{figure*}
 The current charge, either first minute, additional minute, or permile,
 is expressed as an offset into the table (0, 2, or 4).
@@ -1183,9 +1183,10 @@ apples (when shipments arrive), decremented the number (when apples are
 sold), and checked the current number (for inventory control).
 
 When it became necessary to handle a second type of apples, the
-\emph{wrong} approach would have been to add that complexity to all the
-shipment/sales/inventory words. The \emph{right} approach was the one we
-took: to add the complexity ``at the bottom''; that is, to APPLES itself.
+\emph{wrong} approach would have been to add that complexity to all
+the shipment/\hy sales/\hy inventory words. The \emph{right} approach
+was the one we took: to add the complexity ``at the bottom''; that is,
+to APPLES itself.
 
 This principle can be realized in many ways. In \Chap{7}
 (under ``The State Table'') we used state tables to implement the words

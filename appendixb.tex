@@ -32,16 +32,18 @@ It's like saying (in '83-Standard)
 which executes NOTHING.  (This trick only works with colon definitions.)
 
 Here's an illustration of the dictionary entry created when we enter
-DOER JOE 
 
 
 {\sf
+\bigskip
 \begin{tabular}{@{} l l@{}}
+DOER JOE & \\
 \hline
 \vline\ JOE & \vline\ pfa of NOTHING \vline \\
 \hline
 \ header &\  parameter field
 \end{tabular}
+\bigskip
 }
 
 
@@ -74,33 +76,35 @@ We can see how {\bf MAKE} has compiled the address of the run-time routine,
 we save its address in a the variable {\bf MARKER}, later).  % should probably be "save its address in the variable..."
 
 Now let's look at what {\bf (MAKE)} does when we execute our new 
-definition {\bf TEST}: \\
+definition {\bf TEST}:
 
-\begin{tabular}{ll}
-\verb%   R>%		& Gets an address from the return stack.\\
-			& \ This address points to the cell just\\
-			& \ past {\bf (MAKE)}, where the zero is.\\ 
-\verb%   DUP 2+%	& Gets the address of the second cell after\\
-			& \ {\bf (MAKE)}, where the address of {\bf JOE} is.\\
-\verb%   DUP 2+%	& Gets the address of the third cell after\\
-			& \ {\bf (MAKE)}, where the cod we want to\\
-			& \ execute begins.  The stack now has:\\
-			& \ \ ( 'marker, 'joe, 'code -{}- )\\
-\verb%SWAP @ >BODY%	& Fetches the contents of the address\\
-			& \ pointing to JOE (i.e., gets the address\\ 
-			& \ of JOE) and computes JOE's pfa, where\\
-			& \ the vector address goes.\\
-\verb%!%		& Stores the address where the new code\\
-			& \ begins ({\bf CR}, etc.) into the vector\\
-			& \ address of JOE.\\
-			& \ Now JOE points inside the definition of\\
-			& \ TEST.  When we type JOE, we'll do a\\
-			& \ carriage return.\\
-\verb%@ ?DUP IF >R THEN%& Fetches the contents of the cell\\
-			& \ containing zero.  Since the cell does\\
-			& \ contain zero, the IF THEN statement is\\
-			& \ not performed.\\
-\end{tabular}\\
+\bigskip{
+\begin{tabular}{lp{.5\textwidth}}
+\verb%   R>%		& \parindent-1ex Gets an address from the return stack.
+			  This address points to the cell just
+			  past {\bf (MAKE)}, where the zero is.\\ 
+\verb%   DUP 2+%	& \parindent-1ex Gets the address of the second cell after
+			  {\bf (MAKE)}, where the address of {\bf JOE} is.\\
+\verb%   DUP 2+%	& \parindent-1ex Gets the address of the third cell after
+			  {\bf (MAKE)}, where the cod we want to
+			  execute begins.  The stack now has:\\
+			& \ (~'marker,~'joe,~'code~--{}--~)\\
+\verb%SWAP @ >BODY%	& \parindent-1ex Fetches the contents of the address
+			  pointing to JOE (i.e., gets the address 
+			  of JOE) and computes JOE's pfa, where
+			  the vector address goes.\\
+\verb%!%		& \parindent-1ex Stores the address where the new code
+			  begins ({\bf CR}, etc.) into the vector
+			  address of JOE.
+			  Now JOE points inside the definition of
+			  TEST.  When we type JOE, we'll do a
+			  carriage return.\\
+\verb%@ ?DUP IF >R THEN%& \parindent-1ex Fetches the contents of the cell
+			  containing zero.  Since the cell does
+			  contain zero, the IF THEN statement is
+			  not performed.\\
+\end{tabular}}
+\bigskip
 
 That's the basic idea.  But what about that cell containing zero?  That's
 for the use of {\bf ;AND}.  Suppose we changed TEST to read:
@@ -185,7 +189,7 @@ UNDO      Usage:  UNDO doer-name ; makes it safe to execute
 
 
 \end{Screen}
-
+\vfill
 \begin{Screen}
 \ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
 : NOTHING ;
@@ -204,7 +208,7 @@ VARIABLE MARKER
 
 
 \end{Screen}
-
+\vfill
 \begin{Screen}
 ( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
 : NOTHING ;
@@ -223,7 +227,7 @@ VARIABLE MARKER
 
 
 \end{Screen}
-
+\vfill
 \begin{Screen}
 ( DOER/MAKE   FIG model                          LPB 12/05/83 )
 : NOTHING   ;
@@ -242,7 +246,7 @@ VARIABLE MARKER
 The code in this screen is in the public domain.
 
 \end{Screen}
-
+\vfill
 \begin{Screen}
 ( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
 : NOTHING ;
@@ -261,7 +265,7 @@ VARIABLE MARKER
 ( The code in this screen is in the public domain.)
 
 \end{Screen}
-
+\vfill
 \begin{Screen}
 ( TODDLER: Example of DOER/MAKE                     12/01/83 )
 DOER WHY?
@@ -281,3 +285,4 @@ DOER WHY?
 : WHY?   CR  WHY?  QUIT ;
 \end{Screen}
 \index{D!DOER/MAKE|)}
+\vfill

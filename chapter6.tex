@@ -31,7 +31,7 @@ Deciding how much should go into, or stay out of, a definition is another aspect
 \section{Factoring Techniques}
 
 \begin{tfquot}
-If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\emph{Structured Design}'' \cite{stevens74}).
+If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\emph{Structured Design}'' \cite{stevens74-6}).
 \end{tfquot}
 The ``useful subfunction'' of course becomes the newly factored definition.What about the part that ``isn't quite useful''? That depends on what it is.
 
@@ -878,7 +878,7 @@ In this solution we're performing the offset calculation at \emph{run}-time, eve
 4 PORT FLIPPER-B
 6 PORT WIN-LIGHT
 \end{Code}
-Here we've created a defining word, PORT, that has a unique \emph{compile}-timebehavior, namely adding the offset to BASE.PORT.ADDRESS and defining a CONSTANT.
+Here we've created a defining word, PORT, that has a unique \emph{compile}-time behavior, namely adding the offset to BASE.PORT.ADDRESS and defining a CONSTANT.
 
 We might even go one step further. Suppose that all port addresses are two bytes apart. In this case ther's no reason we should have to specify these offsets. The numeric sequence
 
@@ -1055,7 +1055,7 @@ current iteration work.
 In this chapter we've discussed various techniques and criteria for factoring. We also examined how the iterative approach applies to the implementation phase.
 
 \begin{references}{9}
-\bibitem{stevens74} W.P. Stevens, G.J. Myers, and L.L. Constantine,
+\bibitem{stevens74-6} W.P. Stevens, G.J. Myers, and L.L. Constantine,
 \emph{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by
 International Business Machines Corporation.
 \bibitem{miller56} G.A. Miller, ``The Magical Number Seven, Plus or

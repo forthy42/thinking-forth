@@ -206,6 +206,7 @@ TIP\\[1ex]\small
 %\pointto{box}
 \newcommand{\pointto}[1]{\raisebox{-1.8ex}[0pt][0pt]{\makebox[0pt][l]{\texttt{\^{ }}}}#1}
 
+\def\hy{\penalty 0\allowhyphens}
 
 %\fwbox{text} %like fbox, but does not create a wider box
 \newcommand{\fwbox}[1]{\framebox[\width]{#1}}
@@ -232,7 +233,8 @@ TIP\\[1ex]\small
 
 %% chapter style, chapters without name like Preface are chapter*
 
-\newcommand\HUGE{\@setfontsize\HUGE{40}{50}}
+\newcommand\HUGE{\@setfontsize\HUGE{33}{38}}
+\newcommand\THUGE{\@setfontsize\HUGE{65}{70}}
 \newcounter{appendix}
 
 \def\@makechapterhead#1{{\HUGE
