@@ -325,6 +325,12 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \def\wordchapter{\MakeUppercase{\enumchap\c@chapter}}
 \def\refchapter{\enumchap{\c@chapter}}
 
+%% empty pages should not countain headings
+
+\def\cleardoublepage{\clearpage\thispagestyle{empty}%
+  \if@twoside \ifodd\c@page\else
+    \hbox{}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
 %% environments that go into TOC
 
 \renewenvironment{theindex}

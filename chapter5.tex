@@ -126,9 +126,6 @@ loads the chapters in the proper sequence.
  96 LOAD  \ labels, figures, tables
 102 LOAD  \ table of contents generator
 
-
-
-
 \end{Screen}
 \end{figure*}
 \index{C!Composition|)}
@@ -182,11 +179,10 @@ Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 
 \begin{description}
-\item[\emph{\forth{\bs}}]
+\item[\emph{\forth{\bs}}]~
 \item[\emph{\forth{\bs S}}] also called \forth{EXIT}
 \end{description}
-
-\noindent \forth{\bs} is pronounced ``skip-line.'' It causes the
+\forth{\bs} is pronounced ``skip-line.'' It causes the
 \Forth{} interpreter to ignore everything to the right of it on the
 same line. (Since \forth{\bs} is a \Forth{} word, it must be followed
 by a space.) It does not require a delimiter.
