@@ -8,6 +8,8 @@ SOURCES = thinking-forth.tex \
 PDFGEN = fig7-7.pdf fig7-8.pdf fig7-9.pdf
 EPSGEN = fig7-7.eps fig7-8.eps fig7-9.eps
 
+all:	pdf ps
+
 pdf thinking-forth.pdf : $(SOURCES) $(PDFGEN)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
@@ -21,6 +23,20 @@ dvi thinking-forth.dvi : $(SOURCES)
 
 fig%.pdf fig%.eps:	fig%.tex
 	./tex2pdf $<
+
+img%.pdf:	img%.eps
+	./eps2pdf $<
+
+fig%.pdf:	fig%.eps
+	./eps2pdf $<
+
+fig%.eps:	fig%.png
+	autotrace --despeckle-level 8 --error-threshold 4 $< >$@
+	./autoscale $@
+
+img%.eps:	img%.png
+	autotrace --despeckle-level 8 --error-threshold 4 $< >$@
+	./autoscale $@
 
 view : thinking-forth.dvi
 	xdvi -paper 6.8125x9.125in thinking-forth.dvi
