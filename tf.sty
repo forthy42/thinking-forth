@@ -210,12 +210,19 @@
 \newrgbcolor{lightgreen}{.9 .95 .9}
 \newgray{lightgrey}{.7}
 
-\def\tipbox{\@tempdima\ht\@tempboxa
+\def\tipbox{\@tempdima\ht\@tempboxa\@tempdimb\dp\@tempboxa
+\advance\@tempdimb\ht\@tempboxa
 \hbox to \linewidth{\leavevmode%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 \else\hss\hbox{\hss
 \vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
-\psshadowbox*[fillcolor=lightgreen,linecolor=midgreen,shadowcolor=lightgrey,cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
+\pst@divide{\@tempdima}{\@tempdimb}{\pst@tempa}%
+\psshadowbox[fillcolor=lightgreen,
+%fillstyle=gradient,gradangle=0,gradbegin=midgreen,gradend=lightgreen,
+%gradlines=50,gradmidpoint=\pst@tempa,
+cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,
+linecolor=lightgreen,linewidth=0pt,
+shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 ~\vbox to \@tempdima{%
 \hbox{\includegraphics{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
