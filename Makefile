@@ -103,9 +103,9 @@ bookletter : thinking-forth.ps
 #two pages on one A4/Letter page, for printing with Laser printer and
 #using an A4/Letter binding machine (print with long-edge
 2on1.ps: thinking-forth.ps
-	psselect -p2- $< | \
-	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,14.5cm)' | \
-	$(PSA4) >$@
+	psselect -p4- $< | \
+	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,13cm)' | \
+	$(PSLET) >$@
 
 tfoptions.tex:	Makefile
 	echo "\def\tfoptions{$(OPTIONS)}" >$@
