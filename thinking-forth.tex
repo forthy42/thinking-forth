@@ -1,0 +1,82 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% 
+%% test harness
+\documentclass[10pt]{book}
+
+\input{epsf}
+\usepackage{array}
+
+% stuff left to Bernd:
+
+% chapter title page
+% page footer
+% section and subsection header style
+% caption style
+
+%style stuff
+\setcounter{secnumdepth}{0}
+
+
+
+%\renewcommand{\fixme}[1]{}
+\newcommand{\fixme}[1]{{\tiny$\triangleright$\marginpar{\tiny$\triangleleft$!!#1}}}
+
+\newcommand{\labelsect}[1]{\label{sect-#1}}
+\newcommand{\labelfig}[1]{\label{fig-#1}}
+\newcommand{\figref}[1]{\ref{fig-#1}}
+\newcommand{\fig}[1]{Figure~\figref{#1}}
+\newcommand{\Fig}[1]{Figure~\figref{#1}}
+\newcommand{\sect}[1]{Section~\ref{sect-#1}}
+\newcommand{\Sect}[1]{Section~\ref{sect-#1}}
+
+%\wepsfig{label}{caption}
+\newcommand{\wepsfig}[2]{\begin{figure}\caption{#2}\labelfig{#1}eps file missing\end{figure}}
+\newcommand{\wepsfiga}[2]{
+\begin{figure*}
+\caption{#2}
+\vspace{1ex}
+\centerline{\epsffile{#1.eps}}\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
+
+\newenvironment{tip}{\begin{quote}\hrule{\Large\textsf{TIP}}\\[2ex]}{\vspace{0.2ex}\hrule\end{quote}}
+
+\newenvironment{tfquot}{\begin{quotation}\small}{\end{quotation}}
+
+
+%\pointto{box}
+\newcommand{\pointto}[1]{\raisebox{-1.8ex}[0pt][0pt]{\makebox[0pt][l]{\texttt{\^{ }}}}#1}
+
+
+%\fwbox{text} %like fbox, but does not create a wider box
+\newcommand{\fwbox}[1]{\framebox[\width]{#1}}
+
+
+%!! in the '94 edition (and probably the original) inline Forth words are
+%set in a roman font; if you change \forth to do this, make sure that > and
+%< get the correct glyphs
+%\forth{words} %used within text paragraphs
+\newcommand{\forth}[1]{\texttt{#1}}
+
+%\code text was originally also set in roman font
+%\code{text}
+\newcommand{\code}[1]{\texttt{#1}}
+
+%\chapternum{THREE}
+\newcommand{\chapternum}[1]{}
+
+
+\begin{document}
+\tableofcontents
+\listoffigures
+\input{chapter3}
+\input{epilog}
+\input{appendixa}
+\input{appendixb}
+\input{appendixc}
+\input{appendixd}
+\input{appendixe}
+\end{document}

@@ -1,0 +1,86 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% 
+%% Chapter: Appendix C, Other Utilities Described in This Book
+appendix{}
+\chapter{
+Other Utilities
+Described
+in This Book
+}
+This appendix is here to help you define some of the words referred to in 
+this book that may not exist in your system.  Definitions are given in
+FORTH-83 Standard.
+\section{From Chapter 4}
+A definition of {\bf ASCII} that will work in '83 Standard is:
+\begin{verbatim}
+    : ASCII  ( -- c)  \  Compile:  c  ( -- )
+    \ Interpret:   c   ( -- c)
+         BL WORD 1+ C@  STATE @
+         IF [COMPILE] LITERAL  THEN ; IMMEDIATE
+\end{verbatim}
+\section{From Chapter 5}
+The word {\bf $\backslash$} can be defined as:
+\begin{verbatim}
+    : \  ( skip rest of line)
+         >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
+\end{verbatim}
+If you decide not to use {\bf EXIT} to terminate a screen, you can define {\bf \S}
+as:
+\begin{verbatim}
+    : \S   1024 >IN ! ;
+\end{verbatim}
+The word {\bf FH} can be defined simply as:
+\begin{verbatim}
+    : FH   \   ( offset -- offset-block)   "from here"
+        BLK @ + ;
+\end{verbatim}
+This factoring allows you to use FH in many ways, e.g.:
+\begin{verbatim}
+    : TEST   [ 1 FH ] LITERAL LOAD ;
+\end{verbatim}
+or
+\begin{verbatim}
+    : SEE   [ 2 FH ] LITERAL LIST ;
+\end{verbatim}
+A slightly more complicated version of FH also lets you edit or load a 
+screen with a phrase such as ``14 FH LIST'', relative to the screen that 
+you just listed (SCR):
+\begin{verbatim}
+    : FH   \   ( offset -- offset-block)   "from here"
+         BLK @  ?DUP 0= IF  SCR @  THEN  + ;
+\end{verbatim}
+{\bf BL} is a simple constant:
+\begin{verbatim}
+    32 CONSTANT BL
+\end{verbatim}
+{\bf TRUE} and {\bf FALSE} can be defined as:
+\begin{verbatim}
+    0 CONSTANT FALSE
+    -1 CONSTANT TRUE
+\end{verbatim}
+(FORTH's control words such as IF and UNTIL interpret zero as ``false'' 
+and any non-zero value as ``true.''  Before FORTH '83, the convention
+was to indicate ``true'' with the value 1.  Starting with FORTH '83,
+however, ``true'' is indicated with hex FF, which is the signed number --1
+(all bits set).
+
+{\bf WITHIN} can be defined in high level like this:
+\begin{verbatim}
+    : WITHIN  ( n lo hi+1 -- ?)
+         >R  1- OVER <  SWAP R>  < AND ;
+\end{verbatim}
+\section{From Chapter 8}
+The implementation of {\bf LEAP} will depend on how your system 
+implement {\bf DO LOOP}s.  If {\bf DO} keeps two items on the return stack (the
+index and the limit), {\bf LEAP} must drop both of them plus one more
+return-stack item to exit:
+\begin{verbatim}
+    : LEAP   R> R> 2DROP  R> DROP ;
+\end{verbatim}
+If {\bf DO} keeps \emph{three} items on the return stack, it must be defined: 
+\begin{verbatim}
+    : LEAP   R> R> 2DROP  R> R> 2DROP ;
+\end{verbatim}
+

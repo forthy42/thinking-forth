@@ -1,0 +1,144 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% 
+%% Chapter: Appendix A, Overview of FORTH (For Newcomers)
+\appendix{}
+\chapter{
+Overview
+of FORTH
+(For Newcomers)
+}
+\section{The Dictionary}
+FORTH is expressed in words (and numbers) and is separated by spaces:
+\begin{verbatim}
+    HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
+\end{verbatim}
+Such commands may be typed directly from the keyboard, or edited onto 
+mass storage then ``{\bf LOAD}''ed.
+
+All words, whether included with the system or user-defined,
+exist in the ``dictionary,'' a linked list.  A ``defining word,'' is used to add
+new names to the dictionary.  One defining word is {\bf :} (pronounced
+``colon''), which is used to define a new word in terms of previously-
+defined words.  Here is how one might define a new word called LIFT:
+\begin{verbatim}
+    : LIFT   HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE ;
+\end{verbatim}
+The {\bf ;} terminates the definition.  The new word LIFT may now be used
+instead of the long sequence of words that comprise its definition.
+
+FORTH words can be nested like this indefinitely.  Writing a 
+FORTH application consists of building increasingly powerful definitions,
+such as this one, in terms of previously defined ones.
+
+Another defining word is {\bf CODE}, which is used in place of colon to
+define a command in terms of machine instructions for the native processor.
+Words defined with {\bf CODE} are indistinguishable to the user from 
+words defined with colon.  {\bf CODE} definitions are needed only for the most
+time-critical portions of an applications, if at all.
+\subsection{Data Structures}
+Still another defining word is {\bf CONSTANT}, which is used like this:
+\begin{verbatim}
+    17 CONSTANT SEVENTEEN
+\end{verbatim}
+The new word SEVENTEEN can now be used in place of the actual number 17.
+
+The defining word VARIABLE creates a location for temporary data.  
+VARIABLE is used like this:
+\begin{verbatim}
+    VARIABLE BANANAS
+\end{verbatim}
+This reserves a location which is identified by the name BANANAS.
+
+Fetching the contents of this location is the job of the word {\bf @}
+(pronounced ``fetch'').  For instance,
+\begin{verbatim}
+    BANANAS @
+\end{verbatim}
+fetches the contents of the variable BANANAS.  Its counterpart is {\bf !}
+(pronounced ``store''), which stores a value into the location, as in:
+\begin{verbatim}
+    100 BANANAS !
+\end{verbatim}
+FORTH also provides a word to increment the current value by the given
+value; for instance, the phrase
+\begin{verbatim}
+    2 BANANAS +!
+\end{verbatim}
+increments the count by two, making it 102.
+
+FORTH provides many other data structure operators, but more
+importantly, it provides the tools necessary for the programmer to
+create any time of data structure needed for the application.
+\subsection{The Stack}
+In FORTH, variables and arrays are used for saving values that may be
+required by many other routines and/or at unpredictable times.  They are {\em not}
+used for the local passing of data between the definitions.  For this, FORTH
+employs a much simpler mechanism: the data stack.
+
+When you type a number, it goes on the stack.  When you invoke a 
+word which has numeric input, it will take it from the stack.  Thus the
+phrase
+\begin{verbatim}
+    17 SPACES
+\end{verbatim}
+will display seventeen blanks on the current output device.  ``17'' pushes
+the binary value 17 onto the stack; the word {\bf SPACES} consumes it.
+
+A constant also pushes its value onto the stack; thus the phrase:
+\begin{verbatim}
+    SEVENTEEN SPACES
+\end{verbatim}
+has the same effect.
+
+The stack operates on a ``last-in, first-out'' (LIFO) basis.  This means
+that data can be passed between words in an orderly, modular way, consistent
+with the nesting of colon definitions.
+
+For instance, a defintion called GRID might invoke the phrase 17 SPACES.  
+This temporary activity on the stack will be transmparent to any
+other definition that invokes GRID because the value placed on the stack
+is removed before the defintion of GRID ends.  The calling definition 
+might have placed some numbers of its own on the stack prior to calling 
+GRID.  These will remain on the stack, unharmed, until GRID has been 
+executed  and calling definition continues.   % probably should be the calling..
+\subsection{Control Structures}
+FORTH provides all the control structures needed for structured, GOTO-less
+programming.
+
+The syntax of the {\bf IF THEN} construct is as follows:
+\begin{verbatim}
+    ... ( flag ) IF  KNOCK  THEN  OPEN ...
+\end{verbatim}
+The ``flag'' is a value on the stack, consumed by IF. A non-zero value
+indicates true, zero indicates false.  A true flag causes the code after {\bf IF} (in
+this case, the word KNOCK) to be executed.  The word {\bf THEN} marks the
+end of the conditional phrase; execution resumes with the word OPEN.  A
+false flag causes the code between {\bf IF} and {\bf THEN} to {\em not} be executed.  In
+either case, OPEN will be performed.
+
+The word {\bf ELSE} allows an alternat phrase to be executed in the
+false case.  In the phrase:
+\begin{verbatim}
+    ( flag ) IF KNOCK  ELSE  RING  THEN  OPEN ...
+\end{verbatim}
+the word KNOCK will be performed if the flag is true, otherwise the word
+RING will be performed.  Either way, execution will continue starting
+with OPEN.
+
+FORTH also provides for indexed loops in the form
+\begin{verbatim}
+    ( limit) ( index) DO ... LOOP
+\end{verbatim}
+and indefinite loops in the forms:
+\begin{verbatim}
+    ... BEGIN  ...  ( flag) UNTIL
+\end{verbatim}
+and
+\begin{verbatim}
+    ... BEGIN  ...  ( flag) WHILE ... REPEAT ;
+\end{verbatim}
+\subsection{For the Whole Story}
+For a complete instroduction to the FORTH command set, read {\em Starting
+FORTH}, published by Prentice-Hall.

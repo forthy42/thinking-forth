@@ -1,0 +1,285 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% 
+%% Chapter: Appendix B, Defining DOER/MAKE
+appendix{}
+\chapter{
+Defining
+DOER/MAKE}
+If your system doesn't have DOER and MAKE already defined, this appendix
+is meant to help you install them and, if necessary, understand
+how they work.  Because by its nature this construct is system
+dependent, I've included several different implementations at the end of
+this appendix in the hope that one of them will work for you.  If no, and if
+this section doesn't give you enough information to get them running,
+you probably have an unusual system.  Please don't ask me for help; ask
+your FORTH vendor.
+
+Here's how it works.  {\bf DOER} is a defining word that creates an entry
+with one cell in its parameter field. That cell contains the vector address,
+and is initialized to point to a no-op word called {\bf NOTHING}.
+
+Children of {\bf DOER} will execute that {\bf DOES> } code of {\bf DOER}, which
+does only two things:  fetch the vector address and place it on the return
+stack.  That's all.  FORTH execution then continues with this address on
+the return stack, which will cause the vectored function to be performed.
+It's like saying (in '83-Standard)
+\begin{verbatim}
+    ' NOTHING >BODY >R <return>
+\end{verbatim}
+which executes NOTHING.  (This trick only works with colon definitions.)
+
+Here's an illustration of the dictionary entry created when we enter
+DOER JOE 
+
+
+{\sf
+\begin{tabular}{@{} l l@{}}
+\hline
+\vline\ JOE & \vline\ pfa of NOTHING \vline \\
+\hline
+\ header &\  parameter field
+\end{tabular}
+}
+
+
+Now suppose we define:
+\begin{verbatim}
+    : TEST   MAKE JOE  CR ;
+\end{verbatim}
+that is, we define a word that can vector JOE to do a carriage return.
+
+Here's a picture of the compiled definition of TEST:  \\
+%! This is supposed to be the cell diagram on p. 277, but I just 
+%! couldn't figure out how to do it.
+
+{\sf
+\begin{tabbing}
+XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= \kill
+	\> adr of \>	\> adr of \> adr of \> adr of \\
+ TEST	\> (MAKE) \> 0  \>  JOE   \>   CR   \>  EXIT \\
+header \> \>  MARKER\\
+\end{tabbing}
+} 
+
+Let's look at the code for {\bf MAKE}.  Since we're using {\bf MAKE} inside a colon
+definition, {\bf STATE} will be true, and we'll execut the phrase:
+\begin{verbatim}
+    COMPILE (MAKE)  HERE MARKER !  0 ,
+\end{verbatim}
+We can see how {\bf MAKE} has compiled the address of the run-time routine,
+{\bf (MAKE)}, followed by a zero.  (We'll explain what the zero is for, and why
+we save its address in a the variable {\bf MARKER}, later).  % should probably be "save its address in the variable..."
+
+Now let's look at what {\bf (MAKE)} does when we execute our new 
+definition {\bf TEST}: \\
+
+\begin{tabular}{ll}
+\verb%   R>%		& Gets an address from the return stack.\\
+			& \ This address points to the cell just\\
+			& \ past {\bf (MAKE)}, where the zero is.\\ 
+\verb%   DUP 2+%	& Gets the address of the second cell after\\
+			& \ {\bf (MAKE)}, where the address of {\bf JOE} is.\\
+\verb%   DUP 2+%	& Gets the address of the third cell after\\
+			& \ {\bf (MAKE)}, where the cod we want to\\
+			& \ execute begins.  The stack now has:\\
+			& \ \ ( 'marker, 'joe, 'code -{}- )\\
+\verb%SWAP @ >BODY%	& Fetches the contents of the address\\
+			& \ pointing to JOE (i.e., gets the address\\ 
+			& \ of JOE) and computes JOE's pfa, where\\
+			& \ the vector address goes.\\
+\verb%!%		& Stores the address where the new code\\
+			& \ begins ({\bf CR}, etc.) into the vector\\
+			& \ address of JOE.\\
+			& \ Now JOE points inside the definition of\\
+			& \ TEST.  When we type JOE, we'll do a\\
+			& \ carriage return.\\
+\verb%@ ?DUP IF >R THEN%& Fetches the contents of the cell\\
+			& \ containing zero.  Since the cell does\\
+			& \ contain zero, the IF THEN statement is\\
+			& \ not performed.\\
+\end{tabular}\\
+
+That's the basic idea.  But what about that cell containing zero?  That's
+for the use of {\bf ;AND}.  Suppose we changed TEST to read:
+
+\begin{verbatim}
+    : TEST   MAKE JOE  CR ;AND SPACE ;
+\end{verbatim}
+That is, when we invoke TEST we'll vector JOE to do a {\bf CR}, and we'll do a
+{\bf SPACE} right now.  Here's what this new version of TEST will look like:
+%! The diagram from page 278 is supposed to be here -- I didn't have a 
+%! clue, so I just omitted it.
+
+Here's the definition of {\bf ;AND}:
+\begin{verbatim}
+    : ;AND   COMPILE  EXIT  HERE MARKER @ ! ;   IMMEDIATE
+\end{verbatim}
+We can see that {\bf ;AND} has compiled an {\bf EXIT}, just as semicolon would.
+
+Next, recall that {\bf MAKE} saved the address of that cell in a variable
+called {\bf MARKER}.  Now {\bf ;AND} stores {\bf HERE} (the location of the second
+string of code beginning with {\bf SPACE}) into the cell previously containing
+zero.  Now {\bf (MAKE)} has a pointer to the place to resume execution.  The
+phrase
+\begin{verbatim}
+    IF >R THEN
+\end{verbatim}
+will leave on the return stack the address of the code beginning with 
+{\bf SPACE}.  Thus execution will skip over the code between {\bf MAKE} and 
+{\bf ;AND} and continue with the remainder of the definition up to semicolon.
+
+The word {\bf UNDO} ticks the name of a {\bf DOER} word, and stores the
+address of {\bf NOTHING} into it.
+
+One final note:  on some systems you may encounter a problem.  If
+you use {\bf MAKE} outside of a colon definition to create a forward reference,
+you may not be able to find the most recently defined word.  For instance,
+if you have:
+\begin{verbatim}
+    : REFRAIN   DO-DAH  DO-DAH ;
+    MAKE SONG  CHORUS  REFRAIN ;
+\end{verbatim}
+your system might think that refrain has not been defined.  The problem
+is due to the placement of SMUDGE.  As a solution, try rearranging
+the order of definitions or, if necessary, put MAKE code inside a 
+definition which you then execute:
+\begin{verbatim}
+    : SETUP   MAKE SONG  CHORUS  REFRAIN ;   SETUP
+\end{verbatim}
+In Laboratory Microsystems PC/FORTH 2.0, the UNSMUDGE on line 9 
+handles the problem.  This problem does not arrize with the Laxen/Perry/Harris
+model.
+
+The final screen is an example of using {\bf DOER/MAKE}.  After loading 
+the block, enter
+\begin{verbatim}
+    RECITAL
+\end{verbatim}
+then enter 
+\begin{verbatim}
+    WHY?
+\end{verbatim}
+followed by return, as many times as you like (you'll get a different
+reason each time).
+
+\begin{verbatim}
+Screen # 21
+  0 ( DOER/MAKE   Shadow screen                      LPB 12/05/83 )
+  1 NOTHING   A no-opp
+  2 DOER      Defines a word whose behavior is vectorable.
+  3 MARKER    Saves adr for optional continuation pointer.
+  4 (MAKE)    Stuffs the address of further code into the
+  5            parameter field of a doer word.
+  6 MAKE      Used interpretively:  MAKE doer-name  forth-code ;
+  7           or inside a definition:
+  8              : def   MAKE doer-name  forth-code ;
+  9           Vectors the doer-name word to the forth-code.
+ 10 ;AND      Allows continuation of the "making" definition
+ 11 UNDO      Usage:  UNDO doer-name ; makes it safe to execute
+ 12
+ 13
+ 14
+ 15
+\end{verbatim}
+
+\begin{verbatim}
+Screen # 22
+  0 \ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
+  1 : NOTHING ;
+  2 : DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
+  3 VARIABLE MARKER
+  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+  5    @ ?DUP IF >R THEN ;
+  6 : MAKE   STATE @ IF ( compiling)
+  7    COMPILE (MAKE)  HERE MARKER !  0 ,
+  8    ELSE  HERE  [COMPILE] '  >BODY !
+  9    [COMPILE] ]  THEN ;   IMMEDIATE
+ 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+ 11 : UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+ 12
+ 13 \ The code in this screen is in the public domain.
+ 14
+ 15
+\end{verbatim}
+
+\begin{verbatim}
+Screen # 23
+  0 ( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
+  1 : NOTHING ;
+  2 : DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
+  3 VARIABLE MARKER
+  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+  5    @ ?DUP IF >R THEN ;
+  6 : MAKE   STATE @ IF ( compiling)
+  7    COMPILE (MAKE)  HERE MARKER !  0 ,
+  8    ELSE  HERE  [COMPILE] '  >BODY !
+  9    [COMPILE] ] UNSMUDGE  THEN ;   IMMEDIATE
+ 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+ 11 : UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+ 12
+ 13 ( The code in this screen is in the public domain.)
+ 14
+ 15
+\end{verbatim}
+
+\begin{verbatim}
+Screen # 24
+  0 ( DOER/MAKE   FIG model                          LPB 12/05/83 )
+  1 : NOTHING   ;
+  2 : DOES-PFA  ( pfa -- pfa of child of <BUILD-DOES> )   2+ ;
+  3 : DOER   <BUILDS  ' NOTHING ,  DOES> @ >R ;
+  4 0 VARIABLE MARKER
+  5 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ DOES-PFA !
+  6    @ -DUP IF >R THEN ;
+  7 : MAKE  STATE @ IF ( compiling)
+  8    COMPILE (MAKE)  HERE MARKER !  0 ,
+  9    ELSE  HERE  [COMPILE] '  DOES-PFA !
+ 10    SMUDGE    [COMPILE] ] THEN ; IMMEDIATE
+ 11 : ;AND   COMPILE ;S  HERE MARKER @ ! ;  IMMEDIATE
+ 12 : UNDO   ' NOTHING  [COMPILE] '  DOES-PFA ! ;
+ 13 ;S
+ 14 The code in this screen is in the public domain.
+ 15
+\end{verbatim}
+
+\begin{verbatim}
+Screen # 25
+  0 ( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
+  1 : NOTHING ;
+  2 : DOER   CREATE  ' NOTHING  ,  DOES> @ >R ;
+  3 VARIABLE MARKER
+  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ ( pfa) !
+  5    @ ?DUP IF >R THEN ;
+  6 : MAKE   STATE @ IF ( compiling)
+  7    COMPILE (MAKE)  HERE MARKER !  0 ,
+  8    ELSE  HERE  [COMPILE] ' !
+  9     [COMPILE] ]  THEN ;   IMMEDIATE
+ 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+ 11 : UNDO   ['] NOTHING  [COMPILE] ' ! ;
+ 12
+ 13 ( 238 )
+ 14 ( The code in this screen is in the public domain.)
+ 15
+\end{verbatim}
+
+\begin{verbatim}
+Screen # 26
+  0 ( TODDLER: Example of DOER/MAKE                     12/01/83 )
+  1 DOER WHY?
+  2 : RECITAL
+  3   CR ." Your daddy is standing on the table.  Ask him 'WHY?' "
+  4    MAKE WHY? ." To change the light bulb."
+  5   BEGIN
+  6   MAKE WHY?  ." Because it's burned out."
+  7   MAKE WHY?  ." Because it was old."
+  8   MAKE WHY?  ." Because we put it in there a long time ago."
+  9   MAKE WHY?  ." Because it was dark!"
+ 10   MAKE WHY?  ." Because it was night time!!"
+ 11   MAKE WHY?  ." Stop saying WHY?"
+ 12   MAKE WHY?  ." Because it's driving me crazy."
+ 13   MAKE WHY?  ." Just let me change this light bulb!"
+ 14   F UNTIL ;
+ 15 : WHY?   CR  WHY?  QUIT ;
+\end{verbatim}
