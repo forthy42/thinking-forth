@@ -5,3 +5,5 @@
 *.ilg
 *.aux
 *.toc
+*.ps
+*.lof
