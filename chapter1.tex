@@ -829,7 +829,7 @@ words \forth{PUSH} and \forth{POP} do not exist in high-level \Forth{}.
 Thus we can write:
 \begin{Code}
 : DOIT
-    GETC  TRANSFORM-TO-DO  PUT-D ;
+    GETC  TRANSFORM-TO-D  PUT-D ;
 \end{Code}
 confident that \forth{GETC} will get ``C'', and leave it on the stack.
 \forth{TRANSFORM-TO-D} will pick up ``C'' from the stack, transform
