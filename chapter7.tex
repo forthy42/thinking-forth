@@ -2,7 +2,7 @@
 %% Copyright (C) 2004 Leo Brodie
 %% Initial transcription by Nils M Holm
 %% Based on OCR scans by Steve Fisher
-%% 
+%% -*-coding: iso-8859-1;-*-
 
 \chapter{Handling~Data: Stacks~and~States}\Chapmark{7}
 
@@ -247,15 +247,11 @@ for drawing a box doesn't lend itself to the nature of the stack. If you're
 in a hurry, it would probably be best to take the easy way out:
 
 \begin{Code}
-Variable TOP         ( y coordinates top of box)
-Variable LEFT        ( x     "       left side)
-Variable BOTTOM      ( y     "       bottom)
-Variable RIGHT       ( x     "       right side)
-: [BOX]   ( x1 y1 x2 y2)   BOTTOM !  RIGHT !  TOP !  LEFT !
-   LEFT @ TOP @  RIGHT @ TOP @  LINE
-   RIGHT @ TOP @  RIGHT @ BOTTOM @  LINE
-   RIGHT @ BOTTOM @  LEFT @ BOTTOM @  LINE
-   LEFT @ BOTTOM @  LEFT @ TOP @  LINE ;
+: [box] { x1 y1 x2 y2 -- }
+  x1 y1 x2 y1 line
+  x2 y1 x2 y2 line
+  x2 y2 x1 y2 line
+  x1 y2 x1 y1 line ;
 \end{Code}
 What we've done is create four named variables, one for each coordinate.
 The first thing \forth{[BOX]} does is fill these variables with the
@@ -323,7 +319,7 @@ Or we might discover that this syntax feels more natural to the
 user:
 
 \begin{Code}
-10 10 ORIGIN! 30 30 BOX
+10 10 origin! 30 30 box
 \end{Code}
 where \forth{ORIGIN!} sets a two-element pointer to the ``origin,'' the
 place where the box will start (the upper left-hand corner). Then
@@ -551,7 +547,7 @@ Once the loop has found the character sequence, we subtract its
 relative address from our current cursor position
 
 \begin{Code}
-its-position CURSOR @  swap -
+its-position cursor @  swap -
 \end{Code}
 to determine the distance between them.
 
@@ -601,7 +597,7 @@ the next worst thing to the now ``forbidden'' GOTO.
 
 \wepsfigp{img7-211}{``Shot from a cannon on a fast-moving train,
 hurtling between the blades of a windmill, and expecting to grab a
-trapeze dangling from a hot-air balloon\dots{} I told you Ace, there were
+trapeze dangling from a hot-air balloon\dots{} I~told you Ace, there were
 too many variables!''}
 
 \noindent Earlier we suggested the use of local variables especially
@@ -698,15 +694,15 @@ number radix for all numeric input and output. The following words are
 commonly found in \Forth{} systems:
 
 \begin{Code}
-: decimal   10 base ! ;
-: hex   16 base ! ;
+: decimal ( -- )  10 base ! ;
+: hex     ( -- )  16 base ! ;
 \end{Code}
 Suppose we've written a word that displays a ``dump'' of memory.
 Ordinarily, we work in decimal mode, but we want the dump in hexadecimal.
 So we write:
 
 \begin{Code}
-: dump  ( a # )
+: dump  ( a # -- )
    hex   ...   ( code for the dump) ... decimal ;
 \end{Code}
 This works---most of the time. But there's a presumption that we want to
@@ -720,17 +716,17 @@ This means we have to tuck away the saved value temporarily,
 while we format the dump. The return stack is one place to do this:
 
 \begin{Code}
-: dump  ( a # )
+: dump  ( a # -- )
    base @ >r  hex   ( code for dump)  r> base ! ;
 \end{Code}
 If things get too messy, we may have to define a temporary variable:
 \index{R!Return stack|)}
 
 \begin{Code}
-Variable OLD-BASE
-: dump  ( a # )
-   base @  OLD-BASE !  hex ( code for dump )
-   OLD-BASE @  base ! ;
+Variable old-base
+: dump  ( a # -- )
+   base @  old-base !  hex ( code for dump )
+   old-base @  base ! ;
 \end{Code}
 How quickly things get complicated.%
 \index{B!BASE|)}
@@ -740,20 +736,20 @@ belong only to your application (and not part of your system), and if this
 same situation comes up more than once, apply a technique of factoring:
 
 \begin{Code}
-: BURY  ( a)  dup 2+  2 cmove ;
-: EXHUME  ( a)  dup 2+  swap 2 cmove ;
+: bury  ( a -- )  dup 2+  2 cmove ;
+: exhume  ( a -- )  dup 2+  swap 2 cmove ;
 \end{Code}
 Then instead of defining two variables, such as \forth{CONDITION} and
 \forth{OLD-CONDITION}, define one double-length variable:
 
 \begin{Code}
-2Variable CONDITION
+2Variable condition
 \end{Code}
 Use \forth{BURY} and \forth{EXHUME} to save and restore the original value:
 
 \begin{Code}
-: DIDDLE    CONDITION BURY  17 CONDITION !  ( diddle )
-   CONDITION EXHUME ;
+: diddle    condition bury  17 condition !  ( diddle )
+   condition exhume ;
 \end{Code}
 \forth{BURY} saves the ``old'' version of condition at \forth{CONDITION 2+}.
 
@@ -815,9 +811,9 @@ value, make sure it's not just a case of bad factoring. For example,
 suppose we have written:
 
 \begin{Code}
-: LONG   18 #HOLES ! ;
-: SHORT   9 #HOLES ! ;
-: GAME   #HOLES @  0 DO  i HOLE PLAY  LOOP ;
+: long   ( -- )  18 #holes ! ;
+: short  ( -- )   9 #holes ! ;
+: game   ( -- )  #holes @  0 DO  i hole play  LOOP ;
 \end{Code}
 The current \forth{GAME} is either \forth{LONG} or \forth{SHORT}.
 
@@ -826,7 +822,7 @@ we invoke \forth{GAME} making sure not to clobber the current value of
 \forth{\#HOLES}:
 
 \begin{Code}
-: HOLES  ( n)  #HOLES @  swap #HOLES !  GAME  #HOLES ! ;
+: holes  ( n -- )  #holes @  swap #holes !  game  #holes ! ;
 \end{Code}
 Because we needed \forth{HOLES} after we'd defined \forth{GAME}, it
 seemed to be of greater complexity; we built \forth{HOLES} around
@@ -834,8 +830,8 @@ seemed to be of greater complexity; we built \forth{HOLES} around
 in order:
 
 \begin{Code}
-: HOLES ( n)  0 DO  i HOLE PLAY  LOOP ;
-: GAME   #HOLES @ HOLES ;
+: holes ( n -- )  0 DO  i hole play  LOOP ;
+: game  ( -- )    #holes @ holes ;
 \end{Code}
 We can build \forth{GAME} around \forth{HOLES} and avoid all this
 saving/restoring nonsense.%
@@ -853,12 +849,16 @@ Here is the code for a user stack including very simple error checking
 (an error clears the stack):
 
 \begin{Code}
-Create STACK  12 allot  \  { 2tos-pointer | 10stack [5 cells] }
-here Constant STACK>
-: INIT-STACK   STACK STACK ! ;   INIT-STACK
-: ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  abort  THEN ;
-: PUSH  ( n)   2 STACK +!  STACK @  dup  STACK> = ?BAD  ! ;
-: POP  ( -- n)  STACK @ @  -2 STACK +!  STACK @ STACK < ?BAD ;
+Create stack  6 cells allot
+              \ { tos-pointer | stack [5 cells] }
+here Constant stack>
+: init-stack  ( -- )  stack stack ! ;   init-stack
+: ?bad ( ? -- )
+    IF ." stack error "  init-stack  abort  THEN ;
+: push ( n -- )
+    cell stack +!  stack @  dup  stack> = ?bad ! ;
+: pop  ( -- n )
+    stack @ @  cell negate stack +!  stack @ stack < ?bad ;
 \end{Code}
 The word \forth{PUSH} takes a value from off of your data stack and
 ``pushes'' it onto this new stack. \forth{POP} is the opposite,
@@ -943,12 +943,12 @@ how you want to decompose the problem. First, we could nest one condition
 within the other:
 
 \begin{Code}
-: [DISPLAY]  ...
-     ( the original definition, always does the output) ... ;
-Variable 'LOOKAHEAD?  ( t=looking-ahead)
-: <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
-Variable 'TOC?  ( t=setting-table-of-contents)
-: DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
+: [display]  ...
+    ( the original definition, always does the output) ... ;
+Variable 'lookahead?  ( t=looking-ahead)
+: <display> ( -- )  'lookahead? @ 0=  IF  [display]  THEN ;
+Variable 'toc?  ( t=setting-table-of-contents)
+: display ( -- )  'toc? @ 0=  IF  <display>  THEN ;
 \end{Code}
 {\sloppy
 \forth{DISPLAY} checks that we're not setting the table of contents
@@ -972,7 +972,8 @@ That's one approach to the use of two variables. Another is to include
 both tests within a single word:
 
 \begin{Code}
-: DISPLAY   'LOOKAHEAD? @  'TOC @ or  NOT IF [DISPLAY] THEN ;
+: display ( -- )
+    'lookahead? @  'toc @ or  0= IF [display] THEN ;
 \end{Code}
 But in this particular case, yet another approach can simplify the whole
 mess. We can use a single variable not as a flag, but as a counter.
@@ -980,10 +981,10 @@ mess. We can use a single variable not as a flag, but as a counter.
 We define:
 
 \begin{Code}
-Variable 'INVISIBLE?  ( t=invisible)
-: DISPLAY   'INVISIBLE? @  0= IF [DISPLAY] THEN ;
-: INVISIBLE   1 'INVISIBLE? +! ;
-: VISIBLE    -1 'INVISIBLE? +! ;
+variable 'invisible?  ( t=invisible)
+: display ( -- )  'invisible? @  0= IF [display] THEN ;
+: invisible   1 'invisible? +! ;
+: visible    -1 'invisible? +! ;
 \end{Code}
 The lookahead code begins by invoking \forth{INVISIBLE} which bumps
 the counter up one. Non-zero is ``true,'' so \forth{DISPLAY} will not
@@ -999,16 +1000,16 @@ The subsequent invocation of \forth{INVISIBLE} decrements the counter
 to one, so we're still invisible, and will remain invisible until the
 table of contents has been run.
 
-(Note that we must substitute \forthb{0=} for \forthb{NOT}. The '83
-Standard has changed \forthb{NOT} to mean one's complement, so that
-\forthb{1 NOT} yields true. By the way, I think this was a mistake.)
+%(Note that we must substitute \forthb{0=} for \forthb{NOT}. The '83
+%Standard has changed \forthb{NOT} to mean one's complement, so that
+%\forthb{1 NOT} yields true. By the way, I think this was a mistake.)
 
 This use of a counter may be dangerous, however. It requires parity of
 command usage: two \forth{VISIBLE}s yields invisible. That is, unless
 \forth{VISIBLE} clips the counter:
 
 \begin{Code}
-: VISIBLE   'INVISIBLE? @  1-  0 max  'INVISIBLE? ! ;
+: visible ( -- )  'invisible? @  1-  0 max  'invisible? ! ;
 \end{Code}
 \index{C!Components:!sharing|)}%
 \index{S!Sharing components|)}
@@ -1038,12 +1039,12 @@ component, as shown in \Fig{fig7-2}.
 \labelfig{fig7-2}
 \begin{center}
 \begin{BVerbatim}
-VARIABLE TOP
-VARIABLE BOTTOM
-VARIABLE LEFT
-VARIABLE RIGHT
-VARIABLE INSIDE
-VARIABLE OUT
+Variable top
+Variable bottom
+Variable left
+Variable right
+Variable inside
+Variable out
 \end{BVerbatim}
 \end{center}
 \end{figure*}
@@ -1052,10 +1053,10 @@ VARIABLE OUT
 processing can take place, and later restore all of them. We could define:
 
 \begin{Code}
-: @STATE ( -- top bottom left right inside out)
-   TOP @  BOTTOM @  LEFT @  RIGHT @  INSIDE @  OUT @ ;
-: !STATE ( top bottom left right inside out -- )
-   OUT !  INSIDE !  RIGHT !  LEFT !  BOTTOM !  TOP ! ;
+: @state ( -- top bottom left right inside out )
+   top @  bottom @  left @  right @  inside @  out @ ;
+: !state ( top bottom left right inside out -- )
+   out !  inside !  right !  left !  bottom !  top ! ;
 \end{Code}
 thereby saving all the values on the stack until it's time to restore them.
 Or, we might define alternate variables for each of the variables above, in
@@ -1078,22 +1079,22 @@ We've implemented this approach with the code in \Fig{fig7-4}.
 \labelfig{fig7-4}
 \begin{center}
 \begin{BVerbatim}
-0 CONSTANT POINTERS  \ address of state table PATCHED LATER
-: POSITION   ( o -- o+2 ) CREATE DUP ,  2+
-   DOES>  ( -- a )  @  POINTERS + ;
+0 Value pointers  \ address of state table patched later
+: Position   ( o -- o+2 ) Create dup ,  2+
+   DOES>  ( -- a )  @  pointers + ;
 0  \ initial offset
-POSITION TOP
-POSITION BOTTOM
-POSITION LEFT
-POSITION RIGHT
-POSITION INSIDE
-POSITION OUT
-CONSTANT /POINTERS   \ final computed offset
+Position top
+Position bottom
+Position left
+Position right
+Position inside
+Position out
+Constant /pointers   \ final computed offset
 
-HERE ' POINTERS >BODY !  /POINTERS ALLOT  \ real table
-CREATE SAVED  /POINTERS ALLOT  \ saving place
-: SAVE     POINTERS  SAVED  /POINTERS CMOVE ;
-: RESTORE  SAVED  POINTERS  /POINTERS CMOVE ;
+here to pointers  /pointers allot  \ real table
+Create saved  /pointers allot  \ saving place
+: save     ( -- )  pointers  saved  /pointers cmove ;
+: restore  ( -- )  saved  pointers  /pointers cmove ;
 \end{BVerbatim}
 \end{center}
 \end{figure*}
@@ -1149,37 +1150,37 @@ appropriately. For instance:
 \labelfig{fig7-6}
 \begin{center}
 \begin{BVerbatim}
-VARIABLE 'POINTERS  \ pointer to state table
-: POINTERS ( -- adr of current table)   'POINTERS @ ;
-: POSITION   ( o -- o+2 ) CREATE DUP ,  2+
-   DOES>  ( -- a )  @ POINTERS + ;
+Variable 'pointers  \ pointer to state table
+: pointers ( -- adr-of-current-table )   'pointers @ ;
+: Position   ( o -- o+2 ) Create dup ,  2+
+   DOES>  ( -- a )  @ pointers + ;
 0  \ initial offset
-POSITION TOP
-POSITION BOTTOM
-POSITION LEFT
-POSITION RIGHT
-POSITION INSIDE
-POSITION OUT
-CONSTANT /POINTERS  \ final computed offset
-CREATE REAL    /POINTERS ALLOT  \ real state table
-CREATE PSEUDO  /POINTERS ALLOT  \ temporary state table
-: WORKING      REAL 'POINTERS ! ;     WORKING
-: PRETENDING   PSEUDO 'POINTERS ! ;
+Position top
+Position bottom
+Position left
+Position right
+Position inside
+Position out
+Constant /pointers  \ final computed offset
+Create real    /pointers allot  \ real state table
+Create pseudo  /pointers allot  \ temporary state table
+: working      real 'pointers ! ;     working
+: pretending   pseudo 'pointers ! ;
 \end{BVerbatim}
 \end{center}
 \end{figure*}
 
 \begin{Code}[commandchars=&\{\}]
-WORKING
-10 TOP !
-TOP &underline{? 10}
-PRETENDING
-20 TOP !
-TOP &underline{? 20}
-WORKING
-TOP &underline{? 10}
-PRETENDING
-TOP &underline{? 20}
+working
+10 top !
+top &underline{? 10}
+pretending
+20 top !
+top &underline{? 20}
+working
+top &underline{? 10}
+pretending
+top &underline{? 20}
 \end{Code}
 The major difference with this latter approach is that names go through
 an extra level of indirection (\forth{POINTERS} has been changed from a
@@ -1205,6 +1206,10 @@ The traditional techniques for implementing vectored execution are
 described in \emph{Starting \Forth{}}, Chapter Nine. In this section we'll
 discuss a new syntax which I invented and which I think can be used in many
 circumstances more elegantly than the traditional methods.
+
+\begin{tfnote}{Bernd Paysan}
+\forth{DORE}/\forth{MAKE} need to be replaced with \forth{DEFER}/\forth{IS}.
+\end{tfnote}
 
 \index{D!DOER/MAKE|(}%
 The syntax is called \forth{DOER}/\forth{MAKE}. (If your system doesn't
