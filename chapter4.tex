@@ -7,9 +7,9 @@
 
 \chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}\Chapmark{4}
 
-\index{D!Detailed design|(}
-\index{D!Design|see{Detailed design, Preliminary design}}
-\index{D!Detailed design!problem solving techniques|(}
+\index{D!Detailed design|(}%
+\index{D!Design|see{Detailed design, Preliminary design}}%
+\index{D!Detailed design!problem solving techniques|(}%
 \index{P!Programming cycle:!detailed design|see{Detailed design}}
 \begin{tfquot}
 \emph{Trivial:} I can see how to do this. I just don't know how long it
@@ -37,8 +37,8 @@ to design in \Forth{}. For this reason, we'll get a bit ahead of ourselves in
 this chapter by not only presenting a problem but also designing a solution
 to it, right on through to the coded implementation.
 
-\section{Problem-Solving Techniques}
-\index{P!Problem-solving techniques|(}
+\section{Problem-Solving Techniques}%
+\index{P!Problem-solving techniques|(}%
 \index{P!Problem-solving techniques|see{Detailed design}}
 
 Even neophytes can solve programming problems without devoting any
@@ -51,7 +51,7 @@ techniques.
 G. Polya has written several books on problem solving, especially of
 the mathematical problem. The most accessible of these is
 \emph{How to Solve It} \cite{polya}.
-\index{P!Polya, G.}
+\index{P!Polya, G.}%
 \index{H!\emph{How to Solve It} (Polya)}
 Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
@@ -324,7 +324,7 @@ ways, and some of them may be better.
 
 Don't invest too much effort in your first solution without asking
 yourself for a second opinion.
-\index{P!Problem-solving techniques|)}
+\index{P!Problem-solving techniques|)}%
 \index{D!Detailed design!problem solving techniques|)}
 
 %!! include cartoon of page 106 here
@@ -391,10 +391,10 @@ go. At those times I have to get away from the keyboard.
 long as you keep yourself from playing as a habit. Your head is a whole lot
 better than the computer for inventing things.
 \end{tfquot}
-\end{interview}
+\end{interview}%
 \index{B!Burgess, Donald A.|)}
 
-\section{Detailed Design}
+\section{Detailed Design}%
 \index{L!Lexicons|(}
 
 We're now at the point in the development cycle at which we've decided
@@ -407,7 +407,7 @@ Create as many words as necessary to obey the following tip:
 
 \begin{tip}
 Each definition should perform a simple, well-defined task.
-\end{tip}
+\end{tip}%
 \index{D!Detailed design!steps in|(}
 Here are the steps generally involved in designing a component:
 %!! there's certainly some better way to do ordered lists in TeX
@@ -424,14 +424,14 @@ Here are the steps generally involved in designing a component:
 \item If the lexicon contains many names with strong elements in common,
    design and code the commonalities as internal definitions, then implement
    the external definitions.
-\end{enumerate}
+\end{enumerate}%
 \index{D!Detailed design!steps in|)}
 We'll discuss the first two steps in depth. Then we'll engage in an
 extended example of designing a lexicon.
 
-\section{\Forth{} Syntax}
-\index{D!Detailed design!\Forth{} syntax|(}
-\index{F!\Forth{} syntax|(}
+\section{\Forth{} Syntax}%
+\index{D!Detailed design!\Forth{} syntax|(}%
+\index{F!\Forth{} syntax|(}%
 \index{S!Syntax \Forth{}|(}
 
 At this point in the development cycle you must decide how the words in
@@ -727,7 +727,7 @@ disappointment.
 
 \begin{tip}
 Let commands perform themselves.
-\end{tip}
+\end{tip}%
 \index{C!Compilers|(}
 This rule is a corollary to ``Avoid expectations.'' It's one of
 \Forth{}'s philosophical quirks to let words do their own work. Witness
@@ -855,16 +855,16 @@ elaborate difficult things. But there comes a time when the world is going
 to have to quit programming keypads and converting numbers to binary,
 and start solving problems.
 \end{tfquot}
-\end{interview}
-\index{M!Moore, Charles|)}
-\index{D!Detailed design!\Forth{} syntax|)}
-\index{F!\Forth{} syntax|)}
-\index{S!Syntax \Forth{}|)}
-\index{I!Interpreters|)}
+\end{interview}%
+\index{M!Moore, Charles|)}%
+\index{D!Detailed design!\Forth{} syntax|)}%
+\index{F!\Forth{} syntax|)}%
+\index{S!Syntax \Forth{}|)}%
+\index{I!Interpreters|)}%
 \index{L!Lexicons|)}
 
-\section{Algorithms and Data Structures}
-\index{A!Algorithms|(}
+\section{Algorithms and Data Structures}%
+\index{A!Algorithms|(}%
 \index{D!Detailed design!algorithms|(}
 
 In \Chap{2} we learned how to describe a problem's requirements in
@@ -913,20 +913,20 @@ A data structure is an arrangement of data or locations for data,
 organized especially to match the problem. In the last example, the file
 cabinet containing folders and the folders containing individual letters
 can be thought of as data structures.
-\index{D!Data structures:!defined|)}
+\index{D!Data structures:!defined|)}%
 \index{D!Data structures|see{\emph{also} Variables}}
 
 The new conceptual model includes the filing cabinets and folders
 (data structures) plus the steps for doing the filing (algorithms).
-\index{A!Algorithms|)}
+\index{A!Algorithms|)}%
 \index{D!Detailed design!algorithms|)}
 
-\section{Calculations vs. Data Structures vs. Logic}
-\index{C!Calculations|(}
-\index{D!Data structures:!calculation@vs. calculation vs. logic|(}
-\index{D!Detailed design!calculations|(}
-\index{D!Detailed design!data structures|(}
-\index{D!Detailed design!logic|(}
+\section{Calculations vs. Data Structures vs. Logic}%
+\index{C!Calculations|(}%
+\index{D!Data structures:!calculation@vs. calculation vs. logic|(}%
+\index{D!Detailed design!calculations|(}%
+\index{D!Detailed design!data structures|(}%
+\index{D!Detailed design!logic|(}%
 \index{L!Logic|(}
 
 We've stated before that the best solution to a problem is the simplest
@@ -1043,15 +1043,15 @@ Of course, one nice feature of modular languages such as \Forth{} is that
 the actual implementation of a component---whether it uses calculation,
 data structures, or logic---doesn't have to be visible to the rest of the
 application.
-\index{C!Calculations|)}
-\index{D!Data structures:!calculation@vs. calculation vs. logic|)}
-\index{D!Detailed design!calculations|)}
-\index{D!Detailed design!data structures|)}
-\index{D!Detailed design!logic|)}
+\index{C!Calculations|)}%
+\index{D!Data structures:!calculation@vs. calculation vs. logic|)}%
+\index{D!Detailed design!calculations|)}%
+\index{D!Detailed design!data structures|)}%
+\index{D!Detailed design!logic|)}%
 \index{L!Logic|)}
 
-\section{Solving a Problem: Computing Roman Numerals}
-\index{D!Detailed design!demonstration of|(}
+\section{Solving a Problem: Computing Roman Numerals}%
+\index{D!Detailed design!demonstration of|(}%
 \index{R!Roman numeral computation problem|(}
 
 In this section we'll attempt to demonstrate the process of designing a
@@ -1761,7 +1761,7 @@ VARIABLE COLUMN#  ( current offset)
 \end{Screen}
 \vspace{1ex}
 \label{fig-fig4-9}
-\end{figure*}
+\end{figure*}%
 \index{R!Roman numeral computation problem|)}
 
 \section{Summary}
@@ -1773,7 +1773,7 @@ and data structure(s), and concluding with an implementation in \Forth{}.
 
 With this chapter we complete our discussion of design. The remainder
 of the book will discuss style and programming techniques.
-\index{D!Detailed design|)}
+\index{D!Detailed design|)}%
 \index{D!Detailed design!demonstration of|)}
 
 %!! the ordered list thing again

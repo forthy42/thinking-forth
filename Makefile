@@ -140,4 +140,4 @@ no-scrambled.pdf:	no-scrambled.eps
 	./eps2pdf $<
 
 view : thinking-forth.dvi
-	xdvi -paper $(WIDTH)x$(HEIGHT)in thinking-forth.dvi
+	xdvi -s 6 -paper $(WIDTH)x$(HEIGHT)in thinking-forth.dvi
