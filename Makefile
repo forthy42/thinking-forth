@@ -64,15 +64,15 @@ thinking-forth-book.pdf: thinking-forth-book.ps
 
 booka4 : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
+	psnup -c -2 -w$(WIDTH)in -h$(HEIGHT)in | \
 	psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | \
-	psnup -2 -pa4 | \
 	sed -e 's/%%BoundingBox:.*/%%PageSize: a4/' >tf-a4.ps
 	ps2pdf tf-a4.ps tf-a4.pdf
 
 bookletter : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
+	psnup -2 -w$(WIDTH)in -h$(HEIGHT) | \
 	psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | \
-	psnup -c -2 -pletter | \
 	sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
 
