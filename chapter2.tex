@@ -574,7 +574,7 @@ iteratively. Each new requirement will tend to suggest something in
 your mental model. Your job is to juggle all the requirements and
 constraints until you can weave a pattern that fits the bill.
 
-\wepsfiga{fig2-2}{An iterative approach to analysis.}
+\wepsfigb{fig2-2}{An iterative approach to analysis.}
 
 \Fig{fig2-2} illustrates the iterative approach to the analysis phase.
 The final step is one of the most important: show the documented model
@@ -675,9 +675,9 @@ processing continues
 \item designed to initiate procedures to correct the problem and keep
 the program running.
 \end{itemize}
-
+%
 %Page 050 in first edition
-
+%
 There's room for a serious communications gap if the degree of
 complexity required in the error-handling is not nailed down early.
 Obviously, the choice bears tremendous impact on the design and
@@ -728,6 +728,7 @@ This is because \Forth{}, used properly, approaches a functional language.%
 \index{D!Data-flow diagrams|)}%
 \index{S!Strutured analysis|)}%
 \index{P!Pseudocode|(}
+
 For anyone with a few days' familiarity with \Forth{}, simple definitions
 convey at least as much meaning as the diagrams:
 \begin{Code}
@@ -767,9 +768,11 @@ language. You just have to leave out the so-called ``noise'' words:
 flow. Most \Forth{} people probably do that informally. We do it
 purposefully.
 \end{tfquot}%
+\end{interview}%
 \index{J!Johnson, Dave|)}%
 \index{P!Pseudocode|)}
 %Page 052 in first edition
+\begin{interview*}
 During one of our interviews I asked \person{Moore}\index{M!Moore,
 Charles|(} if he used diagrams of any sort to plan out the conceptual
 model, or did he code straight into \Forth{}? His reply:
@@ -787,7 +790,7 @@ lovely advantage because it is my style that others are learning to emulate.
 Can they learn to think like I think? I imagine so. It's just a matter of
 practice, and I've had more practice.
 \end{tfquot}\index{M!Moore, Charles|)}
-\end{interview}%
+\end{interview*}%
 \index{A!Analysis!interface definition|)}%
 \index{C!Conceptual model!interface definition|)}%
 \index{I!Interface definition|)}
@@ -801,9 +804,11 @@ Most of your efforts at defining a problem will center on describing
 the interface.%
 \index{I!Interface definition}
 Some applications will also require that you define the set of
-application rules.  All programming involves rules. Usually these
-rules are so simple it hardly matters how you express them: ``If
-someone pushes the button, ring the bell.''
+application rules.
+
+All programming involves rules. Usually these rules are so simple it
+hardly matters how you express them: ``If someone pushes the button,
+ring the bell.''
 
 Some applications, however, involve rules so complicated that they
 can't be expressed in a few sentences of English. A few formal techniques
@@ -927,7 +932,7 @@ time. I don't even want to talk about it anymore.%
 \index{A!Analysis!decision tree|(}%
 \index{D!Decision tree|(}
 
-\wepsfiga{fig2-4}{Example of a decision tree.}
+\wepsfigt{fig2-4}{Example of a decision tree.}
 
 \Fig{fig2-4} illustrates the telephone rate rules by means of a
 decision tree.  The decision tree is the easiest method of any to
@@ -955,7 +960,7 @@ representation of compound rules for the programmer, and possibly for
 the customer as well. \Fig{fig2-5} shows our rate structure rules in
 decision-table form.
 
-\wepsfiga{fig2-5}{The decision table.}
+\wepsfigt{fig2-5}{The decision table.}
 
 In \Fig{fig2-5} there are three dimensions: the rate discount, whether
 an operator intervenes, and initial minute vs. additional minute.
@@ -1006,7 +1011,7 @@ additional minutes does not depend on whether an operator assisted or not.
 With this new understanding we can draw a simplified table, as shown
 in \Fig{fig2-6}.
 
-\wepsfiga{fig2-6}{A simplified decision table.}
+\wepsfigt{fig2-6}{A simplified decision table.}
 
 %Page 057 in first edition
 
@@ -1059,7 +1064,7 @@ function that combines logic with arithmetic:
 \end{Code}
 (But remember, this charge applies only to the first minute.)
 
-\wepsfigb{fig2-8}{The decision table without operator involvement depicted.}
+\wepsfigt{fig2-8}{The decision table without operator involvement depicted.}
 
 This leaves us with the simplified table shown in \Fig{fig2-8}, and an
 increased reliance on expressing calculations. Now we're getting
@@ -1229,12 +1234,10 @@ are a subset. They have violated the principle that the solution
 should match the problem.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-
 \begin{tip}
 Generality usually involves complexity. Don't generalize your solution any
 more than will be required; instead, keep it changeable.
 \end{tip}
-
 \begin{interview}
 \person{Moore} continues:\index{M!Moore, Charles|(}
 \begin{tfquot}
@@ -1324,7 +1327,7 @@ To simplify, quantitize.\index{Q!Quantization}
 \end{tip}
 
 \begin{interview}
-\person{Moore} concludes:\index{M!Moore, Charles|(}
+\person{Moore} concludes:\index{M!Moore, Charles|(}%
 \begin{tfquot}
 It takes arrogance to go back and say ``You didn't really mean this,''
 or ``Would you mind if I took off this page and replaced it with this

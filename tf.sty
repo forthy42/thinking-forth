@@ -260,19 +260,29 @@
 \newenvironment{tfquot}
                {\list{}{\listparindent 0em%
                         \itemindent    \listparindent
+                        \leftmargin    2.5em
                         \parsep        1ex \@plus\p@\small}%
                 \item\relax}
                {\endlist}
 
 \newenvironment{interview}
-               {\ifhmode\unskip\unskip\par\medskip\else\medskip\fi
-		 \list{}{\listparindent 0pt%
+               {\ifhmode\unskip\unskip\par\medskip\else\addvspace\medskipamount\fi
+		 \list{}{\listparindent 2.5em%
                         \itemindent    0pt
                         \leftmargin    0pt
 			\topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\medbreak\blackline{\medskipamount}\nopagebreak
+		\goodbreak\blackline{1ex}\nopagebreak
                 \item\relax}
+               {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
+\newenvironment{interview*}
+               {\ifhmode\unskip\unskip\par\medskip\else\medskip\fi
+		 \list{}{\listparindent 2.5em%
+                        \itemindent    0pt
+                        \leftmargin    0pt
+			\topsep        0pt
+                        \parsep        0.5ex \@plus\p@}%
+		\item\relax}
                {\samepage\par\blackline{0pt}\medskip\endlist\goodbreak}
 
 
@@ -409,7 +419,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
   \def\@oddfoot{\if@fcolmade\else
       \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{%
-        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\leftmark}\kern-.33in}%
+        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-.33in}%
         \hbox to 0pt{\hbox to .66in{\hss\sf\bfseries\thepage}\hss}}}\fi}
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
