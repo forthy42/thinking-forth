@@ -59,7 +59,7 @@ Here's a picture of the compiled definition of \forth{TEST}:
 {\sf\bigskip\begin{tabular}{|c|c|c|c|c|c|}\hline
 & adr of & & adr of & adr of & adr of \\
 TEST & (MAKE) & 0 & JOE & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
-\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{MARKER} & \multicolumn{3}{c}{} \\
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\boxto{adr}{MARKER}} & \multicolumn{3}{c}{} \\
 \end{tabular}
 \bigskip}
 
@@ -118,7 +118,7 @@ That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a \forthb{CR
 \begin{center}\vspace{10pt}\sf\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
 & adr of & \smash{\rnode{M1}{~\large\strut}} & adr of & adr of & adr of & \rnode{M2}{adr of\large\strut} & adr of \\
 TEST & (MAKE) & adr & JOE & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2pt}}
-\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{MARKER} & \multicolumn{5}{c}{} \\
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\boxto{adr}{MARKER}} & \multicolumn{5}{c}{} \\
 \end{tabular}
 \psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=90,angleB=90}
 \ncangle{M1}{M2}

@@ -177,12 +177,14 @@
 %% There's no bold typewriter in Computer Modern.
 %% Emulate with printing several times, slightly moving
 
+\newdimen\poormove
+\poormove0.1pt
 \newcommand{\poorbf}[1]{%
-\kern-.20pt\hbox to 0.20pt{#1\hss}%
-\raise0.20pt\hbox to 0pt{#1\hss}%
-\lower0.20pt\hbox to 0pt{#1\hss}%
-\hbox to 0.20pt{#1\hss}%
-#1\kern-0.20pt}
+\kern-\poormove\hbox to \poormove{#1\hss}%
+\raise\poormove\hbox to \z@{#1\hss}%
+\lower\poormove\hbox to \poormove{#1\hss}%
+\hbox to \poormove{#1\hss}\kern-\poormove%
+\hbox{#1}}
 
 %% line for separating is blacker than LaTeX default
 
@@ -209,10 +211,11 @@
 \hbox to \linewidth{\leavevmode%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 \else\hss\hbox{\hss
-\vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\vss}~}\fi
+\vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
 \psshadowbox*[fillcolor=lightgreen,linecolor=midgreen,shadowcolor=lightgrey,cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,shadowsize=3pt]{\unhbox\@tempboxa}%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
-~\vbox to \@tempdima{\hbox{\includegraphics{pointing-l}}\vss}\hss%
+~\vbox to \@tempdima{%
+\hbox{\includegraphics{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
 \else
 \hbox to 2.5em{\hss}%
 \fi
@@ -232,7 +235,7 @@
 \item\relax
 \stepcounter{tipc}%
 \setbox\@tempboxa\hbox\bgroup\begin{minipage}{\linewidth}
-{\iftip{\sc Tip}\small\else TIP\fi\iftipno{} \tipno\fi}\\[1ex]\small
+{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\\[1ex]\small
 }{\par
 \end{minipage}\egroup%
 \leavevmode\label{tip-\thechapter.\arabic{tipc}}%
@@ -281,6 +284,11 @@
 %\fwbox{text} %like fbox, but does not create a wider box
 \newcommand{\fwbox}[1]{\framebox[\width]{#1}}
 \def\boxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2\hss}}
+
+
+\def\smashlt#1{%
+  \setbox\z@\hbox{\color@begingroup#1\color@endgroup}\finsm@shlt}
+\def\finsm@shlt{\hspace{\wd\z@}\llap{\box\z@}}
 
 
 %!! in the '94 edition (and probably the original) inline Forth words are
