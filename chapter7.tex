@@ -391,7 +391,7 @@ phone bill) stack commentaries serve as nice auxiliary documentation.
 Make sure that stack effects balance out under all possible control flows.
 \end{tip}
 In the stack commentary for \forthb{CMOVE>} in \Fig{fig7-1}, the inner brace
-represents the contents of the \forthb{DO LOOP}. The stack depth upon exiting
+represents the contents of the \forthb{DO} \forthb{LOOP}. The stack depth upon exiting
 the loop is the same as upon entering it: one element. Within the outer
 braces, the stack result of the \forthb{IF} clause is the same as that of the
 \forthb{ELSE} clause: one element left over. (What that leftover element
@@ -472,7 +472,7 @@ foot:
    conditions.
 \item In factoring definitions, watch out that one part doesn't contain one
    return stack operator, and the other its counterpart.
-\item If used inside a \forthb{DO LOOP}, return stack operators must by symmetrical
+\item If used inside a \forthb{DO} \forthb{LOOP}, return stack operators must by symmetrical
    within the loop, and \forthb{I} is no longer valid in code bounded by
    \forthb{>R} and \forthb{R>}.
 \end{enumerate}
@@ -537,7 +537,7 @@ arguments are passed via the stack.
 Suppose we are implementing a word-processor editor. We need a
 routine that calculates the number of characters between the current cursor
 position and the previous carriage-return/line-feed sequence. So we
-write a word that employs a \forthb{DO LOOP} starting at the current position
+write a word that employs a \forthb{DO} \forthb{LOOP} starting at the current position
 (\forth{CURSOR @}) and ending at the zeroth position, searching for the line
 feed character.
 
@@ -1011,6 +1011,10 @@ number of alternating states.
 When the application requires handling a group of conditions
 simultaneously, use a state table, not separate variables.
 \end{tip}
+
+The simple case requires saving and restoring a state. Suppose we initially
+have six variables representing the state of a particular component, as
+shown in \Fig{fig7-2}.
 \begin{figure*}[hhhh]
 \caption{A collection of related variables.}
 \labelfig{fig7-2}
@@ -1025,10 +1029,6 @@ VARIABLE OUT
 \end{BVerbatim}
 \end{center}
 \end{figure*}
-
-The simple case requires saving and restoring a state. Suppose we initially
-have six variables representing the state of a particular component, as
-shown in \Fig{fig7-2}.
 
 Now suppose that we need to save all of them, so that further processing
 can take place, and later restore all of them. We could define:
@@ -1299,12 +1299,12 @@ format the output according to bytes, not cells:
 
 The code within these two definitions is identical except for the fragments
 in boldface. But factoring is difficult because the fragments occur inside the
-\forthb{DO LOOP}.
+\forthb{DO} \forthb{LOOP}.
 
 Here's a solution to this problem, using
 \forthb{DOER}/\forthb{MAKE}. The code that changes has been replaced
 with the word \forth{.UNIT}, whose behavior is vectored by the code in
-\forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forthb{1 +LOOP}''
+\forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forthb{1} \forthb{+LOOP}''
 has the same effect as ``\forthb{LOOP}''.)
 
 %!! does \textbf{} work inside verbatim blocks? It better should...

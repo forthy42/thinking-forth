@@ -19,12 +19,12 @@ style.
 In this chapter we'll delve into \Forth{} coding convention
 including:
 
-\begin{tfquot}
-listing organization \\
-screen layout, spacing and indentation \\
-commenting \\
-choosing names.
-\end{tfquot}
+\begin{itemize}
+\item listing organization
+\item screen layout, spacing and indentation
+\item commenting
+\item choosing names
+\end{itemize}
 I wish I could recommend a list of hard-and-fast conventions for
 everyone.  Unfortunately, such a list may be inappropriate in many
 situations.  This chapter merges many widely-adopted conventions with
@@ -179,6 +179,7 @@ because you ``ran out of room.''
 Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 
+\medbreak
 \begin{description}
 \item[\emph{\forth{\bs}}]~
 \item[\emph{\forth{\bs S}}] also called \forth{EXIT}\index{E!EXIT}
@@ -401,10 +402,12 @@ screens than you need to test this one screen.
 To get analytical about it, there are three things you might want to
 do after making the change just described:
 
-\begin{enumerate}\parsep=0pt\itemsep=0pt
+\begin{enumerate}
 \item load the one screen only, to test the change,
 \item load the entire section in which the screen appears,
-\item[] or
+\suspend{enumerate}
+or
+\resume{enumerate}
 \item load the entire remainder of the application.
 \end{enumerate}
 The use of \forth{THRU} seems to give you the greatest control.
@@ -1414,10 +1417,11 @@ determine what's going on.  But how much commenting is necessary? To
 determine the level of commenting appropriate for your circumstances,
 you must ask yourself two questions:
 
-\begin{enumerate}
-\item[] Who will be reading my code?
-\item[] How readable are my definitions?
-\end{enumerate}
+%%!!! this didn't have any bullet points or whatever in the first edition
+\begin{itemize}
+\expandafter\item\ifeightyfour[]\fi Who will be reading my code?
+\expandafter\item\ifeightyfour[]\fi How readable are my definitions?
+\end{itemize}
 \index{N!Narrative comments|(}
 There are two basic styles of commenting to choose from.  The first
 style, often called the ``vertical format,'' includes a step-by-step
@@ -1650,6 +1654,9 @@ Choose names that work in phrases.
 \end{tip}
 Faced with a definition you don't know what to call, think about how the
 word will be used in context.  For instance:
+%%!!! this is how it looks like in the original
+%%!!! This really seems to be a description environment
+\ifeightyfour
 \begin{Code}[fontfamily=cmss,commandchars=\&\{\}]
 SHUTTER OPEN
   OPEN is the appropriate name for a word that sets a
@@ -1670,6 +1677,32 @@ I'M HARRY
   The word I'M seems more natural than LOGON HARRY,
   LOGIN HARRY or SESSION HARRY, as often seen.
 \end{Code}
+\else
+\begin{description}
+\item[\forth{SHUTTER OPEN}]~
+
+  \forth{OPEN} is the appropriate name for a word that sets a
+  bit in an I/O address identified with the name
+  \forth{SHUTTER}.
+\item[\forth{3 BUTTON DOES IGNITION}]~
+
+  \forth{DOES} is a good choice for a word that vectors the
+  address of the function \forth{IGNITION} into a table of
+  functions, so that \forth{IGNITION} will be executed when
+  Button 3 is pushed.
+\item[\forth{SAY HELLO}]~
+
+  \forth{SAY} is the perfect choice for vectoring \forth{HELLO} into an
+  execution variable.  (When I first wrote this example
+  for Starting \Forth{}, I called it \forth{VERSION}. \person{Moore}
+  reviewed the manuscript and suggested \forth{SAY}, which is
+  clearly much better.)
+\item[\forth{I'M HARRY}]~
+
+  The word \forth{I'M} seems more natural than \forth{LOGON HARRY},
+  \forth{LOGIN HARRY} or \forth{SESSION HARRY}, as often seen.
+\end{description}
+\fi
 
 \index{M!Moore, Charles|(}
 \begin{interview}

@@ -682,10 +682,12 @@ the primary basis for design!%
 %%!!!this is to avoid an error
 %% \makeatletter\@newlistfalse\makeatother
 %%!!!
-\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
+\ifeightyfour\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
+\else\begin{enumerate}\fi
 \item possible (though currently unplanned) reuse, and
 \item possible (though unplanned) change.
-\end{list}
+\ifeightyfour\end{list}
+\else\end{enumerate}\fi
 \end{tfquot}
 This new view of a ``module'' is different than the traditional
 view. This ``module'' is a collection of routines, usually very

@@ -41,8 +41,8 @@ or to allocate growing downward:
 \end{enumerate}
 
 \section{\Chap{4}}
-\begin{enumerate}
-\item Our solution is as follows:
+\ifeightyfour\begin{enumerate}
+\item\fi Our solution is as follows:
 \begin{Code}
 \ CARDS               Shuffle                6-20-83
 52 CONSTANT #CARDS
@@ -56,10 +56,10 @@ INIT-DECK
    #CARDS 0 DO  DECK I +  DECK  #CARDS CHOOSE +
       'CSWAP  LOOP ;
 \end{Code}
-\end{enumerate}
+\ifeightyfour\end{enumerate}\fi
 \section{\Chap{8}}
-\begin{enumerate}
-\item This will work:
+\ifeightyfour\begin{enumerate}
+\item\fi This will work:
 \begin{Code}
 20 CHOOSE  2 CHOOSE  IF NEGATE THEN
 \end{Code}
@@ -67,4 +67,4 @@ But this is simpler:
 \begin{Code}
 40 CHOOSE  20 -
 \end{Code}
-\end{enumerate}
+\ifeightyfour\end{enumerate}\fi

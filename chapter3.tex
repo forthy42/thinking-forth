@@ -888,7 +888,7 @@ canvases at once, first sketching in the key design elements, then adding
 splashes of color here and there . . . until the entire wall is complete.
 
 \begin{tip}
-In deciding where to start designing, look for:
+In deciding where to start designing, look for:\medskip
 
 \begin{itemize}
 	\item areas where the most creativity is required (the areas
@@ -1086,10 +1086,10 @@ DECIMAL
 \end{enumerate}
 
 \item This problem is an exercise in information hiding.
-\end{enumerate}
+
 Let's suppose we have a region of memory outside of the \Forth{}
 dictionary which we want to allocate for data structures (for whatever
-reason). The region of memory begins at HEX address 0000. We want to
+reason). The region of memory begins at \forth{HEX} address \code{0000}. We want to
 define a series of arrays which will reside in that memory.
 
  We might do something like this:
@@ -1175,3 +1175,4 @@ in.
 At long last, our question: What could we have done to \forth{THERE} and
 \forth{RAM-ALLOT} to minimize the impact of this design change? (Again, the
 answer I'm looking for has nothing to do with defining words.)
+\end{enumerate}
