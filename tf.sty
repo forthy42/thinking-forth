@@ -240,6 +240,9 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \rlap{\hbox to \poormove{\hss}\hbox{#1}}%
 #1}
 
+%\let\poorbf=\textbf
+\renewcommand{\poorbf}[1]{{\fontencoding{OT1}\fontfamily{cmtt}\fontseries{b}\selectfont#1}}
+
 %% line for separating is blacker than LaTeX default
 
 \newcommand{\blackline}[1]{\hrule height 1pt\nopagebreak\vspace{#1}}
