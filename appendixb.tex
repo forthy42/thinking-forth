@@ -72,9 +72,9 @@ COMPILE (MAKE)  HERE MARKER !  0 ,
 \end{Code}
 We can see how \forthb{MAKE} has compiled the address of the run-time
 routine, \forthb{(MAKE)}, followed by a zero.  (We'll explain what the
-zero is for, and why we save its address in a the variable
-\forthb{MARKER}, later).  % should probably be "save its address in the
-variable..."
+zero is for, and why we save its address in the variable
+\forthb{MARKER}, later).
+% should probably be "save its address in the variable..."
 
 Now let's look at what \forthb{(MAKE)} does when we execute our new 
 definition \forthb{TEST}:
@@ -87,7 +87,7 @@ definition \forthb{TEST}:
 \verb%DUP 2+%		& Gets the address of the second cell after
 			  \forthb{(MAKE)}, where the address of \forthb{JOE} is.\\
 \verb%DUP 2+%		& Gets the address of the third cell after
-			  \forthb{(MAKE)}, where the cod we want to
+			  \forthb{(MAKE)}, where the code we want to
 			  execute begins.  The stack now has:
 
 			  \parindent2ex (~'marker,~'joe,~'code~--{}--~)\\
@@ -97,8 +97,8 @@ definition \forthb{TEST}:
 			  the vector address goes.\\
 \verb%!%		& Stores the address where the new code
 			  begins (\forthb{CR}, etc.) into the vector
-			  address of \forth{JOE}.
-			  Now \forth{JOE} points inside the definition of
+			  address of \forth{JOE}. \\
+			& Now \forth{JOE} points inside the definition of
 			  \forth{TEST}.  When we type \forth{JOE}, we'll do a
 			  carriage return.\\
 \verb%@ ?DUP IF >R THEN%& Fetches the contents of the cell

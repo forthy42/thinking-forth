@@ -95,13 +95,13 @@ style\index{C!Commenting style|(}.
 \setcounter{screen}{126}
 \begin{Screen}
 \ Formatter         Data Structures -- p.2             06/06/83
- 6 CONSTANT TMARGIN \ line# where body of text begins)
-55 CONSTANT BMARGIN \ line# where body of text ends)
+ 6 CONSTANT TMARGIN \ line# where body of text begins
+55 CONSTANT BMARGIN \ line# where body of text ends
 
 CREATE HEADER 82 ALLOT
-  { 1left-ent | 1right-cnt | 80header }
+\  { 1left-ent | 1right-cnt | 80header }
 CREATE FOOTER 82 ALLOT
-  { 1left-cnt | 1right-ent | 80footer }
+\  { 1left-cnt | 1right-ent | 80footer }
 
 VARIABLE ACROSS   \ formatter's current horizontal position
 VARIABLE DOWNWARD \ formatter's current vertical position
@@ -115,12 +115,12 @@ VARIABLE WALL-WAS \ WALL when curr. line started being formt'd
 \ Formatter          positioning -- p.1               06/06/83
 : SKIP  ( n)  ACROSS +! ;
 : NEWLEFT  \ reset left margin
-LEFT @  PERMANENT @ +  TEMPORARY @ +  ACROSS ! ;
+   LEFT @  PERMANENT @ +  TEMPORARY @ +  ACROSS ! ;
 : \LINE  \ begin new line
-DOOR  CR'  1 DOWNWARD +!  NEWLEFT  WALL @  WALL-WAS ! ;
+   DOOR  CR'  1 DOWNWARD +!  NEWLEFT  WALL @  WALL-WAS ! ;
 : AT-TOP?  ( -- t=at-top)  TMARGIN  DOWNWARD @ = ;
 : >TMARGIN  \ move from crease to TMARGIN
-O DOWNWARD !  BEGIN  \LINE  AT-TOP? UNTIL ;
+   O DOWNWARD !  BEGIN  \LINE  AT-TOP? UNTIL ;
 
 \end{Screen}
 \index{C!Commenting style|)}
