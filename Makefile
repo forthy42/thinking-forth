@@ -8,10 +8,10 @@ pdf thinking-forth.pdf : $(SOURCES)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
 
-thinking-forth.ps : thinking-forth.dvi
+ps thinking-forth.ps : thinking-forth.dvi
 	dvips $< -o $@
 
-thinking-forth.dvi : $(SOURCES)
+dvi thinking-forth.dvi : $(SOURCES)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 

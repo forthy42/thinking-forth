@@ -3,9 +3,22 @@
 %% Initial transcription by Ed Beroset
 %% 
 %% test harness
-%\documentclass[10pt,american,dvips]{book}
-% for pdflatex
+%% pdflatex harness
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+  \pdffalse % we are not running PDFLaTeX
+\else
+  \pdfoutput=1 % we are running PDFLaTeX
+  \pdftrue
+\fi
+
+\ifpdf
 \documentclass[10pt,american,pdftex]{book}
+\else
+\documentclass[10pt,american,dvips]{book}
+\fi
+
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
 \usepackage{graphics}
@@ -26,7 +39,11 @@ footskip=0.5in}
 \usepackage{array}
 
 % for pdflatex
-\def\figformat{png}
+\ifpdf
+\DeclareGraphicsExtensions{.pdf,.png}
+\else
+\DeclareGraphicsExtensions{.eps}
+\fi
 
 % stuff left to Bernd:
 

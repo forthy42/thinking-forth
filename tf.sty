@@ -23,13 +23,12 @@
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 
 %\wepsfig{label}{caption}
-\def\figformat{eps}
 \newcommand{\wepsfig}[2]{\begin{figure}[hhhh]\caption{#2}\labelfig{#1}eps file missing\end{figure}}
 \newcommand{\wepsfiga}[2]{
 \begin{figure*}[hhhh]
 \caption{#2}
 \vspace{1ex}
-\centerline{\includegraphics{#1.\figformat}}\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
 \label{fig-#1}
 \end{figure*}
 }
@@ -37,14 +36,14 @@
 \begin{figure*}[tttt]
 \caption{#2}
 \vspace{1ex}
-\centerline{\includegraphics{#1.\figformat}}\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
 \label{fig-#1}
 \end{figure*}
 }
 \newcommand{\wepsfigx}[1]{
 \begin{figure*}[tttt]
 \vspace{1ex}
-\centerline{\includegraphics{#1.\figformat}}\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
 \label{fig-#1}
 \end{figure*}
 }
