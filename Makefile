@@ -2,6 +2,7 @@
 
 SOURCES = thinking-forth.tex \
 	tfoptions.tex \
+	bio.tex copyright.tex quotation.tex tocpages.tex title.tex title2.tex \
 	preface.tex \
 	preface94.tex \
 	chapter1.tex \
@@ -79,12 +80,16 @@ all:	index pspdf cover
 
 cover:	cover.pdf
 
-#cover jpegs
-cover-jpeg:	cover.ps
-	convert -density 300x300 cover.ps cover.jpg
-	-mv cover.jpg.0 back.jpg
-	-mv cover.jpg.1 spine.jpg
-	-mv cover.jpg.2 front.jpg
+#cover pngs (can be converted to TIFF or JPEG when needed)
+cover-png:	cover.ps
+	convert -density 300x300 cover.ps cover.png
+	-mv cover.png.0 back.png
+	-mv cover.png.1 spine.png
+	-convert spine.png spine.ppm
+	-pnmcrop -white spine.ppm >spine1.ppm
+	-convert spine1.ppm spine.png
+	-rm spine.ppm spine1.ppm
+	-mv cover.png.2 front.png
 
 dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)
@@ -114,7 +119,7 @@ bookletter : thinking-forth.ps
 #two pages on one A4/Letter page, for printing with Laser printer and
 #using an A4/Letter binding machine (print with long-edge
 2on1.ps: thinking-forth.ps
-	psselect -p4- $< | \
+	psselect -p4,1- $< | \
 	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,13cm)' | \
 	$(PSLET) >$@
 

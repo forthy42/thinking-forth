@@ -33,7 +33,6 @@
 \usepackage{longtable}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage{geometry}
-\usepackage{babel}
 \usepackage{mdwlist}
 \usepackage{makeidx}
 \usepackage[\tfoptions]{tf}
@@ -74,181 +73,37 @@ and other \Forth{} thinkers}
 
 %% external title page is here
 
-\pagestyle{empty}
-{\makeatletter
-\HUGE
-    \fontfamily{phv}\selectfont
-  \vbox{\advance\textwidth1em\hrule \@height 3pt
-    \vspace*{0.2ex}\hbox to \textwidth{\bfseries Leo Brodie\hss}\vspace*{0.2ex}
-    \hrule \@height 3pt}
-  \vspace*{100pt}
-  \vbox{%\hsize\linewidth
-    \parindent\z@\hyphenpenalty 10000\raggedright
-  {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
-   \Huge A Language \\ and Philosophy \\ for Solving Problems}
-   \vspace*{1em plus 1fill}
-   {\Large\noindent Includes interviews with \Forth{}'s inventor, \person{Charles H. Moore},
-and other \Forth{} thinkers}
-%  \vspace*{1em plus 1fill}
-  \pagebreak
-}
-%\maketitle
-
-%%
-
-\cleardoublepage
-\setcounter{page}{1}
-
-\pagenumbering{roman}
-%% about the author
-
-\cleardoublepage
-\vspace*{100pt}
-\noindent \person{Leo Brodie} is a writer, programmer, consultant, teacher, and
-world-renowned authority on \Forth{}. He was a technical writer for
-\Forth{}, Inc., and has been an independent consultant (since 1981) for
-such clients as IBM, NCR, and Lockheed. He is also the author of
-\emph{Starting \Forth{}} (Prentice-Hall, 1982).
-\vfill
-
-%% end about the author
-
-%% internal title page is here
-
-\cleardoublepage
-{\makeatletter
-\HUGE
-    \fontfamily{phv}\selectfont
-  \vbox{\advance\textwidth1em\hrule \@height 3pt
-    \vspace*{0.2ex}\hbox to \textwidth{\bfseries Leo Brodie\hss}\vspace*{0.2ex}
-    \hrule \@height 3pt}
-  \vspace*{100pt}
-  \vbox{%\hsize\linewidth
-    \parindent\z@\hyphenpenalty 10000\raggedright
-  {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
-   \Huge A Language \\ and Philosophy \\ for Solving Problems}
-  \vspace*{1em plus 1fill}
-  \pagebreak
-}
-
-
-%% copyright page
-
-\pagebreak
-
-\vspace*{100pt}
-
-\begin{center}\copyright 1984, 1994, and 2004 by \person{Leo Brodie}
-
-\bigskip
-
-\includegraphics{img-cc}
-
-\bigskip
-
-\textbf{Attribution-NonCommercial-ShareAlike 2.0}
-\end{center}
-\textbf{You are free:}
-
-\begin{itemize}
-\item to copy, distribute, display, and perform the work
- 
-\item to make derivative works
-\end{itemize}
-\textbf{Under the following conditions:}
-
-\begin{quote}
-\begin{description}
-\vspace{\baselineskip}
-\item[\vbox to\ht\strutbox{\vss\hbox to 0pt{\hss\includegraphics{img-by} }\vss}Attribution.]
-You must give the original author credit.
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\item[\vbox to\ht\strutbox{\vss\hbox to 0pt{\hss\includegraphics{img-nc} }\vss}Noncommercial.]
-You may not use this work for commercial purposes.
-\vspace{\baselineskip}
-
-\item[\vbox to\ht\strutbox{\vss\hbox to 0pt{\hss\includegraphics{img-sa} }\vss}Share Alike.]
-If you alter, transform, or build upon this work, you may distribute
-the resulting work only under a license identical to this one.
-\end{description}
-\end{quote}
-
-\begin{itemize}
-\item For any reuse or distribution, you must make clear to others the
-license terms of this work.
- 
-\item Any of these conditions can be waived if you get permission from the copyright holder.
-\end{itemize}
-
-\begin{center}
-\textbf{Your fair use and other rights are in no way affected by the above.}
-
-\medskip
-This is a human-readable summary of the Legal Code
-{\urlstyle{rm}\def\UrlLeft#1\UrlRight{(the\ full\ license).}
-\url{http://creativecommons.org/licenses/by-nc-sa/2.0/legalcode}}
-
-\bigskip
-\vfill
-You can download the electronic version from
-\url{http://thinking-forth.sourceforge.net/}
-
-\bigskip
-
-{\tt ISBN \isbn}
-
-\end{center}
-
-%% Antoine Lavoisier quote
-
-\cleardoublepage
-
-\vspace*{100pt}
-\begin{quotation}
-\noindent\emph{%
-It is impossible to disassociate language from science or science from
-language, because every natural science always involves three things:
-the sequence of phenomena on which the science is based the abstract
-concepts which call these phenomena to mind, and the words in which
-the concepts are expressed. To call forth a concept, a word is needed;
-to portray a phenomenon, a concept is needed. All three mirror one and
-the same reality.}
-
-\begin{flushright}
----\person{Antoine Lavoisier}, 1789
-\end{flushright}
-\end{quotation}
-
-%% end quote
-
-\cleardoublepage
-\pagestyle{headings}\markboth{Contents}{Contents}
-\addcontentsline{toc}{section}{\contentsname}
-\tableofcontents
-\clearpage
-\begin{tabular}{ll}
-\multicolumn{2}{c}{\sf\textbf{\large List of Program Examples}} \\ \hline
-{\Large\strut}\underline{Program} & \underline{Page number} \\
-Apples & \pageref{apples1}--\pageref{apples2} \\
-Phone Rates & \pageref{phone1}--\pageref{phone2}, \pageref{phone3}, \pageref{phone4}--\pageref{phone5} \\
-Tiny Editor & \pageref{editor1}--\pageref{editor2}, \pageref{editor3}, \pageref{editor4}--\pageref{editor5} \\
-Colors & \pageref{color1}, \pageref{color2}, \pageref{color3}, \pageref{color4}, \pageref{color5} \\
-Roman Numerals & \pageref{roman1}--\pageref{roman2}, \pageref{roman3}\\
-Drawin Boxes & \pageref{boxes1}--\pageref{boxes2}, \pageref{boxes3}\\
-Automatic Teller & \pageref{teller1}--\pageref{teller2}\\
-\end{tabular}
-\makeatletter
-\renewcommand\numberline[1]{\hb@xt@\@tempdima{#1\hfil}}
-\makeatother
-\setcounter{tocdepth}{4}
-%\listoffigures\vfill\pagebreak
-\sectionlabelfalse
+\ifofour
+\input{title}
+\input{copyright}
+\input{bio}
+\input{quotation}
 \input{preface94}
 \input{preface}
+\input{tocpages}
+\setcounter{sectionlr}{5}
+\else\ifeightyfour
+\input{title}
+\input{bio}
+\input{title2}
+\input{copyright}
+\input{quotation}
+\input{tocpages}
+\input{preface}
+\setcounter{sectionlr}{4}
+\else
+\input{title}
+\input{bio}
+\input{title2}
+\input{copyright}
+\input{quotation}
+\input{tocpages}
+\input{preface94}
+\input{preface}
+\setcounter{sectionlr}{5}
+\fi\fi
 \vfill\pagebreak
 \sectionlabeltrue
-\setcounter{sectionlr}{4}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \input{chapter1}

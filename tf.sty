@@ -37,6 +37,8 @@
 \newif\ifthinker
 \newif\ifspineup
 \newif\ifsplitcover
+\newif\iflatextoc
+\latextocfalse
 \splitcoverfalse
 \eightyfourfalse
 \ofourfalse
@@ -87,6 +89,7 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{american}{\spineupfalse}
 \DeclareOption{english}{\spineupfalse}
 \DeclareOption{splitcover}{\splitcovertrue}
+\DeclareOption{latextoc}{\latextoctrue}
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -583,27 +586,52 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 \def\@upperskip{1.5em \@plus\p@}
 \def\@lowerskip{1.0em \@plus\p@}
 
+\def\nf{\iflatextoc\else\normalfont\fi}
 \def \doappendix#1{%
-  \if#1A\normalfont\setcounter{tocdepth}{0}
-  \gdef\@upperskip{0pt}\gdef\@lowerskip{0pt} Appendix A\quad\fi
-                                       \if#1D\normalfont Appendix D\quad\fi
-  \if#1B\normalfont Appendix B\quad\fi \if#1E\normalfont Appendix E\quad\fi
-  \if#1C\normalfont Appendix C\quad\fi \if#1F\normalfont Appendix F\quad\fi
+  \if#1A\iflatextoc\else\setcounter{tocdepth}{0}\fi%
+  \gdef\@upperskip{0pt}\gdef\@lowerskip{0pt}\nf Appendix A\quad\fi
+                               \if#1D\nf Appendix D\quad\fi
+  \if#1B\nf Appendix B\quad\fi \if#1E\nf Appendix E\quad\fi
+  \if#1C\nf Appendix C\quad\fi \if#1F\nf Appendix F\quad\fi
   }
 
 \renewcommand\numberline[1]{\doappendix{#1}}
+\iflatextoc
 \renewcommand*\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
-    \vskip\@upperskip
+    \vskip 1.0em \@plus\p@
     \setlength\@tempdima{1.5em}%
     \begingroup
-      \leavevmode
-      \hfill {\sf\bfseries\slshape#1},~\emph{#2}\par
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      {\sf\bfseries\slshape#1}\nobreak\hfil
+      \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
       \penalty\@highpenalty
     \endgroup
-    \vskip\@lowerskip
   \fi}
+\def\@dottedtocline#1#2#3#4#5{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+     {#4}\nobreak
+     \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill
+     \nobreak
+     \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+     \par}%
+  \fi%
+  \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
+\else
 \def\@dottedtocline#1#2#3#4#5{%
   \ifnum #1>\c@tocdepth \else
     \vskip \z@ \@plus.2\p@
@@ -616,6 +644,19 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
      {\hfill #4},~\emph{#5}\par}%
   \fi%
   \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip\@upperskip
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \leavevmode
+      \hfill {\sf\bfseries\slshape#1},~\emph{#2}\par
+      \penalty\@highpenalty
+    \endgroup
+    \vskip\@lowerskip
+  \fi}
+\fi
 \def\chapter@upper\uppercase
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
                        \if@mainmatter
@@ -639,7 +680,10 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
                       \@afterheading
                     \fi}
 
+\iflatextoc
+\else
 \setcounter{tocdepth}{1}
+\fi
 
 % no indent after section start
 
