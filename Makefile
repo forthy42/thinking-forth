@@ -45,11 +45,16 @@ PNGSOURCES = \
 WIDTH = 6.8125in
 HEIGHT = 9.125in
 
-# original Prentice Hall ISBN
+# original Prentice Hall paperback ISBN
 ISBN = 0-13-917568-7
+
 # dummy price
 PRICE = 90000
 # USD 20 would be 42000
+# For Lulu, the price consists of $4.53+pages*$0.02+1.2*royalty
+# or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
+# pages rounded up to 4, last page empty.
+
 OPTIONS = 2004,tip,tipno
 # BoD options:
 # 6x9 for 6" x 9" format (standard US book format)

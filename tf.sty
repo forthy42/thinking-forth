@@ -33,10 +33,14 @@
 \newif\ifofour
 \newif\iftipno
 \newif\iftip
+\newif\ifleo
+\newif\ifthinker
 \eightyfourfalse
 \ofourfalse
 \tipnofalse
 \tipfalse
+\leofalse
+\thinkerfalse
 
 \newdimen\hangout
 \newdimen\hangmark
@@ -74,6 +78,8 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{6x9}{\sixbynine}
 \DeclareOption{17x22}{\seventeenbytwentytwo}
 \DeclareOption{17x24}{\seventeenbytwentyfour}
+\DeclareOption{leo}{\leotrue}
+\DeclareOption{thinker}{\thinkertrue}
 \ExecuteOptions{}
 \ProcessOptions
 

@@ -38,8 +38,27 @@ users and with \Forth's creator, \person{Charles H. Moore}.
 To program intelligently, you must first \emph{think} intelligently,
 and that's where \textbf{Thinking \Forth} comes in.
 
+%%if you want Leo's picture here, uncommend this
+\ifleo
+\makeatletter
+\setbox\@tempboxa\hbox{\includegraphics{leobrodie}}
+\rightmargin\wd\@tempboxa
+\@tempdima\ht\@tempboxa
+\advance\@tempdima-\ht\strutbox
+\advance\rightmargin1em
+\advance\textwidth-\rightmargin
+\makeatother
+\noindent\begin{tabular}{@{}p{\textwidth}@{\hspace{1em}}l@{}}
+\parindent2.5em
+\fi
 \textbf{\person{Leo Brodie}} is a writer, programmer, consultant,
 teacher, and world-renowned authority on \Forth. He was a technical
 writer for \Forth{} Inc., and has been an independent consultant
 (since 1982) for such clients as IBM, NCR, and Lockheed. He is also
 the author of \emph{Starting \Forth} (Prentice-Hall, 1981).
+\ifleo
+& \makeatletter
+\smash{\lower\@tempdima\hbox{\includegraphics{leobrodie}}}
+\makeatother \\
+\end{tabular}
+\fi

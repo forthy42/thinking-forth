@@ -105,6 +105,10 @@ footskip=0pt}
     \vspace*{0.2ex}\hbox to \textwidth{\hspace{\evenmargin}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
     \hrule \@height 3pt}
   \vspace*{100pt}
+%%if you want the thinker on the cover, use that:
+\ifthinker
+  \smash{\lower4.8in\hbox to\oldpwidth{\hss\smash{\includegraphics{rodin_thinker}}}}
+\fi
   \hbox{\hspace{\evenmargin}
   \begin{minipage}{\twidth}
     \parindent\z@\hyphenpenalty 10000\raggedright
