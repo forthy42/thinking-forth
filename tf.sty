@@ -235,10 +235,12 @@ TIP\\[1ex]\small
 \newcommand\HUGE{\@setfontsize\HUGE{40}{50}}
 \newcounter{appendix}
 
-\def\@makechapterhead#1{{\HUGE\sffamily\bfseries\slshape
-  \vbox{\advance\textwidth1em\hrule \@height 2pt
-    \vspace*{1ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{1ex}
-    \hrule \@height 2pt}
+\def\@makechapterhead#1{{\HUGE
+%    \sffamily
+    \fontfamily{phv}\selectfont\bfseries\slshape
+  \vbox{\advance\textwidth1em\hrule \@height 3pt
+    \vspace*{0.2ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{0.2ex}
+    \hrule \@height 3pt}
   \vspace*{100pt}
   \hbox{\hbox to .1\linewidth{}
   \vbox{\hsize.9\linewidth
@@ -248,10 +250,12 @@ TIP\\[1ex]\small
   \pagebreak
   \vspace*{1.7in}\blackline{10pt}
 }\stepcounter{appendix}}
-\def\@makeschapterhead#1{{\HUGE\sffamily\bfseries\slshape
-  \vbox{\advance\textwidth1em\hrule \@height 2pt
-    \vspace*{1ex}\hbox to \textwidth{\uppercase{#1}\hss}\vspace*{1ex}
-    \hrule \@height 2pt}
+\def\@makeschapterhead#1{{\HUGE
+%    \sffamily
+    \fontfamily{phv}\selectfont\bfseries\slshape
+  \vbox{\advance\textwidth1em\hrule \@height 3pt
+    \vspace*{0.2ex}\hbox to \textwidth{\uppercase{#1}\hss}\vspace*{0.2ex}
+    \hrule \@height 3pt}
   \vspace*{100pt}
 }}
 
