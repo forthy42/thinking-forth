@@ -6,14 +6,14 @@
 %% Chapter: Eight - Minimizing Control Structures
 
 %!! horizontal line
-EIGHT
+%EIGHT
 %!! horizontal line
 
 \chapter{Minimizing Control Structures}
 
 Control structures aren't as important in FORTH as they are in other
 languages. FORTH programmers tend to write very complex applications
-in terms of short words, without much emphasis on \bf{IF THEN}
+in terms of short words, without much emphasis on \textbf{IF THEN}
 constructs.
 
 There are several techniques for minimizing control structures.
@@ -21,11 +21,13 @@ There are several techniques for minimizing control structures.
 They include:
 
 %!! items should be preceded by bullets
-* computing or calculating
-* hiding conditionals through re-factoring
-* using structured exits
-* vectoring
-* redesigning.
+\begin{itemize}
+\item computing or calculating
+\item hiding conditionals through re-factoring
+\item using structured exits
+\item vectoring
+\item redesigning.
+\end{itemize}
 
 In this chapter we'll examine these techniques for simplifying and
 eliminating control structures from your code.
@@ -41,14 +43,15 @@ maintain. The more parts a machine has, the greater are its chances of
 breaking down. And the harder it is for someone to fix.
 
 %!! horizontal line
+\bigskip\blackline{2ex}\noindent
 Moore tells this story:
-
+\begin{tfquot}
 I recently went back to a company we had done some work for several years
 ago. They called me in because their program is now five years old, and it's
 gotten very complicated. They've had programmers going in and patching
 things, adding state variables and conditionals. Every statement that I
 recall being a simple thing five years ago, now has gotten very complicated.
-``If this, else if this, else if this'' ... and then the simple thing.
+``If this, else if this, else if this'' \dots{} and then the simple thing.
 
 Reading that statement now, it's impossible for me to figure out what it's
 doing and why. I'd have to remember what each variable indicated, why it
@@ -88,23 +91,25 @@ am I doing wrong?''
 What you're trying to do with the conditional can be done in a different
 way. The long-term consequences of the different way are preferable to the
 long-term consequences of the conditional.
+\end{tfquot}
+\blackline{1ex}
 %!! horizontal line
 
 Before we introduce some detailed techniques, let's look at three approaches
-to the use of conditionals in a particular example. Figure 8-1,
-Figure 8-2, and Figure 8-3 illustrate three versions of a design for an
+to the use of conditionals in a particular example. \Fig{fig8-1},
+\Fig{fig8-2}, and \Fig{fig8-3} illustrate three versions of a design for an
 automatic teller machine.
 
 The first example comes straight out of the School for Structured
 Programmers. The logic of the application depends on the correct nesting
-of \bf{IF} statements.
+of \textbf{IF} statements.
 
 Easy to read? Tell me under what condition the user's card gets
-eaten. To answer, you have to either count \bf{ELSE}s from the bottom and
-match them with the same number of \bf{IF}s from the top, or use a
+eaten. To answer, you have to either count \textbf{ELSE}s from the bottom and
+match them with the same number of \textbf{IF}s from the top, or use a
 straightedge.
 
-The second version, Figure 8-2, shows the improvement that using
+The second version, \Fig{fig8-2}, shows the improvement that using
 many small, named procedures can have on readibility. The user's card is
 eaten if the owner is not valid.
 
@@ -114,18 +119,19 @@ supposedly ``highest'' level procedure is burdened with eliminating the
 worst-case, most trivial kind of event. And each test becomes responsible
 for invoking the next test.
 
-\bf{Figure 8-1.} \emph{The structured approach.}
-
-\begin{verbatim}
-AUTOMATIC-TELLER	%!! underline
+\begin{figure*}[pppp]
+\verbfig{fig8-1}{The structured approach.}
+\begin{center}
+\begin{BVerbatim}[commandchars=\&\{\}]
+&underline{AUTOMATIC-TELLER}
 
 IF card is valid DO
    IF card owner is valid DO
       IF request withdrawal DO
          IF authorization code is valid DO
             query for amount
-            IF request <= current balance DO		%!! less/equal sign
-               IF withdrawal <= available cash DO	%!! less/equal sign
+            IF request &(&le&) current balance DO
+               IF withdrawal &(&le&) available cash DO
                   vend currency
                   debit account
                ELSE
@@ -150,8 +156,9 @@ IF card is valid DO
 ELSE
    message
 END
-\end{verbatim}
-
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 The third version comes closest to the promise of FORTH. The
 highest level word expresses exactly what's happening conceptually,
 showing only the main path. Each of the subordinate words has its own
@@ -170,10 +177,11 @@ BUTTON.)
 Of course, FORTH will allow you to take any of the three approachs.
 Which do you prefer?
 
-\bf{Figure 8-2.} \emph{Nesting conditionals within named procedures.}
-
-\begin{verbatim}
-AUTOMATIC-TELLER	%!! underline
+\begin{figure*}[pppp]
+\verbfig{fig8-2}{Nesting conditionals within named procedures.}
+\begin{center}
+\begin{BVerbatim}[commandchars=\&\{\}]
+&underline{AUTOMATIC-TELLER}
 
 PROCEDURE READ-CARD
      IF  card is readable  THEN  CHECK-OWNER
@@ -193,10 +201,10 @@ PROCEDURE TRANSACT
 
 PROCEDURE WITHDRAW
      Query
-     If  request <= current balance  THEN  DISBURSE  END  %!! less/equal sign
+     If  request &(&le&) current balance  THEN  DISBURSE  END
 
 PROCEDURE DISBURSE
-     IF disbursement <= available cash  THEN	%!! less/equal sign
+     IF disbursement &(&le&) available cash  THEN
            vend currency
            debit account
          ELSE  message  END
@@ -204,7 +212,9 @@ PROCEDURE DISBURSE
 PROCEDURE DEPOSIT
      accept envelope
      credit account
-\end{verbatim}
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 
 \section{How to Eliminate Control Structures}
 
@@ -217,16 +227,14 @@ situations.
 
 \subsection{Using the Dictionary}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Give each function its own definition.
-%!! horizontal line
-
-\bf{Figure 8-3.} \emph{Refactoring and/or eliminating conditionals.}
-
-\begin{verbatim}
-AUTOMATIC-TELLER	%!! underline
+\end{tip}
+\begin{figure*}[pppp]
+\verbfig{fig8-3}{Refactoring and/or eliminating conditionals.}
+\begin{center}
+\begin{BVerbatim}[commandchars=\&\{\}]
+&underline{AUTOMATIC-TELLER}
 
 : RUN
      READ-CARD  CHECK-OWNER  CHECK-CODE  TRANSACT  ;
@@ -254,10 +262,10 @@ AUTOMATIC-TELLER	%!! underline
 
 : WITHDRAW
      Query
-     request <= current balance  IF  DISBURSE  THEN ;	%!! less/equal sign
+     request &(&le&) current balance  IF  DISBURSE  THEN ;
 
 : DISBURSE
-     disbursement <= available cash  IF		%!! less/equal sign
+     disbursement &(&le&) available cash  IF
             vend currency
             debit account
           ELSE  message  THEN  ;
@@ -265,7 +273,9 @@ AUTOMATIC-TELLER	%!! underline
 : DEPOSIT
      accept envelope
      credit account ;
-\end{verbatim}
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 
 By using the FORTH dictionary properly, we're not actually eliminating
 conditionals; we're merely factoring them out from our application code.
@@ -273,16 +283,15 @@ conditionals; we're merely factoring them out from our application code.
 The FORTH dictionary is a giant string case statement. The match and
 execute functions are hidden within the FORTH system.
 
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 In my accounting package, if you receive a check from somebody, you type
 the amount, the check number, the word FROM, and the person's name:
 
 \begin{verbatim}
 200.00 127 FROM ALLIED
 \end{verbatim}
-
 The word FROM takes care of that situation. If you want to bill someone,
 you type the amount, the invoice number, the word BILL and the person's
 name:
@@ -290,26 +299,21 @@ name:
 \begin{verbatim}
 1000.OO 280 BILL TECHNITECH
 \end{verbatim}
-
-... One word for each situation. The dictionary is making the decision.
-%!! horizontal line
-
+\dots{} One word for each situation. The dictionary is making the decision.
+\end{tfquot}\blackline{1ex}
 This notion pervades FORTH itself. To add a pair of single-length
-numbers we use the command \bf{+}. To add a pair of double-length numbers
-we use the command \bf{D+}. A less efficient, more complex approach would
+numbers we use the command \textbf{+}. To add a pair of double-length numbers
+we use the command \textbf{D+}. A less efficient, more complex approach would
 be a single command that somehow ``knows'' which type of numbers are
 being added.
 
-FORTH is efficient because all these words---\bf{FROM} and \bf{BILL} and
-\bf{+} and \bf{D+}---can be implemented without any need for testing and
+FORTH is efficient because all these words---\textbf{FROM} and \textbf{BILL} and
+\textbf{+} and \textbf{D+}---can be implemented without any need for testing and
 branching.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Use dumb words.
-%!! horizontal line
-
+\end{tip}
 This isn't advice for TV writers. It's another instance of using the
 dictionary. A ``dumb'' word is one that is not state-dependent, but
 instead, has the same behavior all the time (``referentially transparent'').
@@ -317,13 +321,12 @@ instead, has the same behavior all the time (``referentially transparent'').
 A dumb word is unambiguous, and therefore, more trustworthy.
 
 A few common FORTH words have been the source of controversy
-recently over this issue. One such word is \bf{."} which prints a string.
+recently over this issue. One such word is \textbf{."} which prints a string.
 In its simplest form, it's allowed only inside a colon definition:
 
 \begin{verbatim}
 : TEST   ." THIS IS A STRING " ;
 \end{verbatim}
-
 Actually, this version of the word does \emph{not} print a string. It
 \emph{compiles} a string, along with the address of another definition
 that does the printing at run time.
@@ -332,15 +335,15 @@ This is the dumb version of the word. If you use it outside a colon
 definition, it will uselessly compile the string, not at all what a beginner
 might expect.
 
-To solve this problem, the FIG model added a test inside \bf{."} that
+To solve this problem, the FIG model added a test inside \textbf{."} that
 determined whether the system was currently compiling or interpreting.
-In the first case, \bf{."} would compile the string and the address of the
-primitives; in the second case it would \bf{TYPE} it.
+In the first case, \textbf{."} would compile the string and the address of the
+primitives; in the second case it would \textbf{TYPE} it.
 
-\bf{."} became two completely different words housed together in one
-definition with an \bf{IF ELSE THEN} structure. The flag that indicates
-whether FORTH is compiling or interpreting is called \bf{STATE}. Since the
-\bf{."} depends on \bf{STATE}, it is said to be ``\bf{STATE}-dependent,''
+\textbf{."} became two completely different words housed together in one
+definition with an \textbf{IF ELSE THEN} structure. The flag that indicates
+whether FORTH is compiling or interpreting is called \textbf{STATE}. Since the
+\textbf{."} depends on \textbf{STATE}, it is said to be ``\textbf{STATE}-dependent,''
 literally.
 
 The command \emph{appeared} to behave the same inside and outside a
@@ -348,20 +351,18 @@ colon definition. This duplicity proved useful in afternoon introductions
 to FORTH, but the serious student soon learned there's more to it than
 that.
 
-Suppose a student wants to write a new word called \bf{B."} (for
+Suppose a student wants to write a new word called \textbf{B."} (for
 ``bright-dot-quote'') to display a string in bright characters on her
 display, to be used like this:
 
 \begin{verbatim}
 ." INSERT DISK IN "  B." LEFT "  ." DRIVE "
 \end{verbatim}
-
-She might expect to define \bf{B."} as
+She might expect to define \textbf{B."} as
 
 \begin{verbatim}
 : B."   BRIGHT  ."  NORMAL ;
 \end{verbatim}
-
 that is, change the video mode to bright, print the string, then reset the
 mode to normal.
 
@@ -369,13 +370,13 @@ She tries it. Immediately the illusion is destroyed; the deception is
 revealed; the definition won't work.
 
 To solve her problem, the programmer will have to study the definition
-of \bf{(.")} in her own system. I'm not going to get sidetracked here with
-explaining how \bf{(.")} works---my point is that smartness isn't all it
+of \textbf{(.")} in her own system. I'm not going to get sidetracked here with
+explaining how \textbf{(.")} works---my point is that smartness isn't all it
 appears to be.
 
 Incidentally, there's a different syntactical approach to our
 student's problem, one that does not require having two separate words,
-\bf{."} and \bf{B."} to print strings. Change the system's \bf{(.")} so
+\textbf{."} and \textbf{B."} to print strings. Change the system's \textbf{(.")} so
 that it always sets the mode to normal after typing, even though it will
 already be normal most of the time. With this syntax, the programmer
 need merely precede the emphasized string with the simple word BRIGHT.
@@ -383,37 +384,30 @@ need merely precede the emphasized string with the simple word BRIGHT.
 \begin{verbatim}
 ." INSERT DISK IN "  BRIGHT ." LEFT "  ." DRIVE "
 \end{verbatim}
-
-The '83 Standard now specifies a dumb \bf{."} and, for those cases where an
-interpretive version is wanted, the new word \bf{.(} has been added. Happily,
+The '83 Standard now specifies a dumb \textbf{."} and, for those cases where an
+interpretive version is wanted, the new word \textbf{.(} has been added. Happily,
 in this new standard we're using the dictionary to make a decision by
 having two separate words.
 
-The word \bf{'} (tick) has a similar history. It was \bf{STATE}-dependent in
+The word \textbf{'} (tick) has a similar history. It was \textbf{STATE}-dependent in
 fig-FORTH, and is now dumb in the '83 Standard. Tick shares with
 dot-quote the characteristic that a programmer might want to reuse either of
 these words in a higher-level definition and have them behave in the same
 way they do normally.
 
-%!! horizontal line
-TIP
-
-Words should not depend on \bf{STATE} if a programmer might ever want to
+\begin{tip}
+Words should not depend on \textbf{STATE} if a programmer might ever want to
 invoke them from within a higher-level definition and expect them to
 behave as they do interpretively.
-%!! horizontal line
-
-\bf{ASCII} works well as a STATE-dependent word, and so does \bf{MAKE}.
+\end{tip}
+\textbf{ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
 (See Appendix C.)
 
 \subsection{Nesting and Combining Conditionals}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't test for something that has already been excluded.
-%!! horizontal line
-
+\end{tip}
 Take this example, please:
 
 \begin{verbatim}
@@ -423,7 +417,6 @@ Take this example, please:
         DUP  UP-ARROW    =  IF CURSOR-UP    THEN
              DOWN-ARROW  =  IF CURSOR-DOWN  THEN ;
 \end{verbatim}
-
 This version is inefficient because all four tests must be made regardless
 of the outcome of any of them. If the key pressed was the left-arrow key,
 threre's no need to check if it was some other key.
@@ -438,14 +431,10 @@ Instead, you can nest the conditionals, like this:
                                CURSOR-DOWN
            THEN THEN THEN  DROP ;
 \end{verbatim}
-
-%!! horizontal line
-TIP
-
+\begin{tip}
 Combine booleans of similar weight.
-%!! horizontal line
-
-Many instances of doubly-nested \bf{IF THEN} structures can be simplified
+\end{tip}
+Many instances of doubly-nested \textbf{IF THEN} structures can be simplified
 by combining the flags with logical operators before making the decision.
 Here's a doubly-nested test:
 
@@ -453,8 +442,7 @@ Here's a doubly-nested test:
 : ?PLAY   SATURDAY? IF  WORK FINISHED? IF
      GO PARTY  THEN  THEN ;
 \end{verbatim}
-
-The above code uses nested \bf{IF}s to make sure that it's both Saturday and
+The above code uses nested \textbf{IF}s to make sure that it's both Saturday and
 the chores are done before it boogies on down. Instead, let's combine the
 conditions logically and make a single decision:
 
@@ -462,23 +450,20 @@ conditions logically and make a single decision:
 : ?PLAY   SATURDAY?  WORK FINISHED? AND  IF
      GO PARTY  THEN ;
 \end{verbatim}
-
 It's simpler and more readable.
 
-The logical ``or'' situation, when implemented with \bf{IF THEN}s, is
+The logical ``or'' situation, when implemented with \textbf{IF THEN}s, is
 even clumsier:
 
 \begin{verbatim}
 : ?RISE    PHONE RINGS? IF  UP GET  THEN
      ALARM-CLOCK RINGS?  IF UP GET THEN ;
 \end{verbatim}
-
 This is much more elegantly written as
 
 \begin{verbatim}
 : ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
 \end{verbatim}
-
 One exception to this rule arises when the speed penalty for checking
 some of the conditions is too great.
 
@@ -488,7 +473,6 @@ We might write
 : ?CHOW-MEIN   BEAN-SPROUTS?  CHOW-MEIN RECIPE?  AND IF
    CHOW-MEIN PREPARE  THEN ;
 \end{verbatim}
-
 But suppose it's going to take us a long time to hunt through our recipe
 file to see if there's anything on chow mein. Obviously there's no point in
 undertaking the search if we have no bean sprouts in the fridge. It would
@@ -498,28 +482,23 @@ be more efficient to write
 : ?CHOW-MEIN   BEAN-SPROUTS? IF  CHOW-MEIN RECIPE? IF
    CHOW-MEIN PREPARE THEN   THEN ;
 \end{verbatim}
-
 We don't bother looking for the recipe if there are no sprouts.
 
 Another exception arises if any term is probably not true. By
 eliminating such a condition first, you avoid having to try the other
 conditions.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 When multiple conditions have dissimilar weights (in likelihood or
 calculation time) nest conditionals with the term that is least likely
 to be true or easiest to calculate on the outside.
-%!! horizontal line
-
+\end{tip}
 Trying to improve performance in this way is more difficult with the OR
 construct. For instance, in the definition
 
 \begin{verbatim}
 : ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
 \end{verbatim}
-
 we're testing for the phone and the alarm, even though only one of them
 needs to ring for us to get up. Now suppose it were much more difficult to
 determine that the alarm clock was ringing. We could write
@@ -528,30 +507,26 @@ determine that the alarm clock was ringing. We could write
 : ?RISE   PHONE RINGS? IF  UP GET  ELSE
      ALARM-CLOCK RINGS?  IF UP GET THEN THEN  ;
 \end{verbatim}
-
 If the first condition is true, we don't waste time evaluating the second.
 We have to get up to answer the phone anyway.
 
 The repetition of UP GET is ugly---not nearly as readible as the
-solution using \bf{OR}---but in some cases desirable.
+solution using \textbf{OR}---but in some cases desirable.
 
 \subsection{Choosing Control Structures}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 The most elegant code is that which most closely matches the problem.
 Choose the control structure that most closely matches the control-flow
 problem.
-%!! horizontal line
-
+\end{tip}
 \subsubsection{Case Statements}
 
 A particular class of problem involves selecting one of several possible
 paths of execution according to a numeric argument. For instance, we
 want the word .SUIT to take a number representing a suit of playing
 cards, O through 3, and display the name of the suit. We might define this
-word using nested \bf{IF ELSE THEN}s, like this:
+word using nested \textbf{IF ELSE THEN}s, like this:
 
 \begin{verbatim}
 : .SUIT ( suit -- )
@@ -561,7 +536,6 @@ word using nested \bf{IF ELSE THEN}s, like this:
               ." CLUBS "
   THEN THEN THEN  DROP ;
 \end{verbatim}
-
 We can solve this problem more elegantly by using a ``case statement.''
 
 Here's the same definition, rewritten using the ``Eacker case statement''
@@ -576,17 +550,16 @@ it [1].
   2 OF   ." DIAMONDS "  ENDOF
   3 OF   ." CLUBS "     ENDOF     ENDCASE ;
 \end{verbatim}
-
 The case statement's value lies exclusively in its readability and
 writeability. There's no efficiency improvement either in object memory
 or in execution speed. In fact, the case statement compiles much the
-same code as the nested \bf{IF THEN} statements. A case statement is a
+same code as the nested \textbf{IF THEN} statements. A case statement is a
 good example of compile-time factoring.
 
 Should all FORTH systems include such a case statement? That's
 a matter of controversy. The problem is twofold. First, the instances in
 which a case statement is actually needed are rare---rare enough to
-question its value. If there are only a few cases, a nested\bf{IF ELSE THEN}
+question its value. If there are only a few cases, a nested\textbf{IF ELSE THEN}
 construct will work as well, though perhaps not as readably. If there are
 many cases, a decision table is more flexible.
 
@@ -611,21 +584,21 @@ but not part of the system.
 
 The right looping structure can eliminate extra conditionals.
 
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 Many times conditionals are used to get out of loops. That particular use
 can be avoided by having loops with multiple exit points.
 
-This is a live topic, because of the multiple \bf{WHILE} construct which is in
+This is a live topic, because of the multiple \textbf{WHILE} construct which is in
 polyFORTH but hasn't percolated up to FORTH '83. It's a simple way of
-defining multiple \bf{WHILE}s in the same \bf{REPEAT}.
+defining multiple \textbf{WHILE}s in the same \textbf{REPEAT}.
 
 Also Dean Sanderson [of FORTH, Inc.] has invented a new construct that
-introduces two exit points to a \bf{DO LOOP}. Given that construction you'll
+introduces two exit points to a \textbf{DO LOOP}. Given that construction you'll
 have fewer tests. Very often I leave a truth value on the stack, and if I'm
 leaving a loop early, I change the truth value to remind myself that I left
-the loop early. Then later I'll have an \bf{IF} to see whether I left the
+the loop early. Then later I'll have an \textbf{IF} to see whether I left the
 loop early, and it's just clumsy.
 
 Once you've made a decision, you shouldn't have to make it again. With the
@@ -635,8 +608,7 @@ from, so more conditionals will go away.
 This is not completely popular because it's rather unstructured. Or perhaps
 it is elaborately structured. The value is that you get simpler programs.
 And it costs nothing.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 Indeed, this is a live topic. As of this writing it's too early to make any
 specific proposals for new loop constructs. Check your system's
 documentation to see what it offers in the way of exotic looping structures.
@@ -644,11 +616,11 @@ Or, depending on the needs of your application, consider adding
 your own conditional constructs. It's not that hard in FORTH.
 
 I'm not even sure whether this use of multiple exits doesn't violate
-the doctrine of structured programming. In a \bf{BEGIN WHILE REPEAT}
-loop with multiple \bf{WHILE}s, all the exits bring you to a common
-``continue'' point: the \bf{REPEAT}. But with Sanderson's construct, you
+the doctrine of structured programming. In a \textbf{BEGIN WHILE REPEAT}
+loop with multiple \textbf{WHILE}s, all the exits bring you to a common
+``continue'' point: the \textbf{REPEAT}. But with Sanderson's construct, you
 can exit the loop by jumping \emph{past} the end of the loop, continuing
-at an \bf{ELSE}. There are two possible ``continue'' points.
+at an \textbf{ELSE}. There are two possible ``continue'' points.
 
 This is ``less structured,'' if we can be permitted to say that. And
 yet the definition will always conclude at its semicolon and return to the
@@ -660,25 +632,21 @@ loop prematurely, this approach seems the most natural structure to use.
 (We'll see an example of this in a later section, ``Using Structured
 Exits.'')
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Favor counts over terminators.
-%!! horizontal line
-
+\end{tip}
 FORTH handles strings by saving the length of the string in the first
 byte. This makes it easier to type, move, or do practically anything with
 the string. With the address and count on the stack, the definition of
-\bf{TYPE} can be coded:
+\textbf{TYPE} can be coded:
 
 \begin{verbatim}
 : TYPE  ( a #)  OVER + SWAP DO  I C@ EMIT  LOOP ;
 \end{verbatim}
+(Although \textbf{TYPE} really ought to be written in machine code.)
 
-(Although \bf{TYPE} really ought to be written in machine code.)
-
-This definition uses no overt conditional. \bf{LOOP} actually hides the
-conditional since each loop checks the index and returns to \bf{DO} if it
+This definition uses no overt conditional. \textbf{LOOP} actually hides the
+conditional since each loop checks the index and returns to \textbf{DO} if it
 has not yet reached the limit.
 
 If a delimiter were used, let's say ASCII null (zero), the definition
@@ -688,11 +656,10 @@ would have to be written:
 : TYPE  ( a)  BEGIN DUP C@  ?DUP WHILE  EMIT  1+
    REPEAT  DROP ;
 \end{verbatim}
-
-An extra test is needed on each pass of the loop. (\bf{WHILE} is a conditional
+An extra test is needed on each pass of the loop. (\textbf{WHILE} is a conditional
 operator.)
 
-Optimization note: The use of \bf{?DUP} in this solution is expensive in
+Optimization note: The use of \textbf{?DUP} in this solution is expensive in
 terms of time because it contains an extra decision itself. A faster
 definition would be:
 
@@ -700,8 +667,7 @@ definition would be:
 : TYPE  ( a)  BEGIN DUP C@  DUP WHILE EMIT 1+
     REPEAT  2DROP ;
 \end{verbatim}
-
-The '83 Standard applied this principle to \bf{INTERPRET} which now accepts
+The '83 Standard applied this principle to \textbf{INTERPRET} which now accepts
 a count rather than looking for a terminator.
 
 The flip side of this coin is certain data structures in which it's
@@ -717,23 +683,17 @@ implement FORTH's dictionary as a linked list.)
 
 \subsubsection{Calculating Results}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't decide, calculate.
-%!! horizontal line
-
+\end{tip}
 Many times conditional control structures are applied mistakenly to
 situations in which the difference in outcome results from a difference in
 numbers. If numbers are involved, we can calculate them. (In Chapter
 Four see the section called ``Calculations vs. Data Structures vs. Logic.'')
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Use booleans as hybrid values.
-%!! horizontal line
-
+\end{tip}
 This is a fascinating corollary to the previous tip, ``Don't decide,
 calculate.'' The idea is that booleans, which the computer represents as
 numbers, can efficiently be used to effect numeric decisions. Here's one
@@ -743,7 +703,6 @@ example, found in many FORTH systems:
 : S>D  ( n -- d)  \ sign extend s to d
      DUP O<  IF -1  ELSE  O THEN ;
 \end{verbatim}
-
 (The purpose of this definition is to convert a single-length number to
 double-length. A double-length number is represented as two 16-bit
 values on the stack, the high-order part on top. Converting a positive
@@ -761,7 +720,6 @@ in process. We can take advantage of this fact by using the boolean itself:
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< ;
 \end{verbatim}
-
 This version pushes a zero or negative one onto the stack without a
 moment's (in)decision.
 
@@ -771,32 +729,26 @@ moment's (in)decision.
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< NEGATE ;
 \end{verbatim}
-
 See Appendix C.)
 
 We can do even more with ``hybrid values'':
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 To effect a decision with a numeric outcome, use AND.
-%!! horizontal line
-
+\end{tip}
 In the case of a decision that produces either zero or a non-zero ``n,'' the
 traditional phrase
 
 \begin{verbatim}
 ( ? ) IF  n  ELSE  O  THEN
 \end{verbatim}
-
 is equivalent to the simpler statement
 
 \begin{verbatim}
 ( ? )  n AND
 \end{verbatim}
-
 Again, the secret is that ``false'' is represented by -1 (all ones) in '83
-FORTH systems. \bf{AND}ing ``n'' with the flag will either produce ``n'' (all
+FORTH systems. \textbf{AND}ing ``n'' with the flag will either produce ``n'' (all
 bits intact) or ``O'' (all bits cleared).
 
 To restate with an example:
@@ -804,19 +756,16 @@ To restate with an example:
 \begin{verbatim}
 ( ? )  IF  200  ELSE  O  THEN
 \end{verbatim}
-
 is the same as
 
 \begin{verbatim}
 ( ? )  200 AND
 \end{verbatim}
-
 Take a look at this example:
 
 \begin{verbatim}
 n  a b <  IF  45 +  THEN
 \end{verbatim}
-
 This phrase either adds 45 to ``n'' or doesn't, depending on the relative
 sizes of ``a'' and ``b.'' Since ``adding 45 or not'' is the same as ``adding 45
 or adding 0,'' the difference between the two outcomes is purely numeric.
@@ -825,10 +774,9 @@ We can rid ourselves of a decision, and simply compute:
 \begin{verbatim}
 n  a b <  45 AND  +
 \end{verbatim}
-
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 The ``45 AND'' is faster than the IF, and certainly more graceful. It's
 simpler. If you form a habit of looking for instances where you're
 calculating this value from that value, then usually by doing arithmetic on
@@ -841,38 +789,32 @@ algebra and arithmetic expressions will accommodate it.
 In books you often see a lot of piece-wise linear approximations that fail to
 express things clearly. For instance the expression
 
-\begin{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
 x = O for t < O
-x = 1 for t >= O	%!! greater/equal sign
-\end{verbatim}
-
+x = 1 for t &(&ge&) O
+\end{Verbatim}
 This would be equivalent to
-
 \begin{verbatim}
 t  O<  1 AND
 \end{verbatim}
-
 as a single expression, not a piece-wise expression.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 I call these flags ``hybrid values'' because they are booleans (truth
 values) being applied as data (numeric values). Also, I don't know what
 else to call them.
 
-We can eliminate numeric \bf{ELSE} clauses as well (where both results
+We can eliminate numeric \textbf{ELSE} clauses as well (where both results
 are non-zero), by factoring out the difference between the two results. For
 instance,
 
 \begin{verbatim}
 : STEPPERS  'TESTING? @  IF 150 ELSE 151  THEN  LOAD ;
 \end{verbatim}
-
 can be simplified to
 
 \begin{verbatim}
 : STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
 \end{verbatim}
-
 This approach works here because conceptually we want to either load
 Screen 150, or if testing, the next screen past it.
 
@@ -904,35 +846,27 @@ a trick that is specific to a specific application, such as the order in which
 data are arranged in a table, the listing must clearly document the
 assumption used by the trick.
 
-%!! horizontal line
-TIP
-
-Use \bf{MIN} and \bf{MAX} for clipping.
-%!! horizontal line
-
+\begin{tip}
+Use \textbf{MIN} and \textbf{MAX} for clipping.
+\end{tip}
 Suppose we want to decrement the contents of the variable VALUE, but
 we don't want the value to go below zero:
 
 \begin{verbatim}
 -1 VALUE +!  VALUE @  -1 = IF  O VALUE !  THEN
 \end{verbatim}
-
 This is more simply written:
 
 \begin{verbatim}
 VALUE @  1-  O MAX  VALUE !
 \end{verbatim}
-
-In this case the conditional is factored within the word \bf{MAX}.
+In this case the conditional is factored within the word \textbf{MAX}.
 
 \subsection{Using Decision Tables}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Use decision tables.
-%!! horizontal line
-
+\end{tip}
 We introduced these in Chapter Two. A decision table is a structure that
 contains either data (a ``data table'') or addresses of functions (a
 ``function table'') arranged according to any number of dimensions. Each
@@ -951,19 +885,17 @@ has a flag called 'FREEWAY? which is true when we're referring to
 freeways, false when we're referring to city streets.
 
 Let's construct the word SPEED-LIMIT, which returns the speed
-limit depending on the current state. Using \bf{IF THEN} we would write:
+limit depending on the current state. Using \textbf{IF THEN} we would write:
 
 \begin{verbatim}
 : SPEED-LIMIT  ( -- speed-limit)
      'FREEWAY? @  IF  55  ELSE  25  THEN ;
 \end{verbatim}
-
-We might eliminate the \bf{IF THEN} by using a hybrid value with \bf{AND}:
+We might eliminate the \textbf{IF THEN} by using a hybrid value with \textbf{AND}:
 
 \begin{verbatim}
 : SPEED-LIMIT   25  'FREEWAY? @  30 AND + ;
 \end{verbatim}
-
 But this approach doesn't match our conceptual model of the problem
 and therefore isn't very readable.
 
@@ -973,7 +905,6 @@ elements, so there's not much to it:
 \begin{verbatim}
 CREATE LIMITS   25 ,  55 ,
 \end{verbatim}
-
 The word SPEED-LIMIT? now must apply the boolean to offset into
 the data table:
 
@@ -981,8 +912,7 @@ the data table:
 : SPEED-LIMIT  ( -- speed-limit)
      LIMITS  'FREEWAY? @  2 AND  +  @ ;
 \end{verbatim}
-
-Have we gained anything over the \bf{IF THEN} approach? Probably not,
+Have we gained anything over the \textbf{IF THEN} approach? Probably not,
 with so simple a problem.
 
 What we have done, though, is to factor out the decision-making
@@ -993,7 +923,6 @@ also had
 \begin{verbatim}
 CREATE #LANES   4 ,  10 ,
 \end{verbatim}
-
 representing the number of lanes on a city street and on a freeway. We
 can use identical code to compute the current number of lanes:
 
@@ -1001,7 +930,6 @@ can use identical code to compute the current number of lanes:
 : #LANES?  ( -- #lanes)
      #LANES  'FREEWAY? @  2 AND  +  @ ;
 \end{verbatim}
-
 Applying techniques of factoring, we simplify this to:
 
 \begin{verbatim}
@@ -1011,13 +939,12 @@ Applying techniques of factoring, we simplify this to:
 55 25 ROAD SPEED-LIMIT?
 10  4 ROAD #LANES?
 \end{verbatim}
-
 Another example of the one-dimensional data table is the ``superstring''
 (emph{Starting FORTH}, Chapter Ten).
 
 \subsubsection{Two-Dimensional Data Table}
 
-In Chapter Two we presented a phone-rate problem. Figure 8-4 gives one
+In Chapter Two we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
 In this problem, each dimension of the data table consists of three
@@ -1028,22 +955,19 @@ way.
 The current rate, which depends on the time of day, is stored as an
 address, representing one of the three rate-structure sub-tables. We can
 say
-
 \begin{verbatim}
 FULL RATE !
 \end{verbatim}
-
 or
-
 \begin{verbatim}
 LOWER RATE !
 \end{verbatim}
-
 etc.
 
-\bf{Figure 8-4.} \emph{A solution to the phone rate problem.}
-
-\begin{verbatim}
+\begin{figure*}[tttt]
+\verbfig{fig8-4}{A solution to the phone rate problem.}
+\begin{center}
+\begin{BVerbatim}
 \ Telephone rates                                   03/30/84
 CREATE FULL     30 , 20 , 12 ,
 CREATE LOWER    22 , 15 , 10 ,
@@ -1067,8 +991,9 @@ VARIABLE #MILES  \ hundreds of miles
 : ADDITIONAL  ( -- charge)  +MINUTES  MILEAGE + ;
 : TOTAL ( #minutes -- total charge)
    1- ADDITIONAL *  FIRST + ;
-\end{verbatim}
-
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 The current charge, either first minute, additional minute, or permile,
 is expressed as an offset into the table (0, 2, or 4).
 
@@ -1083,7 +1008,7 @@ be prohibitively slow in certain cases.
 We'll hark back to our Tiny Editor example in Chapter Three to illustrate
 a two-dimensional decision table.
 
-In Figure 8-5 we're constructing a table of functions to be performed
+In \Fig{fig8-5} we're constructing a table of functions to be performed
 when various keys are pressed. The effect is similar to that of a
 case statement, but there are two modes, Normal Mode and Insert Mode.
 Each key has a different behavior depending on the current mode.
@@ -1093,13 +1018,11 @@ The first screen implements the change of the modes. If we invoke
 \begin{verbatim}
 NORMAL MODE# !
 \end{verbatim}
-
 we'll go into Normal Mode.
 
 \begin{verbatim}
 INSERTING MODE# !
 \end{verbatim}
-
 enters Inserting Mode.
 
 The next screen constructs the function table, called FUNCTIONS.
@@ -1116,110 +1039,83 @@ MATCHED to point to the last row of the table---the functions we want
 when \emph{any} character is pressed.)
 
 The word ACTION invokes 'FUNCTION, then adds the contents of
-the variable MODE#. Since MODE# will contain either a 2 or a 4, by
+the variable MODE\#. Since MODE\# will contain either a 2 or a 4, by
 adding this offset we're now pointing into the table at the address
 of the routine we want to perform. A simple
 
 \begin{verbatim}
 @ EXECUTE
 \end{verbatim}
+will perform the routine (or \textbf{@EXECUTE} if you have it).
 
-will perform the routine (or \bf{@EXECUTE} if you have it).
-
-In fig-FORTH, change the definition of \bf{IS} to:
+In fig-FORTH, change the definition of \textbf{IS} to:
 
 \begin{verbatim}
 : IS   [COMPILE] '  CFA , ;
 \end{verbatim}
+\begin{figure*}[pppp]
+\verbfig{fig8-5}{Implementation of the Tiny Editor.}
+\setcounter{screen}{30}
+\begin{Screen}
+\ Tiny Editor
+2 CONSTANT NORMAL     \ offset in FUNCTIONS
+4 CONSTANT INSERTING  \        "
+6 CONSTANT /KEY       \ bytes in table for each key
+VARIABLE MODE#        \ current offset into table
+NORMAL MODE# !
+: INSERT-OFF   NORMAL    MODE# ! ;
+: INSERT-ON    INSERTING MODE# ! ;
 
-\bf{Figure 8-5.} \emph{Implementation of the Tiny Editor.}
-
-\begin{verbatim}
-Screen # 30
-  O \ Tiny Editor
-  1 2 CONSTANT NORMAL     \ offset in FUNCTIONS
-  2 4 CONSTANT INSERTING  \        "
-  3 6 CONSTANT /KEY       \ bytes in table for each key
-  4 VARIABLE MODE#        \ current offset into table
-  5 NORMAL MODE# !
-  6 : INSERT-OFF   NORMAL    MODE# ! ;
-  7 : INSERT-ON    INSERTING MODE# ! ;
-  8
-  9 VARIABLE ESCAPE?      \ t=time-to-leave-loop
- 10 : ESCAPE  TRUE ESCAPE? ! ;
- 11
- 12
- 13
- 14
- 15
-
-Screen # 31
- O \ Tiny Editor             function table             07/29/83
- 1 : IS   ' , ;  \   function   ( -- )    ( for '83 standard)
- 2 CREATE FUNCTIONS
- 3 \ keys                  normal mode        insert mode
- 4  4 ,  ( ctrl-D)         IS DELETE          IS INSERT-OFF
- 5  9 ,  ( etrl-I)         IS INSERT-ON       IS INSERT-OFF
- 6  8 ,  ( backspace)      IS BACKWARD        IS INSERT<
- 7 60 ,  ( left arrow)     IS BACKWARD        IS INSERT-OFF
- 8 62 ,  ( right arrow)    IS FORWARD         IS INSERT-OFF
- 9 27 ,  ( return)         IS ESCAPE          IS INSERT-OFF
-10  O ,  ( no match)       IS OVERWRITE       IS INSERT
-11 HERE /KEY -  CONSTANT 'NOMATCH  \ adr of no-match key
-12
-13
-14
-15
-
-Screen # 32
- O \ Tiny Editor cont'd                                 07/29/83
- 1 VARIABLE MATCHED
- 2 : 'FUNCTION  ( key -- adr-of-match )  'NOMATCH  MATCHED !
- 3    'NOMATCH FUNCTIONS DO  DUP  I @ =  IF
- 4      I MATCHED !  LEAVE  THEN  /KEY +LOOP  DROP
- 5     MATCHED @ ;
- 6 : ACTION  ( key -- )  'FUNCTION  MODE# @ +  @ EXECUTE ;
- 7 : GO   FALSE ESCAPE? !  BEGIN  KEY ACTION  ESCAPE? @ UNTIL ;
- 8
- 9
-10
-11
-12
-13
-14
-15
-\end{verbatim}
-
+VARIABLE ESCAPE?      \ t=time-to-leave-loop
+: ESCAPE  TRUE ESCAPE? ! ;
+\end{Screen}
+\begin{Screen}
+\ Tiny Editor             function table             07/29/83
+: IS   ' , ;  \   function   ( -- )    ( for '83 standard)
+CREATE FUNCTIONS
+\ keys                  normal mode        insert mode
+ 4 ,  ( ctrl-D)         IS DELETE          IS INSERT-OFF
+ 9 ,  ( etrl-I)         IS INSERT-ON       IS INSERT-OFF
+ 8 ,  ( backspace)      IS BACKWARD        IS INSERT<
+60 ,  ( left arrow)     IS BACKWARD        IS INSERT-OFF
+62 ,  ( right arrow)    IS FORWARD         IS INSERT-OFF
+27 ,  ( return)         IS ESCAPE          IS INSERT-OFF
+ O ,  ( no match)       IS OVERWRITE       IS INSERT
+HERE /KEY -  CONSTANT 'NOMATCH  \ adr of no-match key
+\end{Screen}
+\begin{Screen}
+\ Tiny Editor cont'd                                 07/29/83
+VARIABLE MATCHED
+: 'FUNCTION  ( key -- adr-of-match )  'NOMATCH  MATCHED !
+   'NOMATCH FUNCTIONS DO  DUP  I @ =  IF
+     I MATCHED !  LEAVE  THEN  /KEY +LOOP  DROP
+    MATCHED @ ;
+: ACTION  ( key -- )  'FUNCTION  MODE# @ +  @ EXECUTE ;
+: GO   FALSE ESCAPE? !  BEGIN  KEY ACTION  ESCAPE? @ UNTIL ;
+\end{Screen}
+\end{figure*}
 In 79-Standard FORTHs, use:
-
 \begin{verbatim}
 : IS   [COMPILE] '  , ;
 \end{verbatim}
-
 We've also used non-redundancy at compile time in the definition just
 below the function table:
-
 \begin{verbatim}
 HERE /KEY -  CONSTANT 'NOMATCH  \  adr of no-match key
 \end{verbatim}
-
 We're making a constant out of the last row in the function table. (At the
-moment we invoke \bf{HERE}, it's pointing to the next free cell after the last
+moment we invoke \textbf{HERE}, it's pointing to the next free cell after the last
 table entry has been filled in. Six bytes back is the last row.) We now have
 two words:
-
 \begin{verbatim}
 FUNCTIONS  ( adr of beginning of function table )
 'NOMATCH   ( adr of "no-match" row; these are the
              routines for any key not in the table)
 \end{verbatim}
-
-We use these names to supply the addresses passed to \bf{DO}:
-
+We use these names to supply the addresses passed to \textbf{DO}:
 \begin{verbatim}
 'NOMATCH FUNCTION DO
 \end{verbatim}
-
 to set up a loop that runs from the first row of the table to the last. We
 don't have to know how many rows lie in the table. We could even delete a
 row or add a row to the table, without having to change any other piece of
@@ -1231,14 +1127,12 @@ columns in the table.
 Incidentally, the approach to 'FUNCTION taken in the listing is a
 quick-and-dirty one; it uses a local variable to simplify stack
 manipulation. A simpler solution that uses no local variable is:
-
 \begin{verbatim}
 : 'FUNCTION  ( key -- adr of match )
    'NOMATCH SWAP  'NOMATCH FUNCTIONS DO  DUP
       I @ =  IF SWAP DROP I SWAP  LEAVE  THEN
    /KEY +LOOP  DROP ;
 \end{verbatim}
-
 (We'll offer still another solution later in this chapter, under ``Using
 Structured Exits.'')
 
@@ -1256,16 +1150,15 @@ CREATE TWOS
 : 2**  ( n -- 2 to the n)
    TWOS +  C@ ;
 \end{verbatim}
-
 Instead of computing the answer by multiplying two times itself ``n''
 times, the answers are all pre-computed and placed in a table. We can use
 simple addition to offset into the table and get the answer.
 
 In general, addition is much faster than multiplication.
 
-%!! horizontal line
-Moore provides another example:
-
+\bigskip\blackline{2ex}
+\noindent Moore provides another example:
+\begin{tfquot}
 If you want to compute trig functions, say for a graphics display, you don't
 need much resolution. A seven-bit trig function is probably plenty. A table
 look-up of 128 numbers is faster than anything else you're going to be able
@@ -1274,16 +1167,12 @@ to do. For low-frequency function calculations, decision tables are great.
 But if you have to interpolate, you have to calculate a function anyway.
 You're probably better off calculating a slightly more complicated function
 and avoiding the table lookup.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 \subsection{Redesigning}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 One change at the bottom can save ten decisions at the top.
-%!! horizontal line
-
+\end{tip}
 In our interview with Moore at the beginning of the chapter, he mentioned
 that much conditional testing could have been eliminated from an
 application if it had been redesigned so that there were two words instead
@@ -1312,27 +1201,21 @@ VISIBLE and INVISIBLE, to change the meanings of TYPE', EMIT',
 SPACES' and CR' and thereby easily change all the formatting code that
 uses them.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't test for something that can't possibly happen.
-%!! horizontal line
-
+\end{tip}
 Many contemporary programmers are error-checking-happy.
 
 There's no need for a function to check an argument passed by
 another component in the system. The calling program should bear the
 responsibility for not exceeding the limits of the called component.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Reexamine the algorithm.
-%!! horizontal line
-
-%!! horizontal line
-Moore:
-
+\end{tip}
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 A lot of conditionals arise from fuzzy thinking about the problem. In
 servo-control theory, a lot of people think that the algorithm for the servo
 ought to be different when the distance is great than when it is close. Far
@@ -1349,21 +1232,17 @@ one algorithm instead of three.
 
 Instead of trying to get rid of conditionals, you're best to question the
 underlying theory that led to the conditionals.
-%!! horizontal line
-
-%!! horizontal line
-TIP
-
+\end{tfquot}\blackline{1ex}
+\begin{tip}
 Avoid the need for special handling.
-%!! horizontal line
-
+\end{tip}
 One example we mentioned earlier in the book: if you keep the user out of
 trouble you won't have to continually test whether the user has gotten
 into trouble.
 
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 Another good example is writing assemblers. Very often, even though an
 opcode may not have a register associated with it, pretending that it has a
 register---say, Register 0---might simplify the code. Doing arithmetic by
@@ -1373,24 +1252,20 @@ by testing for zero and not doing it.
 
 It's another instance of the ``don't care.'' If you don't care, then give
 it a dummy value and use it anyway.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 Anytime you run into a special case, try to find an algorithm for which
 the special case becomes a normal case.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Use properties of the component.
-%!! horizontal line
-
+\end{tip}
 A well-designed component---hardware or software---will let you implement
 a corresponding lexicon in a clean, efficient manner. The character
 graphics set from the old Epson MX-80 printer (although now obsolete)
-illustrates the point well. Figure 8-6 shows the graphics characters
+illustrates the point well. \Fig{fig8-6} shows the graphics characters
 produced by the ASCII codes 160 to 223.
 
-\bf{Figure 8-6.} \emph{The Epson MX-80 graphics character set.}
+\wepsfiga{fig8-6}{The Epson MX-80 graphics character set.}
 
 %!! include Figure 8-6 here
 
@@ -1415,7 +1290,6 @@ CREATE PIXELS  6 ALLOT
 : CHARACTER  ( -- graphics character)
    160   6 O DO  I PIXEL C@  I 2** AND  +  LOOP ;
 \end{verbatim}
-
 (We introduced 2** a few tips back.)
 
 No decisions are necessary in the definition of CHARACTER. The
@@ -1432,16 +1306,15 @@ correspondence between the ASCII values and the pattern of pixels. The
 only way to produce the ASCII value is by matching patterns in a lookup
 table.
 
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 The 68000 assembler is another example you can break your heart over,
 looking for a good way to express those op-codes with the minimal number
 of operators. All the evidence suggests there is no good solution. The people
 who designed the 68000 didn't have assemblers in mind. And they could
 have made things a lot easier, at no cost to themselves.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 By using properties of a component in this way, your code becomes
 dependent on those properties and thus on the component itself. This is
 excusable, though, because all the dependent code is confined to a single
@@ -1449,12 +1322,9 @@ lexicon, which can easily be changed if necessary.
 
 \subsection{Using Structured Exits}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Use the structured exit.
-%!! horizontal line
-
+\end{tip}
 In the chapter on factoring we demonstrated the possibility of factoring
 out a control structure using this technique:
 
@@ -1463,19 +1333,18 @@ out a control structure using this technique:
 : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{verbatim}
-
 FORTH allows us to alter the control flow by directly manipulating the
 return stack. (If in doubt, see \emph{Starting FORTH}, Chapter Nine.)
 Indiscreet application of this trick can lead to unstructured code with nasty
 side effect. But the disciplined use of the structured exit can actually
 simplify code, and thereby improve readability and maintainability.
 
-%!! horizontal line
-Moore:
-
+\bigskip\blackline{2ex}
+\noindent Moore:
+\begin{tfquot}
 More and more I've come to favor R> DROP to alter the flow of control.
-It's similar to the effect of an \bf{ABORT"}, which has an \bf{IF THEN}
-built in it. But that's only one \bf{IF THEN} in the system, not at every
+It's similar to the effect of an \textbf{ABORT"}, which has an \textbf{IF THEN}
+built in it. But that's only one \textbf{IF THEN} in the system, not at every
 error.
 
 I either abort or I don't abort. If I don't abort, I continue. If I do abort, I
@@ -1484,11 +1353,10 @@ thing.
 
 The alternative is burdening the rest of the application with checking
 whether an error occurred. That's an inconvenience.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 The ``abort route'' circumvents the normal paths of control flow under
 special conditions. FORTH provides this capability with the words
-\bf{ABORT"} and \bf{QUIT}.
+\textbf{ABORT"} and \textbf{QUIT}.
 
 The ``structured exit'' extends the concept by allowing the immediate
 termination of a single word, without quitting the entire application.
@@ -1499,35 +1367,33 @@ or outside the current module. With this technique, you effectively jump
 directly to the final exit point of the module (the semicolon) and resume
 execution of the calling word.
 
-The word \bf{EXIT} terminates the definition in which the word appears.
-The phrase \bf{R> DROP} terminates the definition that called the
+The word \textbf{EXIT} terminates the definition in which the word appears.
+The phrase \textbf{R> DROP} terminates the definition that called the
 definition in which the phrase appears; thus it has the same effect but can
 be used one level down. Here are some examples of both approaches.
 
-If you have an \bf{IF ELSE THEN} phrase in which no code follows
-\bf{THEN}, like this:
+If you have an \textbf{IF ELSE THEN} phrase in which no code follows
+\textbf{THEN}, like this:
 
 \begin{verbatim}
 ... HUNGRY?  IF  EAT-IT  ELSE  FREEZE-IT  THEN ;
 \end{verbatim}
-
-you can eliminate \bf{ELSE} by using \bf{EXIT}:
+you can eliminate \textbf{ELSE} by using \textbf{EXIT}:
 
 \begin{verbatim}
 ... HUNGRY?  IF EAT-IT EXIT  THEN  FREEZE-IT ;
 \end{verbatim}
+(If the condition is true, we eat and run; \textbf{EXIT} acts like a semicolon.
+If the condition is false, we skip to \textbf{THEN} and FREEZE-IT.)
 
-(If the condition is true, we eat and run; \bf{EXIT} acts like a semicolon.
-If the condition is false, we skip to \bf{THEN} and FREEZE-IT.)
-
-The use of \bf{EXIT} here is more efficient, saving two bytes and extra
+The use of \textbf{EXIT} here is more efficient, saving two bytes and extra
 code to perform, but it is not as readable.
 
-%!! horizontal line
-Moore comments on the value, and danger, of this technique:
-
+\bigskip\blackline{2ex}
+\noindent Moore comments on the value, and danger, of this technique:
+\begin{tfquot}
 Especially if your conditionals are getting elaborate, it's handy to jump out
-in the middle without having to match all your \bf{THEN}s at the end. In one
+in the middle without having to match all your \textbf{THEN}s at the end. In one
 application I had a word that went like this:
 
 \begin{verbatim}
@@ -1536,56 +1402,52 @@ application I had a word that went like this:
            2CONDITION IF ... EXIT THEN
            3CONDITION IF ... EXIT THEN ;
 \end{verbatim}
-
-SIMPLE handled the simple cases. SIMPLE ended up with \bf{R> DROP}.
+SIMPLE handled the simple cases. SIMPLE ended up with \textbf{R> DROP}.
 These other conditions were the more complex ones.
 
 Everyone exited at the same point without having to painfully match all
-the \bf{IF}s, \bf{ELSE}s, and \bf{THEN}s. The final result, if none of the
+the \textbf{IF}s, \textbf{ELSE}s, and \textbf{THEN}s. The final result, if none of the
 conditions matched, was an error condition.
 
 It was bad code, difficult to debug. But it reflected the nature of the
-problem. There wasn't any better scheme to handle it. The \bf{EXIT} and
-\bf{R> DROP} at least kept things manageable.
-%!! horizontal line
-
-Programmers sometimes also use \bf{EXIT} to get out of a complicated
-\bf{BEGIN} loop in a graceful way. Or we might use a related technique in the
-\bf{DO LOOP} that we wrote for 'FUNCTION in our Tiny Editor, earlier in
+problem. There wasn't any better scheme to handle it. The \textbf{EXIT} and
+\textbf{R> DROP} at least kept things manageable.
+\end{tfquot}\blackline{1ex}
+Programmers sometimes also use \textbf{EXIT} to get out of a complicated
+\textbf{BEGIN} loop in a graceful way. Or we might use a related technique in the
+\textbf{DO LOOP} that we wrote for 'FUNCTION in our Tiny Editor, earlier in
 this chapter. In this word, we are searching through a series of locations
 looking for a match. If we find a match, we want to return the address
 where we found it; if we don't find a match, we want the address of the
 last row of the functions table.
 
 We can introduce the word LEAP (see Appendix C), which will work
-like \bf{EXIT} (it will simulate a semicolon). Now we can write:
+like \textbf{EXIT} (it will simulate a semicolon). Now we can write:
 
 \begin{verbatim}
 : 'FUNCTION  ( key -- adr of match )
    'NOMATCH FUNCTIONS DO  DUP  I @ =  IF  DROP I LEAP
    THEN  /KEY +LOOP  DROP  'NOMATCH ;
 \end{verbatim}
-
-If we find a match we LEAP, not to \bf{+LOOP}, but right out of the definition,
-leaving \bf{I} (the address at which we found it) on the stack. If we don't
+If we find a match we LEAP, not to \textbf{+LOOP}, but right out of the definition,
+leaving \textbf{I} (the address at which we found it) on the stack. If we don't
 find a match, we fall through the loop and execute
 
 \begin{verbatim}
 DROP  'NOMATCH
 \end{verbatim}
-
-which drops the key# being searched for, then leaves the address of the
+which drops the key\# being searched for, then leaves the address of the
 last row!
 
 As we've seen, there may be times when a premature exit is appropriate,
 even multiple exit points and multiple ``continue'' points.
 
-Remember though, this use of \bf{EXIT} and \bf{R> DROP} is not consistent
+Remember though, this use of \textbf{EXIT} and \textbf{R> DROP} is not consistent
 with structured programming in the strictest sense, and requires great
 care.
 
 For instance, you may have a value on the stack at the beginning of
-a definition which is consumed at the end. A premature \bf{EXIT} will leave
+a definition which is consumed at the end. A premature \textbf{EXIT} will leave
 the unwanted value on the stack.
 
 Fooling with the return stack is like playing with fire. You can get
@@ -1593,23 +1455,17 @@ burned. But how convenient it is to have fire.
 
 \subsection{Employing Good Timing}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Take the action when you know you need to, not later.
-%!! horizontal line
-
+\end{tip}
 Any time you set a flag, ask yourself why you're setting it. If the answer
 is, ``So I'll know to do such-and-such later,'' then ask yourself if you can
 do such-and-such \emph{now}. A little restructuring can greatly simplify your
 design.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't put off till run time what you can compile today.
-%!! horizontal line
-
+\end{tip}
 Any time you can make a decision prior to compiling an application, do.
 
 Suppose you had two versions of an array: one that did bounds
@@ -1627,13 +1483,9 @@ decisions for you. For instance (as already previewed in another context):
 \begin{verbatim}
 : STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
 \end{verbatim}
-
-%!! horizontal line
-TIP
-
-\bf{DUP} a flag, don't recreate it.
-%!! horizontal line
-
+\begin{tip}
+\textbf{DUP} a flag, don't recreate it.
+\end{tip}
 Sometimes you need a flag to indicate whether or not a previous piece of
 code was invoked. The following definition leaves a flag which indicates
 that DO-IT was done:
@@ -1642,20 +1494,15 @@ that DO-IT was done:
 : DID-I?  ( -- t=I-did)
    SHOULD-I?  IF  DO-IT  TRUE  ELSE  FALSE  THEN ;
 \end{verbatim}
-
 This can be simplified to:
 
 \begin{verbatim}
 : DID-I?  ( -- t=I-did)
         SHOULD-I? DUP  IF  DO-IT  THEN ;
 \end{verbatim}
-
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't set a flag, set the data.
-%!! horizontal line
-
+\end{tip}
 If the only purpose to setting a flag is so that later some code can decide
 between one number and another, you're better off saving the number
 itself.
@@ -1670,34 +1517,27 @@ written
 \begin{verbatim}
 : LIGHT   TRUE 'LIGHT? ! ;
 \end{verbatim}
-
 to set the flag, and
 
 \begin{verbatim}
 'LIGHT? @ IF  8 OR  THEN ...
 \end{verbatim}
-
 to use the flag, this approach is not quite as simple as putting the
 intensity bit-mask itself in the variable:
 
 \begin{verbatim}
 : LIGHT   8 'LIGHT? ! ;
 \end{verbatim}
-
 and then simply writing
 
 \begin{verbatim}
 'LIGHT? @  OR ...
 \end{verbatim}
-
 to use it.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Don't set a flag, set the function. (Vector.)
-%!! horizontal line
-
+\end{tip}
 This tip is similar to the previous one, and lives under the same
 restriction. If the only purpose to setting a flag is so that later some
 code can decide between one function and another, you're better off saving
@@ -1715,7 +1555,6 @@ VARIABLE DEVICE  ( O=video | 1=printer)
    ( ...code for printer...) ELSE
    ( ...code for video...)  THEN ;
 \end{verbatim}
-
 This is bad because you're deciding which function to perform every time
 you type a string.
 
@@ -1727,7 +1566,6 @@ DOER TYPE  ( a # -- )
 : VIDEO   MAKE TYPE ( ...code for video...) ;
 : PRINTER   MAKE TYPE ( ...code for printer...) ;
 \end{verbatim}
-
 This is better because TYPE doesn't have to decide which code to use, it
 already knows.
 
@@ -1755,12 +1593,11 @@ DOER TYPE
 : PRINTER   1 DEVICE !  MAKE TYPE
      ( ...code for printer...) ;
 \end{verbatim}
-
 Thus TYPE already knows which code to execute, but other definitions
 will refer to the flag.
 
 Another possibility is to write a word that fetches the parameter of
-the \bf{DOER} word TYPE (the pointer to the current code) and compares it
+the \textbf{DOER} word TYPE (the pointer to the current code) and compares it
 against the address of PRINTER. If it's less than the address of
 PRINTER, we're using the VIDEO routine; otherwise we're using the
 PRINTER routine.
@@ -1780,12 +1617,11 @@ DOER FILL'  ( vectorable FILL )
             MAKE CMOVE'  2DROP DROP ;AND
             MAKE FILL'  2DROP DROP ;
 \end{verbatim}
-
 But if a large number of functions need to be vectored, a state table
 would be preferable.
 
 A corollary to this rule introduces the ``structured exit hook,'' a
-\bf{DOER} word vectored to perform a structured exit.
+\textbf{DOER} word vectored to perform a structured exit.
 
 \begin{verbatim}
 DOER HESITATE  ( the exit hook)
@@ -1795,7 +1631,6 @@ DOER HESITATE  ( the exit hook)
 \begin{verbatim}
 : RELENT   MAKE HESITATE   SEND-FLOWERS  R> DROP ;
 \end{verbatim}
-
 By default, HESITATE does nothing. If we invoke DISSOLVE, we'll
 end up in court. But if we RELENT before we DISSOLVE, we'll send
 flowers, then jump clear to the semicolon, cancelling that court order
@@ -1813,12 +1648,9 @@ simplicity. While other tips concern maintainability, performance,
 compactness, etc., this tip relates to the sort of satisfaction that Thoreau
 sought at Walden Pond.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Try to avoid altogether saving flags in memory.
-%!! horizontal line
-
+\end{tip}
 A flag on the stack is quite different from a flag in memory. Flags on the
 stack can simply be determined (by reading the hardware, calculating, or
 whatever), pushed onto the stack, then consumed by the control structure.
@@ -1829,10 +1661,12 @@ having the flag itself, you now have the complexity of a location for the
 flag. The location must be:
 
 %!! items should be preceded by bullets
-* created
-* initialized (even before anything actually changes)
-* reset (otherwise, passing a flag to a command leaves the flag in that current
+\begin{itemize}
+\item created
+\item initialized (even before anything actually changes)
+\item reset (otherwise, passing a flag to a command leaves the flag in that current
 state).
+\end{itemize}
 
 Because flags in memory are variables, they are not reentrant.
 
@@ -1843,7 +1677,6 @@ made the assumption that the best syntax would be:
 \begin{verbatim}
 LIGHT BLUE
 \end{verbatim}
-
 that is, the adjective LIGHT preceding the color. Fine. But remember the
 code to implement that version? Compare it with the simplicity of this
 approach:
@@ -1854,13 +1687,11 @@ O CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
 6 CONSTANT BROWN    7 CONSTANT GRAY
 : LIGHT   ( color -- color )  8 OR ;
 \end{verbatim}
-
 In this version we've reversed the syntax, so that we now say
 
 \begin{verbatim}
 BLUE LIGHT
 \end{verbatim}
-
 We establish the color, then we modify the color.
 
 We've eliminated the need for a variable, for code to fetch from the
@@ -1871,17 +1702,16 @@ When I first wrote these commands, I took the English-like approach.
 ``BLUE LIGHT'' sounded backwards, not at all acceptable. That
 was before my conversations with Chuck Moore.
 
-%!! horizontal line
-Moore's philosophy is persuasive:
-
+\bigskip\blackline{2ex}
+\noindent Moore's philosophy is persuasive:
+\begin{tfquot}
 I would distinguish between reading nicely in English and reading nicely.
 In other languages such as Spanish, adjectives follow nouns. We should be
 independent of details like which language we're thinking in.
 
 It depends on your intention: simplicity, or emulation of English. English is
 not such a superb language that we should follow it slavishly.
-%!! horizontal line
-
+\end{tfquot}\blackline{1ex}
 If I were selling my ``colors'' words in a package for graphic artists, I
 would take the trouble to create the flag. But writing these words for my
 own use, if I had to do it over again, I'd favor the Moore-ish influence,
@@ -1900,7 +1730,7 @@ fifth-generation computer project on a language called PROLOG---for
 PROgramming in LOGic---in which one programs entirely in logic. It will
 be interesting to see the battle-lines forming as we ponder the question:
 
-To \bf{IF} or not to \bf{IF}
+To \textbf{IF} or not to \textbf{IF}
 
 In this book we've covered the first six steps of the software development
 cycle, exploring both the philosophical questions of designing software
@@ -1916,19 +1746,21 @@ But that's another story.
 
 \section{References}
 
-1. Charles Eaker, ``Just in Case,'' \emph{FORTH Dimensions} II/3, p. 37.
+\begin{enumerate}
+\item Charles Eaker, ``Just in Case,'' \emph{FORTH Dimensions} II/3, p. 37.
+\end{enumerate}
 
 \section{For Further Thinking}
 
-1. You have the word CHOOSE which takes an argument ``n'' and returns a
+\begin{enumerate}
+\item You have the word CHOOSE which takes an argument ``n'' and returns a
 random number between 0 and n-1. The result is always positive or zero.
 You can use CHOOSE to produce a flag; the phrase
-
 \begin{verbatim}
 2 CHOOSE
 \end{verbatim}
-
 produces a random flag of zero or one (false or true).
 
-2. Write a phrase to choose a number at random between 0 and 19 (inclusive)
+\item Write a phrase to choose a number at random between 0 and 19 (inclusive)
 \emph{or} between -20 and 0.
+\end{enumerate}

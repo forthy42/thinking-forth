@@ -1,5 +1,11 @@
 SOURCES = thinking-forth.tex \
+	chapter1.tex \
 	chapter3.tex \
+	chapter4.tex \
+	chapter5.tex \
+	chapter6.tex \
+	chapter7.tex \
+	chapter8.tex \
 	epilog.tex appendixa.tex appendixb.tex appendixc.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
