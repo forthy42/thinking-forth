@@ -334,7 +334,7 @@ yourself for a second opinion.
 \section{Interview with a Software Inventor}
 
 %!! horizontal line
-\blackline{2ex}
+\begin{interview}
 Donald A. Burgess, owner and president of Scientek Instrumentation,
 Inc.:
 
@@ -392,7 +392,7 @@ FORTH lets you play. That's fine, chances are you'll get some ideas. As
 long as you keep yourself from playing as a habit. Your head is a whole lot
 better than the computer for inventing things.
 \end{tfquot}
-\blackline{1ex}
+\end{interview}
 %!! end indented paragraph
 %!! horizontal line
 
@@ -837,7 +837,7 @@ or compiler.
 
 \bigskip
 %!! horizontal line
-\blackline{2ex}
+\begin{interview}
 Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
@@ -856,7 +856,7 @@ elaborate difficult things. But there comes a time when the world is going
 to have to quit programming keypads and converting numbers to binary,
 and start solving problems.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 %!! horizontal line
 
 \section{Algorithms and Data Structures}
@@ -1542,7 +1542,7 @@ It's like building an arm with three hands. We can attach it to the
 ONES column, as in \Fig{fig4-8}a, or we can attach it to the tens' column,
 as in \Fig{fig4-8}b, or to any power of ten.
 
-\wepsfiga{fig4-8}{A mechanical representation: accessing the data
+\wepsfigt{fig4-8}{A mechanical representation: accessing the data
 structure.}
 
 %!! include Figure 4-8 here
@@ -1670,6 +1670,7 @@ One more thought: Depending on who uses this application, we may
 want to add error-checking. Fact is, the highest symbol we know is M; the
 highest value we can represent is 3,999, or MMMCMXCIX.
 
+\goodbreak
 We might redefine ROMAN as follows:
 
 %!! I have added an IF...THEN around ABORT" Too large".
@@ -1677,12 +1678,12 @@ We might redefine ROMAN as follows:
 %!! (Pg 131)
 \begin{Code}
 : ROMAN  ( n)
-   DUP  3999 > IF  ABORT" Too large"  THEN  ROMAN ;
+   DUP  3999 >  ABORT" Too large"  ROMAN ;
 \end{Code}
 
 %!! horizontal line
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 There's a definite sense of rightness when you've done it right. It may be
@@ -1692,7 +1693,7 @@ want to run off and tell somebody.
 
 Of course, nobody will appreciate it like you do.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 %!! horizontal line
 
 \begin{figure*}[pppp]

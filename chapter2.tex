@@ -125,8 +125,8 @@ Clearly you can't undertake a significant software
 project---regardless of the language---without some degree of planning.
 Exactly what degree is appropriate?
 
-%\begin{interview} % need 1 blank line before blackline, like tip
-\bigskip\blackline{2ex}
+\begin{interview} % need 1 blank line before blackline, like tip
+%\bigskip\blackline{2ex}
 \noindent More than one FORTH programmer has expressed high regard for Dave
 Johnson's meticulous approach to planning. Johnson is supervisor at
 Moore Products Co. in Springhouse, Pennsylvania. The firm specializes
@@ -194,13 +194,13 @@ I should mention that during the design phase there is some amount of
 coding done to test out certain ideas. But this code may not be part
 of the finished product. The idea is to map out your design.
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 Johnson advises us to complete the design specification before starting
 to code, with the exception of needed preliminary tests. The next
 interview backs up this point, and adds some additional reasons.
-%\begin{interview}
-\bigskip\blackline{2ex}
+\begin{interview}
+%\bigskip\blackline{2ex}
 \noindent John Teleska has been an independent software consultant
 since 1976, specializing in custom applications for academic research
 environments.  He enjoys providing research tools ``right at the edge
@@ -246,8 +246,8 @@ I think there are consultants who bow to client pressure and limit the time
 they spend on specs, for fear of losing the job. But in these situations
 nobody ends up happy.
 \end{tfquot}
-\blackline{2ex} %ARN - no indent
-%\end{interview}
+%\blackline{2ex} %ARN - no indent
+\end{interview}
 We'll return to the Teleska interview momentarily.
 
 %ARN - left off here
@@ -257,8 +257,8 @@ Experience has taught us to map out where we're going before we begin
 coding. But planning has certain limitations. The following interviews
 give different perspectives to the value of planning.
 
-%\begin{interview}
-\bigskip\blackline{2ex}
+\begin{interview}
+%\bigskip\blackline{2ex}
 \noindent Despite Teleska's preference for a well-planned project, he suggests that
 the choice between a top-down and bottom-up approach may depend on
 the situation:
@@ -282,15 +282,15 @@ I think if the application elicits this sense of being lost, I proceed
 bottom-up. If the application is in familiar territory then I'll probably
 use a more traditional by-the-book approach.
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 %Page 043 in first edition
 
 \noindent And here's another view:
 
-%\begin{interview}
-\bigskip\blackline{2ex}
+\begin{interview}
+%\bigskip\blackline{2ex}
 \noindent At the time I interviewed him, Michael Starling of Union Carbide was
 putting the final touches on two applications involving user-configurable
 laboratory automation and process control automation systems. For the
@@ -370,16 +370,16 @@ costs. The route to a solution may depend upon your priorities. Remember:
 \end{list}
 Pick any two!
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \noindent As Starling observes, you don't know completely what you're doing till
 you've done it once. In my own experience, the best way to write an
 application is to write it twice. Throw away the first version and chalk it up
 to experience.
 
-%\begin{interview}
-\bigskip\blackline{2ex}
+\begin{interview}
+%\bigskip\blackline{2ex}
 \noindent Peter Kogge is Senior Technical Staff in the IBM Federal Systems
 Division, Oswego, New York:
 
@@ -395,8 +395,8 @@ program. This enforced ``do-over'' almost always results in far
 simpler and more elegant final programs, even when those programs are
 written in something other than FORTH.
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \noindent Our conclusions? In the FORTH environment planning is necessary. But
 it should be kept short. Testing and prototyping are the best ways to
@@ -563,9 +563,9 @@ First, and most importantly, the conceptual model should describe the
 system's interfaces.\index{I!Interface definition}
 \end{tip}
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Teleska:
+\begin{interview}
+%\bigskip\blackline{2ex}
+Teleska:
 
 \begin{tfquot}
 The ``spec'' basically deals with WHAT. In its most glorious form, it
@@ -606,8 +606,8 @@ client. I show them as many diagrams as I can to clarify my understanding.
 I don't generally use these once it comes to implementation. The prose
 must be complete, even without reference to the diagrams.
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \begin{tip}
 Decide on error- and exception-handling early as part of defining the
@@ -709,9 +709,9 @@ the stack, translates the string \forth{AXLES} into a part number,
 also on the stack, then calls \forth{REQUEST}. Such a command should
 be defined only at the outer-most level.)
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Johnson of Moore Products Co. has a few words on FORTH pseudocode:
+\begin{interview}
+%\bigskip\blackline{2ex}
+Johnson of Moore Products Co. has a few words on FORTH pseudocode:
 
 \begin{tfquot}
 IBM uses a rigorously documented PDL (program design language). We use
@@ -739,8 +739,8 @@ lovely advantage because it is my style that others are learning to emulate.
 Can they learn to think like I think? I imagine so. It's just a matter of
 practice, and I've had more practice.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \section{Defining the Rules}
 
@@ -815,7 +815,7 @@ Structured English is a sort of structured pseudocode in which our rate
 statement would read something like this:
 
 %Page 053/054 in first edition
-\begin{Code}
+\begin{Code}[baselinestretch=0.95]
 IF full rate
    IF direct-dial
       IF first-minute
@@ -1125,9 +1125,9 @@ more difficult to discover, but once found, it is:
 \item more fun
 \end{itemize}
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent One of the most compelling advocates of simplicity is
+\begin{interview}
+%\bigskip\blackline{2ex}
+One of the most compelling advocates of simplicity is
 Moore\index{M!Moore, Charles|(}:
 
 \begin{tfquot}
@@ -1150,17 +1150,17 @@ the problem. They've solved a large problem of which their real needs
 are a subset. They have violated the principle that the solution
 should match the problem.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \begin{tip}
 Generality usually involves complexity. Don't generalize your solution any
 more than will be required; instead, keep it changeable.
 \end{tip}
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Moore continues:\index{M!Moore, Charles|(}
+\begin{interview}
+%\bigskip\blackline{2ex}
+Moore continues:\index{M!Moore, Charles|(}
 \begin{tfquot}
 
 Given a problem, you can code a solution to it. Having done that, and found
@@ -1198,8 +1198,8 @@ the electromechanical solution, and they're several models away from
 reality. In fact, you can replace it all with two or three coefficients in a digital
 filter for a much cleaner, simpler and more efficient solution.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \begin{tip}
 Go back to what the problem was before the customer tried to solve it.
@@ -1212,9 +1212,9 @@ Exploit the ``don't cares.''
 
 %Page 064 in first edition
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Moore continues:\index{M!Moore, Charles|(}
+\begin{interview}
+%\bigskip\blackline{2ex}
+Moore continues:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 Sometimes the possibilities for simplification aren't immediately
@@ -1238,16 +1238,16 @@ do it as many times as you like.
 By quantitizing things fairly brutally, you make it easier to work with,
 more responsive, and simpler.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \begin{tip}
 To simplify, quantitize.
 \end{tip}
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Moore concludes:\index{M!Moore, Charles|(}
+\begin{interview}
+%\bigskip\blackline{2ex}
+Moore concludes:\index{M!Moore, Charles|(}
 \begin{tfquot}
 It takes arrogance to go back and say ``You didn't really mean this,''
 or ``Would you mind if I took off this page and replaced it with this
@@ -1261,8 +1261,8 @@ discovered he didn't really need an input buffer.
 If you can improve the problem, it's a great situation to get into.
 It's much more fun redesigning the world than implementing it.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \noindent Effective programmers learn to be tactful and to couch their
 approaches in non-threatening ways: ``What would be the consequences
@@ -1299,9 +1299,9 @@ non-numeric characters to appear.
 To simplify, take advantage of what's available.
 \end{tip}
 
-%\begin{interview}
-\bigskip\blackline{2ex}
-\noindent Michael LaManna, a FORTH programmer in Long Island, New York,
+\begin{interview}
+%\bigskip\blackline{2ex}
+Michael LaManna, a FORTH programmer in Long Island, New York,
 comments:
 
 \begin{tfquot}
@@ -1314,8 +1314,8 @@ of a lot of details I might otherwise have to solve myself.
 If I have to go back later and rewrite parts of the application for a
 simpler processor, that's okay. At least I won't have wasted my time.
 \end{tfquot}
-\blackline{2ex}
-%\end{interview}
+%\blackline{2ex}
+\end{interview}
 
 \noindent A word of caution: If you're using an existing component to
 simplify your prototype, don't let the component affect your design.

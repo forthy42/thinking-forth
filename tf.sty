@@ -129,6 +129,7 @@
 \newcommand{\wtexfigt}[2]{
 \begin{figure*}[tttt]
 \caption{#2}
+\smallskip
 \input{#1}
 \labelfig{#1}
 \end{figure*}
@@ -136,6 +137,7 @@
 \newcommand{\wtexfigb}[2]{
 \begin{figure*}[bbbb]
 \caption{#2}
+\smallskip
 \input{#1}
 \labelfig{#1}
 \end{figure*}
@@ -201,6 +203,18 @@ TIP\\[1ex]\small
                         \parsep        1ex \@plus\p@\small}%
                 \item\relax}
                {\endlist}
+
+\newenvironment{interview}
+               {\ifhmode\unskip\unskip\par\medskip\else\bigskip\fi
+		 \list{}{\listparindent 0pt%
+                        \itemindent    0pt
+                        \leftmargin    0pt
+			\topsep        0pt
+                        \parsep        0.5ex \@plus\p@}%
+		\goodbreak\blackline{\medskipamount}\nopagebreak
+                \item\relax}
+               {\nopagebreak\blackline{0pt}\medskip
+		 \goodbreak\endlist}
 
 
 %\pointto{box}

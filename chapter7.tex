@@ -23,8 +23,8 @@ via the stack. The process is ``simple'' because all the work of pushing
 and popping values to and from the stack is implicit.
 
 %!! horizontal line
-\bigskip\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 The data stack uses this idea of ``hidden information.'' The arguments
@@ -34,7 +34,7 @@ even below the level of awareness of the programmer, simply because it
 doesn't have to be referred to explicitly.
 \end{tfquot}\index{M!Moore, Charles|)}
 %!! horizontal line
-\blackline{1ex}
+\end{interview}
 
 One important result of this approach: Arguments are unnamed. They
 reside on the stack, not in named variables. This effect is one of the
@@ -553,9 +553,8 @@ Unless it involves cluttering up the stack to the point of unreadability, try
 to pass arguments via the stack rather than pulling them out of variables.
 \end{tip}
 %!! horizontal line
-\bigskip
-\blackline{2ex}
-\noindent Kogge:
+\begin{interview}
+Kogge:
 \begin{tfquot}
 Most of the modularity of FORTH comes from designing and treating
 FORTH words as ``functions'' in the mathematical sense. In my experience
@@ -572,7 +571,7 @@ sense a ``named variable'' whose value changes frequently is the next worst
 thing to the now ``forbidden'' GOTO.
 \end{tfquot}
 %!! horizontal line
-\blackline{1ex}
+\end{interview}
 
 %!! include cartoon of page 211 here
 \wepsfigp{img7-211}{``Shot from a cannon on a fast-moving train,
@@ -615,8 +614,8 @@ FORTH makes no distinction between local and global variables.
 But FORTH programmers do.
 
 %!! horizontal line
-\bigskip\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|)}
+\begin{interview}
+Moore:\index{M!Moore, Charles|)}
 
 \begin{tfquot}
 We should be writing for the reader. If something is referred to only locally,
@@ -646,7 +645,7 @@ in ROM, and I copy up the initial values at initialization time. But usually
 you're only initializing a few variables to anything other than zero.
 \end{tfquot}\index{M!Moore, Charles|)}
 %!! horizontal line
-\blackline{1ex}
+\end{interview}
 
 \section{Saving and Restoring a State}
 
@@ -732,9 +731,8 @@ In very complex applications a controlled exit is often impractical,
 yet many variables must somehow be restored to a natural condition.
 
 %!! horizontal line
-\bigskip
-\blackline{2ex}
-\noindent Moore\index{M!Moore, Charles|)} responds to this example:
+\begin{interview}
+Moore\index{M!Moore, Charles|)} responds to this example:
 
 \begin{tfquot}
 You really get tied up in a knot. You're creating problems for yourself. If I
@@ -755,7 +753,7 @@ them.
 There are more exits than there are entrances.
 \end{tfquot}\index{M!Moore, Charles|)}
 %!! horizontal line
-\blackline{1ex}
+\end{interview}
 
 In cases in which I need to do the resetting before I'm done, I've found it
 useful to have a single word (which I call PRISTINE) to perform this

@@ -302,9 +302,8 @@ Armed with an understanding of factoring techniques, let's now discuss several o
 Keep definitions short.
 \end{tip}
 
-\bigskip
-\blackline{2ex}
-\noindent We asked Moore,\index{M!Moore, Charles|(}
+\begin{interview}
+We asked Moore,\index{M!Moore, Charles|(}
 ``How long should a FORTH definition be?''
 
 \begin{tfquot}
@@ -314,7 +313,7 @@ When you have a whole lot of words that are all usefyl in their own right--perha
 
 Short words give you a good feeling.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 
 An informal examination of one of Moore's applications shows that he averages seven references, including both words and numbers, per definition. These are remarkably short definitions. (Actually his code was divided about 50-50 between one-line and two-line definitions.)
 
@@ -335,16 +334,15 @@ Factor at the point where you feel unsure about your code (where complexity appr
 \end{tip}
 Don't let your ego take over with an ``I can lick this!'' attitude. FORTH code should never feel uncomfortably complex. Factor!
 
-\bigskip
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 Feeling like you might have introduced a bug is one reason for factoring. Any time you see a doubly-nested \textbf{DO LOOP}, that's a sign that something's wrong because it will be hard to debug. Almost always take the inner \textbf{DO LOOP} and make a word.
 
 And having factored out a word for testing, there's no reason for putting it back. You found it useful in the first place. There's no guarantee you won't need it again.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 Here's another facet of the same principle:
 
 \begin{tip}
@@ -352,8 +350,8 @@ Factor at the point where a cmment seems necessary
 \end{tip}
 Particularly if you feel a need to remind yourself what's on the stack, this may be a good time to ``make a break.''
 
+\goodbreak
 Suppose you have
-
 \begin{Code}
 ... BALANCE  DUP xxx xxx xxx xxx xxx xxx xxx xxx xxx
      xxx xxx xxx xxx xxx xxx   ( balance) SHOW  ...
@@ -372,16 +370,15 @@ No narrative stack pictures are needed. Furthermore, the programmer now has a re
 The second reason for factoring, to eliminate repeated fragments of cade, is even more important than reducing the size of definitions.
 \end{tip}
 
-\bigskip
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 When a word is just a piece of something, it's useful for clarity or debugging, but not nearly as good as a word that is used multiple times. Any time a word is used only once you want to question its value.
 
 Many times when a program has gotten too big I will go back through it looking for phrases that strike my eye as candidates for factoring. The computer can't do this; there are too many variables.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 In looking over your work, you often find identical phrases or short passeges duplicated several times. In writing an editor I found this phrase repeated several times:
 
 \begin{Code}
@@ -429,14 +426,13 @@ If you find yourself referring back in the progam to copy the pattern of previou
 Be sure you can name what you factor.
 \end{tip}
 
-\bigskip
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 If you have a concept that you can't assign a single name to , not a hyphenated name, but a name, it's not a well-formed concept. The ability to assign a name is a necessart part of decomposition. Certainly you get more confidence in the idea.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 Compare this view with the criteria for decomposing a module espoused by structured design in Chaper One. According to that method, a module should exhibit ``functional binding,'' Which can be verified by describing its function in a single, non-compound, \emph{sentence}. FORTH's ``atom,'' a textit{name}, is an order of magnitude more refined.
 
 \begin{tip}
@@ -720,14 +716,13 @@ Another commonly seen phrase is
 
 It's a little tempting to seize upon these phrases and turn them into words, such as (for the first phrase RANGE.
 
-\bigskip
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 That particular phrase \textbf{[OVER + SWAP]} is one that's right on the margin of being a useful word. Often, though if you define something as a word, it turns out you use it only once. If you name such a phrase, you have trouble knowing exactly what RANGE does. You can't see the manipulation in your mind. \textbf{OVER + SWAP} has greater mnemonic value than RANGE.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 %% Could not get that special e in cliches.
 I call these phrases ``cliches.'' They stick together as meaningful functions. You don't have to remember how the phrase works, just what it does. And you don't have to remember an extra name.
 
@@ -972,9 +967,8 @@ Don't try to anticipate ways to factor too early.
 \end{tip}
 Some people wonder why most FORTH systems don't include the defintion word ARRAY. This rule is the reason.
 
-\bigskip
-\blackline{2ex}
-\noindent Moore:\index{M!Moore, Charles|(}
+\begin{interview}
+Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 I often have a class of things called arrays. The simplest arrray
 merely adds a subscript to an address and gives you back an
@@ -1024,12 +1018,12 @@ level of abstraction.
 Building levels of abstraction is a dynamic process,
 not one you can predict.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 \begin{tip}
 Today, make it work. Tomorrow, optimize it.
 \end{tip}
 
-\blackline{2ex}
+\begin{interview}
 Again Moore.\index{M!Moore, Charles|(} On the day of this interview, Moore had been completing work on the design of a board-level FORTH computer, using commercially available ICs. As part of his toolkit for designing the board, he created a simulator in FORTH, to test the board's logic:
 
 \begin{tfquot}
@@ -1043,7 +1037,7 @@ Of course I try to factor things well. But if there doesn't seem to be a good wa
 
 My motivation isn't laziness, it's knowing that there are other things coming down the pike that are going to affect this decision in ways I can't predict. Trying to optimize this now is foolish. Until I get the whole picture in front of me, I can't know what the optimum is.
 \end{tfquot}\index{M!Moore, Charles|)}
-\blackline{1ex}
+\end{interview}
 The observations in this section shouldn't contradict what's been said before about infrmation hiding and about anticipating elements that may change. A good programmer continually tries to balance the expense of building-in changeability against the expense of changing things later if necessary.
 
 These decisions take experience. But as a general rule:
