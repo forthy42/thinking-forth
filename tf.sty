@@ -1,18 +1,41 @@
-%% Thinking Forth style
+%%  Thinking Forth style 
+%%  this style recreates the original appearence of TF
+%%  Copyright (C) 2004  Bernd Paysan, Anton Ertl
 
-\typeout{Thinking Forth Style [28aug04py]}
+%%  This program is free software; you can redistribute it and/or modify
+%%  it under the terms of the GNU General Public License as published by
+%%  the Free Software Foundation; either version 2 of the License, or
+%%  (at your option) any later version.
 
-% stuff left to Bernd:
+%%  This program is distributed in the hope that it will be useful,
+%%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%%  GNU General Public License for more details.
 
-% chapter title page
-% page footer
-% section and subsection header style
-% caption style
+%%  You should have received a copy of the GNU General Public License
+%%  along with this program; if not, write to the Free Software
+%%  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+%%  This program is alternatively licensed under the creative common
+%%  license http://creativecommons.org/licenses/by-nc-sa/2.0/, i.e.
+%%  requires attribution, non-commercial use, and shared-alike.
+%%  If you don't like that, take the GPL as above.
+
+\typeout{Thinking Forth Style [13oct04py]}
+
+%% Some basic things
 
 \makeatletter
 
+%% only chapters have section numbers
+
 \setcounter{secnumdepth}{0}
+
+%% If there's something not correctly typesetted, use \fixme
+
 \newcommand{\fixme}[1]{{\tiny$\triangleright$\marginpar{\tiny$\triangleleft$!!#1}}}
+
+%% labels and references
 
 \newcommand{\labelsect}[1]{\label{sect-#1}}
 \newcommand{\labelfig}[1]{\label{fig-#1}}
@@ -22,9 +45,23 @@
 \newcommand{\sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 
-%\wepsfig{label}{caption}
+%% Images
+
+%%\w{eps,tex}fig*{label}{caption}
+% *:
+% ''  missing figure
+% 'a' figure here
+% 't' figure on top of page
+% 'b' figure on bottom of page
+% 'pp' figure on page of figures
+% 'x' image on separate page
+% 'xx' small image on separate page (make sure no other image lands there)
+% tex includes a latex file, should be a minipage there, only available
+%     in t and b flavour
+
 \newcommand{\wepsfig}[2]{\begin{figure}[hhhh]
 \caption{#2}\labelfig{#1}eps file missing\end{figure}}
+
 \newcommand{\wepsfiga}[2]{
 \begin{figure*}[hhhh]
 \caption{#2}
@@ -95,6 +132,16 @@
 \end{figure*}
 }
 
+%% Only caption and label for figures with code
+
+\newcommand\verbfig[2]{
+\caption{#2}
+\labelfig{#1}
+}
+
+%% There's no bold typewriter in Computer Modern.
+%% Emulate with printing several times, slightly moving
+
 \newcommand{\poorbf}[1]{%
 \kern-.25pt\hbox to 0.25pt{#1\hss}%
 \raise0.25pt\hbox to 0pt{#1\hss}%
@@ -102,23 +149,30 @@
 \hbox to 0.25pt{#1\hss}%
 #1\kern-0.25pt}
 
-\newcommand\verbfig[2]{
-\caption{#2}
-\labelfig{#1}
-}
-
+%% line for separating is blacker than LaTeX default
 
 \newcommand{\blackline}[1]{\hrule height 1pt\vspace{#1}}
+
+%% allow pretty big top fractions for floating placement
 
 \renewcommand\topfraction{.95}
 \renewcommand\bottomfraction{.5}
 %\renewcommand\floatpagefraction{.05}
 
+%% TIP environment
+
 \newenvironment{tip}{\list{}{
 \parsep\z@ \@plus\p@\small}%
-\vspace{-1.5ex}\item\relax\leavevmode\samepage\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\nopagebreak\\[.75ex]\nopagebreak{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}
-{\nopagebreak\par\nopagebreak\kern-.25ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\vspace*{-1ex}}
+\vspace{-1.5ex}\item\relax\leavevmode\samepage%
+\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}%
+\nopagebreak\\[.75ex]\nopagebreak%
+{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}%
+{\nopagebreak\par\nopagebreak\kern-.25ex%
+\hbox{\hbox to\leftmargin{}%
+\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\vspace*{-1ex}}
 \endlist\goodbreak}
+
+%% quotation environment for TF
 
 \newenvironment{tfquot}
                {\list{}{\listparindent 0em%
@@ -156,7 +210,7 @@
 %fancyvrb=true% set this to true if you want fancyvrb use
 %}
 
-%% chapter/section/subsection styles
+%% chapter style, chapters without name like Preface are chapter*
 
 \newcommand\HUGE{\@setfontsize\HUGE{40}{50}}
 
@@ -179,6 +233,17 @@
     \hrule \@height 2pt}
   \vspace*{100pt}
 }}
+
+\def\wordchapter{\ifcase\c@chapter\or ONE\or TWO\or THREE\or FOUR\or
+FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
+
+\def\epilog{\gdef\wordchapter{EPILOGUE}}
+\renewcommand\appendix{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\thechapter{\@Alph\c@chapter}%
+  \gdef\wordchapter{APPENDIX \@Alph\c@chapter\hss}%
+  \gdef\chapter@upper\relax}
 
 %% headings style
 
@@ -206,16 +271,6 @@
 \ps@headings
 \def\ps@plain{\ps@empty}
 
-\def\wordchapter{\ifcase\c@chapter\or ONE\or TWO\or THREE\or FOUR\or
-FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
-
-\def\epilog{\gdef\wordchapter{EPILOGUE}}
-\renewcommand\appendix{\par
-  \setcounter{chapter}{0}%
-  \setcounter{section}{0}%
-  \gdef\thechapter{\@Alph\c@chapter}%
-  \gdef\wordchapter{APPENDIX \@Alph\c@chapter\hss}}
-
 %% section marking
 
 \newif\ifsectionlabel
@@ -234,23 +289,26 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 \def\setlrcounter#1{%
 \setcounter{@sectionlrpage}{\ifsectionlabel #1\else\arabic{page}\fi}}
 \def\raggedlr{\noindent
-\expandafter\setlrcounter{\expandafter\pagerefpp{s@ctionlr-\arabic{sectionlr}}}%
+\expandafter\setlrcounter{%
+\expandafter\pagerefpp{s@ctionlr-\arabic{sectionlr}}}%
 \ifodd\c@@sectionlrpage\raggedleft\else\raggedright\fi
 \stepcounter{sectionlr}}
 \def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
 
-\def\section@ditionalsp@ce{0pt}
-\def\section#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
+\def\section#1{\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
     minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\protect\raggedlr #1\kern-.66in}}
-\def\subsection#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{subsection}{2}{0in}{2ex plus 1ex
+\def\subsection#1{\@startsection{subsection}{2}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
-\def\subsubsection#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
+\def\subsubsection#1{\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
 
 %% indentation
 
 \parindent 2.5em
 \DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=2.5em}
+
+%% screen environment
+
 \newcounter{screen}
 \DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
 label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
@@ -275,20 +333,31 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 \renewcommand*\descriptionlabel[1]{\hspace{2.5em}
                                 \normalfont\itshape #1}
 
-%% original table of contents style
+%% table of contents style
 
-\renewcommand\numberline[1]{}
+\def\@upperskip{1.5em \@plus\p@}
+\def\@lowerskip{1.0em \@plus\p@}
+
+\def \doappendix#1{%
+  \if#1A\normalfont\setcounter{tocdepth}{0}
+  \gdef\@upperskip{0pt}\gdef\@lowerskip{0pt} Appendix A\quad\fi
+                                       \if#1D\normalfont Appendix D\quad\fi
+  \if#1B\normalfont Appendix B\quad\fi \if#1E\normalfont Appendix E\quad\fi
+  \if#1C\normalfont Appendix C\quad\fi \if#1F\normalfont Appendix F\quad\fi
+  }
+
+\renewcommand\numberline[1]{\doappendix{#1}}
 \renewcommand*\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
-    \vskip 1.5em \@plus\p@
+    \vskip\@upperskip
     \setlength\@tempdima{1.5em}%
     \begingroup
       \leavevmode
       \hfill {\sf\bfseries\slshape#1},~\emph{#2}\par
       \penalty\@highpenalty
     \endgroup
-    \vskip 1.0em \@plus\p@
+    \vskip\@lowerskip
   \fi}
 \def\@dottedtocline#1#2#3#4#5{%
   \ifnum #1>\c@tocdepth \else
@@ -302,17 +371,18 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
      {\hfill #4},~\emph{#5}\par}%
   \fi%
   \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
+\def\chapter@upper\uppercase
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
                        \if@mainmatter
                          \refstepcounter{chapter}%
                          \typeout{\@chapapp\space\thechapter.}%
                          \addcontentsline{toc}{chapter}%
-                                   {\protect\numberline{\thechapter}\uppercase{#1}}%
+                                   {\protect\numberline{\thechapter}\chapter@upper{#1}}%
                        \else
-                         \addcontentsline{toc}{chapter}{\uppercase{#1}}%
+                         \addcontentsline{toc}{chapter}{\chapter@upper{#1}}%
                        \fi
                     \else
-                      \addcontentsline{toc}{chapter}{\uppercase{#1}}%
+                      \addcontentsline{toc}{chapter}{\chapter@upper{#1}}%
                     \fi
                     \chaptermark{#1}%
                     \addtocontents{lof}{\protect\addvspace{10\p@}}%

@@ -60,6 +60,9 @@ footskip=0.5in}
 \addcontentsline{toc}{section}{\contentsname}
 \pagestyle{empty}
 \tableofcontents
+\makeatletter
+\renewcommand\numberline[1]{\hb@xt@\@tempdima{#1\hfil}}
+\makeatother
 \listoffigures
 \vfill\pagebreak\pagestyle{headings}
 \sectionlabelfalse
