@@ -186,6 +186,7 @@
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
   \def\subsectionmark##1{\markright{##1}}%
+  \def\subsubsectionmark##1{}%
 }
 
 \ps@headings
@@ -201,10 +202,28 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
   \gdef\thechapter{\@Alph\c@chapter}%
   \gdef\wordchapter{APPENDIX \@Alph\c@chapter\hss}}
 
-\newif\ifotherside
-\othersidefalse
-\def\raggedlr{\noindent\ifodd\c@page\ifotherside\raggedright\else\raggedleft\fi
-\else\ifotherside\raggedleft\else\raggedright\fi\fi}
+%% section marking
+
+\newif\ifsectionlabel
+\sectionlabelfalse
+
+\newcounter{sectionlr}
+
+\def\@setrefpp#1{\ifx#1\relax0\else#1\fi}
+\def\pagerefpp#1{\expandafter\@setrefpp\csname r@#1\endcsname}
+\def\labelpp#1{\@bsphack%
+  \protected@write\@auxout{}%
+         {\string\newlabel{#1}{\arabic{page}}}%
+  \@esphack}
+
+\newcounter{@sectionlrpage}
+\def\setlrcounter#1{%
+\setcounter{@sectionlrpage}{\ifsectionlabel #1\else\arabic{page}\fi}}
+\def\raggedlr{\noindent
+\expandafter\setlrcounter{\expandafter\pagerefpp{s@ctionlr-\arabic{sectionlr}}}%
+\ifodd\c@@sectionlrpage\raggedleft\else\raggedright\fi
+\stepcounter{sectionlr}}
+\def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
 
 \def\section@ditionalsp@ce{0pt}
 \def\section#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
@@ -267,7 +286,8 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
      \@tempdima #3\relax
      \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
      {\hfill #4},~\emph{#5}\par}%
-  \fi}
+  \fi%
+  \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
                        \if@mainmatter
                          \refstepcounter{chapter}%

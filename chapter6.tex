@@ -92,8 +92,7 @@ For simplicity, try to express the difference between similar fragments as a num
 \end{tip}
 
 
-\othersidetrue\subsection{{Factoring Out Functions}}
-\othersidefalse
+\subsection{{Factoring Out Functions}}
 On the other hand, the difference sometimes \emph{is} a function. Witness:
 
 \bigskip
@@ -193,8 +192,7 @@ The word \textbf{CONDITIONALLY} may--depenting on the condition--alter the contr
 
 More benign examples of factoring-out control structures include case statements, which eliminate nested \textbf{IF ELSE THEN}s, and multiple exit loops ( the \textbf{BEGIN WHILE WHILE WHILE ... REPEAT} construct). We'll also discuss these topics in Chapter Eight.
 
-\othersidetrue\subsection{{Factoring Out Names}}
-\othersidefalse
+\subsection{{Factoring Out Names}}
 It's even good to factor out names, when the names seem almost, but not quite, the same. Examine the following terrible example of code, which is meant to initialize three variables associated with each of eight channels:
 
 \begin{Code}
@@ -289,8 +287,7 @@ In terms of readability, the defining word makes it absolutely clear that all th
 
 The greatest strength of defining words, however, arises when a series of defintinos share the same \emph{compile-time} behavior. This topic is the subject of a later section, ``Compile-Time Factoring.''
 
-\othersidetrue\section{Factoring Criteria}
-\othersidefalse
+\section{Factoring Criteria}
 Armed with an understanding of factoring techniques, let's now discuss several of the criteria for factoring FORTH definitions. They include:
 
 \begin{enumerate}

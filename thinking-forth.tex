@@ -62,13 +62,15 @@ footskip=0.5in}
 \tableofcontents
 \listoffigures
 \vfill\pagebreak\pagestyle{headings}
+\sectionlabelfalse
 \input{preface}
 \vfill\pagebreak
+\sectionlabeltrue
+\setcounter{sectionlr}{3}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \input{chapter1}
 \input{chapter2}
-%\setcounter{chapter}{2}
 \input{chapter3}
 \input{chapter4}
 \input{chapter5}

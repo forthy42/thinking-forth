@@ -6,7 +6,7 @@
 
 %Page 037 in first edition
 
-\chapternum{TWO}
+%\chapternum{TWO}
 \chapter{Analysis}
 
 %Page 038 in first edition
@@ -73,7 +73,7 @@ programming cycle is known as using the ``Iterative Approach.''
 \noindent The iterative approach was explained eloquently by Kim
 Harris {[}1{]}. He begins by describing the scientific method:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent \dots{} a never-ending cycle of discovery and refinement. It
 first studies a natural system and gathers observations about its
 behavior. Then the observations are modeled to produce a theory about
@@ -85,7 +85,7 @@ revised.
 
 The goal of the method is to produce a model which accurately predicts all
 observable behavior of the natural system.
-\end{quotation}
+\end{tfquot}
 
 \noindent Harris then applies the scientific method to the software development
 cycle, illustrated in \Fig{fig2-1}:
@@ -112,12 +112,12 @@ implemented correctly.
 
 \noindent Mr. Harris adds:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent Software development in FORTH seeks first to find the simplest solution
 to a given problem. This is done by implementing selected parts of the
 problem separately and by ignoring as many constraints as possible. Then one
 or a few constraints are imposed and the program is modified.
-\end{quotation}
+\end{tfquot}
 
 \noindent An excellent testimonial to the development/testing model of design is
 evolution. From protozoa to tadpoles to people, each species along the
@@ -141,7 +141,7 @@ Clearly you can't undertake a significant software
 project---regardless of the language---without some degree of planning.
 Exactly what degree is appropriate?
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 More than one FORTH programmer has expressed high regard for Dave
 Johnson's meticulous approach to planning. Johnson is supervisor at
 Moore Products Co. in Springhouse, Pennsylvania. The firm specializes
@@ -150,7 +150,7 @@ been using FORTH since 1978.
 
 He describes his approach:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent Compared with many others that use FORTH, I suppose we take a more
 formal approach. I learned this the hard way, though. My lack of discipline
 in the early years has come back to haunt me.
@@ -207,20 +207,20 @@ time, we're able to look back several years later and remember what we did.
 \noindent I should mention that during the design phase there is some amount of
 coding done to test out certain ideas. But this code may not be part of the
 finished product. The idea is to map out your design.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent Johnson advises us to complete the design specification before starting
 to code, with the exception of needed preliminary tests. The next
 interview backs up this point, and adds some additional reasons.
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent John Teleska has been an independent software consultant since 1976,
 specializing in custom applications for academic research environments.
 He enjoys providing research tools ``right at the edge of what technology
 is able to do.'' Teleska works in Rochester, New York:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent I see the software development process as having two phases. The first is
 making sure I understand what the problem is. The second is
 implementation, including debugging, verification, etc.
@@ -257,8 +257,8 @@ satisfaction.
 \noindent I think there are consultants who bow to client pressure and limit the time
 they spend on specs, for fear of losing the job. But in these situations
 nobody ends up happy.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent We'll return to the Teleska interview momentarily.
 
@@ -269,12 +269,12 @@ nobody ends up happy.
 coding. But planning has certain limitations. The following interviews
 give different perspectives to the value of planning.
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Despite Teleska's preference for a well-planned project, he suggests that
 the choice between a top-down and bottom-up approach may depend on
 the situation:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent On two recent projects involving a lot of technical interface work, I did the
 whole thing bottom-up. I milled around in a bunch of data-sheets and
 technical descriptions of little crannies of the operating system I was
@@ -292,14 +292,14 @@ intuitive than we, in this business, tell each other it ought to be.
 \noindent I think if the application elicits this sense of being lost, I proceed
 bottom-up. If the application is in familiar territory then I'll probably
 use a more traditional by-the-book approach.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 %Page 043 in first edition
 
 \noindent And here's another view:
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent At the time I interviewed him, Michael Starling of Union Carbide was
 putting the final touches on two applications involving user-configurable
 laboratory automation and process control automation systems. For the
@@ -313,7 +313,7 @@ requires days, instead of months, to install and configure.
 
 I asked him what techniques of project management he employed.
 
-\begin{quotation}
+\begin{tfquot}
 \noindent On both of these projects much design was needed. I did not follow the
 traditional analysis methods, however. I did employ these steps:
 
@@ -380,19 +380,19 @@ costs. The route to a solution may depend upon your priorities. Remember:
 \end{itemize}
 
 \noindent Pick any two!
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent As Starling observes, you don't know completely what you're doing till
 you've done it once. In my own experience, the best way to write an
 application is to write it twice. Throw away the first version and chalk it up
 to experience.
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Peter Kogge is Senior Technical Staff in the IBM Federal Systems
 Division, Oswego, New York:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent One of the key advantages I find in FORTH is that it allows me to very
 quickly prototype an application without all the bells and whistles, and
 often with significant limitations, but enough to wring out the ``human
@@ -403,8 +403,8 @@ use not a single line of code from the prototype in the final program. This
 enforced ``do-over'' almost always results in far simpler and more elegant
 final programs, even when those programs are written in something other
 than FORTH.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent Our conclusions? In the FORTH environment planning is necessary. But
 it should be kept short. Testing and prototyping are the best ways to
@@ -574,10 +574,10 @@ First, and most importantly, the conceptual model should describe the
 system's interfaces.
 \end{tip}
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Teleska:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent The ``spec'' basically deals with WHAT. In its most glorious form, it
 describes what the system would look like to the user-you might call it the
 user's manual. I find I write more notes on the human interaction-what it
@@ -617,8 +617,8 @@ discuss later{]}, and any other kind of representation that I can show to my
 client. I show them as many diagrams as I can to clarify my understanding.
 I don't generally use these once it comes to implementation. The prose
 must be complete, even without reference to the diagrams.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \begin{tip}
 Decide on error---and exception---handling early as part of defining the
@@ -722,10 +722,10 @@ the stack, translates the string \forth{AXLES} into a part number,
 also on the stack, then calls \forth{REQUEST}. Such a command should
 be defined only at the outer-most level.)
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Johnson of Moore Products Co. has a few words on FORTH pseudocode:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent IBM uses a rigorously documented PDL (program design
 language). We use a PDL here as well, although we call it FDL, for
 FORTH design language. It's probably worthwhile having all those
@@ -735,8 +735,8 @@ words: \forth{C@}, \forth{DUP}, \forth{OVER}, etc., and show only the
 basic flow. Most FORTH people probably do that informally. We do it
 purposefully.
 
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 %Page 052 in first edition
 
@@ -744,19 +744,19 @@ purposefully.
 diagrams of any sort to plan out the conceptual model, or did he code
 straight into FORTH? His reply:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent The conceptual model is FORTH. Over the years I've learned to think that way.
-\end{quotation}
+\end{tfquot}
 
 \noindent Can everyone learn to think that way?
 
-\begin{quotation}
+\begin{tfquot}
 \noindent I've got an unfair advantage. I codified my programming style and other
 people have adopted it. I was surprised that this happened. And I feel at a
 lovely advantage because it is my style that others are learning to emulate.
 Can they learn to think like I think? I imagine so. It's just a matter of
 practice, and I've had more practice.
-\end{quotation}
+\end{tfquot}
 \blackline{2ex}
 
 %left same as page #
@@ -780,7 +780,7 @@ the charges on long-distance phone calls. Here's the customer's
 explanation of its rate structure. (I made this up; I have no idea how the phone
 company actually computes their rates except that they overcharge.)
 
-\begin{quotation}
+\begin{tfquot}
 \noindent All charges are computed by the minute, according to distance in hundreds
 of miles, plus a flat charge. The flat charge for direct dial calls during
 weekdays between 8 A.M. and 5 P.M. is .30 for the first minute, and .20 for
@@ -792,7 +792,7 @@ late during weekdays between 11 P.M. or anytime on Saturday, Sundays, or
 holidays is .12 for the first minute, and .09 for each additional minute; the
 distance rate per minute is .06 per 100 miles. If the call requires assistance
 from the operator, the flat charge increases by .90, regardless of the hour.
-\end{quotation}
+\end{tfquot}
 
 \noindent This description is written in plain old English, and it's quite a mouthful.
 It's hard to follow and, like an attic cluttered with accumulated
@@ -807,12 +807,12 @@ information---that is, applying the rules of limited redundance. We can
 improve this statement a lot by splitting it into two statements. First
 there's the time-of-day rule:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent Calls during weekdays between 8 A.M. and 5 P.M. are charged at ``full'' rate.
 Calls during weekdays between 5 P.M. and 11 P.M. are charged at ``lower''
 rate. Calls placed during weekdays between 11 P.M. or anytime on Saturday,
 Sundays, or holidays are charged at the ``lowest'' rate.
-\end{quotation}
+\end{tfquot}
 
 \noindent Then there's the rate structure itself, which should be described in terms
 of ``first-minute rate,'' ``additional minute rate,'' ``distance rate,'' and
@@ -1131,9 +1131,9 @@ Keep it simple.
 \noindent While you are taking these crucial first steps toward understanding the
 problem, keep in mind the old saying:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent Given two solutions to a problem, the correct one is the simpler.
-\end{quotation}
+\end{tfquot}
 
 \noindent This is especially true in software design. The simpler solution is often
 more difficult to discover, but once found, it is:
@@ -1149,10 +1149,10 @@ more difficult to discover, but once found, it is:
 \item more fun
 \end{itemize}
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent One of the most compelling advocates of simplicity is Moore:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent You need a feeling for the size of the problem. How much code should it
 take to implement the thing? One block? Three? I think this is a very useful
 design tool. You want to gut-feel whether it's a trivial problem or a major
@@ -1170,17 +1170,17 @@ thousands of lines of code. Probably its writers have overgeneralized the
 problem. They've solved a large problem of which their real needs are a
 subset. They have violated the principle that the solution should match the
 problem.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \begin{tip}
 Generality usually involves complexity. Don't generalize your solution any
 more than will be required; instead, keep it changeable.
 \end{tip}
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Moore continues:
-\begin{quotation}
+\begin{tfquot}
 
 \noindent Given a problem, you can code a solution to it. Having done that, and found
 certain unpleasantnesses to it, you can go back and change the problem,
@@ -1216,8 +1216,8 @@ Again the spec writers will model the analog solution which was modeling
 the electromechanical solution, and they're several models away from
 reality. In fact, you can replace it all with two or three coefficients in a digital
 filter for a much cleaner, simpler and more efficient solution.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \begin{tip}
 Go back to what the problem was before the customer tried to solve it.
@@ -1230,10 +1230,10 @@ Exploit the ``don't cares.''
 
 %Page 064 in first edition
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Moore continues:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent Sometimes the possibilities for simplification aren't immediately obvious.
 There's this problem of zooming in a digitized graphics display, such as
 CAD systems. You have a picture on the screen and you want to zoom in on
@@ -1252,16 +1252,16 @@ like.
 
 By quantitizing things fairly brutally, you make it easier to work with,
 more responsive, and simpler.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \begin{tip}
 To simplify, quantitize.
 \end{tip}
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Moore concludes:
-\begin{quotation}
+\begin{tfquot}
 \noindent It takes arrogance to go back and say ``You didn't really mean this,'' or
 ``Would you mind if I took off this page and replaced it with this
 expression?'' They get annoyed. They want you to do what they told you to do.
@@ -1272,8 +1272,8 @@ he didn't really need an input buffer.
 
 If you can improve the problem, it's a great situation to get into. It's much
 more fun redesigning the world than implementing it.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent Effective programmers learn to be tactful and to couch their approaches
 in non-threatening ways: ``What would be the consequences of replacing
@@ -1310,10 +1310,10 @@ to appear.
 To simplify, take advantage of what's available.
 \end{tip}
 
-\blackline{2ex}
+\bigskip\blackline{2ex}
 \noindent Michael LaManna, a FORTH programmer in Long Island, New York, comments:
 
-\begin{quotation}
+\begin{tfquot}
 \noindent I always try to design the application on the most powerful processor I can
 get my hands on. If I have a choice between doing development on a
 68000-based system and a 6809-based system, I'd go for the 68000-based
@@ -1322,8 +1322,8 @@ might otherwise have to solve myself.
 
 If I have to go back later and rewrite parts of the application for a simpler
 processor, that's okay. At least I won't have wasted my time.
-\end{quotation}
-\blackline{2ex}
+\end{tfquot}
+\blackline{1ex}
 
 \noindent A word of caution: If you're using an existing component to simplify
 your prototype, don't let the component affect your design. You don't
