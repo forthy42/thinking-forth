@@ -28,6 +28,8 @@
 \usepackage{babel}
 \usepackage{geometry}
 \usepackage{pst-all}
+\usepackage{pst-blur}
+\usepackage{pst-grad}
 \usepackage{fancyvrb}
 \usepackage[cmbtt]{bold-extra}
 \usepackage[\tfoptions]{tf}
@@ -86,6 +88,8 @@ footskip=0pt}%
 \advance\pheight-2\lborder
 \advance\pheight-2\cborder
 \parindent0pt
+\newrgbcolor{blue}{.45 .6 .6}
+
 \begin{document}%
 \pagestyle{empty}%
 \ifsplitcover
@@ -113,7 +117,9 @@ footskip=0pt}%
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \llap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
 \llap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
-\begin{minipage}{\spine}
+\begin{minipage}{\spine}%
+\vbox to\pheight{%
+\ifthinker\else\smash{\lower\pheight\vbox{\hbox to \spine{\hss\lower8pt\hbox to 1.2in{\includegraphics{head}\hss}}}}\fi
 \ifspineup
 \expandafter\rotateleft
 \else
@@ -126,16 +132,16 @@ footskip=0pt}%
 \Huge\bfseries\person{Leo Brodie}\hss\fi
 \HUGE\slshape\rboxto{THINKING FORTH}{THINKING FORTH\/\normalsize\,}
 \ifspineup\else
-    \hss\Huge\bfseries\person{Leo Brodie}%
+    \hss\Huge\bfseries\ifthinker\else\black\fi\person{Leo Brodie}\white%
 \fi\hspace{0.5in}%
-}\vss}}
-\end{minipage}%
+}\vss}}%
+}\end{minipage}%
 \rlap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
 \rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}}%
 \ifsplitcover\eject\fi
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \begin{minipage}{\oldpwidth}%
-\ifthinker\else\smash{\lower6.75in\hbox to \oldpwidth{\rlap{\vbox{\fontfamily{phv}\selectfont\Large\midblue
+\ifthinker\else\smash{\lower6.75in\hbox to \oldpwidth{\rlap{\vbox{\fontfamily{phv}\selectfont\Large\blue
 011111110010101101000110001000101100000011110101010000100010100110000100000110110101000001101101\\
 001110000011100000101101010110000000100010000011010011110101101000110000000110101110011010101011\\
 001000011000011100110001100111100110011111111110011010101100000110110010100001100100001010111001\\
@@ -205,7 +211,10 @@ footskip=0pt}%
 %% You can include a publisher logo here, like
 %\centerline{\includegraphics{LogoOctopus}}%
 %% 
-\vspace{0.25in}}%
+\vspace{0.25in}%
+\ifthinker\else\smash{%
+\begin{psclip}{\pspolygon[linewidth=0pt](\textwidth,-8)(\textwidth,\pheight)(0,\pheight)(0,-8)}%
+\llap{\lower8pt\hbox to 1.2in{\includegraphics{head}\hss}}\end{psclip}}}\fi
 \end{minipage}}%
 \ifsplitcover
 \else

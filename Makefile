@@ -21,7 +21,7 @@ SOURCES = thinking-forth.tex \
 	fig7-7.tex fig7-8.tex fig7-9.tex \
 	backpage.tex cover.tex legalcode-by-nc-sa.tex \
 	autoscale eps2pdf \
-	rodin_thinker.jpg rodin_thinker.eps \
+	rodin_thinker.jpg rodin_thinker.eps head.eps \
 	leobrodie.jpg leobrodie.eps
 
 ALL_SOURCES = $(SOURCES) Makefile
@@ -75,7 +75,7 @@ LINKCOLOR = blue
 # 17x24 for 17cm x 24cm format (one of the standard metric formats)
 # splitcover: if you only choose front and back, and the spine is done for you
 
-VERSION = 0.2
+VERSION = 0.9
 CP = cp
 TAR = tar jcf
 MD = mkdir
@@ -139,6 +139,7 @@ tfoptions.tex:	Makefile
 	echo "\def\isbn{$(ISBN)}" >>$@
 	echo "\def\linkcolor{$(LINKCOLOR)}" >>$@
 	echo "\def\printing{$(PRINTING)}" >>$@
+	echo "\def\tfversion{$(VERSION)}" >>$@
 
 %.pdf : %.ps
 	$(PS2PDF) $< $@
@@ -159,7 +160,7 @@ thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
-cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex \
+cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex head.eps \
 	rodin_thinker.eps leobrodie.eps
 	latex cover.tex
 
@@ -198,7 +199,7 @@ AUTOTRACE = autotrace --despeckle-level 8 --error-threshold 4
 #	./autoscale $@
 
 #fig%.eps:	fig%.png
-#	./potrace $@
+#	./poconv $@
 
 #img%.eps:	img%.png
 #	$(AUTOTRACE) $< >$@
