@@ -441,7 +441,7 @@ critical. We must be able to make such assertions to assure program
 correctness. The assertion is intrinsic to the nature of the problem.
 
 Note that the additional problem of video refresh adds an additional
-''pointer'': the current cursor position on the screen. But decomposition
+``pointer'': the current cursor position on the screen. But decomposition
 by component has encouraged us to view the \forth{OVERWRITE} process as
 changing both the data field and the video vision of it; similarly with
 \forth{SLIDE<} and \forth{SLIDE>}. For this reason it seems natural now to maintain
@@ -793,7 +793,7 @@ Most of us are guilty of over-emphasizing the difference between
 ``high-level'' and ``low-level.'' This notion is an arbitrary one. It
 limits our ability to think clearly about software problems.
 
-''Level'' thinking, in the traditional sense, distorts our efforts in
+``Level'' thinking, in the traditional sense, distorts our efforts in
 three ways:
 
 \begin{enumerate}
@@ -958,7 +958,7 @@ Try writing a text editor in which the entire screen may need to be
 refreshed with each keystroke. Slow as mail! You can't improve the speed
 because you can't reuse any of the information within the video routines
 except for what's provided on the outside. The stated reason for this is to
-''insulate'' the programmer from device addresses and other details of
+``insulate'' the programmer from device addresses and other details of
 the hardware. After all, these could change with future upgrades.
 The only way to efficiently implement video I/O on this machine is
 to move strings directly into video memory. You can do this easily,
