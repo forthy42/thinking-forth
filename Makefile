@@ -152,7 +152,7 @@ ps :	thinking-forth.ps
 dvi :	thinking-forth.dvi
 
 %.ps	: %.dvi
-	dvips $< -o $@
+	dvips $< -o - | sed -e "s,\`\`toFurther Thinking'',\"Further Thinking\",g" >$@
 
 
 thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
@@ -169,7 +169,7 @@ isbn.eps:
 	bookland.py $(ISBN) $(PRICE) >$@
 
 pagecount.tex:	tfoptions.tex
-	grep %%Pages: thinking-forth.ps | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' >$@
+	grep %%Pages: thinking-forth.ps | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' | head -1 >$@
 
 thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
@@ -196,6 +196,9 @@ AUTOTRACE = autotrace --despeckle-level 8 --error-threshold 4
 #fig%.eps:	fig%.png
 #	$(AUTOTRACE) $< >$@
 #	./autoscale $@
+
+#fig%.eps:	fig%.png
+#	./potrace $@
 
 #img%.eps:	img%.png
 #	$(AUTOTRACE) $< >$@
