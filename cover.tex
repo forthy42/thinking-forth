@@ -13,6 +13,8 @@
   \pdftrue
 \fi
 
+\input{tfoptions}
+
 \ifpdf
 \documentclass[10pt,american,pdftex]{book}
 \else
@@ -26,7 +28,7 @@
 \usepackage{geometry}
 \usepackage{pst-all}
 \usepackage{fancyvrb}
-\usepackage[2004]{tf}
+\usepackage[\tfoptions]{tf}
 
 %% Cover creation howto:
 %% back | spine | front + border
@@ -58,56 +60,61 @@ footskip=0pt}
 
 % for pdflatex
 \ifpdf
-\DeclareGraphicsExtensions{.pdf,.png}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \else
 \DeclareGraphicsExtensions{.eps}
 \fi
 
 \makeatletter
+\advance\pheight-2\cborder
 \parindent0pt
 \begin{document}
-\pagestyle{empty}\samepage
+\pagestyle{empty}
 \centerline{\psframebox*[fillcolor=black,framesep=\cborder]{\noindent
-\white
+\hbox{\white
 \begin{minipage}{\oldpwidth}
-\hbox{\hspace{\oddmargin}
-\begin{minipage}{\twidth}
-\parindent2.5em
+\advance\leftskip\oddmargin
+\vbox to\pheight{\vspace{0.5in}
+\begin{minipage}{\twidth}%
+\parindent2.5em\sf
 \input{backpage}
-\end{minipage}}
-\vspace{20pt}
-\vspace{1.5in}
-\leavevmode\hspace{\oddmargin}\psframe[fillcolor=white,fillstyle=solid](0,0)(5.08,3.81)
+\end{minipage}
+\vss
+\psframebox*[fillcolor=white,framesep=.125in]{\includegraphics{isbn}}
+\vspace*{0.5in}}
 \end{minipage}
 \vline
 \begin{minipage}{\spine}
-\rotateleft{\advance\pheight-2\cborder\vbox to \spine{\vss\hbox to \pheight{
+\rotateleft{\vbox to \spine{\vss\hbox to \pheight{%
     \fontfamily{phv}\selectfont
-    \leavevmode\hspace{0.5in}
+    \noindent\hspace{0.5in}%
     \Huge\bfseries\person{Leo Brodie}\hss
-    \HUGE\slshape THINKING FORTH
-    \hspace{0.5in}
+    \HUGE\slshape THINKING FORTH\/\hspace{0.5in}%
 }\vss}}
 \end{minipage}
 \vline
 \begin{minipage}{\oldpwidth}
-\HUGE
+\vbox to\pheight{\vspace{0.5in}
     \fontfamily{phv}\selectfont
   \vbox{\hrule \@height 3pt
+  \HUGE
     \vspace*{0.2ex}\hbox to \textwidth{\hspace{\evenmargin}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
     \hrule \@height 3pt}
   \vspace*{100pt}
   \hbox{\hspace{\evenmargin}
   \begin{minipage}{\twidth}
-  \vbox{\hsize\textwidth
     \parindent\z@\hyphenpenalty 10000\raggedright
-  {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
-   \Huge A Language \\ and Philosophy \\ for Solving Problems}
-   \vspace*{100pt}
-   \Large\noindent Includes interviews with \Forth{}'s inventor, \person{Charles H. Moore},
-and other \Forth{} thinkers
+    {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
+    \Huge A Language \\ and Philosophy \\ for Solving Problems
   \end{minipage}}
-\end{minipage}}}
+   \vfill
+  \hbox{\hspace{\evenmargin}
+  \begin{minipage}{\twidth}
+     \Large\noindent Includes interviews with \Forth{}'s inventor,
+\person{Charles H. Moore}, and other \Forth{} thinkers
+  \end{minipage}}
+\vspace{0.5in}}
+\end{minipage}}}}
 
 
 \end{document}

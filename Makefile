@@ -1,6 +1,7 @@
 # Makefile for Thinking Forth
 
 SOURCES = thinking-forth.tex \
+	tfoptions.tex \
 	preface.tex \
 	preface94.tex \
 	chapter1.tex \
@@ -42,6 +43,13 @@ PNGSOURCES = \
 
 WIDTH = 6.8125
 HEIGHT = 9.125
+
+# original Prentice Hall ISBN
+ISBN = 0-13-917568-7
+# dummy price
+PRICE = 90000
+# USD 20 would be 42000
+OPTIONS = 2004,tip,tipno,17x22
 
 VERSION = 0.2
 CP = cp
@@ -89,6 +97,10 @@ bookletter : thinking-forth.ps
 	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,14.5cm)' | \
 	$(PSA4) >$@
 
+tfoptions.tex:	Makefile
+	echo "\def\tfoptions{$(OPTIONS)}" >$@
+	echo "\def\isbn{$(ISBN)}" >>$@
+
 %.pdf : %.ps
 	ps2pdf $< $@
 
@@ -105,8 +117,13 @@ dvi thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
-cover.dvi:	cover.tex
+cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex
 	latex cover.tex
+
+# get bookland.py from http://www.cgpp.com/bookland/
+
+isbn.eps:
+	bookland.py $(ISBN) $(PRICE) >$@
 
 thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex

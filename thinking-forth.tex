@@ -13,6 +13,8 @@
   \pdftrue
 \fi
 
+\input{tfoptions}
+
 \ifpdf
 \documentclass[10pt,american,pdftex]{book}
 \else
@@ -34,7 +36,7 @@
 \usepackage{babel}
 \usepackage{mdwlist}
 \usepackage{makeidx}
-\usepackage[2004,tip,tipno]{tf}
+\usepackage[\tfoptions]{tf}
 
 % Fonts
 
@@ -196,6 +198,9 @@ This is a human-readable summary of the Legal Code
 You can download the electronic version from
 \url{http://thinking-forth.sourceforge.net/}
 
+\bigskip
+
+{\tt ISBN \isbn}
 
 \end{center}
 
@@ -256,5 +261,6 @@ the same reality.}
 \cleardoublepage
 \printindex
 % prepare for back page
-% \input{backpage}
+%\clearpage\if@twoside \ifodd\c@page\hbox{}\newpage\fi\fi\thispagestyle{empty}
+%\input{backpage}
 \end{document}
