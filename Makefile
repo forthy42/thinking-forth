@@ -62,6 +62,7 @@ PRICE = 90000
 # or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
 # pages rounded up to 4, last page empty.
 
+PRINTING = insert your printer here
 OPTIONS = 2004,tip,tipno,leo,thinker,isbn
 LANG = american
 LINKCOLOR = blue
@@ -135,6 +136,7 @@ tfoptions.tex:	Makefile
 	echo "\def\tflang{$(LANG)}" >>$@
 	echo "\def\isbn{$(ISBN)}" >>$@
 	echo "\def\linkcolor{$(LINKCOLOR)}" >>$@
+	echo "\def\printing{$(PRINTING)}" >>$@
 
 %.pdf : %.ps
 	ps2pdf $< $@
