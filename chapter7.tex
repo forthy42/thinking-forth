@@ -11,7 +11,7 @@
 structures. When to use which approach and how to manage both the
 stack and data structures are the topics of this chapter.
 
-\section{The Stylish Stack}
+\section{The Stylish Stack}%
 \index{D!Data stacks!concept of|(}
 
 The simplest way for \Forth{} words to pass arguments to each other is
@@ -88,21 +88,21 @@ Some newcomers to \Forth{} view the stack the way a gymnast views a
 trampoline: as a fun place to bounce around on. But the stack is meant for
 data-passing, not acrobatics.
 
-\index{D!Data stacks!depth of|(}
+\index{D!Data stacks!depth of|(}%
 So how deep is ``too deep?'' Generally, three elements on the stack is
 the most you can manage within a single definition. (In double-length
 arithmetic, each ``element'' occupies two stack positions but is logically
-treated as a single element by operators such as \forth{2DUP}, \forth{20VER},
+treated as a single element by operators such as \forthb{2DUP}, \forthb{20VER},
 etc.)
 
-In your ordinary lexicon of stack operators, \forth{ROT} is the only one
-that gives you access to the third stack item. Aside from \forth{PICK} and
-\forth{ROLL} (which we'll comment on soon), there's no easy way to get at
+In your ordinary lexicon of stack operators, \forthb{ROT} is the only one
+that gives you access to the third stack item. Aside from \forthb{PICK} and
+\forthb{ROLL} (which we'll comment on soon), there's no easy way to get at
 anything below that.
 
 To stretch our analogy to the limit, perhaps three elements on the
 stack corresponds to the three English pronouns ``this,'' ``that,'' and
-``th'other.''
+``th'other.''%
 \index{D!Data stacks!concept of|)}
 
 \subsection{Redesign}
@@ -115,7 +115,7 @@ subsection). We've decided that our loop body will be
 \begin{Code}
 ...  DO  I LOAD  LOOP ;
 \end{Code}
-that is, we'll put \forth{LOAD} in a loop, then arrange for the index and limit
+that is, we'll put \forthb{LOAD} in a loop, then arrange for the index and limit
 to correspond to the absolute screens being loaded.
 
 On the stack initially we have:
@@ -123,9 +123,9 @@ On the stack initially we have:
 \begin{Code}
 lo hi
 \end{Code}
-where ``lo'' and ``hi'' are the \emph{offsets} from \forth{BLK}.
+where ``lo'' and ``hi'' are the \emph{offsets} from \forthb{BLK}.
 
-We need to permute them for \forth{DO}, like this:
+We need to permute them for \forthb{DO}, like this:
 
 \begin{Code}
 hi+1+blk lo+blk
@@ -173,51 +173,52 @@ a danger sign: the stack is too crowded. Without having to work out the
 alternates, we recognize the problem: once we make two copies of ``blk,''
 we have four elements on the stack.
 
+\medbreak
 At this point, the first resort is usually the return stack:
 
 \begin{Code}
 BLK @  DUP >R  + 1+  SWAP R> + +
 \end{Code}
-(See ``The Stylish Return Stack,'' coming up next.) Here we've \forth{DUP}ed
+(See ``The Stylish Return Stack,'' coming up next.) Here we've \forthb{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
 ``hi.''
 
 Admittedly an improvement. But readable?
 
 Next we think, ``Maybe we need a named variable.'' Of course, we
-have one already: \forth{BLK}. So we try:
+have one already: \forthb{BLK}. So we try:
 
 \begin{Code}
 BLK @  + 1+  SWAP BLK @ +
 \end{Code}
 Now it's more readable, but it's still rather long, and redundant too.
-\forth{BLK @ +} appears twice.
+\forthb{BLK @ +} appears twice.
 
-``\forth{BLK @ +}''? That sounds famililar. Finally our neurons connect.
+``\forthb{BLK @ +}''? That sounds famililar. Finally our neurons connect.
 
-We look back at the source for +LOAD just defined:
+We look back at the source for \forth{+LOAD} just defined:
 
 \begin{Code}
 : +LOAD  ( offset -- )  BLK @ +  LOAD ;
 \end{Code}
-This word, +LOAD, should be doing the work. All we have to write is:
+This word, \forth{+LOAD}, should be doing the work. All we have to write is:
 
 \begin{Code}
 : +THRU  ( lo hi )  1+ SWAP  DO  I +LOAD  LOOP ;
 \end{Code}
 We haven't created a more efficient version here, because the work of
-\forth{BLK @ +} will be done on every pass of the loop. But we have created a
+\forthb{BLK @ +} will be done on every pass of the loop. But we have created a
 cleaner, conceptually simpler, and more readable piece of code. In this
 case, the inefficiency is unnoticeable because it only occurs as each block
 is loaded.
 
 Redesigning, or rethinking the problem, was the path we should
-have taken as soon as things got ugly.
+have taken as soon as things got ugly.%
 \index{D!Data stacks!depth of|)}
 
-\subsection{Local Variables}
-\index{D!Data stacks!local variables and,|(}
-\index{D!Data stacks!data@vs. data structures|(}
+\subsection{Local Variables}%
+\index{D!Data stacks!local variables and,|(}%
+\index{D!Data stacks!data@vs. data structures|(}%
 \index{D!Data structures:!data@vs. data stacks|(}
 
 Most of the time problems can be arranged so that only a few arguments
@@ -231,8 +232,8 @@ in this order:
 \begin{Code}
 ( x1 y1 x2 y2)
 \end{Code}
-where x1,y1 represent the x,y coordinates for the one end-point, and
-x2,y2 represent the opposite end-point.
+where $x_1,y_1$ represent the $x,y$ coordinates for the one end-point, and
+$x_2,y_2$ represent the opposite end-point.
 
 Now you have to write a box-drawing word called \forth{[BOX]} which
 takes four arguments in this order:
@@ -240,7 +241,7 @@ takes four arguments in this order:
 \begin{Code}
 ( x1 y1 x2 y2)
 \end{Code}
-where x1 y1 represent the x,y coordinates for the upper left-hand corner
+where x1 y1 represent the $x,y$ coordinates for the upper left-hand corner
 of the box, and x2 y2 represent the lower right-hand corner coordinates.
 Not only do you have four elements on the stack, they each have to
 be referred to more than once as you draw lines from point to point.
@@ -273,7 +274,7 @@ are three reasons to avoid this cockiness.
 First, it's a pain to code that way. Second, the result is unreadable.
 Third, all your work becomes useless when a design change becomes
 necessary, and the order of two arguments changes on the stack. The
-\forth{DUP}s, \forth{OVER}s and \forth{ROT}s weren't really solving the problem,
+\forthb{DUP}s, \forthb{OVER}s and \forthb{ROT}s weren't really solving the problem,
 just jockeying things into position.
 
 With this third reason in mind, I recommend the following:
@@ -284,7 +285,7 @@ using immediately. Create local variables for any others. (If necessary,
 eliminate the variables during the optimization phase.)
 \end{tip}
 Fourth, if the definition is extremely time-critical, those tricky stack
-manipulators, (e.g., \forth{ROT ROT}) can really eat up clock cycles. Direct
+manipulators, (e.g., \forthb{ROT ROT}) can really eat up clock cycles. Direct
 access to variables is faster.
 
 If it's \emph{really} time-critical, you may need to convert to assembler
@@ -292,7 +293,7 @@ anyway. In this case, all your stack problems fly out the door, because all
 your data will be referenced either in registers or indirectly through
 registers. Luckily, the definitions with the messiest stack arguments are
 often the ones written in code. Our \forth{[BOX]} primitive is a case in point.
-\forth{CMOVE>} is another.
+\forthb{CMOVE>} is another.
 
 The approach we took with \forth{[BOX]} certainly beats spending half an
 hour juggling items on the stack, but it is by no means the best solution.
@@ -339,19 +340,19 @@ part of the design.
 When determining which arguments to handle via data structures rather
 than via the stack, choose the arguments that are the more permanent or
 that represent a current state.
-\end{tip}
-\index{D!Data stacks!local variables and,|)}
-\index{D!Data stacks!data@vs. data structures|)}
+\end{tip}%
+\index{D!Data stacks!local variables and,|)}%
+\index{D!Data stacks!data@vs. data structures|)}%
 \index{D!Data structures:!data@vs. data stacks|)}
 
-\subsection{On PICK and ROLL}
+\subsection{On PICK and ROLL}%
 \index{D!Data stacks!PICK and ROLL|(}
 
-Some folks like the words \forth{PICK} and \forth{ROLL}. They use these words to
+Some folks like the words \forthb{PICK} and \forthb{ROLL}. They use these words to
 access elements from any level on the stack. We don't recommend them.
-For one thing, \forth{PICK} and \forth{ROLL} encourage the programmer to think
+For one thing, \forthb{PICK} and \forthb{ROLL} encourage the programmer to think
 of the stack as an array, which it is not. If you have so many elements on
-the stack that you need \forth{PICK} and \forth{ROLL}, those elements should be in
+the stack that you need \forthb{PICK} and \forthb{ROLL}, those elements should be in
 an array instead.
 
 Second, they encourage the programmer to refer to arguments that
@@ -372,11 +373,11 @@ to fetch its contents. But you must write
 \begin{Code}
 ( n) 5 PICK !
 \end{Code}
-because with ``n'' on the stack, the address is now in the fifth position.
-Code like this is hard to read and harder to modify.
+because with ``$n$'' on the stack, the address is now in the fifth position.
+Code like this is hard to read and harder to modify.%
 \index{D!Data stacks!PICK and ROLL|)}
 
-\subsection{Make Stack Drawings}
+\subsection{Make Stack Drawings}%
 \index{D!Data stacks!drawings|(}
 
 When you do have a cumbersome stack situation to solve, it's best to work
@@ -389,12 +390,12 @@ phone bill) stack commentaries serve as nice auxiliary documentation.
 \begin{tip}
 Make sure that stack effects balance out under all possible control flows.
 \end{tip}
-In the stack commentary for \forth{CMOVE>} in \Fig{fig7-1}, the inner brace
-represents the contents of the \forth{DO LOOP}. The stack depth upon exiting
+In the stack commentary for \forthb{CMOVE>} in \Fig{fig7-1}, the inner brace
+represents the contents of the \forthb{DO LOOP}. The stack depth upon exiting
 the loop is the same as upon entering it: one element. Within the outer
-braces, the stack result of the \forth{IF} clause is the same as that of the
-\forth{ELSE} clause: one element left over. (What that leftover element
-represents doesn't matter, as symbolized by the ``x'' next to \forth{THEN}.)
+braces, the stack result of the \forthb{IF} clause is the same as that of the
+\forthb{ELSE} clause: one element left over. (What that leftover element
+represents doesn't matter, as symbolized by the ``x'' next to \forthb{THEN}.)
 
 \wepsfiga{fig7-1}{Example of a stack commentary.}
 
@@ -415,6 +416,7 @@ For example:
 : COUNT  ( a -- a+1 # )  DUP 1+  SWAP C@ ;
 \end{Code}
 (where you first compute the address).
+\goodbreak
 
 \begin{tip}
 Where possible, keep the number of return arguments the same in all
@@ -440,11 +442,11 @@ to look like this:
 \end{Code}
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
-any values for the error codes except zero.
-\index{E!Error-code|)}
+any values for the error codes except zero.%
+\index{E!Error-code|)}%
 \index{D!Data stacks!drawings|)}
 
-\section{The Stylish Return Stack}
+\section{The Stylish Return Stack}%
 \index{D!Data stacks!return|(}
 
 What about this use of the return stack to hold temporary arguments? Is
@@ -452,7 +454,7 @@ it good style or what?
 
 Some people take great offense to its use. But the return stack
 offers the simplest solution to certain gnarly stack jams. Witness the
-definition of \forth{CMOVE>} in the previous section.
+definition of \forthb{CMOVE>} in the previous section.
 
 If you decide to use the return stack for this purpose, remember
 that you are using a component of \Forth{} for a purpose other than that
@@ -470,12 +472,12 @@ foot:
    conditions.
 \item In factoring definitions, watch out that one part doesn't contain one
    return stack operator, and the other its counterpart.
-\item If used inside a \forth{DO LOOP}, return stack operators must by symmetrical
-   within the loop, and \forth{I} is no longer valid in code bounded by
-   \forth{>R} and \forth{R>}.
+\item If used inside a \forthb{DO LOOP}, return stack operators must by symmetrical
+   within the loop, and \forthb{I} is no longer valid in code bounded by
+   \forthb{>R} and \forthb{R>}.
 \end{enumerate}
 \end{tip}
-For every \forth{>R} there must be a \forth{R>} in the same definition. Sometimes
+For every \forthb{>R} there must be a \forthb{R>} in the same definition. Sometimes
 the operators will appear to be symmetrical, but due to the control structure
 they aren't. For instance:
 
@@ -485,10 +487,10 @@ they aren't. For instance:
 If this construction is used in the outer loop of your application,
 everything will run fine until you exit (perhaps hours later) when you'll
 suddenly blow up. The problem? The last time through the loop, the
-resolving \forth{R>} has been skipped.
+resolving \forthb{R>} has been skipped.%
 \index{D!Data stacks!return|)}
 
-\section{The Problem With Variables}
+\section{The Problem With Variables}%
 \index{V!Variables:!problem with|(}
 
 Although we handle data of immediate interest on the stack, we depend
@@ -524,7 +526,7 @@ chance to set it.
 
 A more serious problem with variables is that they are not ``reentrant.''
 On a multi-tasked \Forth{} system, each task which requires
-local variables must have its own copies. \Forth{}'s \forth{USER} variables
+local variables must have its own copies. \Forth{}'s \forthb{USER} variables
 serve this purpose. (See \emph{Starting \Forth{}}, Chapter Nine, ``\Forth{}
 Geography.'')
 
@@ -535,7 +537,7 @@ arguments are passed via the stack.
 Suppose we are implementing a word-processor editor. We need a
 routine that calculates the number of characters between the current cursor
 position and the previous carriage-return/line-feed sequence. So we
-write a word that employs a \forth{DO LOOP} starting at the current position
+write a word that employs a \forthb{DO LOOP} starting at the current position
 (\forth{CURSOR @}) and ending at the zeroth position, searching for the line
 feed character.
 
@@ -616,11 +618,11 @@ to themselves, using the stack only for their expected input and output
 and cleaning up after themselves, they can be looked upon as sealed
 systems \dots{} I could put the count on the stack at the beginning of the
 loop, go through the complete routine for each group, and at the end the
-count would emerge, back on top of the stack, not a hair out of place.''
+count would emerge, back on top of the stack, not a hair out of place.''%
 \index{V!Variables:!problem with|)}
 
-\section{Local and Global Variables/Initialization}
-\index{V!Variables:!local|(}
+\section{Local and Global Variables/Initialization}%
+\index{V!Variables:!local|(}%
 \index{V!Variables:!global|(}
 
 As we saw earlier, a variable that is used exclusively within a single
@@ -633,7 +635,7 @@ called an ``interface lexicon.''
 \Forth{} makes no distinction between local and global variables.
 But \Forth{} programmers do.
 
-\begin{interview}
+\begin{interview}%
 \index{M!Moore, Charles|(}
 \person{Moore}:
 
@@ -663,22 +665,22 @@ It can get much more elaborate. I've defined variables in ROM where the
 variables were all off in an array in high memory, and the initial values are
 in ROM, and I copy up the initial values at initialization time. But usually
 you're only initializing a few variables to anything other than zero.
-\end{tfquot}
+\end{tfquot}%
 \index{M!Moore, Charles|)}
-\end{interview}
-\index{V!Variables:!local|)}
+\end{interview}%
+\index{V!Variables:!local|)}%
 \index{V!Variables:!global|)}
 
-\section{Saving and Restoring a State}
-\index{V!Variables:!saving and restoring states|(}
+\section{Saving and Restoring a State}%
+\index{V!Variables:!saving and restoring states|(}%
 \index{D!Data stacks!saving and restoring states|(}
 
 Variables have the characteristic that when you change their contents,
 you clobber the value that was there before. Let's look at some of the
 problems this can create, and some of the things we can do about them.
 
-\index{B!BASE|(}
-\forth{BASE} is a variable that indicates the current
+\index{B!BASE|(}%
+\forthb{BASE} is a variable that indicates the current
 number radix for all numeric input and output. The following words are
 commonly found in \Forth{} systems:
 
@@ -696,7 +698,7 @@ we work in decimal mode, but we want the dump in hexadecimal. So we write:
 This works---most of the time. But there's a presumption that we want to
 come back to decimal mode. What if it had been working in hexadecimal,
 and wants to come back to hexadecimal? Before we change the base to
-\forth{HEX}, we have to save its current value. When we're done dumping, we
+\forthb{HEX}, we have to save its current value. When we're done dumping, we
 restore it.
 
 This means we have to tuck away the saved value temporarily,
@@ -714,7 +716,7 @@ VARIABLE OLD-BASE
    BASE @  OLD-BASE !  HEX ( code for dump )
    OLD-BASE @  BASE ! ;
 \end{Code}
-How quickly things get complicated.
+How quickly things get complicated.%
 \index{B!BASE|)}
 
 In this situation, if both the current and the old version of a variable
@@ -739,31 +741,31 @@ Use \forth{BURY} and \forth{EXHUME} to save and restore the original value:
 \end{Code}
 \forth{BURY} saves the ``old'' version of condition at \forth{CONDITION 2+}.
 
-You still have to be careful. Going back to our \forth{DUMP} example, suppose
+You still have to be careful. Going back to our \forthb{DUMP} example, suppose
 you decided to add the friendly feature of letting the user exit the
 dump at any time by pressing the ``escape'' key. So inside the loop you
-build the test for a key being pressed, and if so execute \forth{QUIT}. But what
+build the test for a key being pressed, and if so execute \forthb{QUIT}. But what
 happens?
 
-The user starts in decimal, then types \forth{DUMP}. He exits \forth{DUMP} midway
+The user starts in decimal, then types \forthb{DUMP}. He exits \forthb{DUMP} midway
 through and finds himself, strangely, in hexadecimal.
 
 In the simple case at hand, the best solution is to not use
-\forth{QUIT}, but rather a controlled exit from the loop (via
-\forth{LEAVE}, etc.) to the end of the definition where
-\forth{BASE} is reset.
+\forthb{QUIT}, but rather a controlled exit from the loop (via
+\forthb{LEAVE}, etc.) to the end of the definition where
+\forthb{BASE} is reset.
 
 In very complex applications a controlled exit is often impractical,
 yet many variables must somehow be restored to a natural condition.
 
-\begin{interview}
+\begin{interview}%
 \index{M!Moore, Charles|(}
 \person{Moore} responds to this example:
 
 \begin{tfquot}
 You really get tied up in a knot. You're creating problems for yourself. If I
-want a hex dump I say \forth{HEX DUMP}. If I want a decimal dump I say
-\forth{DECIMAL DUMP}. I don't give \forth{DUMP} the privilege of messing around
+want a hex dump I say \forthb{HEX DUMP}. If I want a decimal dump I say
+\forthb{DECIMAL DUMP}. I don't give \forthb{DUMP} the privilege of messing around
 with my environment.
 
 There's a philosophical choice between restoring a situation when you
@@ -787,7 +789,7 @@ resetting. I invoke \forth{PRISTINE}:
 %!! '*'s should be bullets
 \begin{itemize}
 \item at the normal exit point of the application
-\item at the point where the user may deliberately exit (just before \forth{QUIT})
+\item at the point where the user may deliberately exit (just before \forthb{QUIT})
 \item at any point where a fatal error may occur, causing an abort.
 \end{itemize}
 
@@ -819,8 +821,8 @@ in order:
 : GAME   #HOLES @ HOLES ;
 \end{Code}
 We can build \forth{GAME} around \forth{HOLES} and avoid all this
-saving/restoring nonsense.
-\index{V!Variables:!saving and restoring states|)}
+saving/restoring nonsense.%
+\index{V!Variables:!saving and restoring states|)}%
 \index{D!Data stacks!saving and restoring states|)}
 
 \section{Application Stacks}
@@ -834,7 +836,7 @@ Here is the code for a user stack including very simple error checking
 (an error clears the stack):
 
 \begin{Code}
-CREATE STACK  12 ALLOT  \  ( 2tos-pointer | 10stack [5 cells] )
+CREATE STACK  12 ALLOT  \  { 2tos-pointer | 10stack [5 cells] }
 HERE CONSTANT STACK>
 : INIT-STACK   STACK STACK ! ;   INIT-STACK
 : ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  ABORT  THEN ;
@@ -848,36 +850,39 @@ the new stack, and onto \Forth{}'s data stack.
 In a real application you might want to change the names \forth{PUSH}
 and \forth{POP} to better match their conceptual purposes.
 
-\section{Sharing Components}
-\index{C!Components:!sharing|(}
+\section{Sharing Components}%
+\index{C!Components:!sharing|(}%
 \index{S!Sharing components|(}
 \begin{tip}
 It's legal to use a component for an additional purpose besides its intended
 one, provided:
-
+\medskip
 %!! there's certainly some better way to do ordered lists in TeX
 \begin{enumerate}
 \item All uses of the component are mutually exclusive
 \item Each interrupting use of the component restores the component to
    its previous state when finished.
 \end{enumerate}
-
+\medskip\noindent
 Otherwise you need an additional component or level of complexity.
-\end{tip}
+\end{tip}%
 \index{D!Data stacks!return|(}
 We've seen a simple example of this principle with the return stack. The
 return stack is a component of the \Forth{} system designed to hold
 return addresses, and thereby serve as an indication of where you've been
 and where you're going. To use the return stack as a holder for temporary
 values is possible, and in many cases desirable. Problems occur when one
-of the above restrictions is ignored.
+of the above restrictions is ignored.%
 \index{D!Data stacks!return|)}
 
 In my text formatter the output can go invisible. This feature has
-two purposes: (1) for looking ahead to see whether something will fit, and
-(2) for formatting the table of contents (the entire document is formatted
+two purposes: 
+\begin{enumerate}
+\item for looking ahead to see whether something will fit, and
+\item for formatting the table of contents (the entire document is formatted
 and page numbers are calculated without anything actually being
 displayed).
+\end{enumerate}
 
 It was tempting to think that once having added the ability to make
 the output invisible, I could use this feature to serve both purposes.
@@ -922,15 +927,18 @@ within the other:
 
 \begin{Code}
 : [DISPLAY]  ...
-( the original definition, always does the output) ... ;
+     ( the original definition, always does the output) ... ;
 VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
 : <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
 VARIABLE 'TOC?  ( t=setting-table-of-contents)
 : DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
 \end{Code}
+{\sloppy
 \forth{DISPLAY} checks that we're not setting the table of contents
 and invokes \forth{<DISPLAY>}, which in turn checks that we're not
 looking ahead and invokes \forth{[DISPLAY]}.
+
+}
 
 In the development cycle, the word \forth{[DISPLAY]} that always does
 the output was originally called \forth{DISPLAY}. Then a new
@@ -966,7 +974,7 @@ do the output.  After the lookahead, the code invokes \forth{VISIBLE}
 which decrements the counter back to zero (``false'').
 
 The table-of-contents code also begins with \forth{VISIBLE} and ends
-with \forth{INVISIBLE}. If we're running the table of contents while
+with \forth{IN\-VI\-SI\-BLE}. If we're running the table of contents while
 we come upon a lookahead, the second invocation of \forth{VISIBLE}
 raises the counter to two.
 
@@ -974,9 +982,9 @@ The subsequent invocation of \forth{INVISIBLE} decrements the counter
 to one, so we're still invisible, and will remain invisible until the
 table of contents has been run.
 
-(Note that we must substitute \forth{0=} for \forth{NOT}. The '83
-Standard has changed \forth{NOT} to mean one's complement, so that
-\forth{1 NOT} yields true. By the way, I think this was a mistake.)
+(Note that we must substitute \forthb{0=} for \forthb{NOT}. The '83
+Standard has changed \forthb{NOT} to mean one's complement, so that
+\forthb{1 NOT} yields true. By the way, I think this was a mistake.)
 
 This use of a counter may be dangerous, however. It requires parity of
 command usage: two \forth{VISIBLE}s yields invisible. That is, unless
@@ -985,10 +993,10 @@ command usage: two \forth{VISIBLE}s yields invisible. That is, unless
 \begin{Code}
 : VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
 \end{Code}
-\index{C!Components:!sharing|)}
+\index{C!Components:!sharing|)}%
 \index{S!Sharing components|)}
 
-\section{The State Table}
+\section{The State Table}%
 \index{S!State table|(}
 
 A single variable can express a single condition, either a flag, a value, or
@@ -1052,10 +1060,10 @@ We've implemented this approach with the code in \Fig{fig7-4}.
 \labelfig{fig7-4}
 \begin{center}
 \begin{BVerbatim}
-O CONSTANT POINTERS  \ address of state table PATCHED LATER
+0 CONSTANT POINTERS  \ address of state table PATCHED LATER
 : POSITION   ( o -- o+2 ) CREATE DUP ,  2+
    DOES>  ( -- a )  @  POINTERS + ;
-O  \ initial offset
+0  \ initial offset
 POSITION TOP
 POSITION BOTTOM
 POSITION LEFT
@@ -1078,7 +1086,7 @@ There is only one location used to represent the current value of any
 state at any time.
 
 Also notice that we define \forth{POINTERS} (the name of the table)
-with \forth{CONSTANT}, not with \forth{CREATE}, using a dummy value of
+with \forth{CON\-STANT}, not with \forth{CREATE}, using a dummy value of
 zero. This is because we refer to \forth{POINTERS} in the defining
 word \forth{POSITION}, but it's not until after we've defined all the
 field names that we know how big the table must be and can actually
@@ -1087,7 +1095,7 @@ field names that we know how big the table must be and can actually
 As soon as we create the field names, we define the size of the table
 as a constant \forth{/POINTERS}. At last we reserve room for the table
 itself, patching its beginning address (\forth{HERE}) into the
-constant \forth{POINTERS}.  (The word \forth{>BODY} converts the
+constant \forth{POINTERS}.  (The word \forthb{>BODY} converts the
 address returned by tick into the address of the constant's value.)
 Thus \forth{POINTERS} returns the address of the table allotted later,
 just as a name defined by \forth{CREATE} returns the address of a
@@ -1120,7 +1128,7 @@ The code in \Fig{fig7-6} implements this alternating states mechanism.
 The words \forth{WORKING} and \forth{PRETENDING} change the pointer
 appropriately. For instance:
 
-\begin{figure*}
+\begin{figure*}[bbbt]
 \caption{Implementation of alternating-states mechanism.}
 \labelfig{fig7-6}
 \begin{center}
@@ -1129,7 +1137,7 @@ VARIABLE 'POINTERS  \ pointer to state table
 : POINTERS ( -- adr of current table)   'POINTERS @ ;
 : POSITION   ( o -- o+2 ) CREATE DUP ,  2+
    DOES>  ( -- a )  @ POINTERS + ;
-O  \ initial offset
+0  \ initial offset
 POSITION TOP
 POSITION BOTTOM
 POSITION LEFT
@@ -1162,12 +1170,12 @@ an extra level of indirection (\forth{POINTERS} has been changed from a
 constant to a colon definition). The field names can be made to point to
 either of two state tables. Thus each name has slightly more work to do.
 Also, in the former approach the names refer to fixed locations; a
-\forth{CMOVE} is required each time we save or restore the values. In this
+\forthb{CMOVE} is required each time we save or restore the values. In this
 approach, we have only to change a single pointer to change the current
-table.
+table.%
 \index{S!State table|)}
 
-\section{Vectored Execution}
+\section{Vectored Execution}%
 \index{V!Vectored Execution|(}
 
 Vectored execution extends the ideas of currentness and indirection
@@ -1180,17 +1188,17 @@ described in \emph{Starting \Forth{}}, Chapter Nine. In this section we'll
 discuss a new syntax which I invented and which I think can be used in many
 circumstances more elegantly than the traditional methods.
 
-\index{D!DOER/MAKE|(}
-The syntax is called \forth{DOER/MAKE}. (If your system doesn't include
+\index{D!DOER/MAKE|(}%
+The syntax is called \forth{DOER}/\forth{MAKE}. (If your system doesn't include
 these words, refer to \App{B} for code and implementation details.) It
 works like this: You define the word whose behavior will be vectorable
-with the defining word \forth{DOER}, as in
+with the defining word \forthb{DOER}, as in
 
 \begin{Code}
 DOER PLATFORM
 \end{Code}
 Initially, the new word \forth{PLATFORM} does nothing. Then you can write
-words that change what \forth{PLATFORM} does by using the word \forth{MAKE}:
+words that change what \forth{PLATFORM} does by using the word \forthb{MAKE}:
 
 \begin{Code}
 : LEFTWING   MAKE PLATFORM  ." proponent " ;
@@ -1225,7 +1233,7 @@ will display another.
 The ``\forth{MAKE}'' code can be any \Forth{} code, as much or as long as
 you want; just remember to conclude it with semicolon. The semicolon at
 the end of \forth{LEFTWING} serves for both \forth{LEFTWING} and for the bit of
-code after \forth{MAKE}. When \forth{MAKE} redirects execution of the \forth{DOER} word,
+code after \forth{MAKE}. When \forth{MAKE} redirects execution of the \forthb{DOER} word,
 it also \emph{stops} execution of the word in which it appears.
 
 When you invoke \forth{LEFTWING}, for example, \forth{MAKE} redirects
@@ -1233,26 +1241,27 @@ When you invoke \forth{LEFTWING}, for example, \forth{MAKE} redirects
 to be printed. \Fig{fig7-7} demonstrates this point, using a
 conceptualized illustration of the dictionary.
 
-If you want to \emph{continue} execution, you can use the word \forth{;AND} in
-place of semicolon. \forth{;AND} terminates the code that the \forth{DOER} word
-
 \wtexfigt{fig7-7}{DOER and MAKE.}
-\wtexfigt{fig7-8}{Multiple MAKEs in parallel using ;AND.}
-\wtexfigt{fig7-9}{Multiple MAKEs in series.}
 
-%!! include \Fig{fig7-7 here
-
+If you want to \emph{continue} execution, you can use the word \forthb{;AND} in
+place of semicolon. \forthb{;AND} terminates the code that the \forthb{DOER} word
 points to, and resumes execution of the definition in which it appears, as
 you can see in \Fig{fig7-8}.
 
-Finally, you can chain the ``making'' of \forth{DOER} words in series by
-not using \forth{;AND}. \Fig{fig7-9} explains this better than I could write about
-it.
+\wtexfigt{fig7-8}{Multiple MAKEs in parallel using ;AND.}
+
+%!! include \Fig{fig7-7 here
+
+
+Finally, you can chain the ``making'' of \forthb{DOER} words in series by
+not using \forthb{;AND}. \Fig{fig7-9} explains this better than I could write about it.%
 \index{V!Vectored Execution|)}
+
+\wtexfigt{fig7-9}{Multiple MAKEs in series.}
 
 \section{Using DOER/MAKE}
 
-There are many occasions when the \forth{DOER/MAKE} construct proves
+There are many occasions when the \forth{DOER}/\forth{MAKE} construct proves
 beneficial. They are:
 
 %!! there's certainly some better way to do ordered lists in TeX
@@ -1275,7 +1284,7 @@ contents of a specified region of memory.
 \begin{Code}[commandchars=\&\{\}]
 : DUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &poorbf{@ 6} U.R  &poorbf{2 +LOOP}  DROP ;
+   DUP I +  &poorbf{@ 6 U.R  2 +LOOP}  DROP ;
 \end{Code}
 The problem arises when you write a definition called \forth{CDUMP}, designed to
 format the output according to bytes, not cells:
@@ -1284,18 +1293,19 @@ format the output according to bytes, not cells:
 \begin{Code}[commandchars=\&\{\}]
 : CDUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &poorbf{C@  4} U.R  &poorbf{LOOP} DROP ;
+   DUP I +  &poorbf{C@  4 U.R  LOOP} DROP ;
 \end{Code}
 %!! include \Fig{fig7-9 here
 
 The code within these two definitions is identical except for the fragments
 in boldface. But factoring is difficult because the fragments occur inside the
-\forth{DO LOOP}.
+\forthb{DO LOOP}.
 
-Here's a solution to this problem, using \forth{DOER/MAKE}. The code that
-changes has been replaced with the word \forth{.UNIT}, whose behavior is vectored
-by the code in \forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forth{1 +LOOP}'' has
-the same effect as ``\forth{LOOP}''.)
+Here's a solution to this problem, using
+\forthb{DOER}/\forthb{MAKE}. The code that changes has been replaced
+with the word \forth{.UNIT}, whose behavior is vectored by the code in
+\forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forthb{1 +LOOP}''
+has the same effect as ``\forthb{LOOP}''.)
 
 %!! does \textbf{} work inside verbatim blocks? It better should...
 \begin{Code}[commandchars=\&\{\}]
@@ -1303,11 +1313,11 @@ DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
-: DUMP   ( a #)  MAKE .UNIT &poorbf{ @  6} U.R  &poorbf{2} ;AND <DUMP> ;
-: CDUMP ( a #)   MAKE .UNIT &poorbf{C@  4} U.R  &poorbf{1} ;AND <DUMP> ;
+: DUMP   ( a #)  MAKE .UNIT  @  6 U.R  2 ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT C@  4 U.R  1 ;AND <DUMP> ;
 \end{Code}
-Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
-\emph{execute} the shell (the word <DUMP>).
+Notice how \forth{DUMP} and \forth{CDUMP} \emph{set-up} the vector, then go on to
+\emph{execute} the shell (the word \forth{<DUMP>}).
 
 \item To change the state of related functions by invoking a single command. For
 instance:
@@ -1385,7 +1395,7 @@ address of the correct variable, or a zero if none have the value.
 It does this by simply executing \forth{WHERE} five times. Each time, \forth{WHERE}
 returns a different address, as defined in \forth{ORDER}, then finally zero.
 
-We can even define a \forth{DOER} word that toggles its own behavior endlessly:
+We can even define a \forthb{DOER} word that toggles its own behavior endlessly:
 
 \begin{Code}
 DOER SPEECH
@@ -1398,13 +1408,13 @@ DOER SPEECH
 a ``hook,'' that is, a word invoked in a low-level definition but reserved for
 use by a component defined later in the listing.
 
-To implement a forward reference, build the header of the word with \forth{DOER},
+To implement a forward reference, build the header of the word with \forthb{DOER},
 before invoking its name.
 
 \begin{Code}
 DOER STILL-UNDEFINED
 \end{Code}
-Later in the listing, use MAKE;
+Later in the listing, use \forth{MAKE};
 
 \begin{Code}
 MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
@@ -1462,15 +1472,15 @@ on the stack by a single definition hurts readability and writeability.
 
 We also explored techniques for saving and restoring data structures,
 and concluded with a study of vectored execution using
-\forth{DOER}/\forth{MAKE}.
+\forth{DOER}/\forth{MAKE}.%
 \index{D!DOER/MAKE|)}
 
 %!! there's certainly some better way to do ordered lists in TeX
 \begin{references}{9}
 \bibitem{ham83} \person{Michael Ham}, ``Why Novices Use So Many Variables,''
-   \emph{FORTH Dimensions}, vol. 5, no. 4, November/December 1983.
+   \emph{\Forth{} Dimensions}, vol. 5, no. 4, November/December 1983.
 \bibitem{slater83} \person{Daniel Slater}, ``A State Space Approach to
-   Robotics,'' \emph{The Journal of FORTH Application and Research},
+   Robotics,'' \emph{The Journal of \Forth{} Application and Research},
    1, 1 (September 1983), 17.
 \end{references}
 

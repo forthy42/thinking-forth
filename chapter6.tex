@@ -112,29 +112,33 @@ On the other hand, the difference sometimes \emph{is} a function. Witness:
 
 %ARN - this gets messed up Code doesn't indent properly
 \begin{description}
-\item[Segment 1:]~
+\item[Segment 1:]~~
+\begin{minipage}[t]{.6\hsize}
 \begin{Code}[commandchars=\&\{\}]
 BLETCH-A  BLETCH-B  &poorbf{BLETCH-C}
          BLETCH-D  BLETCH-E  BLETCH-F
 \end{Code}
-\item[Segment 2:]~
+\end{minipage}
+\item[Segment 2:]~~
+\begin{minipage}[t]{.6\hsize}
 \begin{Code}[commandchars=\&\{\}]
 BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
          BLETCH-D  BLETCH-E  BLETCH-F
 \end{Code}
+\end{minipage}
 \end{description}
 
 \noindent Wrong approach:
 
 \begin{Code}[commandchars=\&\{\}]
 : BLETCHES  ( t=do-BLETCH-C | f=do-PERVERSITY -- ) 
-   BLETCH-A  BLETCH-B  IF &poorbf{BLETCH-C} ELSE &poorbf{PERVERSITY}
-      THEN BLETCH-D BLETCH-E BLETCH-F ;
+   BLETCH-A  BLETCH-B  IF  &poorbf{BLETCH-C}  ELSE  &poorbf{PERVERSITY}
+      THEN  BLETCH-D BLETCH-E BLETCH-F ;
 \end{Code}
 
 \begin{description}
-\item[Segment 1:] \forth{TRUE BLETCHES}
-\item[Segment 2:] \forth{FALSE BLETCHES}
+\item[Segment 1:]~~ \forth{TRUE BLETCHES}
+\item[Segment 2:]~~ \forth{FALSE BLETCHES}
 \end{description}
 
 \noindent A better approach:
@@ -145,8 +149,8 @@ BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
 \end{Code}
 
 \begin{description}
-\item[Segment 1:] \forth{BLETCH-AB\ \ \textbf{BLETCH-C}\ \ BLETCH-DEF}
-\item[Segment 2:] \forth{BLETCH-AB\ \ \textbf{PERVERSITY}\ \ BLETCH-DEF}
+\item[Segment 1:]~~ \forth{BLETCH-AB}~~\forthb{BLETCH-C}~~\forth{BLETCH-DEF}
+\item[Segment 2:]~~ \forth{BLETCH-AB}~~\forthb{PERVERSITY}~~\forth{BLETCH-DEF}
 \end{description}
 
 \index{C!Control flags|(}

@@ -180,11 +180,11 @@
 \newdimen\poormove
 \poormove0.1pt
 \newcommand{\poorbf}[1]{%
-\kern-\poormove\hbox to \poormove{#1\hss}%
+\llap{\hbox to \poormove{#1\hss}}%
 \raise\poormove\hbox to \z@{#1\hss}%
 \lower\poormove\hbox to \poormove{#1\hss}%
-\hbox to \poormove{#1\hss}\kern-\poormove%
-\hbox{#1}}
+\rlap{\hbox to \poormove{\hss}{#1}}%
+#1}
 
 %% line for separating is blacker than LaTeX default
 
@@ -212,7 +212,7 @@
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 \else\hss\hbox{\hss
 \vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
-\psshadowbox*[fillcolor=lightgreen,linecolor=midgreen,shadowcolor=lightgrey,cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,shadowsize=3pt]{\unhbox\@tempboxa}%
+\psshadowbox*[fillcolor=lightgreen,linecolor=midgreen,shadowcolor=lightgrey,cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 ~\vbox to \@tempdima{%
 \hbox{\includegraphics{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
@@ -234,8 +234,8 @@
 \list{}{\listparindent 0pt\itemindent 0pt}
 \item\relax
 \stepcounter{tipc}%
-\setbox\@tempboxa\hbox\bgroup\begin{minipage}{\linewidth}
-{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\\[1ex]\small
+\setbox\@tempboxa\hbox\bgroup\begin{minipage}[t]{\linewidth}
+{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\par\medskip\small
 }{\par
 \end{minipage}\egroup%
 \leavevmode\label{tip-\thechapter.\arabic{tipc}}%
@@ -465,7 +465,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 %% indentation
 
 \parindent=2.5em
-\DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=2.5em}
+\DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=\parindent}
 \def\dontbreak{\@nobreaktrue}
 
 %% list indentation
