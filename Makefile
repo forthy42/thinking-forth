@@ -58,8 +58,8 @@ HEIGHT = 9.125in
 ISBN = 0-9764587-0-5
 
 # dummy price
-PRICE = 90000
-# USD 20 would be 42000
+PRICE = 53500
+# USD 20 would be 52000
 # For Lulu, the price consists of $4.53+pages*$0.02+1.2*royalty
 # or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
 # pages rounded up to 4, last page empty.
