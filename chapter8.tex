@@ -44,7 +44,7 @@ breaking down. And the harder it is for someone to fix.
 
 %!! horizontal line
 \bigskip\blackline{2ex}\noindent
-Moore tells this story:
+Moore\index{M!Moore, Charles|(} tells this story:
 \begin{tfquot}
 I recently went back to a company we had done some work for several years
 ago. They called me in because their program is now five years old, and it's
@@ -91,7 +91,7 @@ am I doing wrong?''
 What you're trying to do with the conditional can be done in a different
 way. The long-term consequences of the different way are preferable to the
 long-term consequences of the conditional.
-\end{tfquot}
+\end{tfquot}\index{M!Moore, Charles|)}
 \blackline{1ex}
 %!! horizontal line
 
@@ -283,7 +283,7 @@ The FORTH dictionary is a giant string case statement. The match and
 execute functions are hidden within the FORTH system.
 
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 In my accounting package, if you receive a check from somebody, you type
 the amount, the check number, the word FROM, and the person's name:
@@ -299,7 +299,8 @@ name:
 1000.OO 280 BILL TECHNITECH
 \end{Code}
 \dots{} One word for each situation. The dictionary is making the decision.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}
+\blackline{1ex}
 This notion pervades FORTH itself. To add a pair of single-length
 numbers we use the command \textbf{+}. To add a pair of double-length numbers
 we use the command \textbf{D+}. A less efficient, more complex approach would
@@ -399,7 +400,7 @@ Words should not depend on \textbf{STATE} if a programmer might ever want to
 invoke them from within a higher-level definition and expect them to
 behave as they do interpretively.
 \end{tip}
-\textbf{ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
+\textbf{ASCII}\index{A!ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
 (See \Chap{C}.)
 
 \subsection{Nesting and Combining Conditionals}
@@ -581,7 +582,7 @@ but not part of the system.
 The right looping structure can eliminate extra conditionals.
 
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 Many times conditionals are used to get out of loops. That particular use
 can be avoided by having loops with multiple exit points.
@@ -604,7 +605,7 @@ from, so more conditionals will go away.
 This is not completely popular because it's rather unstructured. Or perhaps
 it is elaborately structured. The value is that you get simpler programs.
 And it costs nothing.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 Indeed, this is a live topic. As of this writing it's too early to make any
 specific proposals for new loop constructs. Check your system's
 documentation to see what it offers in the way of exotic looping structures.
@@ -771,7 +772,7 @@ We can rid ourselves of a decision, and simply compute:
 n  a b <  45 AND  +
 \end{Code}
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 The ``45 AND'' is faster than the IF, and certainly more graceful. It's
 simpler. If you form a habit of looking for instances where you're
@@ -794,7 +795,8 @@ This would be equivalent to
 t  O<  1 AND
 \end{Code}
 as a single expression, not a piece-wise expression.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
+
 I call these flags ``hybrid values'' because they are booleans (truth
 values) being applied as data (numeric values). Also, I don't know what
 else to call them.
@@ -1152,7 +1154,7 @@ simple addition to offset into the table and get the answer.
 In general, addition is much faster than multiplication.
 
 \bigskip\blackline{2ex}
-\noindent Moore provides another example:
+\noindent Moore\index{M!Moore, Charles|(} provides another example:
 \begin{tfquot}
 If you want to compute trig functions, say for a graphics display, you don't
 need much resolution. A seven-bit trig function is probably plenty. A table
@@ -1162,12 +1164,13 @@ to do. For low-frequency function calculations, decision tables are great.
 But if you have to interpolate, you have to calculate a function anyway.
 You're probably better off calculating a slightly more complicated function
 and avoiding the table lookup.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 \subsection{Redesigning}
 \begin{tip}
 One change at the bottom can save ten decisions at the top.
 \end{tip}
-In our interview with Moore at the beginning of the chapter, he mentioned
+In our interview with Moore\index{M!Moore, Charles} at
+the beginning of the chapter, he mentioned
 that much conditional testing could have been eliminated from an
 application if it had been redesigned so that there were two words instead
 of one: ``You either say GO or you say PRETEND.''
@@ -1209,7 +1212,7 @@ responsibility for not exceeding the limits of the called component.
 Reexamine the algorithm.
 \end{tip}
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 A lot of conditionals arise from fuzzy thinking about the problem. In
 servo-control theory, a lot of people think that the algorithm for the servo
@@ -1247,7 +1250,7 @@ by testing for zero and not doing it.
 
 It's another instance of the ``don't care.'' If you don't care, then give
 it a dummy value and use it anyway.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 Anytime you run into a special case, try to find an algorithm for which
 the special case becomes a normal case.
 
@@ -1307,14 +1310,14 @@ only way to produce the ASCII value is by matching patterns in a lookup
 table.
 
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 The 68000 assembler is another example you can break your heart over,
 looking for a good way to express those op-codes with the minimal number
 of operators. All the evidence suggests there is no good solution. The people
 who designed the 68000 didn't have assemblers in mind. And they could
 have made things a lot easier, at no cost to themselves.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 By using properties of a component in this way, your code becomes
 dependent on those properties and thus on the component itself. This is
 excusable, though, because all the dependent code is confined to a single
@@ -1340,7 +1343,7 @@ side effect. But the disciplined use of the structured exit can actually
 simplify code, and thereby improve readability and maintainability.
 
 \bigskip\blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 \begin{tfquot}
 More and more I've come to favor R> DROP to alter the flow of control.
 It's similar to the effect of an \textbf{ABORT"}, which has an \textbf{IF THEN}
@@ -1353,7 +1356,7 @@ thing.
 
 The alternative is burdening the rest of the application with checking
 whether an error occurred. That's an inconvenience.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 The ``abort route'' circumvents the normal paths of control flow under
 special conditions. FORTH provides this capability with the words
 \textbf{ABORT"} and \textbf{QUIT}.
@@ -1390,7 +1393,7 @@ The use of \textbf{EXIT} here is more efficient, saving two bytes and extra
 code to perform, but it is not as readable.
 
 \bigskip\blackline{2ex}
-\noindent Moore comments on the value, and danger, of this technique:
+\noindent Moore\index{M!Moore, Charles|(} comments on the value, and danger, of this technique:
 \begin{tfquot}
 Especially if your conditionals are getting elaborate, it's handy to jump out
 in the middle without having to match all your \textbf{THEN}s at the end. In one
@@ -1412,7 +1415,7 @@ conditions matched, was an error condition.
 It was bad code, difficult to debug. But it reflected the nature of the
 problem. There wasn't any better scheme to handle it. The \textbf{EXIT} and
 \textbf{R> DROP} at least kept things manageable.
-\end{tfquot}\blackline{1ex}
+\end{tfquot}\index{M!Moore, Charles|)}\blackline{1ex}
 Programmers sometimes also use \textbf{EXIT} to get out of a complicated
 \textbf{BEGIN} loop in a graceful way. Or we might use a related technique in the
 \textbf{DO LOOP} that we wrote for 'FUNCTION in our Tiny Editor, earlier in
@@ -1699,7 +1702,7 @@ code is so simple it's impossible not to understand.
 
 When I first wrote these commands, I took the English-like approach.
 ``BLUE LIGHT'' sounded backwards, not at all acceptable. That
-was before my conversations with Chuck Moore.
+was before my conversations with Chuck Moore\index{M!Moore, Charles|(}.
 
 \bigskip\blackline{2ex}
 \noindent Moore's philosophy is persuasive:
@@ -1711,6 +1714,7 @@ independent of details like which language we're thinking in.
 It depends on your intention: simplicity, or emulation of English. English is
 not such a superb language that we should follow it slavishly.
 \end{tfquot}\blackline{1ex}
+\index{M!Moore, Charles|)}
 If I were selling my ``colors'' words in a package for graphic artists, I
 would take the trouble to create the flag. But writing these words for my
 own use, if I had to do it over again, I'd favor the Moore-ish influence,

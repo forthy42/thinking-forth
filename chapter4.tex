@@ -159,7 +159,7 @@ six gallons of water from the nearby stream in one of the containers
 Try to solve this on your own before reading further.
 
 How can we get a ``six'' out of a ``nine'' and a ``four''? We can start
-out working forward, by mentally transferring water from one container
+out working forward\index{W!Working forwards}, by mentally transferring water from one container
 to the other. For example, if we fill the large container twice from the
 small container, we'll get eight gallons. If we fill the nine-gallon container
 to the brim, then empty enough water to fill the four-gallon container,
@@ -168,7 +168,8 @@ we'll have exactly five gallons in the large container.
 These ideas are interesting, but they haven't gotten us six gallons.
 And it's not clear how they will get us six gallons.
 
-Let's try working backward. We assume we've measured six gallons
+Let's try working backward.\index{W!Working backwards|(}
+We assume we've measured six gallons
 of water, and it's sitting in the large container (it won't fit in the
 small one!). Now, how did we get it there? What was the state of our
 containers one step previously?
@@ -214,7 +215,8 @@ one gallon to the small container.
 Our final step should be to check our logic by running the problem
 forwards again.
 
-Here's another benefit of working backward: If the problem is unsolvable,
+Here's another benefit of working backward:\index{W!Working backwards|)}
+If the problem is unsolvable,
 working backward helps you quickly prove that it has no solution.
 %!! horizontal line
 \begin{tip}
@@ -275,7 +277,7 @@ then you might think of extending some of the lines beyond the perimeter
 of the nine dots.
 %!! horizontal line
 \begin{tip}
-Use whole-brain thinking.
+Use whole-brain thinking.\index{W!Whole-brain thinking}
 \end{tip}
 %!! horizontal line
 When a problem has you stumped and you seem to be getting nowhere,
@@ -292,8 +294,8 @@ symbols) and subconscious thought (which correlates perceptions to
 previously stored information, recombining and relinking knowledge in
 new and useful ways).
 
-Leslie Hart \cite{hart75} explains the difficulty of solving a large problem by
-means of logic:
+Leslie Hart\index{H!Hart, Leslie} \cite{hart75} explains the
+difficulty of solving a large problem by means of logic:
 
 %!! begin indented paragraph
 \begin{tfquot}
@@ -499,7 +501,7 @@ pointer) as a stack argument to ``verb'' type words. The FORTH-like syntax of
 \end{quote}
 \wepsfigxx{img4-110}
 will generally prove easiest to implement because of the stack.
-In some cases this word order sounds unnatural. For instance, suppose
+In some cases this word order\index{W!Words:!ordering} sounds unnatural. For instance, suppose
 we have a file named INVENTORY. One thing we can do with that
 file is SHOW it; that is, format the information in pretty columns. If
 
@@ -508,7 +510,8 @@ becomes
 \begin{Code}
 INVENTORY SHOW
 \end{Code}
-If your spec demands the English word-order, FORTH offers ways to
+If your spec demands the English word-order,\index{W!Words:!ordering}
+FORTH offers ways to
 achieve it. But most involve new levels of complexity. Sometimes the
 best thing to do is to choose a better name. How about
 \begin{Code}
@@ -594,6 +597,7 @@ Use zero-relative numbering.
 %!! horizontal line
 By habit we humans number things starting with one: ``first, second,
 third,'' etc. Mathematical models, on the other hand, work more naturally
+\index{Z!Zero-relative numbering|(}
 when starting with zero. Since computers are numeric processors, software
 becomes easier to write when we use zero-relative numbering.
 
@@ -635,9 +639,10 @@ include the conversion from zero-to one-relative numbering:
 \begin{Code}
 : ITEM  ( n -- adr)  1- RECORD ;
 \end{Code}
+\index{Z!Zero-relative numbering|)}
 %!! horizontal line
 \begin{tip}
-Let addresses precede counts.
+Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
 \end{tip}
 %!! horizontal line
 Again, this is a convention, not a requirement of FORTH, but such conventions
@@ -780,7 +785,8 @@ group of commands, the mnemonics, with which you can describe the
 instructions you want assembled. Here again, FORTH takes a radical
 departure from mainstream philosophy.
 
-Traditional assemblers are special-purpose interpreters---that is,
+Traditional assemblers\index{A!Assemblers} are special-purpose
+interpreters---that is,
 they are complicated programs that scan the assembly-language listing
 looking for recognized mnemonics such as ADD, SUB, JMP, etc., and
 assemble machine instructions correspondingly. The FORTH assembler,
@@ -832,7 +838,7 @@ or compiler.
 \bigskip
 %!! horizontal line
 \blackline{2ex}
-Moore:
+Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 A simple solution is one that does not obscure the problem with irrelevancies.
@@ -849,7 +855,7 @@ I think that programmers like to write interpreters. They like to do these
 elaborate difficult things. But there comes a time when the world is going
 to have to quit programming keypads and converting numbers to binary,
 and start solving problems.
-\end{tfquot}
+\end{tfquot}\index{M!Moore, Charles|)}
 \blackline{1ex}
 %!! horizontal line
 
@@ -1043,7 +1049,7 @@ lexicon will include only one name, ROMAN, and it will take its argument
 from the stack. (Other words will be internal to the component.)
 
 Having thus decided on the external syntax, we can now proceed to
-devise the algorithms and data structures.
+devise the algorithms\index{A!Algorithms} and data structures.
 
 We'll follow the scientific method---we'll observe reality, model a
 solution, test it against reality, modify the solution, and so on. We'll
@@ -1216,8 +1222,9 @@ all possible combinations in a series of tables. Earlier in this chapter we
 observed that calculating an answer, if it's possible, can be easier than
 using a data structure.
 
-Since this section deals with devising algorithms, let's go all the
-way. Let's look for a general algorithm for producing any digit, using
+Since this section deals with devising algorithms\index{A!Algorithms},
+let's go all the way.
+Let's look for a general algorithm for producing any digit, using
 only the elementary set of symbols. Our data structure should contain
 only this much information:
 
@@ -1248,7 +1255,7 @@ represent 5, 50, and 500; that is, the value of five in every possible
 decimal place.
 
 Using these terms, instead of the symbols themselves, we should be
-able to express the algorithm for producing any digit. (We've factored
+able to express the algorithm\index{A!Algorithms} for producing any digit. (We've factored
 out the actual symbols from the \emph{kind} of symbols.) For instance, we can
 state the following preliminary algorithm:
 
@@ -1289,7 +1296,8 @@ value; otherwise do nothing. Then, print as many ONERS as necessary to
 add up to the value. But if the digit is 4, print only a ONER and a FIVER,
 or if it's 9, print only a ONER and a TENER.
 \end{tfquot}
-We now have an English-language version of our algorithm. But we still
+We now have an English-language version of our
+algorithm\index{A!Algorithms}. But we still
 have some steps to go before we can run it on our computer.
 
 In particular, we have to be more specific about the exceptions. We
@@ -1674,7 +1682,7 @@ We might redefine ROMAN as follows:
 
 %!! horizontal line
 \blackline{2ex}
-\noindent Moore:
+\noindent Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 There's a definite sense of rightness when you've done it right. It may be
@@ -1683,7 +1691,7 @@ never feel you've really done well. In FORTH, it's the ``Aha!'' reaction. You
 want to run off and tell somebody.
 
 Of course, nobody will appreciate it like you do.
-\end{tfquot}
+\end{tfquot}\index{M!Moore, Charles|)}
 \blackline{1ex}
 %!! horizontal line
 
@@ -1741,7 +1749,7 @@ VARIABLE COLUMN#  ( current offset)
 
 In this chapter we've learned to develop a single component, starting
 first with deciding on its syntax, then proceeding with determining its
-algorithm(s) and data structure(s), and concluding with an implementation
+algorithm(s)\index{A!Algorithms} and data structure(s), and concluding with an implementation
 in FORTH.
 
 With this chapter we complete our discussion of design. The remainder

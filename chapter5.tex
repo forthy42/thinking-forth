@@ -171,7 +171,7 @@ screen containing definitions just because you ``need something'' or
 because you ``ran out of room.''
 
 \subsection{Skip Commands}
-
+\index{S!Skip commands}
 Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 %!!<ENUMERATION>
@@ -338,21 +338,23 @@ HISTORY  -
 \end{figure*}
 %!!</Figure>
 %Page 142 in first edition.
-%!!<QUOTE>
-Charles Moore (no relation to Moore Products Co.) places less importance
-on the well-organized hierarchical listing than I do.  Moore:
-%!!<SMALLPRINT>
-\begin{tfquot}
-I structure \emph{applications} hierarchically, but not necessarily listings.  My
-listings are organized in a fairly sloppy way, not at all hierarchically in the
-sense of primitives first.
 
-I use LOCATE [also known as VIEW; see the Handy Hint in Starting
-FORTH, Chapter Nine].  As a result, the listing is much less carefully organized
-because I have LOCATE to find things for me.  I never look at listings.
-\end{tfquot}
-%!!</SMALLPRINT>
-%!!</QUOTE>
+Charles Moore\index{M!Moore, Charles|(} (no relation to Moore Products
+Co.) places less importance on the well-organized hierarchical listing
+than I do.  Moore:
+
+\begin{tfquot}
+I structure \emph{applications} hierarchically, but not necessarily
+listings.  My listings are organized in a fairly sloppy way, not at
+all hierarchically in the sense of primitives first.
+
+I use LOCATE {[}also known as VIEW; see the Handy Hint in Starting
+FORTH, Chapter Nine{]}.  As a result, the listing is much less carefully
+organized because I have LOCATE to find things for me.  I never look
+at listings.
+\end{tfquot}\index{M!Moore, Charles|)}
+
+
 \subsection{--\/--> vs.\ THRU}
 
 On the subject of relative loading, one popular way to load a series of adjacent
@@ -688,7 +690,8 @@ R> BASE !
 Some folks make it a policy to use this approach on any screen that
 changes BASE\index{B!BASE}, so they don't have to worry about it.
 
-Moore prefers to define LOAD to invoke DECIMAL after loading.
+Moore\index{M!Moore, Charles} prefers to define LOAD to
+invoke DECIMAL after loading.
 This approach simplifies the screen's contents because you don't have to
 worry about resetting.
 
@@ -1443,7 +1446,8 @@ Edsger W. Dijkstra \cite{dijkstra82}).
 \end{tfquot}
 %!!</SMALLPRINT>
 We've talked about the significance of using names to symbolize ideas
-and objects in the application.  The choosing of names turns out to be an
+and objects in the application.  The choosing of
+names\index{W!Words:!choosing names|(} turns out to be an
 important part of the design process.
 
 Newcomers tend to overlook the important of names.  ``After all,''
@@ -1512,7 +1516,7 @@ or
 \begin{Code}
 ASSEMBLER WORDS
 \end{Code}
-On the other hand, Moore points out that inappropriate names can
+On the other hand, Moore\index{M!Moore, Charles} points out that inappropriate names can
 become a simple technique for encryption.  If you need to provide security
 when you're forced to distribute source, you can make your code very
 unreadable by deliberately choosing misleading names.  Of course, maintenance
@@ -1545,7 +1549,7 @@ SAY HELLO
 %!!<INDENT3LEVELS>
 SAY is the perfect choice for vectoring HELLO into an
 execution variable.  (When I first wrote this example
-for Starting FORTH, I called it VERSION.  Moore
+for Starting FORTH, I called it VERSION.  Moore\index{M!Moore, Charles|(}
 reviewed the manuscript and suggested SAY, which is
 clearly much better.)
 %!!</INDENT3LEVELS>
@@ -1576,6 +1580,7 @@ word.  For instance, the phrase
 5 TH
 \end{Code}
 returns the address of the ``fifth'' element of the array.
+\index{M!Moore, Charles|)}
 
 \begin{tip}
 Spell names in full.
@@ -1644,10 +1649,11 @@ screen.  Most important, they make your code crisp and clean.
 \begin{tip}
 Hyphenated names may be a sign of bad factoring.
 \end{tip}
-%Page 167 in first edition.
-%!!<SMALLPRINT>
-Moore:
+%Page 168 in first edition.
 
+Moore:\index{M!Moore, Charles|(}
+
+\begin{tfquot}
 There are diverging programming styles in the FORTH community.  One
 uses hyphenated words that express in English what the word is doing.
 You string these big long words together and you get something that is
@@ -1657,7 +1663,7 @@ But I immediately suspect that the programmer didn't think out the words
 carefully enough, that the hyphen should be broken and the words defined
 separately.  That isn't always possible, and it isn't always advantageous.
 But I suspect a hyphenated word of mixing two concepts.
-%!!</SMALLPRINT>
+\end{tfquot}\index{M!Moore, Charles|)}
 
 Compare the following two strategies for saying the same thing:
 \begin{Code}
@@ -1756,7 +1762,7 @@ is just as readable as
 \end{Code}
 and cleaner as well.  It is therefore preferable, unless we need an additional
 word called DONE (as a flag, for instance).
-A final tip on naming:
+A final tip on naming:\index{W!Words:!choosing names|)}
 
 \begin{tip}
 Begin all hex numbers with ``0'' (zero) to avoid potential collisions with
@@ -1780,8 +1786,8 @@ Had FORTH been designed by committee, we would not love it so.
 Here are some final suggestions to make your code more readable.
 (Definitions appear in \Chap{C}.)
 
-One constant that pays for itself in most applications is BL (the
-ASCII value for ``blank-space'').
+One constant that pays for itself in most applications is
+BL\index{B!Blank space(BL)} (the ASCII value for ``blank-space'').
 
 The word ASCII is used primarily within colon definitions to free
 you from having to know the literal value of an ASCII character.  For instance,
@@ -1827,7 +1833,7 @@ Other names for these definitions include SET and RESET, although
 SET and RESET most commonly use bit masks to manipulate individual
 bits.
 
-An often-used word is WITHIN, which determines whether a given
+An often-used word is WITHIN,\index{W!WITHIN} which determines whether a given
 value lies within two other values.  The syntax is:
 \begin{Code}
 n  lo hi WITHIN
@@ -1838,7 +1844,7 @@ WITHIN returns true if ``n'' is \emph{greater-than} or \emph{equal-to} ``lo'' an
 %% Note: AH : the original text has greater-then not slanted. Considered a typo.
 of DO LOOPs.
 
-Moore recommends the word UNDER+.  It's useful for adding a
+Moore\index{M!Moore, Charles} recommends the word UNDER+.  It's useful for adding a
 value to the number just under the top stack item, instead of to the top
 stack item.  It could be implemented in high level as:
 \begin{Code}
