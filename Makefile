@@ -65,7 +65,7 @@ PRICE = 90000
 # pages rounded up to 4, last page empty.
 
 PRINTING = "Punchy Printing"
-OPTIONS = 2004,tip,tipno,leo,isbn
+OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn
 LANG = american
 LINKCOLOR = blue
 # for a printed version, use
