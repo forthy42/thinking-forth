@@ -214,7 +214,7 @@ within the outer module
 Structured programming has three premises:
 \index{S!Structured programming!premises of}
 
-\begin{enumerate}
+\begin{enumerate}\parsep=0pt\itemsep=0pt
 \item Every program is described as a linear sequence of
 self-contained functions, called \emph{modules}. Each module has
 exactly one entry point and one exit point.
@@ -1033,10 +1033,9 @@ we currently have:
 20 APPLES !
 \end{Code}
 We can display the contents of the variable:
-\begin{Code}
-APPLES ? 20 ok
+\begin{Code}[commandchars=\&\{\}]
+APPLES ? &underline{20 ok}
 \end{Code}
-%ARN - "20 ok" should be underlined
 We can up the count by one:
 \begin{Code}
 1 APPLES +!

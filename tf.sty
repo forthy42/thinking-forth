@@ -129,14 +129,14 @@
 \newcommand{\wtexfigt}[2]{
 \begin{figure*}[tttt]
 \caption{#2}
-\include{#1}
+\input{#1}
 \labelfig{#1}
 \end{figure*}
 }
 \newcommand{\wtexfigb}[2]{
 \begin{figure*}[bbbb]
 \caption{#2}
-\include{#1}
+\input{#1}
 \labelfig{#1}
 \end{figure*}
 }
@@ -334,8 +334,24 @@ Five\or Six\or seven\or Eight\or Nine\or Ten\fi}
 
 %% indentation
 
-\parindent 2.5em
+\parindent=2.5em
 \DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=2.5em}
+\def\dontbreak{\@nobreaktrue}
+
+%% list indentation
+
+\def\@listi{\leftmargin\leftmargini
+            \parsep 2\p@ \@plus2\p@ \@minus\p@
+            \topsep 8\p@ \@plus2\p@ \@minus4\p@
+            \itemsep2\p@ \@plus2\p@ \@minus\p@}
+\let\@listI\@listi
+\@listi
+\def\@listii {\leftmargin\leftmarginii
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep    4\p@ \@plus2\p@ \@minus\p@
+              \parsep    0\p@ \@plus\p@  \@minus\p@
+              \itemsep   \parsep}
 
 %% screen environment
 

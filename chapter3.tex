@@ -130,7 +130,6 @@ the number 14 in both definitions:
 : +RECORD 14 RECORDS +! ;
 : -RECORD -14 RECORD# +! ;
 \end{Code}
-
 On the other hand, if the value will be needed outside of the component,
 or if it's used several times within the component and there's a good
 chance that it will change, you're better off hiding it behind a name:
@@ -140,7 +139,6 @@ chance that it will change, you're better off hiding it behind a name:
 : +RECORD /RECORD RECORD# +! ;
 : -RECORD /RECORD NEGATE RECORD# +! ;
 \end{Code}
-
 (The name \forth{/RECORD}, by convention, means ``bytes per record.'')
 
 \section{Example: A Tiny Editor}
@@ -217,7 +215,6 @@ screen. For the sake of simplicity, let's plan on creating one word only,
 \begin{Code}
 : EDITOR BEGIN KEY REVISE REDISPLAY ... UNTIL ;
 \end{Code}
-
 This approach separates revising the buffer from updating the display.
 For now, we'll only concentrate on revising the buffer.
 
@@ -295,7 +292,6 @@ Wait, three procedures:
 
 \item to move the pointer backwards
 \end{enumerate}
-
 because we will want ``cursor keys'' to move the cursor forward and back
 without editing changes.
 
@@ -314,7 +310,6 @@ Let's attempt to rewrite these algorithms in code:
 : INSERT SLIDE> OVERWRITE ;
 : DELETE SLIDE< BLANK-END ;
 \end{Code}
-
 To copy the text leftwards and rightwards, we had to invent two new
 names as we went along, \forth{SLIDE<} and \forth{SLIDE>} (pronounced
 ``slide-backwards'' and ``slide-forwards'' respectively). Both of them
@@ -347,6 +342,7 @@ named procedures.
 We can write our keystroke interpreter as a decision table (worrying
 about the implementation later):
 
+\bigskip
 \begin{tabular}{>{\ttfamily}l>{\ttfamily}l>{\ttfamily}l}
 \emph{\textrm{Key}} &\emph{\textrm{Not-inserting}}& \emph{\textrm{Inserting}}\\
 Cntrl-D        & DELETE              & INSERT-OFF\\
@@ -357,6 +353,7 @@ right-arrow    & FORWARD             & INSERT-OFF\\
 return         & ESCAPE              & INSERT-OFF\\
 any printable  & OVERWRITE           & INSERT    \\
 \end{tabular}
+\bigskip
 
 
 We've placed the possible types of keys in the left column, what they do
@@ -369,7 +366,6 @@ Insert Mode, we add a new procedure:
 \begin{Code}
 : INSERT< BACKWARD SLIDE< ;
 \end{Code}
-
 (move the cursor backwards on top of the last character typed, then slide
 everything to the right leftward, covering the mistake).
 
@@ -405,7 +401,7 @@ cavalierly relegated to the key interpreter, now must depend on which
 editing functions occur. As we've discovered, the most important names
 needed to implement the key interpreter are:
 
-\begin{Code}
+\begin{Code}[fontfamily=cmss]
 FORWARD
 BACKWARD
 OVERWRITE
@@ -413,7 +409,6 @@ INSERT
 DELETE
 <INSERT
 \end{Code}
-
 None of their descriptions make any reference to the video refresh
 process, because that was originally assumed to happen later.
 
@@ -434,7 +429,6 @@ are in boldface:
 : INSERT SLIDE> RETYPE OVERWRITE ;
 : DELETE SLIDE< BLANK-END RETYPE ;
 \end{Code}
-
 Since these are the only three functions which change memory, they are
 the only three functions that need to refresh the screen. This idea is
 critical. We must be able to make such assertions to assure program
@@ -646,7 +640,6 @@ such as:
 1 CONSTANT UNDERNESS ( bit mask for underlining)
 2 CONSTANT BOLDNESS ( bit mask for boldface)
 \end{Code}
-
 The formatting component uses phrases like \forth{UNDERNESS SET-FLAG}
 to set bits in the attribute buffer. The output component uses phrases
 like \forth{UNDERNESS AND} to read the attribute buffer.
@@ -765,7 +758,6 @@ format the deferred figure at the top of the new page:
 : NEWPAGE ... ( terminate page with footer)
 ( start new page with header) ... ?HOLDOVER ... ;
 \end{Code}
-
 How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is not
 defined until much later?
 
@@ -1054,7 +1046,6 @@ DECIMAL
       DELETEKEY    OF  DELETE        ENDOF
    ENDCASE  REPEAT ;
 \end{Code}
-
 \item \begin{Code}
 ( Keystroke interpreter)
 : EDITOR
@@ -1071,7 +1062,6 @@ DECIMAL
 
 \item This problem is an exercise in information hiding.
 \end{enumerate}
-
 Let's suppose we have a region of memory outside of the FORTH
 dictionary which we want to allocate for data structures (for whatever
 reason). The region of memory begins at HEX address 0000. We want to
@@ -1085,7 +1075,6 @@ C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
 C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
 C00C CONSTANT THIRD ARRAY  ( 100 bytes)
 \end{Code}
-
 Each array-name defined above will return the starting address of the
 appropriate array. But notice we had to compute the correct starting
 address for each array, based on how many bytes we had already
@@ -1097,19 +1086,17 @@ set the pointer to the beginning of the RAM space:
 VARIABLE >RAM
 COOO >RAM !
 \end{Code}
-
 Now we can define each array like this:
-
-\begin{Code}
+x\begin{Code}
 >RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
 >RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
 >RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
 \end{Code}
-
 Notice that after defining each array, we increment the pointer by the
 size of the new array to show that we've allocated that much additional
 RAM.
 
+\goodbreak
 To make the above more readable, we might add these two
 definitions:
 
@@ -1118,7 +1105,6 @@ definitions:
      >RAM @ ;
 : RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
 \end{Code}
-
 We can now rewrite the above equivalently as:
 
 \begin{Code}
@@ -1126,7 +1112,6 @@ THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
 THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
 THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
 \end{Code}
-
 (An advanced FORTH programmer would probably combine these operations
 into a single defining word, but that whole topic is not germane to
 what I'm leading up to.)
@@ -1151,7 +1136,6 @@ F000 >RAM ! ( EFFF, last byte, plus one)
   6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
 100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
 \end{Code}
-
 This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's
 okay, it's easy to add \forth{NEGATE} to the definition of
 \forth{RAM-ALLOT}. Our present concern is that each time we define an
