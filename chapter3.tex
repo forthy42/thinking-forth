@@ -31,7 +31,7 @@ yourself? Apparently the human mind actually makes links between
 memories. New ideas are somehow added onto existing paths of related
 thoughts.
 
-\wepsfiga{figure-3-1}{Pools of thought not yet linked}
+\wepsfiga{fig3-1}{Pools of thought not yet linked}
 
 In the mishap just described, no connection was ever made between the
 two separately-linked pools of thought until Thursday.  The conflict
@@ -208,7 +208,7 @@ interpreter, each of them will process a single keystroke.
 Below these commands should lie a third component, the set of
 words that implement the data structure to be edited.
 
-\wepsfig{figure-3-2}{Generalized decomposition of the Tiny Editor problem.}
+\wepsfiga{fig3-2}{Generalized decomposition of the Tiny Editor problem.}
 
 Finally, we'll need a component to display the field on the video
 screen. For the sake of simplicity, let's plan on creating one word only,
@@ -236,8 +236,10 @@ Store new character into byte pointer to by pointer Advance pointer (unless at e
 & \parbox[t]{2in}{
   F U N \fwbox{\pointto{K}} T I O N A L I T Y\\
   F U N \fwbox{\pointto{C}} T I O N A L I T Y\\
-  F U N C \pointto{T} I O N A L I T Y}\\ \\
+  F U N C \pointto{T} I O N A L I T Y}\\
+\end{tabular}
 
+\begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
 \emph{To Delete:}&\\
 Copy leftwards, by one place, the string
 beginning one place to the right of the pointer.
@@ -247,9 +249,10 @@ position on the line.
   F U N C T I O N \pointto{S} \fwbox{A L I T Y}\\
   F U N C T I O N \fwbox{\pointto{A} L I T Y} Y\\
   F U N C T I O N \pointto{A} L I T Y \fwbox{\newlength{\charheight}\settoheight{\charheight}{K}\rule{0cm}{\charheight} }}\\
-\\
+\end{tabular}
 
 % Note, pointers-and-boxes omitted in this diagram for some reason.
+\begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
 \emph{To Insert:}&\\
 Copy rightwards, by one place,
 the string beginning at the pointer
@@ -377,7 +380,7 @@ Now we'll demonstrate the tremendous value of this approach in
 terms of maintainability. We'll throw ourselves a curve---a major change
 of plans!
 
-\section{Maintaining a Component-based Application}
+\pagebreak\section{Maintaining a Component-based Application}
 
 How well will our design fare in the face of change? Envision the following
 scenario:
@@ -459,7 +462,7 @@ To prove this assertion, we'll have to start all over again from
 scratch.
 
 \section{Designing and Maintaining a Traditional Application}
-\wepsfig{figure-3-3}{The traditional approach: view from the top.}
+\wepsfigt{fig3-3}{The traditional approach: view from the top.}
 
 Let's pretend we haven't studied the Tiny Editor problem yet, and
 we're back with a minimal set of specs. We'll also start with our
@@ -467,7 +470,7 @@ initial assumption, that we can refresh the display by retyping the
 entire field after each keystroke.
 
 According to the dictum of top-down design, let's take the
-widest-angle view possible and examine the problem.  \Fig{figure-3-3}
+widest-angle view possible and examine the problem.  \Fig{fig3-3}
 depicts the program in its simplest terms. Here we've realized that
 the editor is actually a loop which keeps getting keystrokes and
 performing some editing function, until the user presses the return
@@ -478,13 +481,13 @@ keyboard, editing the data, and finally refreshing the display to match
 the data.
 
 Clearly most of the work will go on inside ``Process a Keystroke.''
-Applying the notion of successive refinement, \fig{figure-3-4} shows the
+Applying the notion of successive refinement, \fig{fig3-4} shows the
 editor problem redrawn with ``Process a Keystroke'' expanded. We find it
 takes several attempts before we arrive at this configuration. Designing
 this level forces us to consider many things at once that we had deferred
 till later in the previous try.
 
-\wepsfig{figure-3-4}{A structure for ``Process a Keystroke.''}
+\wepsfigt{fig3-4}{A structure for ``Process a Keystroke.''}
 
 For instance, we must determine all the keys that might be pressed.
 More significantly, we must consider the problem of ``insert mode.'' This
@@ -498,7 +501,7 @@ not in insert mode.
 
 Having finished the diagram, we're bothered by the multiple tests
 for Insert Mode. Could we test for Insert Mode once, at the beginning?
-Following this notion, we draw yet another chart (\fig{figure-3-5}).
+Following this notion, we draw yet another chart (\fig{fig3-5}).
 
 As you can see, this turns out even more awkward than the first
 figure. Now we're testing for each key twice. It's interesting though,
@@ -506,21 +509,21 @@ how the two structures are totally different, yet functionally
 equivalent. It's enough to make one wonder whether the control
 structure is terribly relevant to the problem.
 
-\wepsfig{figure-3-5}{Another structure for ``Process a Keystroke.''}
+\wepsfigt{fig3-5}{Another structure for ``Process a Keystroke.''}
 
 Having decided on the first structure, we've finally arrived at the
 most important modules---the ones that do the work of overwriting,
 inserting, and deleting. Take another look at our expansion of
-``Process a Character'' in \fig{figure-3-4}. Let's consider just one of the
+``Process a Character'' in \fig{fig3-4}. Let's consider just one of the
 seven possible execution paths, the one that happens if a printable
-character is pressed.  In \fig{figure-3-6}(a) we see the original structural
+character is pressed.  In \fig{fig3-6}(a) we see the original structural
 path for a printable character.
 
 Once we figure out the algorithms for overwriting and inserting
-characters, we might refine it as shown in \fig{figure-3-6}(b). But look at
+characters, we might refine it as shown in \fig{fig3-6}(b). But look at
 that embarrassing redundancy of code (circled portions). Most
 competent structured programmers would recognize that this redundancy
-is unnecessary, and change the structure as shown in \fig{figure-3-6}(c).
+is unnecessary, and change the structure as shown in \fig{fig3-6}(c).
 Not too bad so far, right?
 
 \subsection{Change in Plan}
@@ -529,7 +532,7 @@ Okay, everyone, now act surprised. We've just been told that this
 application won't run on a memory-mapped display. What does this
 change do to our design structure?
 
-\wepsfig{figure-3-6}{The same section, ``refined'' and ``optimized.''}
+\wepsfigt{fig3-6}{The same section, ``refined'' and ``optimized.''}
 
 Well, for one thing it destroys ``Refresh Display'' as a separate
 module. The function of ``Refresh Display'' is now scattered among the
@@ -541,7 +544,7 @@ the wrong tree.
 What happens when we try to change the program? Let's look again
 at the path for any printable character.
 
-\fig{figure-3-7} (a) shows what happens to our first-pass design when we
+\fig{fig3-7} (a) shows what happens to our first-pass design when we
 add refresh. Part (b) shows our ``optimized'' design with the refresh
 modules expanded. Notice that we're now testing the Insert flag twice
 within this single leg of the outer loop.
@@ -558,7 +561,7 @@ we miss it? By getting preoccupied with control flow structure, a super-
 ficial element of program design.
 
 
-\wepsfig{figure-3-7}{Adding refresh.}
+\wepsfigt{fig3-7}{Adding refresh.}
 
 In contrast, in our design by components the correct solution fell
 out naturally because we ``used'' the refresh component inside the editing
@@ -568,7 +571,7 @@ By decomposing our application into components which use one another,
 we achieved not only \emph{elegance} but a more direct path to
 \emph{correctness}.
 
-\section{The Interface Component}
+\pagebreak\section{The Interface Component}
 
 In computer science terminology, interfacing between modules has two
 aspects. First, there's the way other modules invoke the module; this is
@@ -581,22 +584,22 @@ term ``interface'' we're referring to data.
 When it comes to data interfaces between modules, traditional wisdom
 says only that ``interfaces should be carefully designed, with a
 minimum of complexity.'' The reason for the care, of course, is that
-each module must implement its own end of the interface (\fig{figure-3-8}).
+each module must implement its own end of the interface (\fig{fig3-8}).
 
 This means the presence of redundant code. As we've seen, redundant
 code brings at least two problems: bulky code and poor maintainability.
 A change to the interface of one module will affect the interface
 of the opposite module.
 
-\wepsfig{figure-3-8}{Traditional view of the interface as a junction.}
+\wepsfiga{fig3-8}{Traditional view of the interface as a junction.}
 
 There's more to good interface design than that. Allow me to introduce
 a design element which I call the ``interface component.'' The purpose
 an interface component is to implement, and \emph{hide information
 about}, the data interface between two or more other components
-(\fig{figure-3-9}).
+(\fig{fig3-9}).
 
-\wepsfig{figure-3-9}{Use of the interface component.}
+\wepsfiga{fig3-9}{Use of the interface component.}
 
 \begin{tip}
 Both data structures and the commands involved in the communication of
@@ -727,7 +730,7 @@ be invoked or referred to. Usually the sequence in which words are
 defined parallels the order of increasing capabilities which the words
 must possess. This sequence leads to a natural organization of the
 source listing. The powerful commands are simply added on top of the
-elementary application (\fig{figure-3-10}a).
+elementary application (\fig{fig3-10}a).
 
 Like a textbook, the elementary stuff comes first. A newcomer to
 the project would be able to read the elementary parts of the code before
@@ -735,10 +738,10 @@ moving on the advanced stuff.
 
 But in many large applications, the extra capabilities are best
 
-\wepsfig{figure-3-10}{Two ways to add advanced capabilities.}
+\wepsfiga{fig3-10}{Two ways to add advanced capabilities.}
 
 implemented as an enhancement to some private, root function in the
-elementary part of the application (\fig{figure-3-10}b). By being able to
+elementary part of the application (\fig{fig3-10}b). By being able to
 change the root's capability, the user can change the capability of all the
 commands that use the root.
 
@@ -917,7 +920,7 @@ to interpret their parameters. Each may even use its own syntax. A
 shameless waste of time and energy!
 
 %!! should be captionless but framed
-\wepsfig{no-scrambled}{}
+\wepsfigx{no-scrambled}
 
 Finally, because the object is constructed to recognize a finite set
 of possibilities, it's difficult to make additions to the row of

@@ -32,6 +32,21 @@
 \label{fig-#1}
 \end{figure*}
 }
+\newcommand{\wepsfigt}[2]{
+\begin{figure*}[tttt]
+\caption{#2}
+\vspace{1ex}
+\centerline{\epsffile{#1.eps}}\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
+\newcommand{\wepsfigx}[1]{
+\begin{figure*}[tttt]
+\vspace{1ex}
+\centerline{\epsffile{#1.eps}}\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
 
 \newenvironment{tip}{\list{}{
 \hbox{\hbox to\leftmargin{}{\advance\linewidth-1\leftmargin\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}}\nopagebreak
