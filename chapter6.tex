@@ -20,6 +20,7 @@ important skill for a \Forth{} programmer.
 What is factoring? Factoring means organizing code into useful
 fragments. To make a fragment useful, you often must separate reusable
 parts from non-reusable parts. The reusable parts become new
+definitions. The non-reusable parts become arguments or parameters to the
 definitions.
 
 Making this separation is usually referred to as ``factoring out.''
@@ -72,13 +73,14 @@ for any string, you'd factor out the length by writing:
 The data stack can also be used to pass addresses. Therefore what's
 factored out may be a \emph{pointer} to data rather than the data
 themselves. The data can be numbers or even strings, and still be
-factored out through use of the stack.  Sometimes the difference
-appears to be a function, but you can factor it out simply as a number
-on the stack. For instance:
+factored out through use of the stack.
+
+Sometimes the difference appears to be a function, but you can factor
+it out simply as a number on the stack. For instance:
 
 \begin{description}
 \item[Segment 1:] \forth{WILLY NILLY\ \ PUDDIN' PIE AND}
-\item[Segment 2:] \forth{WILLY NILLY\ \ 8 *\ \ PUDDING' PIE AND}
+\item[Segment 2:] \forth{WILLY NILLY\ \ 8 *\ \ PUDDIN' PIE AND}
 \end{description}
 
 \noindent How can you factor out the ``\forth{8 *}'' operation?
@@ -115,7 +117,7 @@ On the other hand, the difference sometimes \emph{is} a function. Witness:
 \item[Segment 1:]~~
 \begin{minipage}[t]{.6\hsize}
 \begin{Code}[commandchars=\&\{\}]
-BLETCH-A  BLETCH-B  &poorbf{BLETCH-C}
+BLETCH-A  BLETCH-B   &poorbf{BLETCH-C}
          BLETCH-D  BLETCH-E  BLETCH-F
 \end{Code}
 \end{minipage}
@@ -149,8 +151,8 @@ BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
 \end{Code}
 
 \begin{description}
-\item[Segment 1:]~~ \forth{BLETCH-AB}~~\forthb{BLETCH-C}~~\forth{BLETCH-DEF}
-\item[Segment 2:]~~ \forth{BLETCH-AB}~~\forthb{PERVERSITY}~~\forth{BLETCH-DEF}
+\item[Segment 1:]~~ \forth{BLETCH-AB ~}\forthb{BLETCH-C}\forth{~ BLETCH-DEF}
+\item[Segment 2:]~~ \forth{BLETCH-AB ~}\forthb{PERVERSITY}\forth{~ BLETCH-DEF}
 \end{description}
 
 \index{C!Control flags|(}
@@ -171,7 +173,7 @@ as opposed to \forth{FALSE BLETCHES}?
 \index{C!Control structures:!factoring out|(}
 \index{C!Control structures:!factoring out code from within|(}
 
-Be alert to repetitions on either side of an \forth{IF ELSE THEN}
+Be alert to repetitions on either side of an \forthb{IF} \forthb{ELSE} \forthb{THEN}
 statement. For instance:
 
 \index{E!EMIT|(}
@@ -181,8 +183,8 @@ statement. For instance:
        DROP  ASCII . EMIT   THEN ...
 \end{Code}
 This fragment normally emits an ASCII character, but if the character
-is a control code, it emits a dot. Either way, an \forth{EMIT} is
-performed. Factor \forth{EMIT} out of the conditional structure, like
+is a control code, it emits a dot. Either way, an \forthb{EMIT} is
+performed. Factor \forthb{EMIT} out of the conditional structure, like
 this:
 
 \begin{Code}
@@ -196,10 +198,10 @@ to factor out the half-fragments. In this case, use stack arguments,
 variables, or even vectoring. We'll see how vectoring can be used in a
 section of \Chap{7} called ``Using DOER/MAKE.''
 
-Here's a reminder about factoring code from out of a \forth{DO LOOP}:
+Here's a reminder about factoring code from out of a \forthb{DO} \forthb{LOOP}:
 
 \begin{tip}
-In factoring out the contents of a \forth{DO LOOP} into a new
+In factoring out the contents of a \forthb{DO} \forthb{LOOP} into a new
 definition, rework the code so that \forth{I} (the index) is not
 referenced within the new definition, but rather passed as a stack
 argument to it.
@@ -209,16 +211,16 @@ argument to it.
 
 \subsection{Factoring Out Control Structures Themselves}
 
-Here are two definitions whose differences lies within a \forth{IF
-THEN} construct:
+Here are two definitions whose differences lies within a \forthb{IF}
+\forthb{THEN} construct:
 
 \begin{Code}
 : ACTIVE    A B OR  C AND  IF  TUMBLE JUGGLE JUMP THEN ;
 : LAZY      A B OR  C AND  IF   SIT  EAT  SLEEP   THEN ;
 \end{Code}
 The condition and control structure remain the same; only the event
-changes. Since you can't factor the \forth{IF} into one word and the
-\forth{THEN} into another, the simplest thing is to factor the
+changes. Since you can't factor the \forthb{IF} into one word and the
+\forthb{THEN} into another, the simplest thing is to factor the
 condition:
 
 \begin{Code}
@@ -236,17 +238,18 @@ control structure, you may even want to factor out both. Watch this:
 : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{Code}
-The word \forth{CONDITIONALLY} may---depending on the condition0---alter
+The word \forthb{CONDITIONALLY} may---depending on the condition---alter
 the control flow so that the remaining words in each definition will be
 skipped. This approach has certain disadvantages as well. We'll
 discuss this technique---pros and cons---in \Chap{8}.
 
 More benign examples of factoring-out control structures include case
-statements,\index{C!Case statements} which eliminate nested \forth{IF
-ELSE THEN}s, and multiple exit loops ( the \forth{BEGIN WHILE WHILE
-WHILE ... REPEAT} construct). We'll also discuss these topics in
-\Chap{8}.
-\index{C!Control structures:!factoring out code from within|)}
+statements,\index{C!Case statements} which eliminate nested
+\forthb{IF} \forthb{ELSE} \forthb{THEN}s, and multiple exit loops (the
+\forthb{BEGIN} \forthb{WHILE} \forthb{WHILE} \forthb{WHILE}
+\forthb{\dots{}} \forthb{REPEAT} construct). We'll also discuss these
+topics in \Chap{8}.  \index{C!Control structures:!factoring out code
+from within|)}
 
 \subsection{Factoring Out Names}
 It's even good to factor out names, when the names seem almost, but
@@ -286,7 +289,7 @@ words.
 
 Here's an improved rendition. The similar variable names have been
 factored into three data structures, and the lengthy recital of
-\forth{INIT-CH} words has been factored into a \forth{DO LOOP}:
+\forth{INIT-CH} words has been factored into a \forthb{DO} \forthb{LOOP}:
 
 \begin{Code}
 : ARRAY  ( #cells -- )  CREATE  2* ALLOT
@@ -307,7 +310,7 @@ returns the ``address of a string'' actually returns this beginning
 address, where the count is. not only does use of this two-element
 data structure eliminate the need for separate names for string and
 count, it also makes it easier to move a string in memory, because you
-can copy the string \emph{and} the count with a single \forth{CMOVE}.
+can copy the string \emph{and} the count with a single \forthb{CMOVE}.
 \index{C!Counted strings|)}
 
 When you start finding the same awkwardness here and there, you can
@@ -348,12 +351,13 @@ memory-efficient than the following approach using defining words:
 (Defining words are explained in \emph{Starting \Forth{}}, Chapter Eleven).
 
 By using a defining word, we save memory because each compiled colon
-definition needs the address of \forth{EXIT} to conclude the
+definition needs the address of \forthb{EXIT} to conclude the
 definition.(In defining eight words, the use of a defining word saves
 14 bytes on a 16-bit \Forth{}.) Also, in a colon definition each
 reference to a numeric literal requires the compilation of
-\forth{LIT} (or literal), another 2 bytes per definition. (If 1 and 2
-are predefined constants, this costs another 10 bytes---24 total.)
+\forthb{LIT} (or \forthb{literal}), another 2 bytes per
+definition. (If 1 and 2 are predefined constants, this costs another
+10 bytes---24 total.)
 
 In terms of readability, the defining word makes it absolutely clear
 that all the colors it defines belong to the same family of words.
@@ -446,9 +450,9 @@ Don't let your ego take over with an ``I can lick this!'' attitude.
 
 \begin{tfquot}
 Feeling like you might have introduced a bug is one reason for
-factoring. Any time you see a doubly-nested \forth{DO LOOP}, that's a
+factoring. Any time you see a doubly-nested \forthb{DO} \forthb{LOOP}, that's a
 sign that something's wrong because it will be hard to debug. Almost
-always take the inner \forth{DO LOOP} and make a word.
+always take the inner \forthb{DO} \forthb{LOOP} and make a word.
 
 And having factored out a word for testing, there's no reason for
 putting it back. You found it useful in the first place. There's no
@@ -484,11 +488,12 @@ This solution is generally a sign of bad factoring. Better to write:
 No narrative stack pictures are needed. Furthermore, the programmer
 now has a reusable, testable subset of the definition.
 
-\index{C!Code:!repetition of|(}
 \begin{tip}
+Limit repetition of code.
+\end{tip}
+\index{C!Code:!repetition of|(}%
 The second reason for factoring, to eliminate repeated fragments of
 code, is even more important than reducing the size of definitions.
-\end{tip}
 \index{D!Defining words:!length|)}
 
 \begin{interview}
@@ -521,7 +526,7 @@ functionally equivalent, such as:
 \begin{Code}
 FRAME  CURSOR @ 1-  +
 \end{Code}
-The 1- appears to make this phrase different from the one defined as
+The \forth{1-} appears to make this phrase different from the one defined as
 \forth{AT}. But in fact, it can be written
 
 \begin{Code}
@@ -584,7 +589,7 @@ Certainly you get more confidence in the idea.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 Compare this view with the criteria for decomposing a module espoused
-by structured design in Chapter One. According to that method, a module
+by structured design in \Chap{1}. According to that method, a module
 should exhibit ``functional binding,'' Which can be verified by
 describing its function in a single, non-compound, \emph{sentence}.
 \Forth{}'s ``atom,'' a \emph{name}, is an order of magnitude more
@@ -604,8 +609,8 @@ Here's a very short definition that does little except hide information:
 \end{Code}
 This definition allows you to convert an acf (address of code field) to
 an apf (address of parameter field) without depending on the actual
-structure of a dictionary definition. If you were to use @+ instead of
-the word \forth{>BODY}, you would lose transportability if you ever
+structure of a dictionary definition. If you were to use \forthb{2+} instead of
+the word \forthb{>BODY}, you would lose transportability if you ever
 converted to a \Forth{} system in which the heads were separated from
 the bodies. (This is one of a set of words suggested by Kim Harris,
 and included as an Experimental Proposal in the \Forth{}-83 Standard
@@ -644,7 +649,12 @@ Here's an example. The word defined below, pronounced
 between a given number of people in a group. (This is a good thing for
 managers of programmer teams to know---the number of communication
 paths increases drastically with each new addition to the team.)
-
+\begin{Code}
+: PEOPLE>PATHS  ( #people -- #paths )  DUP 1-  *  2/ ;
+\end{Code}
+This definition does the calculation only. Here's the ``user definition''
+that invokes \forth{PEOPLE>PATHS} to perform the calculation, and then
+displays the result:
 \begin{Code}
 : PEOPLE  ( #people)
     ." = "  PEOPLE>PATHS  .  ." PATHS " ;
@@ -689,7 +699,7 @@ We find another example of failing to factor the output function from
 the calculation function in our own Roman numeral example in \Chap{4}.
 Given our solution, we can't store a Roman numeral i8n a buffer or
 even center it in a field. (A better approach would have been to use
-\forth{HOLD} instead of \forth{EMIT}.)
+\forthb{HOLD} instead of \forthb{EMIT}.)
 
 Information hiding can also be a reason \emph{not} to factor. For
 instance, if you factor the phrase
@@ -706,7 +716,7 @@ remember you are doing so only because you may want to change the
 location of the editing frame. Don't blindly replace all occurrences
 of the phrase with the new word \forth{FRAME,} because you may change the
 definition of \forth{FRAME} and there will certainly be times when you really
-want \forth{SCR @ BLOCK.}
+want \forthb{SCR} \forthb{@} \forthb{BLOCK}.
 
 \begin{tip}
 If a repeated code fragment is likely to change in some cases but not
@@ -718,7 +728,7 @@ Having made many design changes in your career, you'll learn the hard
 way which things will be most likely to change in the future.
 
 You can never predict everything, though. It would be useless to try,
-as we';; see in the upcoming section called ``The Iterative Approach
+as we'll see in the upcoming section called ``The Iterative Approach
 in Implementation.''
 
 \index{C!Commands, reducing number of|(}
@@ -726,7 +736,7 @@ in Implementation.''
 Simplify the command interface by reducing the number of commands.
 \end{tip}
 It may seem paradoxical, but good factoring can often yield
-\emph{fewer} names. In Chapter 5 we saw how six simple names
+\emph{fewer} names. In \Chap{5} we saw how six simple names
 (\forth{LEFT}, \forth{RIGHT}, \forth{MOTOR}, \forth{SOLENOID},
 \forth{ON}, and \forth{OFF}) could do the work of eight
 badly-factored, hyphenated names.
@@ -927,7 +937,7 @@ shorter object code.
 \index{C!Commands, reducing number of|)}
 
 \begin{tip}
-Don't factor for the sake of factoring. Use cliches.
+Don't factor for the sake of factoring. Use clichés.
 \index{C!Cliches|(}
 \end{tip}
 The phrase
@@ -964,7 +974,7 @@ SWAP} has greater mnemonic value than \forth{RANGE}.
 \index{M!Moore, Charles|)}
 \end{interview}
 %% Could not get that special e in cliches.
-I call these phrases ``cliches.'' They stick together as meaningful
+I call these phrases ``clichés.'' They stick together as meaningful
 functions. You don't have to remember how the phrase works, just what
 it does. And you don't have to remember an extra name.
 \index{C!Cliches|)}
@@ -1095,7 +1105,7 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{figure*}
 The phrase ``\forth{HERE POINTS -}'' computes the number of x--y
 coordinates in the table: this value becomes the constant
-\forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forth{DO LOOP}.
+\forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forthb{DO} \forthb{LOOP}.
 \index{D!DO LOOP}
 
 This construct lets you add or subtract points from the table without
@@ -1105,7 +1115,7 @@ for you.
 \subsection{Compile-Time Factoring through Defining Words}%
 \index{W!Words:!defining|see{Defining words}}%
 \index{D!Defining words:!compile-time factoring through}
-Let's examine a series of approaches to the same problem--defining a
+Let's examine a series of approaches to the same problem---defining a
 group of related addresses. Here's the first try:
 
 \begin{Code}
@@ -1151,14 +1161,9 @@ Here we've created a defining word, \forth{PORT}, that has a unique
 We might even go one step further. Suppose that all port addresses are
 two bytes apart. In this case there's no reason we should have to
 specify these offsets. The numeric sequence
-
-\medskip
-
+\begin{quote}
 0 2 4 6
-
-\medskip
-
-\noindent
+\end{quote}
 is itself redundant.
 
 In the following version, we begin with the \forth{BASE.PORT.ADDRESS}
@@ -1177,7 +1182,7 @@ BASE.PORT.ADDRESS
 DROP ( port.address)
 \end{Code}
 Notice we must supply the initial port address on the stack before
-defining the first port, then invoke \forth{DROP} when we've finished
+defining the first port, then invoke \forthb{DROP} when we've finished
 defining all the ports to get rid of the port address that's still on
 the stack.
 
@@ -1209,10 +1214,10 @@ Work on only one aspect of a problem at a time.
 \end{tip}
 Suppose we're entrusted with the job of coding a word to draw or erase
 a box at a given x--y coordinate. (This is the same problem we
-introduced in the section called ``Compile-Time Factoring.)
+introduced in the section called ``Compile-Time Factoring.'')
 
 At first we focus our attention on the problem of drawing a
-box--never mind erasing it. We might come up with this:
+box---never mind erasing it. We might come up with this:
 
 \begin{Code}
 : LAYER   WIDE  0 DO  ASCII * EMIT  LOOP ;
@@ -1260,7 +1265,7 @@ Don't change too much at once.
 \end{tip}
 While you're editing your application---adding a new feature or fixing
 something---it's often tempting to go and fix several other things at
-the same time. Our advice: Don't
+the same time. Our advice: Don't.
 
 Make as few changes as you can each time you edit-compile. Be sure to
 test the results of each revision before going on. You'd be amazed how
