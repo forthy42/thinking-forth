@@ -53,6 +53,7 @@ OPTIONS = 2004,tip,tipno
 # BoD options:
 # 6x9 for 6" x 9" format (standard US book format)
 # 17x22 for 17cm x 22cm format (one of the standard metric formats)
+# 17x24 for 17cm x 24cm format (one of the standard metric formats)
 
 VERSION = 0.2
 CP = cp
