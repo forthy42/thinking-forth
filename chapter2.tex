@@ -1,0 +1,1456 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Andrew Nicholson, based on OCR output
+%% provided by John Hogerhuis
+%%
+
+%Page 037 in first edition
+
+\chapternum{TWO}
+\chapter{Analysis}
+
+%Page 038 in first edition
+
+Anyone who tells you there is some definite number of phases to the
+software development cycle is a fool.
+
+Nevertheless ...
+
+%S left same as page#
+\section{The Nine Phases of the Programming Cycle}
+
+As we've seen, FORTH integrates aspects of design with aspects of
+implementation and maintenance. As a result, the notion of a ``typical
+development cycle'' makes as much sense as a ``typical noise.''
+
+But any approach is better than no approach, and indeed, some
+approaches have worked out better than others. Here is a development
+cycle that represents an ``average'' of the most successful approaches
+used in software projects:
+
+\begin{description}
+\item[Analysis]
+1. Discover the Requirements and Constraints \\
+2. Build a Conceptual Model of the Solution \\
+3. Estimate Cost/Schedule/Performance
+\item[Engineering] 
+4. Preliminary Design \\
+5. Detailed Design \\
+6. Implementation
+\item[Usage]
+7. Optimization \\
+8. Validation and Debugging \\
+9. Maintenance
+\end{description}
+
+\noindent In this book we'll treat the first six stages of the cycle,
+focusing on analysis, design, and implementation.
+
+In a FORTH project the phases occur on several levels. Looking at a
+project from the widest perspective, each of these steps could take a
+month or more.  One step follows the next, like seasons.
+
+%Page 039 in first edition
+
+But FORTH programmers also apply these same phases toward
+defining each word. The cycle then repeats on the order of minutes.
+
+Developing an application with this rapid repetition of the
+programming cycle is known as using the ``Iterative Approach.''
+
+%S right same as page#
+\section{The Iterative Approach}
+
+\noindent The iterative approach was explained eloquently by Kim
+Harris {[}1{]}. He begins by describing the scientific method:
+
+\begin{quotation}
+\noindent \dots{} a never-ending cycle of discovery and refinement. It
+first studies a natural system and gathers observations about its
+behavior. Then the observations are modeled to produce a theory about
+the natural system.  Next, analysis tools are applied to the model,
+which produces predictions about the real system's behavior.
+Experiments are devised to compare actual behavior to the predicted
+behavior. The natural system is again studied, and the model is
+revised.
+
+The goal of the method is to produce a model which accurately predicts all
+observable behavior of the natural system.
+\end{quotation}
+
+\noindent Harris then applies the scientific method to the software development
+cycle, illustrated in \Fig{fig2-1}:
+
+\wepsfiga{fig2-1}{The iterative approach to the
+software development cycle, from ``The FORTH Philosophy,''
+by Kim Harris, Dr. Dobb's Journal.}
+
+\begin{enumerate}
+
+\item A problem is analyzed to determine what functions are required
+in the solution.
+
+\item Decisions are made about how to achieve those functions with the
+available resources.
+
+\item A program is written which attempts to implement the design.
+\item The program is tested to determine if the functions were
+implemented correctly.
+
+\end{enumerate}
+
+%Page 040 in first edition
+
+\noindent Mr. Harris adds:
+
+\begin{quotation}
+\noindent Software development in FORTH seeks first to find the simplest solution
+to a given problem. This is done by implementing selected parts of the
+problem separately and by ignoring as many constraints as possible. Then one
+or a few constraints are imposed and the program is modified.
+\end{quotation}
+
+\noindent An excellent testimonial to the development/testing model of design is
+evolution. From protozoa to tadpoles to people, each species along the
+way has consisted of functional, living beings. The Creator does not
+appear to be a top-down designer.
+
+\begin{tip}
+Start simple. Get it running. Learn what you're trying to do. Add
+complexity gradually, as needed to fit the requirements and constraints. Don't be
+afraid to restart from scratch.
+\end{tip}
+
+%S left same as page#
+\section{The Value of Planning}
+
+\noindent In the nine phases at the start of this chapter we listed five steps before
+``implementation.'' Yet in Chapter One we saw that an overindulgence in
+planning is both difficult and pointless.
+
+Clearly you can't undertake a significant software
+project---regardless of the language---without some degree of planning.
+Exactly what degree is appropriate?
+
+\blackline{2ex}
+More than one FORTH programmer has expressed high regard for Dave
+Johnson's meticulous approach to planning. Johnson is supervisor at
+Moore Products Co. in Springhouse, Pennsylvania. The firm specializes
+in industrial instrumentation and process control applications. Dave has
+been using FORTH since 1978.
+
+He describes his approach:
+
+\begin{quotation}
+\noindent Compared with many others that use FORTH, I suppose we take a more
+formal approach. I learned this the hard way, though. My lack of discipline
+in the early years has come back to haunt me.
+
+\noindent We use two tools to come up with new products: a functional specification
+and a design specification. Our department of Sales \& Applications comes
+up with the functional specification, through customer contact.
+
+\noindent Once we've agreed on what we're going to do, the functional specification is
+turned over to our department. At that point we work through a design,
+and come up with the design specification.
+
+\noindent Up to this point our approach is no different from programming in any
+language. But with FORTH, we go about designing somewhat differently.
+With FORTH you don't have to work 95\% through your design before you
+can start coding, but rather 60\% before you can get into the iterative
+process.
+
+%Page 041 in first edition
+
+\noindent A typical project would be to add a functional enhancement to one of our
+products. For example, we have an intelligent terminal with disk drives,
+and we need certain protocols for communicating with another device. The
+project to design the protocols, come up with displays, provide the operator
+interfaces, etc. may take several months. The functional specification takes
+a month; the design specification takes a month; coding takes three
+months; integration and testing take another month.
+
+\noindent This is the typical cycle. One project took almost two years, but six or
+seven months is reasonable.
+
+\noindent When we started with FORTH five years ago, it wasn't like that. When I
+received a functional specification, I just started coding. I used a cross
+between top-down and bottom-up, generally defining a structure, and as I
+needed it, some of the lower level, and then returning with more structure.
+
+\noindent The reason for that approach was the tremendous pressure to show
+something to management. We wound up never writing down what we were
+doing. Three years later we would go back and try to modify the code,
+without any documentation. FORTH became a disadvantage because it
+allowed us to go in too early. It was fun to make the lights flash and disk
+drives hum. But we didn't go through the nitty-gritty design work. As I
+said, our ``free spirits'' have come back to haunt us.
+
+\noindent Now for the new programmers, we have an established requirement: a
+thorough design spec that defines in detail all the high-level FORTH
+words-the tasks that your project is going to do. No more reading a few
+pages of the functional specification, answering that, reading a few more,
+answering that, etc.
+
+\noindent No living programmer likes to document. By ensuring the design ahead of
+time, we're able to look back several years later and remember what we did.
+
+\noindent I should mention that during the design phase there is some amount of
+coding done to test out certain ideas. But this code may not be part of the
+finished product. The idea is to map out your design.
+\end{quotation}
+\blackline{2ex}
+
+\noindent Johnson advises us to complete the design specification before starting
+to code, with the exception of needed preliminary tests. The next
+interview backs up this point, and adds some additional reasons.
+
+\blackline{2ex}
+\noindent John Teleska has been an independent software consultant since 1976,
+specializing in custom applications for academic research environments.
+He enjoys providing research tools ``right at the edge of what technology
+is able to do.'' Teleska works in Rochester, New York:
+
+\begin{quotation}
+\noindent I see the software development process as having two phases. The first is
+making sure I understand what the problem is. The second is
+implementation, including debugging, verification, etc.
+
+\noindent My goal in Phase One is an operational specification. I start with a problem
+description, and as I proceed it becomes the operational specification. My
+understanding of the problem metamorphoses into a solution. The better
+the understanding, the more complete the solution. I look for closure; a
+sense of having no more questions that aren't answered in print.
+
+\noindent I've found that on each project I've been putting more time into Phase One,
+much to the initial dismay of many of my clients. The limiting factor is how
+%Page 042 in first edition
+much I can convince the client it's necessary to spend that time up front.
+Customers generally don't know the specifications for the job they want
+done. And they don't have the capital---or don't feel they do---to spend on
+good specs. Part of my job is to convince them it will end up costing more
+time and money not to.
+
+\noindent Some of Phase One is spent on feasibility studies. Writing the spec
+unearths uncertainties. I try to be as uncertain about uncertainties as
+possible. For instance, they may want to collect 200,000 samples a second to a
+certain accuracy. I first need to find out if it's even possible with the
+equipment they've got. In this case I've got to test its feasibility by writing a
+patch of code.
+
+\noindent Another reason for the spec is to cover myself. In case the application
+performs to the spec but doesn't fully satisfy the customer, it's the customer's
+responsibility. If the customer wants more, we'll have to renegotiate. But I
+see it as the designer's responsibility to do whatever is necessary to
+generate an operational specification that will do the job to the customer's
+satisfaction.
+
+\noindent I think there are consultants who bow to client pressure and limit the time
+they spend on specs, for fear of losing the job. But in these situations
+nobody ends up happy.
+\end{quotation}
+\blackline{2ex}
+
+\noindent We'll return to the Teleska interview momentarily.
+
+%left same as page#
+\section{The Limitations of Planning}
+
+\noindent Experience has taught us to map out where we're going before we begin
+coding. But planning has certain limitations. The following interviews
+give different perspectives to the value of planning.
+
+\blackline{2ex}
+\noindent Despite Teleska's preference for a well-planned project, he suggests that
+the choice between a top-down and bottom-up approach may depend on
+the situation:
+
+\begin{quotation}
+\noindent On two recent projects involving a lot of technical interface work, I did the
+whole thing bottom-up. I milled around in a bunch of data-sheets and
+technical descriptions of little crannies of the operating system I was
+dealing with. I felt lost most of the time, wondering why I ever took the job on.
+Then finally I reached a critical mass of some sort and began putting small
+programs together that made small things happen. I continued, bottom-up,
+until I matched the target application.
+
+\noindent My top-down sense was appalled at this procedure. But I've seen me go
+through this process successfully too many times to discount it for any
+pedagogical reasons. And there is always this difficult phase which it seems
+no amount of linear thinking will penetrate. Programming seems a lot more
+intuitive than we, in this business, tell each other it ought to be.
+
+\noindent I think if the application elicits this sense of being lost, I proceed
+bottom-up. If the application is in familiar territory then I'll probably
+use a more traditional by-the-book approach.
+\end{quotation}
+\blackline{2ex}
+
+%Page 043 in first edition
+
+\noindent And here's another view:
+
+\blackline{2ex}
+\noindent At the time I interviewed him, Michael Starling of Union Carbide was
+putting the final touches on two applications involving user-configurable
+laboratory automation and process control automation systems. For the
+pilot plant system, Starling designed both the hardware and software to
+known requirements; on the laboratory automation system he also
+defined the requirements himself.
+
+His efforts were extremely successful. On one project, the new
+system typically costs only 20\% as much as the equivalent system and
+requires days, instead of months, to install and configure.
+
+I asked him what techniques of project management he employed.
+
+\begin{quotation}
+\noindent On both of these projects much design was needed. I did not follow the
+traditional analysis methods, however. I did employ these steps:
+
+\noindent First, I clearly defined the boundaries of the problem.
+
+\noindent Second, I determined what the smaller functional pieces, the software
+subsystems, had to be.
+
+\noindent Third, I did each piece, put them together, and the system ran.
+
+\noindent Next, I asked the users ``Does this meet your requirements?'' Sometimes it
+didn't, and in ways that neither the users nor the specification designers
+could have anticipated.
+
+\noindent For instance, the designers didn't realize that the original
+specification wouldn't produce pleasing, human-oriented graphics
+displays. After working with the interactive graphics on the first
+version, users were applying arbitrary scales and coming up with
+oddball displays.
+
+\noindent So even after the basic plot algorithm was designed, we realized we
+needed auto-scaling. We went back in and analyzed how human beings
+plot data and wrote a first level plot function that evaluates the x
+and y data and how much will fit on the graph.
+
+\noindent After that, we realized that not all the data taken will be of
+interest to experimenters. So we added a zoom capability.
+
+\noindent This iterative approach resulted in cleaner code and better thought
+out code. We established a baseline set of goals and built a minimal
+system to the users' known requirements. Then we'd crank in the
+programmer's experience to improve it and determine what the users
+forgot they needed when they generated the specs.
+
+\noindent The users did not invent most of the new ideas. The programmers did,
+and they would bounce these ideas off the users. The problem
+definition was a two-way street. In some cases they got things they
+didn't know they could do on such a small computer, such as applying
+digital filters and signal processing to the data.
+
+\noindent One of the things about FORTH that makes this approach possible is
+that primitives are easily testable. It takes some experience with
+FORTH to learn how to take advantage of this. Guys from traditional
+environments want to write ten pages of code at their desk, then sit
+down to type it in and expect it to work.
+
+\noindent To summarize my approach: I try to find out from the users what they
+need, but at the same time recognizing its incompleteness. Then I keep
+%Page 044 in first edition
+them involved in the design during the implementation, since they have the
+expertise in the application.
+When they see the result, they feel good because they know their ideas were
+involved.
+
+\noindent The iterative approach places highest value on producing a good solution to
+the real problem. It may not always give you the most predictable software
+costs. The route to a solution may depend upon your priorities. Remember:
+
+% Indented list of words - no bullet!! WRONG
+\begin{itemize}
+\item Good
+\item Fast
+\item Cheap
+\end{itemize}
+
+\noindent Pick any two!
+\end{quotation}
+\blackline{2ex}
+
+\noindent As Starling observes, you don't know completely what you're doing till
+you've done it once. In my own experience, the best way to write an
+application is to write it twice. Throw away the first version and chalk it up
+to experience.
+
+\blackline{2ex}
+\noindent Peter Kogge is Senior Technical Staff in the IBM Federal Systems
+Division, Oswego, New York:
+
+\begin{quotation}
+\noindent One of the key advantages I find in FORTH is that it allows me to very
+quickly prototype an application without all the bells and whistles, and
+often with significant limitations, but enough to wring out the ``human
+interface'' by hands-on trial runs.
+
+When I build such a prototype, I do so with the firm constraint that I will
+use not a single line of code from the prototype in the final program. This
+enforced ``do-over'' almost always results in far simpler and more elegant
+final programs, even when those programs are written in something other
+than FORTH.
+\end{quotation}
+\blackline{2ex}
+
+\noindent Our conclusions? In the FORTH environment planning is necessary. But
+it should be kept short. Testing and prototyping are the best ways to
+discover what is really needed.
+
+A word of caution to project managers: If you're supervising any
+experienced FORTH programmers, you won't have to worry about them
+spending too much time on planning. Thus the following tip has two
+versions:
+
+\begin{tip}
+For newcomers to FORTH (with ``traditional'' backgrounds): Keep the
+analysis phase to a minimum.
+
+For FORTH addicts (without a ``traditional'' background): Hold off on
+coding as long as you can possibly stand it.
+\end{tip}
+
+%Page 045 in first edition
+
+\noindent Or, as we observed in Chapter One:
+
+\begin{tip}
+Plan for change (by designing components that can be changed).
+\end{tip}
+
+\noindent Or, simply:
+
+\begin{tip}
+Prototype.
+\end{tip}
+
+%S right same as page#
+\section{The Analysis Phase}
+
+\noindent In the remainder of this chapter we'll discuss the analysis phase.
+Analysis is an organized way of understanding and documenting what
+the program should do.
+
+With a simple program that you write for yourself in less than an
+hour, the analysis phase may take about 250 microseconds. At the other
+extreme, some projects will take many man-years to build. On such a
+project, the analysis phase is critical to the success of the entire project.
+
+We've indicated three parts to the analysis phase:
+
+\begin{enumerate}
+\item Discovering the requirements and constraints
+\item Building a conceptual model of the solution
+\item Estimating cost, scheduling, and performance
+\end{enumerate}
+
+\noindent Let's briefly describe each part:
+
+%SS left opposite page#
+\subsection{Discovering the Requirements}
+
+\noindent The first step is to determine what the application should do. The
+customer, or whoever wants the system, should supply a ``requirements
+specification.'' This is a modest document that lists the minimum
+capabilities for the finished product.
+
+The analyst may also probe further by conducting interviews and
+sending out questionnaires to the users.
+
+%SS left opposite page#
+\subsection{Discovering the Constraints}
+
+\noindent The next step is to discover any limiting factors. How important is
+speed? How much memory is available? How soon do you need it?
+
+No matter how sophisticated our technology becomes,
+programmers will always be bucking limitations. System capacities inexplicably
+%Page 046 in first edition
+diminish over time. The double-density disk drives that once were the
+answer to my storage prayers no longer fill the bill. The double-sided,
+double-density drives I'll get next will seem like a vast frontier-for a
+while. I've heard guys with 10-megabyte hard disks complain of feeling
+cramped.
+
+Whenever there's a shortage of something---and there always will
+be---tradeoffs have to be made. It's best to use the analysis phase to
+anticipate most limitations and decide which tradeoffs to make.
+
+On the other hand, you should not consider other types of
+constraints during analysis, but should instead impose them gradually
+during implementation, the way one stirs flour into gravy.
+
+The type of constraint to consider during analysis includes those
+that might affect the overall approach. The type of defer includes those
+that can be handled by making iterative refinements to the planned
+software design.
+
+As we heard in our earlier interviews, finding out about hardware
+constraints often requires writing some test code and trying things out.
+
+Finding out about the customer's constraints is usually a matter of
+asking the customer, or of taking written surveys. ``How fast do you need
+such-and-such, on a scale of one to ten?'', etc.
+
+%left same as page#
+\subsection{Building a Conceptual Model of the Solution}
+
+\noindent A conceptual model is an imaginary solution to the problem. It is a view
+of how the system appears to work. It is an answer to all the
+requirements and constraints.
+
+If the requirements definition is for ``something to stand on to paint
+the ceiling,'' then a description of the conceptual model is ``a device that
+is free-standing (so you can paint the center of the room), with several
+steps spaced at convenient intervals (so you can climb up and down), and
+having a small shelf near the top (to hold your paint can).''
+
+A conceptual model is not quite a design, however. A design begins
+to describe how the system really works. In design, the image of a step
+ladder would begin to emerge.
+
+FORTH blurs the distinction a little, because all definitions are
+written in conceptual terms, using the lexicons of lower level
+components. In fact, later in this chapter we'll use FORTH ``pseudocode'' to
+describe conceptual model solutions.
+
+Nevertheless, it's useful to make the distinction. A conceptual
+model is more flexible than a design. It's easier to fit the requirements
+and constraints into the model than into a design.
+
+\begin{tip}
+Strive to build a solid conceptual model before beginning the design.
+\end{tip}
+
+%Page 047 in first edition
+
+\wepsfigp{img2-047}{Refining the conceptual model to meet requirements and constraints.}
+
+%Page 048 in first edition
+
+\noindent Analysis consists of expanding the requirements definition into a
+conceptual model. The technique involves two-way communication with the
+customer in successive attempts to describe the model.
+
+Like the entire development cycle, the analysis phase is best
+approach iteratively. Each new requirement will tend to suggest something
+in your mental model. Your job is to juggle all the requirements and
+constraints until you can weave a pattern that fits the bill.
+
+\Fig{fig2-2} illustrates the iterative approach to the analysis phase.
+The final step is one of the most important: show the documented model
+to the customer. Use whatever means of communication are
+necessary---diagrams, tables, or cartoons---to convey your understanding to
+the customer and get the needed feedback. Even if you cycle through this
+loop a hundred times, it's worth the effort.
+
+In the next three sections we'll explore three techniques for defining
+and documenting the conceptual model:
+
+\begin{enumerate}
+\item defining the interfaces
+\item defining the rules
+\item defining the data structures.
+\end{enumerate}
+
+%S left same side as page #
+\section{Defining the Interfaces}
+
+\begin{tip}
+First, and most importantly, the conceptual model should describe the
+system's interfaces.
+\end{tip}
+
+\blackline{2ex}
+\noindent Teleska:
+
+\begin{quotation}
+\noindent The ``spec'' basically deals with WHAT. In its most glorious form, it
+describes what the system would look like to the user-you might call it the
+user's manual. I find I write more notes on the human interaction-what it
+%Page 049 in first edition
+will look like on the outside-than on the part that gets the job done. For
+instance, I'll include a whole error-action listing to show what happens when
+a particular error occurs. Oddly, this is the part that takes the most time to
+implement anyway.
+
+\wepsfiga{fig2-2}{An iterative approach to analysis.}
+
+I'm currently working on a solid-state industrial washing-machine timer. In
+this case, the user interface is not that complex. What is complex is the
+interface to the washing machine, for which I must depend on the customer
+and the documentation they can provide.
+
+The significant interface is whatever is the arms and legs of the product. I
+don't make the distinction between hardware and software at this early
+stage. They can be interchanged in the implementation.
+
+The process of designing hardware and the process of designing software
+are analogous. The way I design hardware is to treat it as a black box. The
+front panel is input and output. You can do the same with software.
+
+I use any techniques, diagrams, etc., to show the customer what the inputs
+and outputs look like, using his description of what the product has to do.
+But in parallel, in my own mind, I'm imagining how it will be implemented.
+I'm evaluating whether I can do this efficiently. So to me it's not a black
+box, it's a grey box. The designer must be able to see inside the black boxes.
+
+When I design a system that's got different modules, I try to make the
+coupling as rational and as little as possible. But there's always give and
+take, since you're compromising the ideal.
+
+For the document itself, I use DFDs {[}data-flow diagrams, which we'll
+discuss later{]}, and any other kind of representation that I can show to my
+client. I show them as many diagrams as I can to clarify my understanding.
+I don't generally use these once it comes to implementation. The prose
+must be complete, even without reference to the diagrams.
+\end{quotation}
+\blackline{2ex}
+
+\begin{tip}
+Decide on error---and exception---handling early as part of defining the
+interface.
+\end{tip}
+
+\noindent It's true that when coding for oneself, a programmer can often
+concentrate first on making the code run correctly under normal conditions,
+then worry about error-handling later. When working for someone else,
+however, error-handling should be worked out ahead of time. This is an
+area often overlooked by the beginning programmer.
+
+The reason it's so important to decide on error-handling at this
+stage is the wide divergence in how errors can be treated. An error might
+be:
+
+% bullet list
+\begin{itemize}
+\item ignored
+\item made to set a flag indicating that an error occurred, while processing
+continues
+\item made to halt the application immediately
+\item designed to initiate procedures to correct the problem and keep the
+program running.
+\end{itemize}
+
+%Page 050 in first edition
+
+There's room for a serious communications gap if the degree of
+complexity required in the error-handling is not nailed down early. Obviously, the
+choice bears tremendous impact on the design and implementation of the
+application.
+
+\begin{tip}
+Develop the conceptual model by imagining the data traveling through and
+being acted upon by the parts of the model.
+\end{tip}
+
+\noindent A discipline called structured analysis {[}2{]} offers some techniques for
+describing interfaces in ways that your clients will easily understand.
+One of these techniques is called the ``data-flow diagram'' (DFD), which
+Teleska mentioned.
+
+A data-flow diagram, such as the one depicted in \Fig{fig2-3},
+emphasizes what happens to items of data as they travel through the system.
+The circles represent ``transforms,'' functions that act upon information.
+The arrows represent the inputs and outputs of the transforms.
+
+The diagram depicts a frozen moment of the system in action. It
+ignores initialization, looping structures, and other details of
+programming that relate to time.
+
+\wepsfiga{fig2-3}{A data-flow diagram.}
+
+Three benefits are claimed for using DFDs:
+
+First, they speak in simple, direct terms to the customer. If your
+%Page 051 in first edition
+customer agrees with the contents of your data-flow diagram, you know
+you understand the problem.
+
+Second, they let you think in terms of the logical ``whats,'' without
+getting caught up in the procedural ``hows,'' which is consistent with the
+philosophy of hiding information as we discussed in the last chapter.
+
+Third, they focus your attention on the interfaces to the system and
+between modules.
+
+FORTH programmers, however, rarely use DFDs except for the
+customer's benefit. FORTH encourages you to think in terms of the
+conceptual model, and FORTH's implicit use of a data stack makes the
+passing of data among modules so simple it can usually be taken for granted.
+This is because FORTH, used properly, approaches a functional
+language.
+
+For anyone with a few days' familiarity with FORTH, simple
+definitions convey at least as much meaning as the diagrams:
+
+\begin{Code}
+: REQUEST ( quantity part@ -- )
+   ON-HAND? IF TRANSFER ELSE REORDER THEN ;
+: REORDER AUTHORIZATION? IF P.O. THEN ;
+: P.O. BOOKKEEPING COPY RECEIVING COPY
+   VENDOR MAIL-COPY ;
+\end{Code}
+
+This if FORTH pseudocode. No effort has been made to determine what
+values are actually passed on the stack, because that is an
+implementation detail. The stack comment for \forth{REQUEST} is used
+only to indicate the two items of data needed to initiate the process.
+
+(If I were designing this application, I'd suggest that the user
+interface be a word called \forth{NEED}, which has this syntax:
+
+\begin{Code}
+NEED 50 AXLES
+\end{Code}
+
+\noindent \forth{NEED} converts the quantity into a numeric value on
+the stack, translates the string \forth{AXLES} into a part number,
+also on the stack, then calls \forth{REQUEST}. Such a command should
+be defined only at the outer-most level.)
+
+\blackline{2ex}
+\noindent Johnson of Moore Products Co. has a few words on FORTH pseudocode:
+
+\begin{quotation}
+\noindent IBM uses a rigorously documented PDL (program design
+language). We use a PDL here as well, although we call it FDL, for
+FORTH design language. It's probably worthwhile having all those
+standards, but once you're familiar with FORTH, FORTH itself can be a
+design language. You just have to leave out the so-called ``noise''
+words: \forth{C@}, \forth{DUP}, \forth{OVER}, etc., and show only the
+basic flow. Most FORTH people probably do that informally. We do it
+purposefully.
+
+\end{quotation}
+\blackline{2ex}
+
+%Page 052 in first edition
+
+\noindent During one of our interviews I asked Moore if he used
+diagrams of any sort to plan out the conceptual model, or did he code
+straight into FORTH? His reply:
+
+\begin{quotation}
+\noindent The conceptual model is FORTH. Over the years I've learned to think that way.
+\end{quotation}
+
+\noindent Can everyone learn to think that way?
+
+\begin{quotation}
+\noindent I've got an unfair advantage. I codified my programming style and other
+people have adopted it. I was surprised that this happened. And I feel at a
+lovely advantage because it is my style that others are learning to emulate.
+Can they learn to think like I think? I imagine so. It's just a matter of
+practice, and I've had more practice.
+\end{quotation}
+\blackline{2ex}
+
+%left same as page #
+\section{Defining the Rules}
+
+\noindent Most of your efforts at defining a problem will center on describing the
+interface. Some applications will also require that you define the set of
+application rules.
+
+All programming involves rules. Usually these rules are so simple it
+hardly matters how you express them: ``If someone pushes the button,
+ring the bell.''
+
+Some applications, however, involve rules so complicated that they
+can't be expressed in a few sentences of English. A few formal techniques
+can come in handy to help you understand and document these more
+complicated rules.
+
+Here's an example. Our requirements call for a system to compute
+the charges on long-distance phone calls. Here's the customer's
+explanation of its rate structure. (I made this up; I have no idea how the phone
+company actually computes their rates except that they overcharge.)
+
+\begin{quotation}
+\noindent All charges are computed by the minute, according to distance in hundreds
+of miles, plus a flat charge. The flat charge for direct dial calls during
+weekdays between 8 A.M. and 5 P.M. is .30 for the first minute, and .20 for
+each additional minute; in addition, each minute is charged .12 per 100
+miles. The flat charge for direct calls during weekdays between 5 P.M. and
+11 P.M. is .22 for the first minute, and .15 for each additional minute; the
+distance rate per minute is .10 per 100 miles. The flat charge for direct calls
+late during weekdays between 11 P.M. or anytime on Saturday, Sundays, or
+holidays is .12 for the first minute, and .09 for each additional minute; the
+distance rate per minute is .06 per 100 miles. If the call requires assistance
+from the operator, the flat charge increases by .90, regardless of the hour.
+\end{quotation}
+
+\noindent This description is written in plain old English, and it's quite a mouthful.
+It's hard to follow and, like an attic cluttered with accumulated
+belongings, it may even hide a few bugs.
+
+%Page 053 in first edition
+
+In building a conceptual model for this system, we must describe
+the rate structure in an unambiguous, useful way. The first step towards
+cleaning up the clutter involves factoring out irrelevant pieces of
+information---that is, applying the rules of limited redundance. We can
+improve this statement a lot by splitting it into two statements. First
+there's the time-of-day rule:
+
+\begin{quotation}
+\noindent Calls during weekdays between 8 A.M. and 5 P.M. are charged at ``full'' rate.
+Calls during weekdays between 5 P.M. and 11 P.M. are charged at ``lower''
+rate. Calls placed during weekdays between 11 P.M. or anytime on Saturday,
+Sundays, or holidays are charged at the ``lowest'' rate.
+\end{quotation}
+
+\noindent Then there's the rate structure itself, which should be described in terms
+of ``first-minute rate,'' ``additional minute rate,'' ``distance rate,'' and
+``operator-assistance rate.''
+
+\begin{tip}
+Factor the fruit. (Don't confuse apples with oranges.)
+\end{tip}
+
+\noindent These prose statements are still difficult to read, however. System
+analysts use several techniques to simplify these statements: structured
+English, decision trees, and decision tables. Let's study each of these
+techniques and evaluate their usefulness in the FORTH environment.
+
+%SS left opposite page #
+\subsection{Structured English}
+
+\noindent Structured English is a sort of structured pseudocode in which our rate
+statement would read something like this:
+
+\begin{Code}
+IF full rate
+   IF direct-dial
+      IF first-minute
+	 .30 + .12/100miles
+      ELSE ( add'l- minute)
+	 .20 + .12/100miles
+      ENDIF
+   ELSE ( operator )
+      IF first-minute
+	 1.20 + .12/100miles
+      ELSE ( add'l- minute)
+	 .20 + .12/100miles
+      ENDIF
+   ENDIF
+ELSE ( not-full-rate)
+   IF lower-rate
+      IF direct-dial
+%Page 054 in first edition
+	 IF first-minute
+	    .22 + .10/100miles
+	 ELSE ( add'l- minute)
+	    .15 + .10/100miles
+	 END IF
+      ELSE ( operator)
+	 IF first-minute
+	    1.12 + .10/100miles
+	 ELSE ( add'l- minute)
+	    .15 + .10/100miles
+	 ENDIF
+      ENDIF
+   ELSE ( lowest-rate)
+      IF direct-dial
+	 IF first-minute
+	    .12 + .06/100miles
+	 ELSE ( add'l- minute)
+	    .09 + .O6/100miles
+	 ENDIF
+      ELSE ( operator)
+	 IF first-minute
+	    1.02 + .O6/100mi1es
+	 ELSE ( add'l- minute)
+	    .09 + .06/100miles
+	 ENDIF
+      ENDIF
+   ENDIF
+ENDIF
+\end{Code}
+
+\noindent This is just plain awkward. It's hard to read, harder to maintain, and
+hardest to write. And for all that, it's worthless at implementation time.
+I don't even want to talk about it anymore.
+
+%SS left same as page #
+\subsection{The Decision Tree}
+
+\noindent \Fig{fig2-4} illustrates the telephone rate rules by means of a decision tree.
+The decision tree is the easiest method of any to ``follow down'' to
+determine the result of certain conditions. For this reason, it may be the best
+representation to show the customer.
+
+\wepsfiga{fig2-4}{Example of a decision tree.}
+
+Unfortunately, the decision tree is difficult to ``follow up,'' to
+determine which conditions produce certain results. This difficulty inhibits
+seeing ways to simplify the problem. The tree obscures the fact that
+additional minutes cost the same, whether the operator assists or not. You
+can't see the facts for the tree.
+
+%Page 055 in first edition
+
+% Figure 2-4 was here
+
+%SS left opposite page #
+\subsection{The Decision Table}
+
+\noindent The decision table, described next, provides the most usable graphic
+representation of compound rules for the programmer, and possibly for
+the customer as well. \Fig{fig2-5} shows our rate structure rules in
+decision-table form.
+
+\wepsfiga{fig2-5}{The decision table.}
+
+In \Fig{fig2-5} there are three dimensions: the rate discount, whether
+an operator intervenes, and initial minute vs. additional minute.
+
+Drawing problems with more than two dimensions gets a little
+tricky. As you can see, these additional dimensions can be depicted on
+%Page 056 in first edition
+paper as subdimensions within an outer dimension. All of the
+subdimension's conditions appear within every condition of the outer dimension.
+In software, any number of dimensions can be easily handled, as we'll see.
+
+All the techniques we've described force you to analyze which
+conditions apply to which dimensions. In factoring these dimensions, two rules
+apply:
+
+First, all the elements of each dimension must be mutually
+exclusive. You don't put ``first minute'' in the same dimension as ``direct dial,''
+because they are not mutually exclusive.
+
+Second, all possibilities must be accounted for within each
+dimension. If there were another rate for calls made between 2 A.M. to 2:05 A.M.,
+the table would have to be enlarged.
+
+But our decision tables have other advantages all to themselves.
+The decision table not only reads well to the client but actually benefits
+the implementor in several ways:
+
+\begin{description}
+\item[Transferability to actual code.] This is particularly true in FORTH,
+where decision tables are easy to implement in a form very similar to the
+drawing.
+
+\item[Ability to trace the logic upwards.] Find a condition and see what
+factors produced it.
+
+\item[Clearer graphic representation.] Decision tables serve as a better tool
+for understanding, both for the implementor and the analyst.
+\end{description}
+
+Unlike decision trees, these decision tables group the results
+together in a graphically meaningful way. Visualization of ideas helps in
+understanding problems, particularly those problems that are too
+complex to perceive in a linear way.
+
+For instance, \Fig{fig2-5} clearly shows that the charge for
+additional minutes does not depend on whether an operator assisted or not.
+With this new understanding we can draw a simplified table, as shown
+in \Fig{fig2-6}.
+
+\wepsfiga{fig2-6}{A simplified decision table.}
+
+%Page 057 in first edition
+
+It's easy to get so enamored of one's analytic tools that one forgets
+about the problem. The analyst must do more than carry out all
+possibilities of a problem to the nth degree, as I have seen authors of
+books on structured analysis recommend. That approach only increases
+the amount of available detail. The problem solver must also try to
+simplify the problem.
+
+\begin{tip}
+You don't understand a problem until you can simplify it.
+\end{tip}
+
+\noindent If the goal of analysis is not only understanding, but simplification, then
+perhaps we've got more work to do.
+
+Our revised decision table (\Fig{fig2-6}) shows that the per-mile
+charge depends only on whether the rate is full, lower, or lowest. In other
+words, it's subject to only one of the three dimensions shown in the table.
+What happens if we split this table into two tables, as in \Fig{fig2-7}?
+Now we're getting the answer through a combination of table look-up
+and calculation. The formula for the per-minute charge can be
+expressed as a pseudoFORTH definition:
+
+\begin{Code}
+: PER-MINUTE-CHARGE ( -- per-minute-charge)
+   CONNECT-CHARGE MILEAGE-CHARGE + ;
+\end{Code}
+
+The ``\forth{+}'' now appears once in the definition, not nine times in the table.
+
+\wepsfiga{fig2-7}{The sectional decision table.}
+
+\noindent Taking the principle of calculation one step further, we note (or
+remember from the original problem statement) that operator assistance
+merely adds a one-time charge of .90 to the total charge. In this sense, the
+operator charge is not a function of any of the three dimensions. It's more
+%Page 058 in first edition
+appropriately expressed as a ``logical calculation''; that is, a function that
+combines logic with arithmetic:
+
+\begin{Code}
+: ?ASSISTANCE
+   ( direct-dial-charge -- total-charge)
+   OPERATOR? IF .90 + THEN ;
+\end{Code}
+
+(But remember, this charge applies only to the first minute.)
+This leaves us with the simplified table shown in \Fig{fig2-8}, and an
+increased reliance on expressing calculations. Now we're getting
+somewhere.
+
+Let's go back to our definition of PER-MINUTE-CHARGE:
+
+\begin{Code}
+: PER-MINUTE-CHARGE ( -- per-minute-charge)
+   CONNECT-CHARGE MILEAGE-CHARGE + ;
+\end{Code}
+
+Let's get more specific about the rules for the connection charge and for
+the mileage charge.
+
+The connection charge depends on whether the minute is the first or
+an additional minute. Since there are two kinds of per-minute charges,
+perhaps it will be easiest to rewrite PER-MINUTE-CHARGE as two
+different words.
+
+Let's assume we will build a component that will fetch the
+appropriate rates from the table. The word \forth{1MINUTE} will get the rate for the
+first minute; \forth{+MINUTES} will get the rate for each additional minute.
+Both of these words will depend on the time of day to determine whether
+to use the full, lower, or lowest rates.
+
+Now we can define the pair of words to replace PER-MINUTE-CHARGE:
+
+\wepsfiga{fig2-8}{The decision table without operator involvement depicted.}
+
+%Page 059 in first edition
+
+\begin{Code}
+: FIRST   ( -- charge)
+   1MINUTE ?ASSISTANCE MILEAGE-CHARGE + ;
+: PER-ADDITIONAL   ( -- charge)
+   +MINUTES MILEAGE-CHARGE + ;
+\end{Code}
+
+\noindent What is the rule for the mileage charge? Very simple. It is the rate (per
+hundred miles) times the number of miles (in hundreds). Let's assume we
+can define the word \forth{MILEAGE-RATE}, which will fetch the mileage
+rate from the table:
+
+\begin{Code}
+: MILEAGE-CHARGE   ( -- charge)
+   #MILES 8 MILEAGE-RATE t ;
+\end{Code}
+
+\noindent Finally, if we know the total number of minutes for a call, we can now
+calculate the total direct-dial charge:
+
+\begin{Code}
+: TOTAL   ( -- total-charge)
+   FIRST                        ( first minute rate)
+   ( #minutes) 1-               ( additional minutes)
+      PER-ADDITIONAL &          ( times the rate)
+   + ;                          ( added together)
+\end{Code}
+
+\noindent We've expressed the rules to this particular problem through a
+combination of simple tables and logical calculations.
+
+(Some final notes on this example: We've written something very
+close to a running FORTH application. But it is only pseudocode. We've
+avoided stack manipulations by assuming that values will somehow be
+on the stack where the comments indicate. Also, we've used hyphenated
+names because they might be more readable for the customer. Short
+names are preferred in real code-see Chapter Five.)
+
+We'll unveil the finished code for this example in Chapter Eight.
+
+%S right same as page#
+\section{Defining the Data Structures}
+
+\noindent After defining the interfaces, and sometimes defining the rules,
+occasionally you'll need to define certain data structures as well. We're not
+referring here to the implementation of the data structures, but rather to
+a description of their conceptual model.
+
+If you're automating a library index, for instance, a crucial portion
+of your analysis will concern developing the logical data structure. You'll
+have to decide what information will be kept for each book: title, author,
+subject, etc. These ``attributes'' will comprise an ``entity'' (set of related
+records) called \forth{BOOKS}. Then you'll have to determine what other data
+structures will be required to let the users search the \forth{BOOKS} efficiently.
+
+%Page 060 in first edition
+
+\wepsfigp{img2-060}{Given two adequate solutions, the correct one is the simpler.}
+
+%Page 061 in first edition
+
+You may need another entity consisting of authors' names in
+alphabetical order, along with ``attribute pointers'' to the books each author has
+written.
+
+Certain constraints will also affect the conceptual model of the data
+structure. In the library index example, you need to know not only what
+information the users need, but also how long they're willing to wait to
+get it.
+
+For instance, users can request listings of topics by year of
+publication-say everything on ladies' lingerie between 1900 and 1910. If they
+expect to get this information in the snap of a girdle, you'll have to index
+on years and on topics. If they can wait a day, you might just let the
+computer search through all the books in the library.
+
+%S right same as page#
+\section{Achieving Simplicity}
+
+\begin{tip}
+Keep it simple.
+\end{tip}
+
+\noindent While you are taking these crucial first steps toward understanding the
+problem, keep in mind the old saying:
+
+\begin{quotation}
+\noindent Given two solutions to a problem, the correct one is the simpler.
+\end{quotation}
+
+\noindent This is especially true in software design. The simpler solution is often
+more difficult to discover, but once found, it is:
+
+% bullet list
+\begin{itemize}
+\item easier to understand
+\item easier to implement
+\item easier to verify and debug
+\item easier to maintain
+\item more compact
+\item more efficient
+\item more fun
+\end{itemize}
+
+\blackline{2ex}
+\noindent One of the most compelling advocates of simplicity is Moore:
+
+\begin{quotation}
+\noindent You need a feeling for the size of the problem. How much code should it
+take to implement the thing? One block? Three? I think this is a very useful
+design tool. You want to gut-feel whether it's a trivial problem or a major
+problem, how much time and effort you should spend on it.
+
+When you're done, look back and say, ``Did I come up with a solution that is
+reasonable?'' If your solution fills six screens, it may seem you've used a
+sledgehammer to kill a mosquito. Your mental image is out of proportion to
+the significance of the problem.
+
+I've seen nuclear physics programs with hundreds of thousands of lines of
+FORTRAN. Whatever that code does, it doesn't warrant hundreds of
+%Page 062 in first edition
+thousands of lines of code. Probably its writers have overgeneralized the
+problem. They've solved a large problem of which their real needs are a
+subset. They have violated the principle that the solution should match the
+problem.
+\end{quotation}
+\blackline{2ex}
+
+\begin{tip}
+Generality usually involves complexity. Don't generalize your solution any
+more than will be required; instead, keep it changeable.
+\end{tip}
+
+\blackline{2ex}
+\noindent Moore continues:
+\begin{quotation}
+
+\noindent Given a problem, you can code a solution to it. Having done that, and found
+certain unpleasantnesses to it, you can go back and change the problem,
+and end up with a simpler solution.
+
+There's a class of device optimization-minimizing the number of gates in a
+circuit-where you take advantage of the ``don't care'' situation. These
+occur either because a case won't arise in practice or because you really
+don't care. But the spec is often written by people who have no appreciation
+for programming. The designer may have carefully specified all the cases,
+but hasn't told you, the programmer, which cases are really important.
+
+If you are free to go back and argue with him and take advantage of the
+``don't cares,'' you can come up with a simpler solution.
+
+Take an engineering application, such as a 75-ton metal powder press,
+stamping out things. They want to install a computer to control the valves
+in place of the hydraulic control previously used. What kind of spec will you
+get from the engineer? Most likely the sensors were placed for convenience
+from an electromechanical standpoint. Now they could be put somewhere
+else, but the engineer has forgotten. If you demand explanations, you can
+come closer to the real world and further from their model of the world.
+
+Another example is the PID (proportional integration and differentiation)
+algorithm for servos. You have one term that integrates, another term that
+differentiates, and a third term that smooths. You combine those with
+30\% integration, 10\% differentiation, or whatever. But it's only a digital
+filter. It used to be convenient in analog days to break out certain terms of
+the digital filter and say, ``This is the integrator and this is the
+differentiator. I'll make this with a capacitor and I'll make that with an inductor.''
+
+Again the spec writers will model the analog solution which was modeling
+the electromechanical solution, and they're several models away from
+reality. In fact, you can replace it all with two or three coefficients in a digital
+filter for a much cleaner, simpler and more efficient solution.
+\end{quotation}
+\blackline{2ex}
+
+\begin{tip}
+Go back to what the problem was before the customer tried to solve it.
+Exploit the ``don't cares.''
+\end{tip}
+
+%Page 063 in first edition
+
+\wepsfigp{img2-063}{An overgeneralized solution.}
+
+%Page 064 in first edition
+
+\blackline{2ex}
+\noindent Moore continues:
+
+\begin{quotation}
+\noindent Sometimes the possibilities for simplification aren't immediately obvious.
+There's this problem of zooming in a digitized graphics display, such as
+CAD systems. You have a picture on the screen and you want to zoom in on
+a portion to see the details.
+
+I used to implement it so that you move the cursor to the position of
+interest, then press a button, and it zooms until you have a window of the
+desired size. That was the way I've always done it. Until I realized that that
+was stupid. I never needed to zoom with such fine resolution.
+
+So instead of moving the cursor a pixel at a time, I jump the cursor by units
+of, say, ten. And instead of increasing the size of box, I jump the size of the
+box. You don't have a choice of sizes. You zoom by a factor of four. The
+in-between sizes are not interesting. You can do it as many times as you
+like.
+
+By quantitizing things fairly brutally, you make it easier to work with,
+more responsive, and simpler.
+\end{quotation}
+\blackline{2ex}
+
+\begin{tip}
+To simplify, quantitize.
+\end{tip}
+
+\blackline{2ex}
+\noindent Moore concludes:
+\begin{quotation}
+\noindent It takes arrogance to go back and say ``You didn't really mean this,'' or
+``Would you mind if I took off this page and replaced it with this
+expression?'' They get annoyed. They want you to do what they told you to do.
+
+LaFarr Stuart took this attitude when he redesigned FORTH {[}3{]}. He didn't
+like the input buffer, so he implemented FORTH without it, and discovered
+he didn't really need an input buffer.
+
+If you can improve the problem, it's a great situation to get into. It's much
+more fun redesigning the world than implementing it.
+\end{quotation}
+\blackline{2ex}
+
+\noindent Effective programmers learn to be tactful and to couch their approaches
+in non-threatening ways: ``What would be the consequences of replacing
+that with this?'' etc.
+
+Yet another way to simplify a problem is this:
+
+\begin{tip}
+To simplify, keep the user out of trouble.
+\end{tip}
+
+\noindent Suppose you're designing part of a word processor that displays a
+directory of stored documents on the screen, one per line. You plan that the
+%Page 065 in first edition
+user can move the cursor next to the name of any document, then type a
+one-letter command indicating the chosen action: ``p'' for print, ``e'' for
+edit, etc.
+
+Initially it seems all right to let the user move the cursor anywhere
+on the screen. This means that those places where text already appears
+must be protected from being overwritten. This implies a concept of 
+protected fields'' and special handling. A simpler approach confines the
+cursor to certain fields, possibly using reverse video to let the user see the
+size of the allowable field.
+
+Another example occurs when an application prompts the user for a
+numeric value. You often see such applications that don't check input
+until you press ``return,'' at which time the system responds with an error
+message such as ``invalid number.'' It's just as easy-probably easier-to
+check each key as it's typed and simply not allow non-numeric characters
+to appear.
+
+\begin{tip}
+To simplify, take advantage of what's available.
+\end{tip}
+
+\blackline{2ex}
+\noindent Michael LaManna, a FORTH programmer in Long Island, New York, comments:
+
+\begin{quotation}
+\noindent I always try to design the application on the most powerful processor I can
+get my hands on. If I have a choice between doing development on a
+68000-based system and a 6809-based system, I'd go for the 68000-based
+system. The processor itself is so powerful it takes care of a lot of details I
+might otherwise have to solve myself.
+
+If I have to go back later and rewrite parts of the application for a simpler
+processor, that's okay. At least I won't have wasted my time.
+\end{quotation}
+\blackline{2ex}
+
+\noindent A word of caution: If you're using an existing component to simplify
+your prototype, don't let the component affect your design. You don't
+want the design to depend on the internals of the component.
+
+%S right same as page#
+\section{Budgeting and Scheduling}
+
+\noindent Another important aspect of the analysis phase is figuring the price tag.
+Again, this process is much more difficult than it would seem. If you
+don't know the problem till you solve it, how can you possibly know how
+long it will take to solve it?
+
+Careful planning is essential, because things always take longer
+than you expect. I have a theory about this, based on the laws of
+probability:
+
+%Page 066 in first edition
+
+\wepsfigp{img2-066}{Conventional wisdom reveres complexity.}
+
+%Page 067 in first edition
+\begin{tip}
+The mean time for making a ``two-hour'' addition to an application is
+approximately 12 hours.
+\end{tip}
+
+\noindent Imagine the following scenario: You're in the middle of writing a large
+application when suddenly it strikes you to add some relatively simple
+feature. You think it'll take about two hours, so without further
+planning, you just do it. Consider: That's two hours coding time. The
+design time you don't count because you perceived the need-and the
+design-in a flash of brilliance while working on the application. So you
+estimate two hours.
+
+But consider the following possibilities:
+
+\begin{enumerate}
+\item Your implementation has a bug. After two hours it doesn't work. So you
+spend another two hours recoding. (Total 4.)
+
+\item OR, before you implemented it, you realized your initial design wouldn't
+work. You spend two hours redesigning. These two hours count. Plus
+another two hours coding it. (Total 4.)
+
+\item OR, you implement the first design before you realize the design wouldn't
+work. So you redesign (two more hours) and reimplement (two more). (Total 6.)
+
+\item OR, you implement the first design, code it, find a bug, rewrite the code,
+find a design flaw, redesign, recode, find a bug in the new code, recode
+again. (Total 10.)
+
+% Should be outside the enumerate
+You see how the thing snowballs?
+
+\item Now you have to document your new feature. Add two hours to the above. (Total 12.)
+
+\item After you've spent anywhere from 2 to 12 hours installing and debugging
+your new feature, you suddenly find that element Y of your application
+bombs out. Worst yet, you have no idea why. You spend two hours reading
+memory dumps trying to divine the reason. Once you do, you spend as
+many as 12 additional hours redesigning element Y. (Total 26.) Then you
+have to document the syntax change you made to element Y. (Total 27.)
+
+\end{enumerate}
+
+\noindent That's a total of over three man-days. If all these mishaps befell you at
+once, you'd call for the men with the little white coats. It rarely gets that
+bad, of course, but the odds are decidedly against any project being as
+easy as you think it will be.
+
+How can you improve your chances of judging time requirements
+correctly? Many fine books have been written on this topic, notably The
+Mythical Man-Month by Frederick P. Brooks, Jr. {[}4{]}. I have little to add
+to this body of knowledge except for some personal observations.
+
+\begin{enumerate}
+
+\item Don't guess on a total. Break the problem up into the smallest possible
+pieces, then estimate the time for each piece. The sum of the pieces is
+always greater than what you'd have guessed the total would be. (The
+whole appears to be less than the sum of the parts.)
+
+%Page 068 in first edition
+\item In itemizing the pieces, separate those you understand well enough to
+hazard a guess from those you don't. For the second category, give the
+customer a range.
+
+\item A bit of psychology: always give your client some options. Clients like
+options. If you say, ``This will cost you \$6,000,'' the client will probably
+respond ``I'd really like to spend \$4,000.'' This puts you in the position of
+either accepting or going without a job.
+
+But if you say, ``You have a choice: for \$4,000 I'll make it walk through the
+hoop; for \$6,000 I'll make it jump through the hoop. For \$8,000 I'll make it
+dance through the hoop waving flags, tossing confetti and
+singing ``Roll Out the Barrel.''
+
+Most customers opt for jumping through the hoop.
+\end{enumerate}
+
+\begin{tip}
+Everything takes longer than you think, including thinking.
+\end{tip}
+
+%S left same as page#
+\section{Reviewing the Conceptual Model}
+
+\noindent The final box on our iterative analytic wheel is labelled ``Show Model to
+Customer.'' With the tools we've outlined in this chapter, this job should
+be easy to do.
+
+In documenting the requirements specification, remember that
+specs are like snowmen. They may be frozen now, but they shift, slip, and
+melt away when the heat is on. Whether you choose data-flow diagrams
+or straight FORTH pseudocode, prepare yourself for the great thaw by
+remembering to apply the concepts of limited redundancy.
+
+Show the documented conceptual model to the customer. When the
+customer is finally satisfied, you're ready for the next big step: the
+design!
+
+%S left same as page#
+\section{References}
+
+\begin{enumerate}
+\item Kim Harris, \emph{``The FORTH Philosophy,''} Dr. Dobb's Journal, Vol. 6, Iss. 9,
+No. 59 (Sept. 81), pp. 6-11.
+
+\item Victor Weinberg, \emph{Structured Analysis}, Englewood Cliffs, N.J.:
+Prentice-Hall, Inc., 1980.
+
+\item LaFarr Stuart, \emph{``LaFORTH''},1980 FORML Proceedings, p. 78.
+
+\item Frederick P. Brooks, Jr., \emph{The Mythical Man-Month}, Reading,
+Massachusetts, Addison-Wesley, 1975.
+\end{enumerate}
+
+% end of chapter two
