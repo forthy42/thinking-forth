@@ -30,6 +30,8 @@ convert -units PixelsPerInch -density 600x600 -rotate -0.4 \
         -crop 2620x3660+730+482 -colors 2 ch1_010.pnm img1-010.png
 convert -units PixelsPerInch -density 600x600 -rotate -0.8 \
         -crop 3254x3690+464+698 -colors 2 ch1_013.pnm img1-013.png
+convert -units PixelsPerInch -density 600x600 -rotate 0.4 \
+        -crop 2855x2310+580+1290 -colors 2 ch1_028.pnm img1-028.png
 convert -units PixelsPerInch -density 600x600 -rotate 0.06 \
         -crop 2820x3110+590+916 -colors 2 ch1_030.pnm img1-030.png
 convert -units PixelsPerInch -density 600x600 -rotate -0.75 \
