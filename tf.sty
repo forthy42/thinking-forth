@@ -35,11 +35,11 @@
 
 \newenvironment{tip}{\list{}{
 \hbox{\hbox to\leftmargin{}{\advance\linewidth-1\leftmargin\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}}\nopagebreak
-\vspace{1ex}{\Large TIP} \nopagebreak}%
+\vspace{1ex}{\parindent 2.5em\Large TIP} \nopagebreak}%
   \nopagebreak\item\relax}
-{\vspace{1ex}
-\par\kern-1ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
-\vspace{.5ex}\endlist}
+{\par\nopagebreak\vspace{1ex}
+\nopagebreak\kern-1ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
+\endlist}
 
 \newenvironment{tfquot}
                {\list{}{\listparindent 1.5em%
@@ -102,13 +102,13 @@ basewidth=0.5em,frame=tlbr,frameround=tttt,%
   \def\@oddhead{}
   \def\@evenhead{}
   \def\@evenfoot{\hss\vbox{\hsize\textwidth
-      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to 50pt{\sf\bfseries\thepage\hss}}%
+      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to .66in{\sf\bfseries\thepage\hss}}%
         \vrule height0pt depth3.2pt width 0pt%
-        {\kern-25pt\small\sf\leftmark}\hfil}}}
+        {\kern-.33in\small\sf\leftmark}\hfil}}}
   \def\@oddfoot{\hss\vbox{\hsize\textwidth
       \hbox to \textwidth{%
-        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\leftmark}\kern-25pt}%
-        \hbox to 0pt{\hbox to 50pt{\hss\sf\bfseries\thepage}\hss}}}}
+        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\leftmark}\kern-.33in}%
+        \hbox to 0pt{\hbox to .66in{\hss\sf\bfseries\thepage}\hss}}}}
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
   \def\subsectionmark##1{\markright{##1}}%
@@ -125,12 +125,14 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
   \setcounter{section}{0}%
   \gdef\wordchapter{\appendixname\hss\@Alph\c@chapter}}
 
-\def\section#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{section}{1}{-50pt}{2.5ex plus 1ex 
-    minus .2ex}{2ex plus .2ex}{\noindent\ifodd\count\z@\raggedleft\else\raggedright\fi \Large\sf\slshape\bfseries}{#1\kern-50pt}}
-\def\subsection#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{subsection}{2}{-50pt}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\noindent\ifodd\count\z@\raggedleft \else\raggedright\fi\large\sf\slshape\bfseries}{#1\kern-50pt}}
-\def\subsubsection#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{subsubsection}{3}{-50pt}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\noindent\ifodd\count\z@\raggedleft \else\raggedright\fi\sf\slshape\bfseries}{#1\kern-50pt}}
+\def\raggedlr{\noindent\ifodd\c@page\raggedleft \else\raggedright\fi}
+
+\def\section#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
+    minus .2ex}{2ex plus .2ex}{\Large\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
+\def\subsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsection}{2}{-.66in}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\large\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
+\def\subsubsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsubsection}{3}{-.66in}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
 
 \parindent 2.5em
 
