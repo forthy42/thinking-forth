@@ -1,5 +1,6 @@
 \chapter{The Philosophy of FORTH}
 
+
 FORTH is a language and an operating system. But that's not all; It's
 also the embodiment of a philosophy. The philosophy is not generally
 described as something apart from FORTH. It did not precede FORTH,
@@ -89,7 +90,8 @@ languages make it possible for programmers to write code like this:
 \begin{verbatim}
 X = Y (456/A) - 2
 \end{verbatim}
-\wepsfigx{img1-004}
+
+\wepsfigp{img1-004}{So then I typed GOTO 500---and here I am!}
 
 which looks a lot like algebra. Thanks to high-level langages, engineers,
 not just bizarre bit-jockeys, could start writing programs. BASIC
@@ -154,9 +156,9 @@ For example, \Fig{fig1-2} shows a structured diagram of a module to
 submodule you'll find a whole new level of complexity which needn't
 be shown at this level.
 
+A branching decision occurs in this module to choose between the
 \wepsfiga{fig1-2}{Design for a structured program}
-i branching decision occurs in this module to choose between the {}``cold
-cereal'' module and the {}``eggs'' module, but control f1ow stays
+{}``cold cereal'' module and the {}``eggs'' module, but control f1ow stays
 within the outer module. Structured programming has three premises:
 
 \begin{enumerate}
@@ -187,6 +189,7 @@ this last module by renting a new apartment every three months.)
 
 %
 \wepsfiga{fig1-3}{Structured programming with a non-structured language}
+
 Structured programming was originally conceived as a design approach.
 Modules were imaginary entities that existed in the mind of the programmer
 or designer, not actual units of source code. When structured programming
@@ -206,6 +209,7 @@ his students. \Fig{fig1-4} shows how this type of language would allow
 
 %
 \wepsfiga{fig1-4}{Using a structured language.}
+
 Structured programming languages include control structure operators
 such as IF and THEN to ensure a modularity of control flow. As you
 can see, indentation is important for readability, since all the instructions
@@ -257,6 +261,9 @@ procedure make-cereal
    get spoon
 end
 \end{verbatim}
+
+\wepsfigp{img1-010}{Software patches are ugly and conceal structural weaknesses.}
+
 We can also write {}``MAKE-EGGS'' and {}``CLEANUP'' as subroutines.
 Elsewhere we can define {}``MAKE-BREAKFAST'' as a simple routine
 that invokes, or calls, these subroutines:
@@ -287,6 +294,8 @@ code were written out in full within the calling module. But unlike
 the code produced by the macro assembler, the subroutine can be compiled
 elsewhere in memory and merely referenced. It doesn't necessarily
 have to be compiled within the object code of the main program (\Fig{fig1-5}).
+
+\wepsfiga{fig1-5}{A main program and a subroutine in memory.}
 
 Over the years computer scientists have become more forceful in favoring
 the use of many small subroutines over long-winded, continuous programs.
@@ -350,6 +359,9 @@ concepts we've described, and it was still unhappy. The cost of maintaining
 software---keeping it functional in the face of change---accounted
 for more than half of the total cost of software, in some estimates
 as much as ninety percent! 
+
+\wepsfigp{img1-013}{Tobias, I think you've carried the successive
+refinement of that module far enough.}
 
 Everyone agreed that these atrocities could usually be traced back
 to incomplete analysis of the program, or poorly thought-out designs.
@@ -464,6 +476,9 @@ was invented, called the {}``structure chart.'' (A slightly different
 form is calledthe {}``HIPO chart,'' which stands for {}``hierarchical
 input-process-output.'') Structure charts include two parts, a hierarchy
 chart and an input-output chart.
+
+\wepsfigt{fig1-6}{The form of a structured chart,
+from {}``Structured Design,'' IBM Systems Journal.}
 
 \Fig{fig1-6} shows these two parts. The main program, called DOIT,
 consists of three subordinate modules, which in turn invoke the other
@@ -743,6 +758,8 @@ on a team can be assigned components individually, with less interdependence.
 The principle of component programming applies to team management
 as well as to software design.
 
+\wepsfiga{fig1-7}{Structured design vs. component design.}
+
 We'll call the set of words which describe a component a {}``lexicon.''
 (One meaning of lexicon is {}``a set of words pertaining to a particular
 field of interest.'') The lexicon is your interface with the component
@@ -754,6 +771,8 @@ may also contain definitions written solely to support the externally
 visible lexicon. We'll call the supporting definitions {}``internal''
 words.
 
+\wepsfiga{fig1-8}{A lexicon describes a component.}
+
 The lexcon provides the logical equivalents to the data objects and
 algorithms in the form of names. The lexicon veils the compnent's
 data structures and algorithms---the {}``how it works.'' It presents
@@ -763,6 +782,8 @@ in simple words---the {}``what it does.''
 These words then become the language for describing the data structures
 and algorithms of components written at a a higher level. The {}``what''
 of one component becomes the {}``how'' of a higher component.
+
+\wepsfiga{fig1-9}{The entire application consists of components.}
 
 Written in FORTH, an entire application consists of nothing but components.
 \Fig{fig1-9} show show a robotics application might be decomposed.
@@ -908,6 +929,9 @@ VARIABLE GREENS  ( tally of green apples)
 : GREEN  ( set apple-type to GREEN)  GREENS COLOR ! ;
 : APPLES  ( -- adr of current apple tally)  COLOR @ ;
 \end{verbatim}
+
+\wepsfiga{fig1-10}{Changing the indirect pointer.}
+
 Here we've redefined APPLES. Now it fetches the contents of a variable
 called COLOR. COLOR is a pointer, either to the variable REDS or to
 the variable GREENS. These two variables are the real tallies.
@@ -976,6 +1000,8 @@ those commands are compiled. Does this disqualify FORTH from the ranks
 of high-level languages? Before we answer, let's explore the advantages
 of the FORTH approach.
 
+\wepsfigp{img1-028}{Two points of view.}
+
 Here's what Charles Moore, the inventor of FORTH, has to say:
 
 \begin{quote}
@@ -1033,6 +1059,8 @@ he writes, {}``the computer actually encourages scientists to modify,
 repair, and improve the software, to experiment with and characterize
 their equipment. Initiative becomes once more the prerogative of the
 researcher.''
+
+\wepsfigp{img1-030}{Two solutions to the problem of security.}
 
 For those purists who believe FORTH isn't fit to be called a high-level
 language, FORTH makes matters even worse. While strong syntax checking
@@ -1144,6 +1172,8 @@ code will be running 80\% of the time. Only the most often used, time-critical
 routines need to be machine coded. The FORTH system itself is largely
 implemented in machine-code definitions, so you'll have few application
 words that need to be coded in assembler.
+
+\wepsfigp{img1-033}{The best top-down designs of mice and young men.}
 
 Third, FORTH applications tend to be better designed than those written
 entirely in assembler. FORTH programmers take advantage of the language's
