@@ -66,13 +66,13 @@ have to use stack manipulation. For instance, to center a piece of
 text ten characters long on an 80-column screen, we would write:
 
 \begin{Code}
-80  10 -   2/ SPACES
+80  10 -   2/ spaces
 \end{Code}
 But text isn't always 10 characters long. To make the phrase useful
 for any string, you'd factor out the length by writing:
 
 \begin{Code}
-: CENTER ( length -- ) 80  SWAP -  2/ SPACES ;
+: CENTER ( length -- ) 80  swap -  2/ spaces ;
 \end{Code}
 The data stack can also be used to pass addresses. Therefore what's
 factored out may be a \emph{pointer} to data rather than the data
@@ -91,7 +91,7 @@ it out simply as a number on the stack. For instance:
 By including ``\forth{*}'' in the factoring and passing it a one or eight:
 
 \begin{Code}
-: NEW  ( n )  WILLY NILLY  *  PUDDIN' PIE AND ;
+: NEW  ( n )  WILLY NILLY  *  PUDDIN' PIE and ;
 \end{Code}
 
 \begin{description}
@@ -184,9 +184,9 @@ Be alert to repetitions on either side of an
 
 \index{E!EMIT|(}
 \begin{Code}
-... ( c)  DUP  BL 127 WITHIN
-       IF  EMIT  ELSE
-       DROP  ASCII . EMIT   THEN ...
+... ( c)  dup  bl 127 within
+       IF  emit  ELSE
+       drop  ASCII . emit   THEN ...
 \end{Code}
 This fragment normally emits an ASCII character, but if the character
 is a control code, it emits a dot. Either way, an \forthb{EMIT} is
@@ -194,8 +194,8 @@ performed. Factor \forthb{EMIT} out of the conditional structure, like
 this:
 
 \begin{Code}
-... ( c)  DUP  BL 127 WITHIN NOT
-       IF  DROP  ASCII .  THEN  EMIT  ...
+... ( c)  dup  bl 127 within NOT
+       IF  drop  ASCII .  THEN  emit  ...
 \end{Code}
 \index{E!EMIT|)}
 The messiest situation occurs when the difference between two
@@ -221,8 +221,8 @@ Here are two definitions whose differences lies within a \forthb{IF}
 \forthb{THEN} construct:
 
 \begin{Code}
-: ACTIVE    A B OR  C AND  IF  TUMBLE JUGGLE JUMP THEN ;
-: LAZY      A B OR  C AND  IF   SIT  EAT  SLEEP   THEN ;
+: ACTIVE    A B or  C and  IF  TUMBLE JUGGLE jump THEN ;
+: LAZY      A B or  C and  IF   SIT  EAT  SLEEP   THEN ;
 \end{Code}
 The condition and control structure remain the same; only the event
 changes. Since you can't factor the \forthb{IF} into one word and the
@@ -230,8 +230,8 @@ changes. Since you can't factor the \forthb{IF} into one word and the
 condition:
 
 \begin{Code}
-: CONDITIONS? ( -- ?) A B OR C AND ;
-: ACTIVE    CONDITIONS? IF TUMBLE JUGGLE JUMP THEN ;
+: CONDITIONS? ( -- ?) A B or C and ;
+: ACTIVE    CONDITIONS? IF TUMBLE JUGGLE jump THEN ;
 : LAZY      CONDITIONS? IF    SIT  EAT  SLEEP THEN ;
 \end{Code}
 
@@ -240,8 +240,8 @@ Depending on the number of repetitions of the same condition and
 control structure, you may even want to factor out both. Watch this:
 
 \begin{Code}
-: CONDITIONALLY   A B OR  C AND NOT IF  R> DROP   THEN ;
-: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
+: CONDITIONALLY   A B or  C and NOT IF  r> drop   THEN ;
+: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE jump ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{Code}
 The word \forthb{CONDITIONALLY} may---depending on the condition---alter
@@ -266,14 +266,14 @@ which is meant to initialize three variables associated with each of
 eight channels:
 
 \begin{Code}
-VARIABLE 0STS       VARIABLE 1STS       VARIABLE 2STS 
-VARIABLE 3STS       VARIABLE 4STS       VARIABLE 5STS
-VARIABLE 6STS       VARIABLE 7STS       VARIABLE 0TNR
-VARIABLE 1TNR       VARIABLE 2TNR       VARIABLE 3TNR
-VARIABLE 4TNR       VARIABLE 5TNR       VARIABLE 6TNR
-VARIABLE 7TNR       VARIABLE 0UPS       VARIABLE 1UPS
-VARIABLE 2UPS       VARIABLE 3UPS       VARIABLE 4UPS
-VARIABLE 5UPS       VARIABLE 6UPS       VARIABLE 7UPS
+Variable 0STS       Variable 1STS       Variable 2STS 
+Variable 3STS       Variable 4STS       Variable 5STS
+Variable 6STS       Variable 7STS       Variable 0TNR
+Variable 1TNR       Variable 2TNR       Variable 3TNR
+Variable 4TNR       Variable 5TNR       Variable 6TNR
+Variable 7TNR       Variable 0UPS       Variable 1UPS
+Variable 2UPS       Variable 3UPS       Variable 4UPS
+Variable 5UPS       Variable 6UPS       Variable 7UPS
 \end{Code}
 
 \begin{Code} 
@@ -300,13 +300,13 @@ factored into three data structures, and the lengthy recital of
 \forth{INIT-CH} words has been factored into a \forthb{DO }\forthb{LOOP}:
 
 \begin{Code}
-: ARRAY  ( #cells -- )  CREATE  2* ALLOT
-   DOES> ( i -- 'cell)  SWAP  2* + ; 
+: ARRAY  ( #cells -- )  Create  2* allot
+   DOES> ( i -- 'cell)  swap  2* + ; 
 8 ARRAY STATUS  ( channel# -- adr)
 8 ARRAY TENOR   (        "       )
 8 ARRAY UPSHOT  (        "       )
-: STABLE   8 0 DO  0 I STATUS !  1000 I TENOR ! 
-   -1 I UPSHOT !  LOOP ;
+: STABLE   8 0 DO  0 i STATUS !  1000 i TENOR ! 
+   -1 i UPSHOT !  LOOP ;
 \end{Code}
 That's all the code we need.
 
@@ -337,7 +337,7 @@ purpose---you'll see the same example later on):\program{color2}
 
 \begin{Code}
 : HUE  ( color -- color') 
-   'LIGHT? @  OR  0 'LIGHT? ! ;
+   'LIGHT? @  or  0 'LIGHT? ! ;
 : BLACK   0 HUE ;
 : BLUE   1 HUE ;
 : GREEN   2 HUE ;
@@ -352,8 +352,8 @@ purpose---you'll see the same example later on):\program{color2}
 memory-efficient than the following approach using defining words:
 
 \begin{Code}
-: HUE   ( color -- )  CREATE ,
-   DOES>  ( -- color )  @ 'LIGHT? @  OR  0 'LIGHT? ! ;
+: HUE   ( color -- )  Create ,
+   DOES>  ( -- color )  @ 'LIGHT? @  or  0 'LIGHT? ! ;
  0 HUE BLACK         1 HUE BLUE          2 HUE GREEN
  3 HUE CYAN          4 HUE RED           5 HUE MAGENTA
  6 HUE BROWN         7 HUE GRAY
@@ -424,7 +424,7 @@ conscious attention on seven things, plus or minus two, at a time
 of the mind are subconsciously storing immense amounts of data, making
 connections and associations and solving problems.
 
-Even if out subconscious mind knows each part of an application inside
+Even if our subconscious mind knows each part of an application inside
 out, our narrow-viewed conscious mind can only correlate seven
 elements of it at once. Beyond that, our grasp wavers. Short
 definitions match our mental capabilities.
@@ -484,7 +484,7 @@ stack, this may be a good time to ``make a break.''
 \goodbreak
 Suppose you have
 \begin{Code}
-... BALANCE  DUP xxx xxx xxx xxx xxx xxx xxx xxx xxx
+... BALANCE  dup xxx xxx xxx xxx xxx xxx xxx xxx xxx
      xxx xxx xxx xxx xxx xxx   ( balance) SHOW  ...
 \end{Code}
 which begins by computing the balance and ends by displaying it. In
@@ -497,7 +497,7 @@ This solution is generally a sign of bad factoring. Better to write:
 \begin{Code}
 : REVISE  ( balance -- )  xxx xxx xxx xxx xxx xxx xxx
      xxx xxx xxx xxx xxx xxx xxx ;
-... BALANCE  DUP REVISE  SHOW  ...
+... BALANCE  dup REVISE  SHOW  ...
 \end{Code}
 No narrative stack pictures are needed. Furthermore, the programmer
 now has a reusable, testable subset of the definition.
@@ -556,7 +556,7 @@ Don't blindly seize upon duplications that may not be useful. For
 instance, in several places in one application I used this phrase:
 
 \begin{Code}
-BLK @ BLOCK  >IN @ +  C@
+blk @ block  >in @ +  c@
 \end{Code}
 I turned it into a new word and called it \forth{LETTER}, since it
 returned the letter being pointed to by the interpreter.
@@ -564,7 +564,7 @@ returned the letter being pointed to by the interpreter.
 In a later revision, I unexpectedly had to write:
 
 \begin{Code}
-BLK @ BLOCK  >IN @ +  C!
+blk @ block  >in @ +  c!
 \end{Code}
 I could have used the existing \forth{LETTER} were it not for its
 \forth{C@} at the end. Rather than duplicate the bulk of the phrase
@@ -626,7 +626,7 @@ this criterion during the implementation stage as well.
 Here's a very short definition that does little except hide information:
 
 \begin{Code}
-: >BODY  ( acf -- apf )  2+ ;
+: >body  ( acf -- apf )  2+ ;
 \end{Code}
 This definition allows you to convert an acf (address of code field) to an
 apf (address of parameter field) without depending on the actual structure
@@ -640,7 +640,7 @@ included as an Experimental Proposal in the
 Here's a group of definitions that might be used in writing an editor:
 
 \begin{Code}
-: FRAME  ( -- a)  SCR @ BLOCK ;
+: FRAME  ( -- a)  scr @ block ;
 : CURSOR  ( -- a)  R# ;
 : AT  ( -- a)  FRAME  CURSOR @ + ;
 \end{Code}
@@ -655,8 +655,8 @@ a block, you merely have to redefine two of these words, perhaps like
 this:
 
 \begin{Code}
-CREATE FRAME  1024 ALLOT
-VARIABLE CURSOR
+Create FRAME  1024 allot
+Variable CURSOR
 \end{Code}
 The rest of your code can remain intact. 
 
@@ -671,7 +671,7 @@ between a given number of people in a group. (This is a good thing for
 managers of programmer teams to know---the number of communication
 paths increases drastically with each new addition to the team.)
 \begin{Code}
-: PEOPLE>PATHS  ( #people -- #paths )  DUP 1-  *  2/ ;
+: PEOPLE>PATHS  ( #people -- #paths )  dup 1-  *  2/ ;
 \end{Code}
 This definition does the calculation only. Here's the ``user definition''
 that invokes \forth{PEOPLE>PATHS} to perform the calculation, and then
@@ -702,7 +702,7 @@ time, but occasionally it does too much. Here's what it does, in fact
 (in \Forth{}--83):
 
 \begin{Code}
-: .   ( n )  DUP ABS 0 <# #S  ROT SIGN  #> TYPE SPACE ;
+: .   ( n )  dup abs 0 <# #s  rot sign  #> type space ;
 \end{Code}
 But suppose you want to convert a number on the stack into an ASCII
 string and store it in a buffer for typing later. Dot converts it, but
@@ -713,8 +713,8 @@ because it prints a final space.
 Here's a better factoring found in some \Forth{} systems:
 
 \begin{Code}
-: (.)  ( n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
-: .  ( n)  (.) TYPE SPACE ;
+: (.)  ( n -- a #)  dup abs 0  <# #s  rot sign  #> ;
+: .  ( n)  (.) type space ;
 \end{Code}
 We find another example of failing to factor the output function from
 the calculation function in our own Roman numeral example in \Chap{4}.
@@ -726,12 +726,12 @@ Information hiding can also be a reason \emph{not} to factor. For
 instance, if you factor the phrase
 
 \begin{Code}
-SCR @ BLOCK
+scr @ block
 \end{Code}
 into the definition
 
 \begin{Code}
-: FRAME   SCR @ BLOCK ;
+: FRAME   scr @ block ;
 \end{Code}
 remember you are doing so only because you may want to change the location
 of the editing frame. Don't blindly replace all occurrences of the phrase
@@ -771,8 +771,8 @@ was purely instructional, to remind the programmer which vocabulary
 was \forth{CURRENT}, and which was \forth{CONTEXT}:
 
 \begin{Code}
-: .CONTEXT   CONTEXT @  8 -  NFA  ID.   ;
-: .CURRENT   CURRENT @  8 -  NFA  ID.  ;
+: .CONTEXT   context @  8 -  NFA  id.   ;
+: .CURRENT   current @  8 -  NFA  id.  ;
 \end{Code}
 \goodbreak
 \noindent If you typed
@@ -793,13 +793,13 @@ factoring. It would have been possible to consolidate the repeated
 passage into a third definition:
 
 \begin{Code}
-: .VOCABULARY   ( pointer )  @  8 -  NFA  ID. ;
+: .VOCABULARY   ( pointer )  @  8 -  NFA  id. ;
 \end{Code}
 shortening the original definitions to:
 
 \begin{Code}
-: .CONTEXT   CONTEXT .VOCABULARY ;
-: .CURRENT   CURRENT .VOCABULARY ;
+: .CONTEXT   context .VOCABULARY ;
+: .CURRENT   current .VOCABULARY ;
 \end{Code}
 But in this approach, the only difference between the two definitions
 was the pointer to be displayed. Since part of good factoring is to
@@ -811,17 +811,17 @@ definition, and let it take as an argument either the word
 Applying the principles of good naming, I suggested:
 
 \begin{Code}
-: IS  ( adr)   @  8 -  NFA  ID. ;
+: IS  ( adr)   @  8 -  NFA  id. ;
 \end{Code}
 allowing the syntax
 
 \begin{Code}[commandchars=\&\{\}]
-CONTEXT IS&underline{ ASSEMBLER ok}
+context IS&underline{ assembler ok}
 \end{Code}
 or
 
 \begin{Code}[commandchars=\&\{\}]
-CURRENT IS&underline{ FORTH ok}
+current IS&underline{ Forth ok}
 \end{Code}
 The initial clue was repetition of code, but the final result came
 from attempting to simplify the command interface.
@@ -871,8 +871,8 @@ names, we realize that we can use the number of columns as a stack
 argument, and \emph{calculate} the mode:
 
 \begin{Code}
-: B&W    ( #cols -- )  DUP #COLUMNS !  20 /  2-     MODE ;
-: COLOR  ( #cols -- )  DUP #COLUMNS !  20 /  2-  1+ MODE ;
+: B&W    ( #cols -- )  dup #COLUMNS !  20 /  2-     MODE ;
+: COLOR  ( #cols -- )  dup #COLUMNS !  20 /  2-  1+ MODE ;
 \end{Code}
 This gives us this syntax:
 
@@ -889,7 +889,7 @@ code we get:
 
 \begin{Code}
 : COL-MODE!  ( #columns chroma?)
-   SWAP DUP #COLUMNS !  20 / 2-  +  MODE ;
+   swap dup #COLUMNS !  20 / 2-  +  MODE ;
 : B&W    ( #columns -- )  0 COL-MODE! ;
 : COLOR  ( #columns -- )  1 COL-MODE! ;
 \end{Code}
@@ -903,14 +903,14 @@ particular system. Names like \forth{BLUE} and \forth{RED} are nicer
 than numbers. One solution might be to define:
 
 \begin{Code}
- 0 CONSTANT BLACK                 1 CONSTANT BLUE
- 2 CONSTANT GREEN                 3 CONSTANT CYAN
- 4 CONSTANT RED                   5 CONSTANT MAGENTA
- 6 CONSTANT BROWN                 7 CONSTANT GRAY
- 8 CONSTANT DARK-GRAY             9 CONSTANT LIGHT-BLUE
-10 CONSTANT LIGHT-GREEN          11 CONSTANT LIGHT-CYAN
-12 CONSTANT LIGHT-RED            13 CONSTANT LIGHT-MAGENTA
-14 CONSTANT YELLOW               15 CONSTANT WHITE
+ 0 Constant BLACK                 1 Constant BLUE
+ 2 Constant GREEN                 3 Constant CYAN
+ 4 Constant RED                   5 Constant MAGENTA
+ 6 Constant BROWN                 7 Constant GRAY
+ 8 Constant DARK-GRAY             9 Constant LIGHT-BLUE
+10 Constant LIGHT-GREEN          11 Constant LIGHT-CYAN
+12 Constant LIGHT-RED            13 Constant LIGHT-MAGENTA
+14 Constant YELLOW               15 Constant WHITE
 \end{Code}
 These colors can be used with words such as \forth{BACKGROUND},
 \forth{FOREGROUND}, and \forth{BORDER}:
@@ -928,9 +928,9 @@ bit.'') If we factor out the ``lightness,'' we might come up with this
 solution:\program{color3}
 
 \begin{Code}
-VARIABLE 'LIGHT?  ( intensity bit?)
-: HUE  ( color)  CREATE ,
-   DOES>  ( -- color )  @  'LIGHT? @  OR  0 'LIGHT? ! ;
+Variable 'LIGHT?  ( intensity bit?)
+: HUE  ( color)  Create ,
+   DOES>  ( -- color )  @  'LIGHT? @  or  0 'LIGHT? ! ;
  0 HUE BLACK         1 HUE BLUE           2 HUE GREEN
  3 HUE CYAN          4 HUE RED            5 HUE MAGENTA
  6 HUE BROWN         7 HUE GRAY
@@ -967,7 +967,7 @@ Don't factor for the sake of factoring. Use clich\'es.
 The phrase
 
 \begin{Code}
-OVER + SWAP
+over + swap
 \end{Code}
 may be seen commonly in certain applications. (It converts an address and
 count into an ending address and starting address appropriate for a
@@ -976,7 +976,7 @@ count into an ending address and starting address appropriate for a
 Another commonly seen phrase is
 
 \begin{Code}
-1+ SWAP
+1+ swap
 \end{Code}
 (It rearranges a first-number and last-number into the
 last-number-plus-one and first-number order required by \forthb{DO}.)
@@ -1057,10 +1057,10 @@ left-most and top-most coordinates of the first box.
 Naturally we can define:
 
 \begin{Code}
-8 CONSTANT WIDE
-5 CONSTANT HIGH
-4 CONSTANT AVE
-2 CONSTANT STREET
+8 Constant WIDE
+5 Constant HIGH
+4 Constant AVE
+2 Constant STREET
 \end{Code}
 (Streets run east and west; avenues run north and south.)
 
@@ -1079,7 +1079,7 @@ we add
 So we could, crudely, define:
 
 \begin{Code}
-24 CONSTANT LEFTMARGIN
+24 Constant LEFTMARGIN
 \end{Code}
 and use the same approach for \forth{TOPMARGIN}.
 
@@ -1091,8 +1091,8 @@ In the \Forth{} environment, we can use the full power of \Forth{}
 even when we're compiling. Why not let \Forth{} do the figuring?
 
 \begin{Code}
-WIDE 3 *  AVE 2 *  +  80 SWAP -  2/ CONSTANT LEFTMARGIN
-HIGH 3 *  STREET 2 * +  24 SWAP -  2/ CONSTANT TOPMARGIN
+WIDE 3 *  AVE 2 *  +  80 swap -  2/ Constant LEFTMARGIN
+HIGH 3 *  STREET 2 * +  24 swap -  2/ Constant TOPMARGIN
 \end{Code}
 
 \begin{tip}
@@ -1111,7 +1111,7 @@ stack.)
 Notice the line immediately following the list of points:
 
 \begin{Code}
-HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
+here POINTS -  ( /table)  2/  Constant #POINTS
 \end{Code}
 %% I don't know how to offset the Figure 6-2.
 \begin{figure*}[bbbb]
@@ -1146,12 +1146,12 @@ Let's examine a series of approaches to the same problem---defining a
 group of related addresses. Here's the first try:
 
 \begin{Code}
-HEX 01A0 CONSTANT BASE.PORT.ADDRESS
-BASE.PORT.ADDRESS CONSTANT SPEAKER
-BASE.PORT.ADDRESS 2+ CONSTANT FLIPPER-A
-BASE.PORT.ADDRESS 4 + CONSTANT FLIPPER-B
-BASE.PORT.ADDRESS 6 + CONSTANT WIN-LIGHT
-DECIMAL
+hex 01A0 Constant BASE.PORT.ADDRESS
+BASE.PORT.ADDRESS Constant SPEAKER
+BASE.PORT.ADDRESS 2+ Constant FLIPPER-A
+BASE.PORT.ADDRESS 4 + Constant FLIPPER-B
+BASE.PORT.ADDRESS 6 + Constant WIN-LIGHT
+decimal
 \end{Code}
 The idea is right, but the implementation is ugly. The only elements
 that change from port to port are the numeric offset and the name of
@@ -1162,8 +1162,8 @@ The following approach, which is more readable, combines all the
 repeated code into the ``does'' part  of a defining word:
 
 \begin{Code}
-: PORT  ( offset -- )  CREATE ,
-   \ does>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
+: PORT  ( offset -- )  Create ,
+   \ DOES>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
 0 PORT SPEAKER
 2 PORT FLIPPER-A
 4 PORT FLIPPER-B
@@ -1174,8 +1174,8 @@ In this solution we're performing the offset calculation at
 more efficient to perform the calculation at compile time, like this:
 
 \begin{Code}
-: PORT  ( offset -- )  BASE.PORT.ADDRESS + CONSTANT ;
-   \ does>  ( -- 'port)
+: PORT  ( offset -- )  BASE.PORT.ADDRESS + Constant ;
+   \ DOES>  ( -- 'port)
 0 PORT SPEAKER
 2 PORT FLIPPER-A
 4 PORT FLIPPER-B
@@ -1199,14 +1199,14 @@ makes a constant out of it, then adds 2 to the address still on the
 stack, for the next invocation of \forth{PORT}.
 
 \begin{Code}
-: PORT   ( 'port -- 'next-port)  DUP CREATE ,  2+ ;
-   \ does>  ( -- 'port)
+: PORT   ( 'port -- 'next-port)  dup Create ,  2+ ;
+   \ DOES>  ( -- 'port)
 BASE.PORT.ADDRESS
   PORT SPEAKER
   PORT FLIPPER-A
   PORT FLIPPER-B
   PORT WIN-LIGHT
-DROP ( port.address)
+drop ( port.address)
 \end{Code}
 Notice we must supply the initial port address on the stack before
 defining the first port, then invoke \forthb{DROP} when we've finished
@@ -1220,12 +1220,12 @@ address won't be used outside of this lexicon of port names, it's just
 as well to refer to it by number here.
 
 \begin{Code}
-HEX 01A0  ( base port adr)
+hex 01A0  ( base port adr)
   PORT SPEAKER
   PORT FLIPPER-A
   PORT FLIPPER-B
   PORT WIN-LIGHT
-DROP
+drop
 \end{Code}
 \index{C!Compile-time factoring|)}
 \index{F!Factoring!compile-time|)}
@@ -1249,9 +1249,9 @@ At first we focus our attention on the problem of drawing a
 box---never mind erasing it. We might come up with this:\program{boxes3}
 
 \begin{Code}
-: LAYER   WIDE  0 DO  ASCII * EMIT  LOOP ;
+: LAYER   WIDE  0 DO  ASCII * emit  LOOP ;
 : BOX   ( upper-left-x  upper-left-y -- )
-   HIGH  0 DO  2DUP  I +  XY LAYER  LOOP  2DROP ;
+   HIGH  0 DO  2dup  i +  XY LAYER  LOOP  2drop ;
 \end{Code}
 Having tested this to make sure it works correctly, we turn now to the
 problem of using the same code to \emph{un}draw a box. The solution is
@@ -1261,10 +1261,10 @@ addition of a variable, and some readable words for setting the
 contents of the variable. So:
 
 \begin{Code}
-VARIABLE INK
+Variable INK
 : DRAW   ASCII *  INK ! ;
-: UNDRAW   BL  INK ! ;
-: LAYER   WIDTH  0 DO  INK @  EMIT  LOOP ;
+: UNDRAW   bl  INK ! ;
+: LAYER   WIDTH  0 DO  INK @  emit  LOOP ;
 \end{Code}
 The definition of \forth{BOX}, along with the remainder of the application,
 remains the same.
@@ -1317,7 +1317,7 @@ I often have a class of things called arrays. The simplest array
 merely adds a subscript to an address and gives you back an
 address. You can define an array by saying
 \begin{Code}
-CREATE X   100 ALLOT
+Create X   100 allot
 \end{Code}
 then saying
 \begin{Code}

@@ -422,9 +422,9 @@ Take this example, please:
 
 \begin{Code}
 : PROCESS-KEY
-   KEY  DUP  LEFT-ARROW  =  IF CURSOR-LEFT  THEN
-        DUP  RIGHT-ARROW =  IF CURSOR-RIGHT THEN
-        DUP  UP-ARROW    =  IF CURSOR-UP    THEN
+   key  dup  LEFT-ARROW  =  IF CURSOR-LEFT  THEN
+        dup  RIGHT-ARROW =  IF CURSOR-RIGHT THEN
+        dup  UP-ARROW    =  IF CURSOR-UP    THEN
              DOWN-ARROW  =  IF CURSOR-DOWN  THEN ;
 \end{Code}
 This version is inefficient because all four tests must be made regardless
@@ -435,11 +435,11 @@ Instead, you can nest the conditionals, like this:
 
 \begin{Code}
 : PROCESS-KEY
-   KEY  DUP  LEFT-ARROW  =  IF CURSOR-LEFT  ELSE
-        DUP  RIGHT-ARROW =  IF CURSOR-RIGHT ELSE
-        DUP  UP-ARROW    =  IF CURSOR-UP    ELSE
+   key  dup  LEFT-ARROW  =  IF CURSOR-LEFT  ELSE
+        dup  RIGHT-ARROW =  IF CURSOR-RIGHT ELSE
+        dup  UP-ARROW    =  IF CURSOR-UP    ELSE
                                CURSOR-DOWN
-           THEN THEN THEN  DROP ;
+           THEN THEN THEN  drop ;
 \end{Code}
 \begin{tip}
 Combine booleans of similar weight.
@@ -457,7 +457,7 @@ Saturday and the chores are done before it boogies on down. Instead,
 let's combine the conditions logically and make a single decision:
 
 \begin{Code}
-: ?PLAY   SATURDAY?  WORK FINISHED? AND  IF
+: ?PLAY   SATURDAY?  WORK FINISHED? and  IF
    GO PARTY  THEN ;
 \end{Code}
 It's simpler and more readable.
@@ -472,7 +472,7 @@ The logical ``or'' situation, when implemented with
 This is much more elegantly written as
 
 \begin{Code}
-: ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
+: ?RISE  PHONE RINGS?  ALARM RINGS? or  IF  UP GET THEN ;
 \end{Code}
 One exception to this rule arises when the speed penalty for checking
 some of the conditions is too great.
@@ -480,7 +480,7 @@ some of the conditions is too great.
 We might write
 
 \begin{Code}
-: ?CHOW-MEIN   BEAN-SPROUTS?  CHOW-MEIN RECIPE?  AND IF
+: ?CHOW-MEIN   BEAN-SPROUTS?  CHOW-MEIN RECIPE?  and IF
    CHOW-MEIN PREPARE  THEN ;
 \end{Code}
 But suppose it's going to take us a long time to hunt through our recipe
@@ -507,7 +507,7 @@ Trying to improve performance in this way is more difficult with the
 \forth{OR} construct. For instance, in the definition
 
 \begin{Code}
-: ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
+: ?RISE  PHONE RINGS?  ALARM RINGS? or  IF  UP GET THEN ;
 \end{Code}
 we're testing for the phone and the alarm, even though only one of them
 needs to ring for us to get up. Now suppose it were much more difficult to
@@ -547,11 +547,11 @@ word using nested \forthb{IF }\forthb{ELSE }\forthb{THEN}s, like this:
 
 \begin{Code}
 : .SUIT ( suit -- )
-  DUP  O=  IF ." HEARTS "   ELSE
-  DUP  1 = IF ." SPADES "   ELSE
-  DUP  2 = IF ." DIAMONDS " ELSE
+  dup  0=  IF ." HEARTS "   ELSE
+  dup  1 = IF ." SPADES "   ELSE
+  dup  2 = IF ." DIAMONDS " ELSE
               ." CLUBS "
-  THEN THEN THEN  DROP ;
+  THEN THEN THEN  drop ;
 \end{Code}
 We can solve this problem more elegantly by using a ``case statement.''
 
@@ -562,7 +562,7 @@ gentleman who proposed it \cite{eaker}.
 \begin{Code}
 : .SUIT ( suit -- )
   CASE
-  O OF   ." HEARTS "    ENDOF
+  0 OF   ." HEARTS "    ENDOF
   1 OF   ." SPADES "    ENDOF
   2 OF   ." DIAMONDS "  ENDOF
   3 OF   ." CLUBS "     ENDOF     ENDCASE ;
@@ -668,7 +668,7 @@ the string. With the address and count on the stack, the definition of
 \forthb{TYPE} can be coded:
 
 \begin{Code}
-: TYPE  ( a #)  OVER + SWAP DO  I C@ EMIT  LOOP ;
+: type  ( a #)  over + swap DO  i c@ emit  LOOP ;
 \end{Code}
 (Although \forthb{TYPE} really ought to be written in machine code.)
 
@@ -680,8 +680,8 @@ If a delimiter were used, let's say ASCII null (zero), the definition
 would have to be written:
 
 \begin{Code}
-: TYPE  ( a)  BEGIN DUP C@  ?DUP WHILE  EMIT  1+
-   REPEAT  DROP ;
+: type  ( a)  BEGIN dup c@  ?dup WHILE  emit  1+
+   REPEAT  drop ;
 \end{Code}
 An extra test is needed on each pass of the loop. (\forthb{WHILE} is a
 conditional operator.)
@@ -691,8 +691,8 @@ in terms of time because it contains an extra decision itself. A faster
 definition would be:
 
 \begin{Code}
-: TYPE  ( a)  BEGIN DUP C@  DUP WHILE EMIT 1+
-    REPEAT  2DROP ;
+: type  ( a)  BEGIN dup c@  dup WHILE emit 1+
+    REPEAT  2drop ;
 \end{Code}
 The '83 Standard applied this principle to \forthb{INTERPRET}
 \index{I!INTERPRET}
@@ -735,8 +735,8 @@ numbers, can efficiently be used to effect numeric decisions. Here's one
 example, found in many \Forth{} systems:
 
 \begin{Code}
-: S>D  ( n -- d)  \ sign extend s to d
-     DUP O<  IF -1  ELSE  O THEN ;
+: s>d  ( n -- d)  \ sign extend s to d
+     dup O<  IF -1  ELSE  0 THEN ;
 \end{Code}
 (The purpose of this definition is to convert a single-length number to
 double-length. A double-length number is represented as two 16-bit
@@ -752,8 +752,8 @@ notice that the outcome is merely arithmetic; there's no change in
 process. We can take advantage of this fact by using the boolean itself:
 
 \begin{Code}
-: S>D  ( n -- d)  \ sign extend s to d
-     DUP  O< ;
+: s>d  ( n -- d)  \ sign extend s to d
+     dup  O< ;
 \end{Code}
 This version pushes a zero or negative one onto the stack without a
 moment's (in)decision.
@@ -762,8 +762,8 @@ moment's (in)decision.
 (In pre-1983 systems, the definition would be:
 
 \begin{Code}
-: S>D  ( n -- d)  \ sign extend s to d
-     DUP  O< NEGATE ;
+: s>d  ( n -- d)  \ sign extend s to d
+     dup  O< negate ;
 \end{Code}
 See \App{C}.)%
 \index{B!Booleans, as hybrid values|)}\medbreak
@@ -779,12 +779,12 @@ In the case of a decision that produces either zero or a non-zero ``$n$,''
 the traditional phrase
 
 \begin{Code}
-( ? ) IF  n  ELSE  O  THEN
+( ? ) IF  n  ELSE  0  THEN
 \end{Code}
 is equivalent to the simpler statement
 
 \begin{Code}
-( ? )  n AND
+( ? )  n and
 \end{Code}
 Again, the secret is that ``true'' is represented by $-1$ (all ones) in
 '83 \Forth{} systems. \forthb{AND}ing ``$n$'' with the flag will either
@@ -793,12 +793,12 @@ produce ``$n$'' (all bits intact) or ``$0$'' (all bits cleared).
 To restate with an example:
 
 \begin{Code}
-( ? )  IF  200  ELSE  O  THEN
+( ? )  IF  200  ELSE  0  THEN
 \end{Code}
 is the same as
 
 \begin{Code}
-( ? )  200 AND
+( ? )  200 and
 \end{Code}
 Take a look at this example:
 
@@ -812,7 +812,7 @@ is purely numeric.  We can rid ourselves of a decision, and simply
 compute:
 
 \begin{Code}
-n  a b <  45 AND  +
+n  a b <  45 and  +
 \end{Code}
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
@@ -830,12 +830,12 @@ In books you often see a lot of piece-wise linear approximations that fail to
 express things clearly. For instance the expression
 
 \begin{Code}[commandchars=\&\{\}]
-x = O for t < O
-x = 1 for t &(&ge&) O
+x = 0 for t < 0
+x = 1 for t &(&ge&) 0
 \end{Code}
 This would be equivalent to
 \begin{Code}
-t  O<  1 AND
+t  0<  1 and
 \end{Code}
 as a single expression, not a piece-wise expression.
 \end{tfquot}\index{M!Moore, Charles|)}
@@ -852,12 +852,12 @@ are non-zero), by factoring out the difference between the two results.
 For instance,
 
 \begin{Code}
-: STEPPERS  'TESTING? @  IF 150 ELSE 151  THEN  LOAD ;
+: STEPPERS  'TESTING? @  IF 150 ELSE 151  THEN  load ;
 \end{Code}
 can be simplified to
 
 \begin{Code}
-: STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
+: STEPPERS   150  'TESTING? @  1 and +  load ;
 \end{Code}
 This approach works here because conceptually we want to either load
 Screen 150, or if testing, the next screen past it.%
@@ -905,12 +905,12 @@ Suppose we want to decrement the contents of the variable \forth{VALUE}, but
 we don't want the value to go below zero:
 
 \begin{Code}
--1 VALUE +!  VALUE @  -1 = IF  O VALUE !  THEN
+-1 Value +!  Value @  -1 = IF  0 Value !  THEN
 \end{Code}
 This is more simply written:
 
 \begin{Code}
-VALUE @  1-  O MAX  VALUE !
+Value @  1-  0 max  Value !
 \end{Code}
 In this case the conditional is factored within the word \forthb{MAX}.
 
@@ -951,7 +951,7 @@ We might eliminate the \forthb{IF }\forthb{THEN} by using a hybrid value
 with \forthb{AND}:
 
 \begin{Code}
-: SPEED-LIMIT   25  'FREEWAY? @  30 AND + ;
+: SPEED-LIMIT   25  'FREEWAY? @  30 and + ;
 \end{Code}
 But this approach doesn't match our conceptual model of the problem
 and therefore isn't very readable.
@@ -960,14 +960,14 @@ Let's try a data table. This is a one-dimensional table, with only two
 elements, so there's not much to it:
 
 \begin{Code}
-CREATE LIMITS   25 ,  55 ,
+Create LIMITS   25 ,  55 ,
 \end{Code}
 The word \forth{SPEED-LIMIT?} now must apply the boolean to offset into
 the data table:
 
 \begin{Code}
 : SPEED-LIMIT  ( -- speed-limit)
-     LIMITS  'FREEWAY? @  2 AND  +  @ ;
+     LIMITS  'FREEWAY? @  2 and  +  @ ;
 \end{Code}
 Have we gained anything over the \forthb{IF }\forthb{THEN} approach?
 Probably not, with so simple a problem.
@@ -978,20 +978,20 @@ have more than one set of data related to the same decision. Suppose we
 also had
 
 \begin{Code}
-CREATE #LANES   4 ,  10 ,
+Create #LANES   4 ,  10 ,
 \end{Code}
 representing the number of lanes on a city street and on a freeway. We
 can use identical code to compute the current number of lanes:
 
 \begin{Code}
 : #LANES?  ( -- #lanes)
-     #LANES  'FREEWAY? @  2 AND  +  @ ;
+     #LANES  'FREEWAY? @  2 and  +  @ ;
 \end{Code}
 Applying techniques of factoring, we simplify this to:
 
 \begin{Code}
-: ROAD  ( for-freeway for-city ) CREATE , ,
-     DOES> ( -- data )  'FREEWAY? @  2 AND  +  @ ;
+: ROAD  ( for-freeway for-city ) Create , ,
+     DOES> ( -- data )  'FREEWAY? @  2 and  +  @ ;
 55 25 ROAD SPEED-LIMIT?
 10  4 ROAD #LANES?
 \end{Code}
@@ -1009,23 +1009,23 @@ solution to the problem, using a two-dimensional data structure.
 \verbfig{fig8-4}{A solution to the phone rate problem.}
 \begin{Screen}
 \ Telephone rates                                       03/30/84
-CREATE FULL     30 , 20 , 12 ,
-CREATE LOWER    22 , 15 , 10 ,
-CREATE LOWEST   12 ,  9 ,  6 ,
-VARIABLE RATE   \ points to FULL, LOWER or LOWEST
+Create FULL     30 , 20 , 12 ,
+Create LOWER    22 , 15 , 10 ,
+Create LOWEST   12 ,  9 ,  6 ,
+Variable RATE   \ points to FULL, LOWER or LOWEST
                 \ depending on time of day
 FULL RATE !  \ for instance
-: CHARGE   ( o -- ) CREATE ,
+: CHARGE   ( o -- ) Create ,
    DOES>  ( -- rate )  @  RATE @ +  @ ;
-O CHARGE 1MINUTE   \ rate for first minute
+0 CHARGE 1MINUTE   \ rate for first minute
 2 CHARGE +MINUTES  \ rate for each additional minute
 4 CHARGE /MILES    \ rate per each 100 miles
 \end{Screen}
 
 \begin{Screen}
 \ Telephone rates                                       03/30/84
-VARIABLE OPERATOR?  \ 90 if operator assisted; else O
-VARIABLE #MILES  \ hundreds of miles
+Variable OPERATOR?  \ 90 if operator assisted; else 0
+Variable #MILES  \ hundreds of miles
 : ?ASSISTANCE  ( direct-dial charge -- total charge)
    OPERATOR? @  + ;
 : MILEAGE  ( -- charge )  #MILES @  /MILES * ;
@@ -1107,30 +1107,30 @@ of the variable \forth{MODE\#}. Since \forth{MODE\#} will contain either a
 address of the routine we want to perform. A simple
 
 \begin{Code}
-@ EXECUTE
+@ execute
 \end{Code}
 will perform the routine (or \forthb{@EXECUTE} if you have it).
 
 In fig-\Forth{}, change the definition of \forth{IS} to:
 
 \begin{Code}
-: IS   [COMPILE] '  CFA , ;
+: IS   [compile] '  CFA , ;
 \end{Code}
 \begin{figure*}[tttp]
 \verbfig{fig8-5}{Implementation of the Tiny Editor.}
 \setcounter{screen}{30}
 \begin{Screen}
 \ Tiny Editor
-2 CONSTANT NORMAL     \ offset in FUNCTIONS
-4 CONSTANT INSERTING  \        "
-6 CONSTANT /KEY       \ bytes in table for each key
-VARIABLE MODE#        \ current offset into table
+2 Constant NORMAL     \ offset in FUNCTIONS
+4 Constant INSERTING  \        "
+6 Constant /KEY       \ bytes in table for each key
+Variable MODE#        \ current offset into table
 NORMAL MODE# !
 : INSERT-OFF   NORMAL    MODE# ! ;
 : INSERT-ON    INSERTING MODE# ! ;
 
-VARIABLE ESCAPE?      \ t=time-to-leave-loop
-: ESCAPE  TRUE ESCAPE? ! ;
+Variable ESCAPE?      \ t=time-to-leave-loop
+: ESCAPE  true ESCAPE? ! ;
 
 
 
@@ -1140,7 +1140,7 @@ VARIABLE ESCAPE?      \ t=time-to-leave-loop
 \begin{Screen}
 \ Tiny Editor             function table             07/29/83
 : IS   ' , ;  \   function   ( -- )    ( for '83 standard)
-CREATE FUNCTIONS
+Create FUNCTIONS
 \ keys                  normal mode        insert mode
  4 ,  ( ctrl-D)         IS DELETE          IS INSERT-OFF
  9 ,  ( ctrl-I)         IS INSERT-ON       IS INSERT-OFF
@@ -1148,8 +1148,8 @@ CREATE FUNCTIONS
 60 ,  ( left arrow)     IS BACKWARD        IS INSERT-OFF
 62 ,  ( right arrow)    IS FORWARD         IS INSERT-OFF
 27 ,  ( return)         IS ESCAPE          IS INSERT-OFF
- O ,  ( no match)       IS OVERWRITE       IS INSERT
-HERE /KEY -  CONSTANT 'NOMATCH  \ adr of no-match key
+ 0 ,  ( no match)       IS OVERWRITE       IS insert
+here /KEY -  Constant 'NOMATCH  \ adr of no-match key
 
 
 
@@ -1157,13 +1157,13 @@ HERE /KEY -  CONSTANT 'NOMATCH  \ adr of no-match key
 \end{Screen}
 \begin{Screen}
 \ Tiny Editor cont'd                                 07/29/83
-VARIABLE MATCHED
+Variable MATCHED
 : 'FUNCTION  ( key -- adr-of-match )  'NOMATCH  MATCHED !
-   'NOMATCH FUNCTIONS DO  DUP  I @ =  IF
-     I MATCHED !  LEAVE  THEN  /KEY +LOOP  DROP
+   'NOMATCH FUNCTIONS DO  dup  i @ =  IF
+     i MATCHED !  LEAVE  THEN  /KEY +LOOP  drop
     MATCHED @ ;
-: ACTION  ( key -- )  'FUNCTION  MODE# @ +  @ EXECUTE ;
-: GO   FALSE ESCAPE? !  BEGIN  KEY ACTION  ESCAPE? @ UNTIL ;
+: ACTION  ( key -- )  'FUNCTION  MODE# @ +  @ execute ;
+: GO   false ESCAPE? !  BEGIN  key ACTION  ESCAPE? @ UNTIL ;
 
 
 
@@ -1176,12 +1176,12 @@ VARIABLE MATCHED
 \end{figure*}
 In 79-Standard \Forth{}s, use:
 \begin{Code}
-: IS   [COMPILE] '  , ;
+: IS   [compile] '  , ;
 \end{Code}
 We've also used non-redundancy at compile time in the definition just
 below the function table:
 \begin{Code}
-HERE /KEY -  CONSTANT 'NOMATCH  \  adr of no-match key
+here /KEY -  Constant 'NOMATCH  \  adr of no-match key
 \end{Code}
 We're making a constant out of the last row in the function table. (At the
 moment we invoke \forthb{HERE}, it's pointing to the next free cell after
@@ -1209,9 +1209,9 @@ quick-and-dirty one; it uses a local variable to simplify stack
 manipulation. A simpler solution that uses no local variable is:
 \begin{Code}
 : 'FUNCTION  ( key -- adr of match )
-   'NOMATCH SWAP  'NOMATCH FUNCTIONS DO  DUP
-      I @ =  IF SWAP DROP I SWAP  LEAVE  THEN
-   /KEY +LOOP  DROP ;
+   'NOMATCH swap  'NOMATCH FUNCTIONS DO  dup
+      i @ =  IF swap drop i swap  LEAVE  THEN
+   /KEY +LOOP  drop ;
 \end{Code}
 (We'll offer still another solution later in this chapter, under ``Using
 Structured Exits.'')%
@@ -1227,10 +1227,10 @@ speed justify the extra complexity of a table.
 Here is an example that computes powers of two to 8-bit precision:
 
 \begin{Code}
-CREATE TWOS
-   1 C,  2 C,  4 C,  8 C,  16 C,  32 C,
+Create TWOS
+   1 c,  2 c,  4 c,  8 c,  16 c,  32 c,
 : 2**  ( n -- 2-to-the-n)
-   TWOS +  C@ ;
+   TWOS +  c@ ;
 \end{Code}
 Instead of computing the answer by multiplying two times itself ``$n$''
 times, the answers are all pre-computed and placed in a table. We can use
@@ -1386,10 +1386,10 @@ PIXELS~~ & ~0~ & ~1~ \\ \cline{2-3}
 compute the character:
 
 \begin{Code}
-CREATE PIXELS  6 ALLOT
+Create PIXELS  6 allot
 : PIXEL  ( i -- a )  PIXELS + ;
 : CHARACTER  ( -- graphics character)
-   160   6 O DO  I PIXEL C@  I 2** AND  +  LOOP ;
+   160   6 0 DO  i PIXEL c@  i 2** and  +  LOOP ;
 \end{Code}
 (We introduced \forth{2**} a few tips back.)
 
@@ -1435,8 +1435,8 @@ In the chapter on factoring we demonstrated the possibility of factoring
 out a control structure using this technique:
 
 \begin{Code}
-: CONDITIONALLY   A B OR  C AND  IF  NOT R> DROP  THEN ;
-: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
+: CONDITIONALLY   A B or  C and  IF  NOT r> drop  THEN ;
+: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE jump ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{Code}
 \Forth{} allows us to alter the control flow by directly manipulating the
@@ -1539,15 +1539,15 @@ like \forthb{EXIT} (it will simulate a semicolon). Now we can write:
 
 \begin{Code}
 : 'FUNCTION  ( key -- adr-of-match )
-   'NOMATCH FUNCTIONS DO  DUP  I @ =  IF  DROP I LEAP
-   THEN  /KEY +LOOP  DROP  'NOMATCH ;
+   'NOMATCH FUNCTIONS DO  dup  i @ =  IF  drop i LEAP
+   THEN  /KEY +LOOP  drop  'NOMATCH ;
 \end{Code}
 If we find a match we \forth{LEAP}, not to \forthb{+LOOP}, but right out
 of the definition, leaving \forth{I} (the address at which we found it) on
 the stack. If we don't find a match, we fall through the loop and execute
 
 \begin{Code}
-DROP  'NOMATCH
+drop  'NOMATCH
 \end{Code}
 which drops the key\# being searched for, then leaves the address of the
 last row!
@@ -1597,7 +1597,7 @@ loaded each time. Instead, write throw-away definitions that make the
 decisions for you. For instance (as already previewed in another context):
 
 \begin{Code}
-: STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
+: STEPPERS   150  'TESTING? @  1 and +  load ;
 \end{Code}
 \begin{tip}
 \forthb{DUP} a flag, don't recreate it.
@@ -1608,13 +1608,13 @@ that \forth{DO-IT} was done:
 
 \begin{Code}
 : DID-I?  ( -- t=I-did)
-   SHOULD-I?  IF  DO-IT  TRUE  ELSE  FALSE  THEN ;
+   SHOULD-I?  IF  DO-IT  true  ELSE  false  THEN ;
 \end{Code}
 This can be simplified to:
 
 \begin{Code}
 : DID-I?  ( -- t=I-did)
-        SHOULD-I? DUP  IF  DO-IT  THEN ;
+        SHOULD-I? dup  IF  DO-IT  THEN ;
 \end{Code}
 \begin{tip}
 Don't set a flag, set the data.
@@ -1631,12 +1631,12 @@ whether we want the intensity bit to be set or not. While we could have
 written\program{color4}
 
 \begin{Code}
-: LIGHT   TRUE 'LIGHT? ! ;
+: LIGHT   true 'LIGHT? ! ;
 \end{Code}
 to set the flag, and
 
 \begin{Code}
-'LIGHT? @ IF  8 OR  THEN ...
+'LIGHT? @ IF  8 or  THEN ...
 \end{Code}
 to use the flag, this approach is not quite as simple as putting the
 intensity bit-mask itself in the variable:
@@ -1647,7 +1647,7 @@ intensity bit-mask itself in the variable:
 and then simply writing
 
 \begin{Code}
-'LIGHT? @  OR ...
+'LIGHT? @  or ...
 \end{Code}
 to use it.
 
@@ -1664,10 +1664,10 @@ different than for slapping a character onto a video display. A poor
 implementation would define:
 
 \begin{Code}
-VARIABLE DEVICE  ( O=video | 1=printer)
-: VIDEO   FALSE DEVICE ! ;
-: PRINTER   TRUE DEVICE ! ;
-: TYPE  ( a # -- ) DEVICE @ IF
+Variable DEVICE  ( O=video | 1=printer)
+: VIDEO   false DEVICE ! ;
+: PRINTER   true DEVICE ! ;
+: type  ( a # -- ) DEVICE @ IF
    ( ...code for printer...) ELSE
    ( ...code for video...)  THEN ;
 \end{Code}
@@ -1678,9 +1678,9 @@ A preferable implementation would use vectored execution. For
 instance:
 
 \begin{Code}
-DOER TYPE  ( a # -- )
-: VIDEO   MAKE TYPE ( ...code for video...) ;
-: PRINTER   MAKE TYPE ( ...code for printer...) ;
+DOER type  ( a # -- )
+: VIDEO   MAKE type ( ...code for video...) ;
+: PRINTER   MAKE type ( ...code for printer...) ;
 \end{Code}
 This is better because \forth{TYPE} doesn't have to decide which code to
 use, it already knows.
@@ -1703,10 +1703,10 @@ time doing it. The best solution here might be to set the function of
 \forth{TYPE} and also set a flag:
 
 \begin{Code}
-DOER TYPE
-: VIDEO   O DEVICE !  MAKE TYPE
+DOER type
+: VIDEO   0 DEVICE !  MAKE type
      ( ...code for video...) ;
-: PRINTER   1 DEVICE !  MAKE TYPE
+: PRINTER   1 DEVICE !  MAKE type
      ( ...code for printer...) ;
 \end{Code}
 Thus \forth{TYPE} already knows which code to execute, but other definitions
@@ -1727,11 +1727,11 @@ DOER !'  ( vectorable ! )
 DOER CMOVE'  ( vectorable CMOVE )
 DOER FILL'  ( vectorable FILL )
 : STORING   MAKE !' ! ;AND
-            MAKE CMOVE'  CMOVE ;AND
-            MAKE FILL'  FILL ;
-: -STORING  MAKE !'  2DROP ;AND
-            MAKE CMOVE'  2DROP DROP ;AND
-            MAKE FILL'  2DROP DROP ;
+            MAKE CMOVE'  cmove ;AND
+            MAKE FILL'  fill ;
+: -STORING  MAKE !'  2drop ;AND
+            MAKE CMOVE'  2drop drop ;AND
+            MAKE FILL'  2drop drop ;
 \end{Code}
 But if a large number of functions need to be vectored, a state table
 would be preferable.
@@ -1745,7 +1745,7 @@ DOER HESITATE  ( the exit hook)
 \end{Code}
 (\dots{} Much later in the listing:)
 \begin{Code}
-: RELENT   MAKE HESITATE   SEND-FLOWERS  R> DROP ;
+: RELENT   MAKE HESITATE   SEND-FLOWERS  r> drop ;
 \end{Code}
 By default, \forth{HESITATE} does nothing. If we invoke \forth{DISSOLVE},
 we'll end up in court. But if we \forth{RELENT} before we
@@ -1800,10 +1800,10 @@ remember the code to implement that version? Compare it with the
 simplicity of this approach:
 
 \begin{Code}
-O CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
-3 CONSTANT CYAN     4 CONSTANT RED     5 CONSTANT MAGENTA
-6 CONSTANT BROWN    7 CONSTANT GRAY
-: LIGHT   ( color -- color )  8 OR ;
+0 Constant BLACK    1 Constant BLUE    2 Constant GREEN
+3 Constant CYAN     4 Constant RED     5 Constant MAGENTA
+6 Constant BROWN    7 Constant GRAY
+: LIGHT   ( color -- color )  8 or ;
 \end{Code}
 In this version we've reversed the syntax, so that we now say
 

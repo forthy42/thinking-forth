@@ -107,7 +107,7 @@ stack problem. Suppose we're trying to write the definition of \forth{+THRU}
 subsection). We've decided that our loop body will be
 
 \begin{Code}
-...  DO  I LOAD  LOOP ;
+...  DO  i load  LOOP ;
 \end{Code}
 that is, we'll put \forthb{LOAD} in a loop, then arrange for the index and
 limit to correspond to the absolute screens being loaded.
@@ -131,17 +131,17 @@ proceed. We try:
 
 \begin{Code}
 lo hi
-               BLK @
+               blk @
 lo hi blk
-               SWAP
+               swap
 lo blk hi
-               OVER
+               over
 lo blk hi blk
                +
 lo blk hi+blk
                1+
 lo blk hi+blk+1
-               ROT ROT
+               rot rot
 hi+blk+1 lo blk
                +
 hi+blk+1 lo+blk
@@ -152,12 +152,12 @@ If we're gluttons for punishment, we might make two more stabs at
 it arriving at:
 
 \begin{Code}
-BLK @  DUP ROT + 1+  ROT ROT +
+blk @  dup rot + 1+  rot rot +
 \end{Code}
 and
 
 \begin{Code}
-BLK @  ROT OVER +  ROT ROT + 1+  SWAP
+blk @  rot over +  rot rot + 1+  swap
 \end{Code}
 All three sequences do the same thing, but the code seems to be getting
 blurrier, not better.
@@ -171,7 +171,7 @@ we have four elements on the stack.
 At this point, the first resort is usually the return stack:
 
 \begin{Code}
-BLK @  DUP >R  + 1+  SWAP R> +
+blk @  dup >r  + 1+  swap r> +
 \end{Code}
 (See ``The Stylish Return Stack,'' coming up next.) Here we've \forthb{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
@@ -183,7 +183,7 @@ Next we think, ``Maybe we need a named variable.'' Of course, we
 have one already: \forthb{BLK}. So we try:
 
 \begin{Code}
-BLK @  + 1+  SWAP BLK @ +
+blk @  + 1+  swap blk @ +
 \end{Code}
 Now it's more readable, but it's still rather long, and redundant too.
 \forthb{BLK @ +} appears twice.
@@ -193,12 +193,12 @@ Now it's more readable, but it's still rather long, and redundant too.
 We look back at the source for \forth{+LOAD} just defined:
 
 \begin{Code}
-: +LOAD  ( offset -- )  BLK @ +  LOAD ;
+: +load  ( offset -- )  blk @ +  load ;
 \end{Code}
 This word, \forth{+LOAD}, should be doing the work. All we have to write is:
 
 \begin{Code}
-: +THRU  ( lo hi )  1+ SWAP  DO  I +LOAD  LOOP ;
+: +thru  ( lo hi )  1+ swap  DO  i +load  LOOP ;
 \end{Code}
 We haven't created a more efficient version here, because the work of
 \forthb{BLK @ +} will be done on every pass of the loop. But we have
@@ -247,10 +247,10 @@ for drawing a box doesn't lend itself to the nature of the stack. If you're
 in a hurry, it would probably be best to take the easy way out:
 
 \begin{Code}
-VARIABLE TOP         ( y coordinates top of box)
-VARIABLE LEFT        ( x     "       left side)
-VARIABLE BOTTOM      ( y     "       bottom)
-VARIABLE RIGHT       ( x     "       right side)
+Variable TOP         ( y coordinates top of box)
+Variable LEFT        ( x     "       left side)
+Variable BOTTOM      ( y     "       bottom)
+Variable RIGHT       ( x     "       right side)
 : [BOX]   ( x1 y1 x2 y2)   BOTTOM !  RIGHT !  TOP !  LEFT !
    LEFT @ TOP @  RIGHT @ TOP @  LINE
    RIGHT @ TOP @  RIGHT @ BOTTOM @  LINE
@@ -367,12 +367,12 @@ instance, if you have an address at the fourth stack position down, you can
 write
 
 \begin{Code}
-4 PICK @
+4 pick @
 \end{Code}
 to fetch its contents. But you must write
 
 \begin{Code}
-( n) 5 PICK !
+( n) 5 pick !
 \end{Code}
 because with ``$n$'' on the stack, the address is now in the fifth position.
 Code like this is hard to read and harder to modify.%
@@ -412,12 +412,12 @@ will go underneath first.
 For example:
 
 \begin{Code}
-: COUNT  ( a -- a+1 # )  DUP C@  SWAP 1+  SWAP ;
+: count  ( a -- a+1 # )  dup c@  swap 1+  swap ;
 \end{Code}
 (where you first get the count) is more efficiently written:
 
 \begin{Code}
-: COUNT  ( a -- a+1 # )  DUP 1+  SWAP C@ ;
+: count  ( a -- a+1 # )  dup 1+  swap c@ ;
 \end{Code}
 (where you first compute the address).
 \goodbreak
@@ -442,7 +442,7 @@ You'll find stack manipulation easier, though, if you redesign the interface
 to look like this:
 
 \begin{Code}
-( -- error-code | O=no-error)
+( -- error-code | 0=no-error)
 \end{Code}
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
@@ -487,7 +487,7 @@ Sometimes the operators will appear to be symmetrical, but due to the
 control structure they aren't. For instance:
 
 \begin{Code}
-... BEGIN ... >R ... WHILE ... R> ... REPEAT
+... BEGIN ... >r ... WHILE ... r> ... REPEAT
 \end{Code}
 If this construction is used in the outer loop of your application,
 everything will run fine until you exit (perhaps hours later) when you'll
@@ -551,7 +551,7 @@ Once the loop has found the character sequence, we subtract its
 relative address from our current cursor position
 
 \begin{Code}
-its-position CURSOR @  SWAP -
+its-position CURSOR @  swap -
 \end{Code}
 to determine the distance between them.
 
@@ -698,16 +698,16 @@ number radix for all numeric input and output. The following words are
 commonly found in \Forth{} systems:
 
 \begin{Code}
-: DECIMAL   10 BASE ! ;
-: HEX   16 BASE ! ;
+: decimal   10 base ! ;
+: hex   16 base ! ;
 \end{Code}
 Suppose we've written a word that displays a ``dump'' of memory.
 Ordinarily, we work in decimal mode, but we want the dump in hexadecimal.
 So we write:
 
 \begin{Code}
-: DUMP  ( a # )
-   HEX   ...   ( code for the dump) ... DECIMAL ;
+: dump  ( a # )
+   hex   ...   ( code for the dump) ... decimal ;
 \end{Code}
 This works---most of the time. But there's a presumption that we want to
 come back to decimal mode. What if it had been working in hexadecimal, and
@@ -720,17 +720,17 @@ This means we have to tuck away the saved value temporarily,
 while we format the dump. The return stack is one place to do this:
 
 \begin{Code}
-: DUMP  ( a # )
-   BASE @ >R  HEX   ( code for dump)  R> BASE ! ;
+: dump  ( a # )
+   base @ >r  hex   ( code for dump)  r> base ! ;
 \end{Code}
 If things get too messy, we may have to define a temporary variable:
 \index{R!Return stack|)}
 
 \begin{Code}
-VARIABLE OLD-BASE
-: DUMP  ( a # )
-   BASE @  OLD-BASE !  HEX ( code for dump )
-   OLD-BASE @  BASE ! ;
+Variable OLD-BASE
+: dump  ( a # )
+   base @  OLD-BASE !  hex ( code for dump )
+   OLD-BASE @  base ! ;
 \end{Code}
 How quickly things get complicated.%
 \index{B!BASE|)}
@@ -740,14 +740,14 @@ belong only to your application (and not part of your system), and if this
 same situation comes up more than once, apply a technique of factoring:
 
 \begin{Code}
-: BURY  ( a)  DUP 2+  2 CMOVE ;
-: EXHUME  ( a)  DUP 2+  SWAP 2 CMOVE ;
+: BURY  ( a)  dup 2+  2 cmove ;
+: EXHUME  ( a)  dup 2+  swap 2 cmove ;
 \end{Code}
 Then instead of defining two variables, such as \forth{CONDITION} and
 \forth{OLD-CONDITION}, define one double-length variable:
 
 \begin{Code}
-2VARIABLE CONDITION
+2Variable CONDITION
 \end{Code}
 Use \forth{BURY} and \forth{EXHUME} to save and restore the original value:
 
@@ -817,7 +817,7 @@ suppose we have written:
 \begin{Code}
 : LONG   18 #HOLES ! ;
 : SHORT   9 #HOLES ! ;
-: GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
+: GAME   #HOLES @  0 DO  i HOLE PLAY  LOOP ;
 \end{Code}
 The current \forth{GAME} is either \forth{LONG} or \forth{SHORT}.
 
@@ -826,7 +826,7 @@ we invoke \forth{GAME} making sure not to clobber the current value of
 \forth{\#HOLES}:
 
 \begin{Code}
-: HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
+: HOLES  ( n)  #HOLES @  swap #HOLES !  GAME  #HOLES ! ;
 \end{Code}
 Because we needed \forth{HOLES} after we'd defined \forth{GAME}, it
 seemed to be of greater complexity; we built \forth{HOLES} around
@@ -834,7 +834,7 @@ seemed to be of greater complexity; we built \forth{HOLES} around
 in order:
 
 \begin{Code}
-: HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
+: HOLES ( n)  0 DO  i HOLE PLAY  LOOP ;
 : GAME   #HOLES @ HOLES ;
 \end{Code}
 We can build \forth{GAME} around \forth{HOLES} and avoid all this
@@ -853,11 +853,11 @@ Here is the code for a user stack including very simple error checking
 (an error clears the stack):
 
 \begin{Code}
-CREATE STACK  12 ALLOT  \  { 2tos-pointer | 10stack [5 cells] }
-HERE CONSTANT STACK>
+Create STACK  12 allot  \  { 2tos-pointer | 10stack [5 cells] }
+here Constant STACK>
 : INIT-STACK   STACK STACK ! ;   INIT-STACK
-: ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  ABORT  THEN ;
-: PUSH  ( n)   2 STACK +!  STACK @  DUP  STACK> = ?BAD  ! ;
+: ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  abort  THEN ;
+: PUSH  ( n)   2 STACK +!  STACK @  dup  STACK> = ?BAD  ! ;
 : POP  ( -- n)  STACK @ @  -2 STACK +!  STACK @ STACK < ?BAD ;
 \end{Code}
 The word \forth{PUSH} takes a value from off of your data stack and
@@ -945,9 +945,9 @@ within the other:
 \begin{Code}
 : [DISPLAY]  ...
      ( the original definition, always does the output) ... ;
-VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
+Variable 'LOOKAHEAD?  ( t=looking-ahead)
 : <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
-VARIABLE 'TOC?  ( t=setting-table-of-contents)
+Variable 'TOC?  ( t=setting-table-of-contents)
 : DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
 \end{Code}
 {\sloppy
@@ -972,7 +972,7 @@ That's one approach to the use of two variables. Another is to include
 both tests within a single word:
 
 \begin{Code}
-: DISPLAY   'LOOKAHEAD? @  'TOC @ OR  NOT IF [DISPLAY] THEN ;
+: DISPLAY   'LOOKAHEAD? @  'TOC @ or  NOT IF [DISPLAY] THEN ;
 \end{Code}
 But in this particular case, yet another approach can simplify the whole
 mess. We can use a single variable not as a flag, but as a counter.
@@ -980,8 +980,8 @@ mess. We can use a single variable not as a flag, but as a counter.
 We define:
 
 \begin{Code}
-VARIABLE 'INVISIBLE?  ( t=invisible)
-: DISPLAY   'INVISIBLE? @  O= IF [DISPLAY] THEN ;
+Variable 'INVISIBLE?  ( t=invisible)
+: DISPLAY   'INVISIBLE? @  0= IF [DISPLAY] THEN ;
 : INVISIBLE   1 'INVISIBLE? +! ;
 : VISIBLE    -1 'INVISIBLE? +! ;
 \end{Code}
@@ -1008,7 +1008,7 @@ command usage: two \forth{VISIBLE}s yields invisible. That is, unless
 \forth{VISIBLE} clips the counter:
 
 \begin{Code}
-: VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
+: VISIBLE   'INVISIBLE? @  1-  0 max  'INVISIBLE? ! ;
 \end{Code}
 \index{C!Components:!sharing|)}%
 \index{S!Sharing components|)}
@@ -1297,17 +1297,17 @@ Consider the definition of a word called \forth{DUMP}, designed to reveal the
 contents of a specified region of memory.
 
 \begin{Code}[commandchars=\&\{\}]
-: DUMP  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &poorbf{@ 6 U.R  2 +LOOP}  DROP ;
+: dump  ( a # )
+   0 DO  i 16 mod 0= IF  cr  dup i +  5 u.r  2 spaces  THEN
+   dup i +  &poorbf{@ 6 u.r  2 +LOOP}  drop ;
 \end{Code}
 The problem arises when you write a definition called \forth{CDUMP},
 designed to format the output according to bytes, not cells:
 
 \begin{Code}[commandchars=\&\{\}]
 : CDUMP  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &poorbf{C@  4 U.R  LOOP} DROP ;
+   0 DO  i 16 mod 0= IF  cr  dup i +  5 u.r  2 spaces  THEN
+   dup i +  &poorbf{C@  4 u.r  LOOP} drop ;
 \end{Code}
 
 The code within these two definitions is identical except for the
@@ -1323,10 +1323,10 @@ behavior is vectored by the code in \forth{DUMP} and \forth{CDUMP}.
 \begin{Code}[commandchars=\&\{\}]
 DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
-: DUMP   ( a #)  MAKE .UNIT  @  6 U.R  2 ;AND <DUMP> ;
-: CDUMP ( a #)   MAKE .UNIT C@  4 U.R  1 ;AND <DUMP> ;
+   0 DO  i 16 mod 0= IF  cr  dup i +  5 u.r  2 spaces  THEN
+   dup i + &poorbf{.UNIT}  +LOOP  drop ;
+: dump   ( a #)  MAKE .UNIT  @  6 u.r  2 ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT c@  4 u.r  1 ;AND <DUMP> ;
 \end{Code}
 Notice how \forth{DUMP} and \forth{CDUMP} \emph{set-up} the vector,
 then go on to \emph{execute} the shell (the word \forth{<DUMP>}).
@@ -1339,13 +1339,13 @@ DOER TYPE'
 DOER EMIT'
 DOER SPACES'
 DOER CR'
-: VISIBLE     MAKE TYPE'  TYPE ;AND
-              MAKE EMIT'  EMIT ;AND
-              MAKE SPACES'  SPACES ;AND
-              MAKE CR'  CR ;
-: INVISIBLE   MAKE TYPE'  2DROP ;AND
-              MAKE EMIT'  DROP ;AND
-              MAKE SPACES'  DROP ;AND
+: VISIBLE     MAKE TYPE'  type ;AND
+              MAKE EMIT'  emit ;AND
+              MAKE SPACES'  spaces ;AND
+              MAKE CR'  cr ;
+: INVISIBLE   MAKE TYPE'  2drop ;AND
+              MAKE EMIT'  drop ;AND
+              MAKE SPACES'  drop ;AND
               MAKE CR'  ;
 \end{Code}
 Here we've defined a vectorable set of output words, each name having
@@ -1368,10 +1368,10 @@ We write:
 \begin{Code}
 DOER ANNOUNCE
 : LONG MAKE ANNOUNCE
-   CR ." You're in a large hall with a huge throne"
-   CR ." covered with a red velvet canopy."
+   cr ." You're in a large hall with a huge throne"
+   cr ." covered with a red velvet canopy."
          MAKE ANNOUNCE
-   CR ." You're in the throne room." ;
+   cr ." You're in the throne room." ;
 \end{Code}
 The word \forth{ANNOUNCE} will display either message. First we say
 \forth{LONG}, to initialize \forth{ANNOUNCE} to the long message. Now we
@@ -1388,19 +1388,19 @@ practical) illustrates the point.
 
 \begin{Code}
 DOER WHERE
-VARIABLE SHIRT
-VARIABLE PANTS
-VARIABLE DRESSER
-VARIABLE CAR
+Variable SHIRT
+Variable PANTS
+Variable DRESSER
+Variable CAR
 
-: ORDER  \  specify search order
+: order  \  specify search order
    MAKE WHERE  SHIRT   MAKE WHERE  PANTS
    MAKE WHERE  DRESSER   MAKE WHERE CAR
-   MAKE WHERE  O ;
+   MAKE WHERE  0 ;
 
-: HUNT  ( -- a|O )  \  find location containing 17
-   ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
-      LEAVE  ELSE  DROP  THEN  LOOP ;
+: HUNT  ( -- a|0 )  \  find location containing 17
+   order  5 0 DO  WHERE  dup 0=  over @  17 =  or  IF
+      LEAVE  ELSE  drop  THEN  LOOP ;
 \end{Code}
 In this code we've created a list of variables, then defined an
 \forth{ORDER} in which they are to be searched. The word \forth{HUNT}
@@ -1420,7 +1420,7 @@ DOER SPEECH
 : ALTERNATE
    BEGIN  MAKE SPEECH ." HELLO "
    MAKE SPEECH ." GOODBYE "
-   O UNTIL ;
+   0 UNTIL ;
 \end{Code}
 \item To implement a forward reference. A forward reference is usually
 needed as a ``hook,'' that is, a word invoked in a low-level definition
@@ -1445,14 +1445,14 @@ Direct recursion occurs when a word invokes itself. A good example is the
 recursive definition of greatest-common-denominator:
 
 \begin{Code}
-GCD of a, b =  a                     if b = O
-               GCD of b, a mod b     if b > O
+GCD of a, b =  a                     IF b = 0
+               GCD of b, a mod b     IF b > 0
 \end{Code}
 This translates nicely into:
 
 \begin{Code}
 DOER GCD ( a b -- gcd)
-MAKE GCD  ?DUP  IF  DUP ROT ROT  MOD  GCD  THEN ;
+MAKE GCD  ?dup  IF  dup rot rot  mod  GCD  THEN ;
 \end{Code}
 Indirect recursion occurs when one word invokes a second word, while the
 second word invokes the first. This can be done using the form:

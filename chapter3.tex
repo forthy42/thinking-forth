@@ -129,19 +129,19 @@ won't be used elsewhere, you don't need to define it as constant. Just use
 the number 14 in both definitions:
 
 \begin{Code}
-: +RECORD  14 RECORD# +! ;
-: -RECORD -14 RECORD# +! ;
+: +record  14 record# +! ;
+: -record -14 record# +! ;
 \end{Code}
 On the other hand, if the value will be needed outside of the component,
 or if it's used several times within the component and there's a good
 chance that it will change, you're better off hiding it behind a name:
 
 \begin{Code}
-14 CONSTANT /RECORD
-: +RECORD /RECORD RECORD# +! ;
-: -RECORD /RECORD NEGATE RECORD# +! ;
+14 Constant /record
+: +record /record record# +! ;
+: -record /record negate record# +! ;
 \end{Code}
-(The name \forth{/RECORD}, by convention, means ``bytes per record.'')
+(The name \forth{/RECORD}, by convention, means ``\/bytes per record.'')
 
 \section{Example: A Tiny Editor}\program{editor1}
 
@@ -211,7 +211,7 @@ screen. For the sake of simplicity, let's plan on creating one word only,
 \forth{REDISPLAY}, to redisplay the entire field after each key is pressed.
 
 \begin{Code}
-: EDITOR  BEGIN  KEY  REVISE  REDISPLAY  ... UNTIL ;
+: editor  BEGIN  key  revise  redisplay  ... UNTIL ;
 \end{Code}
 This approach separates revising the buffer from updating the display.
 For now, we'll only concentrate on revising the buffer.
@@ -304,13 +304,13 @@ hidden within this component.
 Let's attempt to rewrite these algorithms in code:
 
 \begin{Code}
-: KEY#  ( returns value of key last pressed )  ... ;
-: POSITION  ( returns address of character pointed-to)  ;
-: FORWARD  ( advance pointer, stopping at last position)  ;
-: BACKWARD  ( decrement pointer, stopping at first position)  ;
-: OVERWRITE   KEY# POSITION C!  FORWARD ;
-: INSERT   SLIDE>  OVERWRITE ;
-: DELETE   SLIDE<  BLANK-END ;
+: key#  ( returns value of key last pressed )  ... ;
+: position  ( returns address of character pointed-to)  ;
+: forward  ( advance pointer, stopping at last position)  ;
+: backward  ( decrement pointer, stopping at first position)  ;
+: overwrite   key# position c!  forward ;
+: insert   slide>  overwrite ;
+: delete   slide<  blank-end ;
 \end{Code}
 To copy the text leftwards and rightwards, we had to invent two new
 names as we went along, \forth{SLIDE<} and \forth{SLIDE>} (pronounced
@@ -365,7 +365,7 @@ To implement what happens when ``backspace'' is pressed while in
 Insert Mode, we add a new procedure:
 
 \begin{Code}
-: INSERT<   BACKWARD  SLIDE< ;
+: insert<   backward  slide< ;
 \end{Code}
 (move the cursor backwards on top of the last character typed, then slide
 everything to the right leftward, covering the mistake).
@@ -425,11 +425,11 @@ are in boldface:
 
 %!! "KEY# EMIT" and "RETYPE" in boldface
 \begin{Code}[commandchars=\&\{\}]
-: OVERWRITE  KEY# POSITION C!  &poorbf{KEY# EMIT}  FORWARD ;
-: &poorbf{RETYPE  ( type from current position to}
+: overwrite  key# position c!  &poorbf{key# emit}  forward ;
+: &poorbf{retype  ( type from current position to}
    &poorbf{end of field and reset cursor) ;}
-: INSERT   SLIDE>  &poorbf{RETYPE}  OVERWRITE ;
-: DELETE   SLIDE<  BLANK-END  &poorbf{RETYPE} ;
+: insert   slide>  &poorbf{retype}  overwrite ;
+: delete   slide<  blank-end  &poorbf{retype} ;
 \end{Code}
 Since these are the only three functions that change memory, they are
 the only three functions that need to refresh the screen. This idea is
@@ -647,8 +647,8 @@ buffers are defined with \forthb{CREATE}, the count is an ordinary
 \forthb{VARIABLE}, and the attribute patterns are defined as
 \forthb{CONSTANT}s, such as:
 \begin{Code}
-1 CONSTANT UNDERNESS  ( bit mask for underlining)
-2 CONSTANT BOLDNESS  ( bit mask for boldface)
+1 Constant underness  ( bit mask for underlining)
+2 Constant boldness  ( bit mask for boldface)
 \end{Code}
 The formatting component uses phrases like \forth{UNDERNESS SET-FLAG}
 to set bits in the attribute buffer. The output component uses phrases
@@ -771,8 +771,8 @@ next executed, it will format the deferred figure at the top of the
 new page:
 
 \begin{Code}
-: NEWPAGE  ... ( terminate page with footer)
-   ( start new page with header)  ...  ?HOLDOVER ... ;
+: newpage  ... ( terminate page with footer)
+   ( start new page with header)  ...  ?holdover ... ;
 \end{Code}
 How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is
 not defined until much later?
@@ -1071,35 +1071,35 @@ interpreter.  Which would you prefer? Why?
 \begin{enumerate}
 \item \begin{Code}
 ( Define editor keys )
-HEX
-72 CONSTANT UPCURSOR
-80 CONSTANT DOWNCURSOR
-77 CONSTANT RIGHTCURSOR
-75 CONSTANT LEFTCURSOR
-82 CONSTANT INSERTKEY
-83 CONSTANT DELETEKEY
-DECIMAL
+hex
+72 Constant upcursor
+80 Constant downcursor
+77 Constant rightcursor
+75 Constant leftcursor
+82 Constant insertkey
+83 Constant deletekey
+decimal
 ( Keystroke interpreter)
-: EDITOR
-   BEGIN  MORE WHILE  KEY   CASE
-      UPCURSOR     OF  CURSOR-UP     ENDOF
-      DOWNCURSOR   OF  CURSOR-DOWN   ENDOF
-      RIGHTCURSOR  OF  CURSOR>       ENDOF
-      LEFTCURSOR   OF  CURSOR<       ENDOF
-      INSERTKEY    OF  INSERTING     ENDOF
-      DELETEKEY    OF  DELETE        ENDOF
+: editor
+   BEGIN  more  WHILE  key   CASE
+      upcursor     OF  cursor-up     ENDOF
+      downcursor   OF  cursor-down   ENDOF
+      rightcursor  OF  cursor>       ENDOF
+      leftcursor   OF  cursor<       ENDOF
+      insertkey    OF  inserting     ENDOF
+      deletekey    OF  delete        ENDOF
    ENDCASE  REPEAT ;
 \end{Code}
 \medbreak\item \begin{Code}
 ( Keystroke interpreter)
-: EDITOR
-   BEGIN  MORE WHILE  KEY   CASE
-      72 OF  CURSOR-UP     ENDOF
-      80 OF  CURSOR-DOWN   ENDOF
-      77 OF  CURSOR>       ENDOF
-      75 OF  CURSOR<       ENDOF
-      82 OF  INSERTING     ENDOF
-      83 OF  DELETE        ENDOF
+: editor
+   BEGIN  more  WHILE  key   CASE
+      72 OF  cursor-up     ENDOF
+      80 OF  cursor-down   ENDOF
+      77 OF  cursor>       ENDOF
+      75 OF  cursor<       ENDOF
+      82 OF  inserting     ENDOF
+      83 OF  delete        ENDOF
    ENDCASE  REPEAT ;
 \end{Code}
 \end{enumerate}
@@ -1116,10 +1116,10 @@ We want to define a series of arrays which will reside in that memory.
  We might do something like this:
 
 \begin{Code}
-HEX
-C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
-C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
-C00C CONSTANT THIRD ARRAY  ( 100 bytes)
+hex
+C000 Constant first-array  ( 8 bytes)
+C008 Constant second-array  ( 6 bytes)
+C00C Constant third array  ( 100 bytes)
 \end{Code}
 Each array-name defined above will return the starting address of the
 appropriate array. But notice we had to compute the correct starting
@@ -1129,14 +1129,14 @@ pointer,'' called \forth{>RAM}, showing where the next free byte is. We first
 set the pointer to the beginning of the RAM space:
 
 \begin{Code}
-VARIABLE >RAM
-C000 >RAM !
+Variable >ram
+C000 >ram !
 \end{Code}
 Now we can define each array like this:
-x\begin{Code}
->RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
->RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
->RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
+\begin{Code}
+>ram @ Constant first-array    8 >ram +!
+>ram @ Constant second-array   6 >ram +!
+>ram @ Constant third-array  100 >ram +!
 \end{Code}
 Notice that after defining each array, we increment the pointer by the
 size of the new array to show that we've allocated that much additional
@@ -1147,16 +1147,16 @@ To make the above more readable, we might add these two
 definitions:
 
 \begin{Code}
-: THERE ( -- address of next free byte in RAM)
-     >RAM @ ;
-: RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
+: there ( -- address of next free byte in RAM)
+     >ram @ ;
+: ram-allot ( #bytes to allocate -- )  >ram +! ;
 \end{Code}
 We can now rewrite the above equivalently as:
 
 \begin{Code}
-THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
-THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
-THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
+there Constant first-array    8 ram-allot
+there Constant second-array   6 ram-allot
+there Constant third-array  100 ram-allot
 \end{Code}
 (An advanced \Forth{} programmer would probably combine these operations
 into a single defining word, but that whole topic is not germane to
@@ -1174,13 +1174,13 @@ its \emph{starting} address, however.
 To do this, we must now write:
 
 \begin{Code}
-F000 >RAM ! ( EFFF, last byte, plus one)
-: THERE ( -- address of next free byte in RAM)
-     >RAM @ ;
-: RAM-ALLOT  ( #bytes to allocate)  NEGATE >RAM +! ;
-  8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
-  6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
-100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
+F000 >ram ! ( EFFF, Last byte, plus one)
+: there ( -- address-of-next-free-byte-in-RAM )
+     >ram @ ;
+: ram-allot  ( #bytes-to-allocate -- )  negate >ram +! ;
+  8 ram-allot  there Constant first-array
+  6 ram-allot  there Constant second-array
+100 ram-allot  there Constant third-array
 \end{Code}
 This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's okay,
 it's easy to add \forth{NEGATE} to the definition of \forth{RAM-ALLOT}.

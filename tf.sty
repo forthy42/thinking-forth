@@ -607,6 +607,13 @@ label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
 labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
 samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
+\def\@filename{empty}
+\def\filename#1{\gdef\@filename{#1}}
+\DefineVerbatimEnvironment{File}{Verbatim}{frame=single,framesep=3pt,%
+label=[{\rm File \tt\@filename}],%
+labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
+samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
+
 %% caption style
 
 \long\def\@makecaption#1#2{%

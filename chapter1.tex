@@ -770,8 +770,8 @@ relate them to what we've seen about traditional methodologies.
 
 Here's an example of \Forth{} code;
 \begin{Code}
-: BREAKFAST
-   HURRIED?  IF  CEREAL  ELSE  EGGS  THEN CLEAN ;
+: breakfast
+   hurried?  IF  cereal  ELSE  eggs  THEN  clean ;
 \end{Code}
 This is structurally identical to the procedure \forth{MAKE-BREAKFAST} on
 page \pageref{fig-fig1-4}. (If you're new to \Forth{}, refer to
@@ -828,8 +828,8 @@ words \forth{PUSH} and \forth{POP} do not exist in high-level \Forth{}.
 
 Thus we can write:
 \begin{Code}
-: DOIT
-    GETC  TRANSFORM-TO-D  PUT-D ;
+: doit
+    getc  transform-to-d  put-d ;
 \end{Code}
 confident that \forth{GETC} will get ``C,'' and leave it on the stack.
 \forth{TRANSFORM-TO-D} will pick up ``C'' from the stack, transform
@@ -858,7 +858,7 @@ words as we need to do that, no matter how simple each of them may be.
 
 A line from a typical \Forth{} application might read:
 \begin{Code}
-20 ROTATE LEFT TURRET
+20 rotate left turret
 \end{Code}
 Few other languages would encourage you to concoct a subroutine called
 \forth{LEFT}, merely as a modifier, or a subroutine called
@@ -996,12 +996,12 @@ This availability of commands also makes the process of testing and
 debugging a whole lot easier. Because \Forth{} is interactive, the
 programmer can type and test the primitive commands, such as
 \begin{Code}
-RIGHT SHOULDER 20 PIVOT
+right shoulder 20 pivot
 \end{Code}
 from the ``outside'' as easily as the more powerful ones like
 
 \begin{Code}
-LIFT COFFEE-POT
+lift coffee-pot
 \end{Code}
 At the same time, the programmer can (if he or she wants) deliberately
 seal any commands, including \Forth{} itself, from being accessed by the
@@ -1065,20 +1065,20 @@ access memory.
 
 Suppose we define a variable called \forth{APPLES}, like this:\program{apples1}
 \begin{Code}
-VARIABLE APPLES
+Variable apples
 \end{Code}
 We can store a number into this variable to indicate how many apples
 we currently have:
 \begin{Code}
-20 APPLES !
+20 apples !
 \end{Code}
 We can display the contents of the variable:
 \begin{Code}[commandchars=\&\{\}]
-APPLES ? &underline{20 ok}
+apples ? &underline{20 ok}
 \end{Code}
 We can up the count by one:
 \begin{Code}
-1 APPLES +!
+1 apples +!
 \end{Code}
 (The newcomer can study the mechanics of these phrases in Appendix A.)
 
@@ -1105,12 +1105,12 @@ more complicated version of
 \forth{APPLES} as follows:
 
 \begin{Code}
-VARIABLE COLOR  ( pointer to current tally)
-VARIABLE REDS  ( tally of red apples)
-VARIABLE GREENS  ( tally of green apples)
-: RED  ( set apple-type to RED)  REDS COLOR ! ;
-: GREEN  ( set apple-type to GREEN)  GREENS COLOR ! ;
-: APPLES  (  -- adr of current apple tally)  COLOR @ ;
+Variable color  ( pointer to current tally)
+Variable reds  ( tally of red apples)
+Variable greens  ( tally of green apples)
+: red  ( set apple-type to RED)  reds color ! ;
+: green  ( set apple-type to GREEN)  greens color ! ;
+: apples  (  -- adr of current apple tally)  color @ ;
 \end{Code}
 
 \wepsfiga{fig1-10}{Changing the indirect pointer.}
@@ -1128,12 +1128,12 @@ We didn't need to change the syntax of any existing code that uses
 \forth{APPLES.} We can still say
 
 \begin{Code}
-20 APPLES !
+20 apples !
 \end{Code}
 and
 
 \begin{Code}
-1 APPLES +!
+1 apples +!
 \end{Code}
 Look again at what we did. We changed the definition of \forth{APPLES}
 from that of a variable to a colon definition, without affecting its
@@ -1163,12 +1163,12 @@ called ``adjectives'' since they modify the function of
 \forth{APPLES.} The phrase
 
 \begin{Code}
-RED APPLES ?
+red apples ?
 \end{Code}
 is different from
 
 \begin{Code}
-GREEN APPLES ?
+green apples ?
 \end{Code}
 \Forth{} words can also serve as adverbs and prepositions. There's little
 value in trying to determine what part of speech a particular word is,

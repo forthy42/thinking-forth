@@ -462,7 +462,7 @@ precede the name. For instance, the syntax of the word \forth{SPACES}, which
 emits ``$n$'' number of spaces, is
 
 \begin{Code}
-20 SPACES
+20 spaces
 \end{Code}
 Sometimes this rule violates the order that our ear is accustomed to
 hearing. For instance, the \Forth{} word \forth{+} expects to be preceded
@@ -483,7 +483,7 @@ like this:
 \end{Code}
 by defining it so:
 \begin{Code}
-: +   BL WORD  NUMBER DROP  + ;
+: +   bl word  number drop  + ;
 \end{Code}
 (where \forthb{WORD} is 79/83 Standard, returning an address, and
 \forthb{NUMBER} returns a double-length value as in the 83 Standard
@@ -510,20 +510,20 @@ it; that is, format the information in pretty columns. If
 \forth{INVENTORY} passes a pointer to \forth{SHOW}, which acts upon
 it, the syntax becomes
 \begin{Code}
-INVENTORY SHOW
+inventory show
 \end{Code}
 If your spec demands the English word-order,\index{W!Words:!ordering}
 \Forth{} offers ways to
 achieve it. But most involve new levels of complexity. Sometimes the
 best thing to do is to choose a better name. How about
 \begin{Code}
-INVENTORY REPORT
+inventory report
 \end{Code}
 (We've made the ``pointer'' an adjective, and the ``actor'' a noun.)
 
 If the requirements insist on the syntax
 \begin{Code}
-SHOW INVENTORY
+show inventory
 \end{Code}
 we have several options. \forth{SHOW} might set a flag and
 \forth{INVENTORY} would act according to the flag. Such an approach has
@@ -556,7 +556,7 @@ The rule also applies to defined words that you want to refer to, but
 not execute in the usual way. An example is \forthb{FORGET}, as in
 
 \begin{Code}
-FORGET TASK
+forget task
 \end{Code}
 Syntactically, \forthb{FORGET} must precede \forth{TASK} so that
 \forth{TASK} doesn't execute.
@@ -572,7 +572,7 @@ Suppose you're writing the word \forth{LAUNCH}, which requires the
 number of a launch pad and fires the appropriate rocket. You want the
 definition to look roughly like this:
 \begin{Code}
-: LAUNCH  ( pad#)  LOAD  AIM  FIRE ;
+: launch  ( pad# -- )  load  aim  fire ;
 \end{Code}
 Each of the three internal definitions will require the same argument, the
 launch pad number. You'll need two \forthb{DUP}s somewhere. The question
@@ -580,17 +580,17 @@ is where? If you put them inside \forth{LOAD} and \forth{AIM}, then you
 can keep them out of \forth{LAUNCH}, as in the definition above. If you
 leave them out of \forth{LOAD} and \forth{AIM}, you'll have to define:
 \begin{Code}
-: LAUNCH  ( pad#)  DUP LOAD  DUP AIM  FIRE ;
+: launch  ( pad# -- )  dup load  dup aim  fire ;
 \end{Code}
 By convention, the latter version is preferable, because \forth{LOAD} and
 \forth{AIM} are cleaner. They do what you expect them to do. Should you
 have to define \forth{READY}, you can do it so:
 \begin{Code}
-: READY  ( pad#)  DUP LOAD  AIM ;
+: ready  ( pad# -- )  dup load  aim ;
 \end{Code}
 and not
 \begin{Code}
-: READY  ( pad#)  LOAD  AIM  DROP ;
+: ready  ( pad# -- )  load  aim  drop ;
 \end{Code}
 
 \begin{tip}
@@ -627,8 +627,8 @@ We can easily write a word which converts a record\# into the address
 where that record begins:
 
 \begin{Code}
-: RECORD  ( record# -- adr )
-   8 *  TABLE + ;
+: record  ( record# -- adr )
+   8 *  table + ;
 \end{Code}
 Thus in computer terms it makes sense to call the ``first record'' the 0th
 record.
@@ -638,7 +638,7 @@ fine. Use zero-relative numbering throughout your design and then, only
 in the ``user lexicons'' (the set of words that the end-user will use)
 include the conversion from zero-to one-relative numbering:
 \begin{Code}
-: ITEM  ( n -- adr)  1- RECORD ;
+: item  ( n -- adr )  1- record ;
 \end{Code}
 \index{Z!Zero-relative numbering|)}
 
@@ -656,12 +656,12 @@ Let sources precede destinations.
 Another convention for readability. For instance, in some systems, the
 phrase
 \begin{Code}
-22 37 COPY
+22 37 copy
 \end{Code}
 copies Screen 22 to Screen 37. The syntax of \forth{CMOVE} incorporates both
 this convention and the previous convention:
 \begin{Code}[commandchars=\&\{\}]
-source destination count &poorbf{CMOVE}
+source destination count &poorbf{cmove}
 \end{Code}
 
 \index{E!Expectations-in-input-stream syntax rule|(}
@@ -679,21 +679,15 @@ In \Forth{}, it would be possible to define \forth{BLUE} as a constant, so
 that when executed it always returns 1.\program{color1}
 
 \begin{Code}
-1 CONSTANT BLUE
+1 Constant blue
 \end{Code}
 And then define \forth{LIGHT} such that it looks for the next word in the
 input stream, executes it, and ``ors'' it with 8 (the logic of this will
 become apparent when we visit this example again, later in the book):
 \begin{Code}
-: LIGHT  ( precedes a color)  ( -- color value)
-     ' EXECUTE  8 OR ;
+: light  ( "color" -- color-value )  \ precedes a color
+     ' execute  8 or ;
 \end{Code}
-(in fig-\Forth{}:
-\begin{Code}[commandchars=\&\{\}]
-: LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;&textrm{)}
-\end{Code}
-%!! The closing paren at the end of this code is a bit misleading.
-%!! At least a leading space and a different font should be used.
 \noindent (For novices: The apostrophe in the definition of \forth{LIGHT}
 is a \Forth{} word called ``tick.'' Tick is a dictionary-search word; it
 takes a name and looks it up in the dictionary, returning the address
@@ -708,7 +702,7 @@ This definition will work when invoked in the input stream, but special
 handling is required if we want to let \forth{LIGHT} be invoked within a
 colon definition, as in:
 \begin{Code}
-: EDITING   LIGHT BLUE BORDER ;
+: editing   light blue border ;
 \end{Code}
 Even in the input stream, the use of \forth{EXECUTE} here will cause a
 crash if \forth{LIGHT} is accidentally followed by something other than a
@@ -804,16 +798,16 @@ language that lets you create and describe monsters and rooms, etc. You
 might create a defining word called \forth{ROOM} to be used like this:
 
 \begin{Code}
-ROOM DUNGEON
+room dungeon
 \end{Code}
 Then create a set of words to describe the room's attributes by building
 unseen data structures associated with the room:
 
-\begin{Code}
-EAST-OF DRAGON-LAIR
-WEST-OF BRIDGE
-CONTAINING POT-O-GOLD
-etc.
+\begin{Code}[commandchars=\&\{\}]
+east-of dragon-lair
+west-of bridge
+containing pot-o-gold
+&textrm{etc.}
 \end{Code}
 %!! 'etc.' should not be part of the code, should it?
 The commands of this game-building language can simply be \Forth{}
@@ -953,8 +947,8 @@ There are three approaches we could take:
 \medbreak
 \item[Data Structure]~
 \begin{Code}
-CREATE TABLE  10 C,  12 C,  14 C,
-( n)  1- TABLE + C@
+Create table  10 c,  12 c,  14 c,
+( n)  1- table + c@
 \end{Code}
 \medbreak
 \item[Logic]~
@@ -1012,12 +1006,12 @@ etc. & &
 We could have achieved this same result with logic:
 \begin{Code}
 CASE
-   CTRL-D     OF  'INSERTING @  IF
-      INSERT-OFF   ELSE DELETE     THEN   ENDOF
-   CTRL-I     OF  'INSERTING @  IF
-      INSERT-OFF   ELSE INSERT-ON  THEN   ENDOF
-   BACKSPACE  OF  'INSERTING @  IF
-      INSERT<      ELSE BACKWARD   THEN   ENDOF
+   ctrl-d     OF  'inserting @  IF
+      insert-off   ELSE  delete     THEN   ENDOF
+   ctrl-i     OF  'inserting @  IF
+      insert-off   ELSE  insert-on  THEN   ENDOF
+   backspace  OF  'inserting @  IF
+      insert<      ELSE  backward   THEN   ENDOF
 ENDCASE
 \end{Code}
 but the logic is more confusing. And the use of logic to express such a
@@ -1166,7 +1160,7 @@ which \Forth{} will let us decompose a number into decimal digits---with
 modulo division by ten. For instance, if we say
 
 \begin{Code}
-37 10 /MOD
+37 10 /mod
 \end{Code}
 we'll get a 7 and a 3 on the stack (the three---being the quotient---is on
 top.)
@@ -1350,7 +1344,7 @@ either of those cases, it will respond accordingly. If neither exception
 applies, it will follow the ``normal'' algorithm. Using pseudocode, then:
 
 \begin{Code}
-: DIGIT  ( n )  4-OR-9? IF  special cases
+: digit  ( n -- )  4-or-9? IF  special cases
    ELSE  normal case  THEN ;
 \end{Code}
 An experienced \Forth{} programmer would not actually write out this
@@ -1375,9 +1369,9 @@ What our structure really says is that either the 4-exception or the
 merely to test for each exception, as in this version:
 
 \begin{Code}
-: DIGIT  ( n )  4-CASE? IF  ONER FIVER  THEN
-                9-CASE? IF  ONER TENER  THEN
-                normal case... ;
+: digit  ( n -- )  4-case? IF  oner fiver  THEN
+                   9-case? IF  oner tener  THEN
+                   normal case... ;
 \end{Code}
 because the normal case is never excluded. (There's no way to put an
 \forthb{ELSE} just before the normal case, because \forthb{ELSE} must
@@ -1390,9 +1384,9 @@ exclude the normal case:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
-: DIGIT  ( n )  4-CASE? &poorbf{DUP} IF  ONER FIVER  THEN
-                9-CASE? &poorbf{DUP} IF  ONER TENER  THEN
-                OR  NOT IF normal case THEN ;
+: digit  ( n -- )  4-case? &poorbf{dup} IF  oner fiver  THEN
+                   9-case? &poorbf{dup} IF  oner tener  THEN
+                   or  0= IF  normal case  THEN ;
 \end{Code}
 But this approach needlessly complicates the definition by adding new
 control structures. We'll leave it like it was.
@@ -1406,7 +1400,7 @@ subtract five from the value; otherwise do nothing. Then, print as many
 A direct translation of these rules into \Forth{} would look like this:
 
 \begin{Code}
-( n)  DUP  4 > IF  FIVER 5 -  THEN  ONERS
+( n -- )  dup  4 > IF  fiver 5 -  THEN  oners
 \end{Code}
 This is technically correct, but if we're familiar with the technique of
 modulo division, we'll see this as a natural situation for modulo division
@@ -1416,7 +1410,7 @@ when the number is less than five, and one (true) when it's between 5 and
 \forth{FIVER}:
 
 \begin{Code}
-( n )  5 / IF FIVER THEN ...
+( n -- )  5 / IF  fiver  THEN ...
 \end{Code}
 The quotient/flag becomes the argument to \forth{IF}.
 
@@ -1426,7 +1420,7 @@ remainder directly as the argument to \forth{ONERS}. We revise our phrase
 to
 
 \begin{Code}[commandchars=\&\{\}]
-( n )  5 &poorbf{/MOD} IF FIVER THEN  &poorbf{ONERS}
+( n -- )  5 &poorbf{/mod} IF  fiver  THEN  &poorbf{oners}
 \end{Code}
 Getting back to that exception, we now see that we can test for both 4 and
 9 with a single test---namely, if the remainder is 4. This suggests that
@@ -1435,9 +1429,9 @@ Something like this:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
-: DIGIT  ( n )
-     5 /MOD  &poorbf{OVER 4 =  IF  special case  ELSE}
-     IF FIVER THEN  ONERS  THEN ;
+: digit  ( n -- )
+     5 /mod  &poorbf{over 4 =  IF  special case  ELSE}
+     IF  fiver  THEN  oners  THEN ;
 \end{Code}
 (Notice that we \forthb{OVER}ed the remainder so that we could compare it with
 4 without consuming it.)
@@ -1460,24 +1454,24 @@ zero, the digit must have been four; otherwise it was nine. So we'll play
 the same trick and use the quotient as a boolean flag. We'll write:
 
 \begin{Code}
-: ALMOST  ( quotient )
-     IF  ONER TENER  ELSE  ONER FIVER  THEN ;
+: almost  ( quotient -- )
+     IF  oner tener  ELSE  oner fiver  THEN ;
 \end{Code}
 In retrospect, we notice that we're printing a \forth{ONER} either way. We
 can simplify the definition to:
 
 \begin{Code}
-: ALMOST  ( quotient )
-     ONER  IF TENER ELSE FIVER THEN ;
+: almost  ( quotient -- )
+     oner  IF  tener  ELSE  fiver  THEN ;
 \end{Code}
 We've assumed that we have a quotient on the stack to use. Let's go back
 to our definition of \forth{DIGIT} and make sure that we do, in fact:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
-: DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  &poorbf{ALMOST}  ELSE
-     IF FIVER THEN  ONERS  THEN ;
+: digit  ( n -- )
+     5 /mod  over 4 =  IF  &poorbf{almost}  ELSE
+     IF  fiver  THEN  oners  THEN ;
 \end{Code}
 It turns out that we have not only a quotient, but a remainder underneath
 as well. We're keeping both on the stack in the event we execute the
@@ -1486,9 +1480,9 @@ quotient. So, for symmetry, we must \forthb{DROP} the remainder like this:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
-: DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  ALMOST  &poorbf{DROP}  ELSE
-     IF FIVER THEN  ONERS  THEN ;
+: digit  ( n -- )
+     5 /mod  over 4 =  IF  almost  &poorbf{drop}  ELSE
+     IF  fiver  THEN  oners  THEN ;
 \end{Code}
 There we have the complete, coded definition for producing a single digit
 of a Roman numeral. If we were desperate to try it out before writing the
@@ -1499,11 +1493,11 @@ words to print one group of symbols, say the \forth{ONES} row:
 %!! : TENER   ." X"; <-- missing space
 %!! Fixed that.
 \begin{Code}
-: ONER    ." I" ;
-: FIVER   ." V" ;
-: TENER   ." X" ;
-: ONERS  ( # of oners -- )
-     ?DUP IF 0 DO  ONER  LOOP  THEN ;
+: oner    ." I" ;
+: fiver   ." V" ;
+: tener   ." X" ;
+: oners  ( #-of-oners -- )
+     ?dup IF  0 DO  oner  LOOP  THEN ;
 \end{Code}
 before loading our definitions of \forth{ALMOST} and \forth{DIGIT}.
 
@@ -1592,18 +1586,10 @@ only a byte, let's make each ``slot'' one byte. We'll call the table
 \forth{ROMANS}:
 
 \begin{Code}
-CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
-                 ( tens)  ASCII X  C,   ASCII L  C,
-             ( hundreds)  ASCII C  C,   ASCII D  C,
-            ( thousands)  ASCII M  C,
-\end{Code}
-Note: This use of \forthb{ASCII} requires that \forthb{ASCII} be
-``\forthb{STATE}-dependent'' (see \App{C}). If the word \forthb{ASCII}
-is not defined in your system, or if it is not state-dependent, use:
-
-\begin{Code}
-CREATE ROMANS  73 C,  86 C,  88 C,  76 C,
-   67 C,  68 C,  77 C,
+Create romans    ( ones)  char i  c,   char V  c,
+                 ( tens)  char X  c,   char L  c,
+             ( hundreds)  char C  c,   char D  c,
+            ( thousands)  char M  c,
 \end{Code}
 We can select a particular symbol from the table by applying two
 different offsets at the same time. One dimension represents the decimal
@@ -1621,18 +1607,18 @@ called \forth{COLUMN\#} (pronounced ``column-number'') and have it contain an
 offset into the table:
 
 \begin{Code}
-VARIABLE COLUMN#  ( current offset)
-: ONES        O COLUMN# ! ;
-: TENS        2 COLUMN# ! ;
-: HUNDREDS    4 COLUMN# ! ;
-: THOUSANDS   6 COLUMN# ! ;
+Variable column#  ( current offset)
+: ones        0 column# ! ;
+: tens        2 column# ! ;
+: hundreds    4 column# ! ;
+: thousands   6 column# ! ;
 \end{Code}
 Now we can find our way to any ``arm position'' by adding the contents of
 \forth{COLUMN\#} to the beginning address of the table, given by
 \forth{ROMANS}:
 
 \begin{Code}
-: COLUMN  ( -- adr-of-column)  ROMANS  COLUMN# @  + ;
+: COLUMN  ( -- adr-of-column )  ROMANS  COLUMN# @  + ;
 \end{Code}
 Let's see if we can implement one of the words to display a symbol. We'll
 start with \forth{ONER}.
@@ -1640,13 +1626,13 @@ start with \forth{ONER}.
 The thing we want to do in \forth{ONER} is \forthb{EMIT} a character.
 
 \begin{Code}
-: ONER                   EMIT ;
+: oner                   emit ;
 \end{Code}
 Working backward, \forthb{EMIT} requires the ASCII character on the stack.
 How do we get it there? With \forthb{C@}.
 
 \begin{Code}
-: ONER                C@ EMIT ;
+: oner                c@ emit ;
 \end{Code}
 \forthb{C@} requires the \emph{address} of the slot that contains the
 symbol we want. How do we get that address?
@@ -1656,32 +1642,32 @@ that \forth{COLUMN} is already pointing to. So, the address we want is
 simply the address returned by \forth{COLUMN}:
 
 \begin{Code}
-: ONER   COLUMN       C@ EMIT ;
+: oner   column       c@ emit ;
 \end{Code}
 Now let's write \forth{FIVER}. It computes the same slot address, then
 adds one to get the next slot, before fetching the symbol and emitting it:
 
 \begin{Code}
-: FIVER  COLUMN 1+    C@ EMIT ;
+: fiver  column 1+    c@ emit ;
 \end{Code}
 And \forth{TENER} is:
 
 \begin{Code}
-: TENER  COLUMN 2+    C@ EMIT ;
+: tener  column 2+    c@ emit ;
 \end{Code}
 These three definitions are redundant. Since the only difference between
 them is the incidental offset, we can factor the incidental offset out
 from the rest of the definitions:
 
 \begin{Code}
-: .SYMBOL  ( offset)  COLUMN +  C@ EMIT ;
+: .symbol  ( offset -- )  column +  c@ emit ;
 \end{Code}
 Now we can define:
 
 \begin{Code}
-: ONER    O .SYMBOL ;
-: FIVER   1 .SYMBOL ;
-: TENER   2 .SYMBOL ;
+: oner    0 .symbol ;
+: fiver   1 .symbol ;
+: tener   2 .symbol ;
 \end{Code}
 All that remains for us to do now is to decompose our complete decimal
 number into a series of decimal digits. Based on the observations we've
@@ -1704,8 +1690,8 @@ We might redefine ROMAN as follows:
 %!! Without it, it does not seem to make sense, does it?
 %!! (Pg 131)
 \begin{Code}
-: ROMAN  ( n)
-   DUP  3999 >  ABORT" Too large"  ROMAN ;
+: roman  ( n -- )
+   dup  3999 >  abort" too large"  roman ;
 \end{Code}
 
 \begin{interview}
@@ -1725,48 +1711,45 @@ Of course, nobody will appreciate it like you do.
 \caption{Roman numerals, solved.}
 \labelfig{fig4-9}
 \vspace{1ex}
-\setcounter{screen}{20}
-\begin{Screen}
+\filename{roman.fs}
+\begin{File}
 \ Roman numerals                                         8/18/83
-CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
-                 ( tens)  ASCII X  C,   ASCII L  C,
-             ( hundreds)  ASCII C  C,   ASCII D  C,
-            ( thousands)  ASCII M  C,
-VARIABLE COLUMN#  ( current_offset)
-: ONES       O COLUMN# ! ;
-: TENS       2 COLUMN# ! ;
-: HUNDREDS   4 COLUMN# ! ;
-: THOUSANDS  6 COLUMN# ! ;
 
-: COLUMN ( -- address-of-column)  ROMANS  COLUMN# @  + ;
+Create romans    ( ones)  char I  c,   char V  c,
+                 ( tens)  char X  c,   char L  c,
+             ( hundreds)  char C  c,   char D  c,
+            ( thousands)  char M  c,
+Variable column#  ( current_offset)
+: ones       0 column# ! ;
+: tens       2 column# ! ;
+: hundreds   4 column# ! ;
+: thousands  6 column# ! ;
 
-\end{Screen}
+: column ( -- address-of-column )  romans  column# @  + ;
 
-\begin{Screen}
 \ Roman numerals cont'd                                  8/18/83
-: .SYMBOL  ( offset -- )  COLUMN +  C@ EMIT ;
-: ONER    O .SYMBOL ;
-: FIVER   1 .SYMBOL ;
-: TENER   2 .SYMBOL ;
 
-: ONERS  ( #-of-oners -- )
-   ?DUP  IF  O DO  ONER  LOOP  THEN ;
-: ALMOST  ( quotient-of-5/ -- )
-   ONER  IF  TENER  ELSE  FIVER  THEN ;
-: DIGIT  ( digit -- )
-   5 /MOD  OVER  4 = IF  ALMOST  DROP  ELSE  IF FIVER THEN
-   ONERS THEN ;
+: .symbol  ( offset -- )  column +  c@ emit ;
+: oner    0 .symbol ;
+: fiver   1 .symbol ;
+: tener   2 .symbol ;
 
-\end{Screen}
+: oners  ( #-of-oners -- )
+   ?dup  IF  0 DO  oner  LOOP  THEN ;
+: almost  ( quotient-of-5/ -- )
+   oner  IF  tener  ELSE  fiver  THEN ;
+: digit  ( digit -- )
+   5 /mod  over  4 = IF  almost  drop  ELSE  IF  fiver  THEN
+   oners  THEN ;
 
-\begin{Screen}
 \ Roman numerals cont'd                                  8/18/83
-: ROMAN  ( number --)  1000 /MOD  THOUSANDS DIGIT
-                        100 /MOD   HUNDREDS DIGIT
-                         10 /MOD       TENS DIGIT
-                                       ONES DIGIT  ;
 
-\end{Screen}
+: roman  ( number -- )  1000 /mod  thousands digit
+                         100 /mod   hundreds digit
+                          10 /mod       tens digit
+                                        ones digit  ;
+
+\end{File}
 \vspace{1ex}
 \label{fig-fig4-9}
 \end{figure*}%

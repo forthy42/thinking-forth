@@ -6,6 +6,7 @@ SOURCES = thinking-forth.tex \
 	preface.tex \
 	preface94.tex \
 	preface2004.tex \
+	preface-ans.tex \
 	chapter1.tex \
 	chapter2.tex \
 	chapter3.tex \
@@ -76,7 +77,7 @@ LINKCOLOR = blue
 # 17x24 for 17cm x 24cm format (one of the standard metric formats)
 # splitcover: if you only choose front and back, and the spine is done for you
 
-VERSION = 1.0
+VERSION = 2.0-pre1
 CP = cp
 TAR = tar jcf
 MD = mkdir

@@ -731,11 +731,11 @@ This is because \Forth{}, used properly, approaches a functional language.%
 For anyone with a few days' familiarity with \Forth{}, simple definitions
 convey at least as much meaning as the diagrams:
 \begin{Code}
-: REQUEST  ( quantity part# -- )
-   ON-HAND?  IF  TRANSFER  ELSE  REORDER  THEN ;
-: REORDER   AUTHORIZATION?  IF  P.O.  THEN ;
-: P.O.   BOOKKEEPING COPY   RECEIVING COPY
-   VENDOR MAIL-COPY ;
+: request  ( quantity part# -- )
+   on-hand?  IF  transfer  ELSE  reorder  THEN ;
+: reorder   authorization?  IF  p.o.  THEN ;
+: p.o.   bookkeeping copy   receiving copy
+   vendor mail-copy ;
 \end{Code}
 This is \Forth{} pseudocode. No effort has been made to determine what
 values are actually passed on the stack, because that is an
@@ -746,7 +746,7 @@ only to indicate the two items of data needed to initiate the process.
 interface be a word called \forth{NEED}, which has this syntax:
 
 \begin{Code}
-NEED 50 AXLES
+need 50 axles
 \end{Code}
 
 \noindent \forth{NEED} converts the quantity into a numeric value on
@@ -897,7 +897,7 @@ ELSE  ( not-full-rate)
 	    .22 + .10/100miles
 	 ELSE ( add'l- minute)
 	    .15 + .10/100miles
-	 END IF
+	 ENDIF
       ELSE ( operator)
 	 IF first-minute
 	    1.12 + .10/100miles
@@ -1042,8 +1042,8 @@ and calculation. The formula for the per-minute charge can be
 expressed as a pseudo\Forth{} definition:
 
 \begin{Code}
-: PER-MINUTE-CHARGE ( -- per-minute-charge)
-        CONNECT-CHARGE  MILEAGE-CHARGE  + ;
+: per-minute-charge ( -- per-minute-charge )
+        connect-charge  mileage-charge  + ;
 \end{Code}
 The ``\forth{+}'' now appears once in the definition,
 not nine times in the table.
@@ -1058,9 +1058,8 @@ appropriately expressed as a ``logical calculation''; that is, a
 function that combines logic with arithmetic:
 
 \begin{Code}
-: ?ASSISTANCE
-   ( direct-dial-charge -- total-charge)
-   OPERATOR? IF .90 + THEN ;
+: ?assistance  ( direct-dial-charge -- total-charge )
+   operator? IF .90 + THEN ;
 \end{Code}
 (But remember, this charge applies only to the first minute.)
 
@@ -1072,8 +1071,8 @@ somewhere.
 
 Let's go back to our definition of \forth{PER-MINUTE-CHARGE}:
 \begin{Code}
-: PER-MINUTE-CHARGE ( -- per-minute-charge)
-   CONNECT-CHARGE  MILEAGE-CHARGE  + ;
+: per-minute-charge ( -- per-minute-charge )
+   connect-charge  mileage-charge  + ;
 \end{Code}
 Let's get more specific about the rules for the connection charge and for
 the mileage charge.
@@ -1094,10 +1093,10 @@ Now we can define the pair of words to replace \forth{PER-MINUTE-CHARGE}:
 %Page 059 in first edition
 
 \begin{Code}
-: FIRST  ( -- charge)
-  1MINUTE  ?ASSISTANCE   MILEAGE-CHARGE + ;
-: PER-ADDITIONAL  ( -- charge)
-   +MINUTES  MILEAGE-CHARGE + ;
+: first  ( -- charge )
+  1minute  ?assistance   mileage-charge + ;
+: per-additional  ( -- charge )
+   +minutes  mileage-charge + ;
 \end{Code}
 What is the rule for the mileage charge? Very simple. It is the rate
 (per hundred miles) times the number of miles (in hundreds). Let's
@@ -1105,18 +1104,18 @@ assume we can define the word \forth{MILEAGE-RATE}, which will fetch
 the mileage rate from the table:
 
 \begin{Code}
-: MILEAGE-CHARGE  ( -- charge)
-   #MILES @  MILEAGE-RATE * ;
+: mileage-charge  ( -- charge )
+   #miles @  mileage-rate * ;
 \end{Code}
 Finally, if we know the total number of minutes for a call, we can now
 calculate the total direct-dial charge:
 
 \begin{Code}
-: TOTAL   ( -- total-charge)
-   FIRST                        ( first minute rate)
-   ( #minutes) 1-               ( additional minutes)
-      PER-ADDITIONAL *          ( times the rate)
-   +  ;                         ( added together)
+: total   ( -- total-charge )
+   first                        \ first minute rate
+   ( #minutes) 1-               \ additional minutes
+      per-additional *          \ times the rate
+   +  ;                         \ added together
 \end{Code}
 We've expressed the rules to this particular problem through a
 combination of simple tables and logical calculations.
@@ -1499,7 +1498,7 @@ This puts you in the position of either accepting or going without a job.
 But if you say, ``You have a choice: for \$4,000 I'll make it
 \emph{walk} through the hoop; for \$6,000 I'll make it \emph{jump}
 through the hoop. For \$8,000 I'll make it \emph{dance} through the
-hoop waving flags, tossing confetti and singing ``Roll Out the Barrel.''
+hoop waving flags, tossing confetti and singing `Roll Out the Barrel.'\,''
 
 Most customers opt for jumping through the hoop.
 \end{enumerate}

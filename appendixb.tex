@@ -27,7 +27,7 @@ place it on the return stack.  That's all.  \Forth{} execution then
 continues with this address on the return stack, which will cause the
 vectored function to be performed.  It's like saying (in '83-Standard)
 \begin{Code}
-' NOTHING >BODY >R <return>
+' NOTHING >body >r <return>
 \end{Code}
 which executes \forth{NOTHING}.  (This trick only works with colon
 definitions.)
@@ -48,7 +48,7 @@ DOER JOE & \\
 
 \noindent Now suppose we define:
 \begin{Code}
-: TEST   MAKE JOE  CR ;
+: TEST   MAKE JOE  cr ;
 \end{Code}
 that is, we define a word that can vector \forth{JOE} to do a carriage
 return.
@@ -68,7 +68,7 @@ TEST & (MAKE) & 0 & JOE & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
 \forthb{MAKE} inside a colon definition, \forthb{STATE} will be true, and
 we'll execute the phrase:
 \begin{Code}
-COMPILE (MAKE)  HERE MARKER !  0 ,
+COMPILE (MAKE)  here marker !  0 ,
 \end{Code}
 We can see how \forthb{MAKE} has compiled the address of the run-time
 routine, \forthb{(MAKE)}, followed by a zero.  (We'll explain what the
@@ -112,7 +112,7 @@ That's the basic idea.  But what about that cell containing zero?  That's
 for the use of \forthb{;AND}.  Suppose we changed \forth{TEST} to read:
 
 \begin{Code}
-: TEST   MAKE JOE  CR ;AND SPACE ;
+: TEST   MAKE JOE  cr ;AND space ;
 \end{Code}
 That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a
 \forthb{CR}, and we'll do a \forthb{SPACE} right now.  Here's what this
@@ -130,7 +130,7 @@ TEST & (MAKE) & adr & JOE & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2
 \end{center}
 Here's the definition of \forthb{;AND}:
 \begin{Code}
-: ;AND   COMPILE  EXIT  HERE MARKER @ ! ;   IMMEDIATE
+: ;AND   COMPILE  EXIT  here marker @ ! ;   immediate
 \end{Code}
 We can see that \forthb{;AND} has compiled an \forthb{EXIT}\index{E!EXIT},
 just as semicolon would.
@@ -141,7 +141,7 @@ variable called \forthb{MARKER}.  Now \forthb{;AND} stores \forthb{HERE}
 into the cell previously containing zero.  Now \forthb{(MAKE)} has a
 pointer to the place to resume execution.  The phrase
 \begin{Code}
-IF >R THEN
+IF >r THEN
 \end{Code}
 will leave on the return stack the address of the code beginning with
 \forthb{SPACE}.  Thus execution will skip over the code between
@@ -188,7 +188,7 @@ reason each time).
 ( DOER/MAKE   Shadow screen                      LPB 12/05/83 )
 NOTHING   A no-opp
 DOER      Defines a word whose behavior is vectorable.
-MARKER    Saves adr for optional continuation pointer.
+marker    Saves adr for optional continuation pointer.
 (MAKE)    Stuffs the address of further code into the
           parameter field of a doer word.
 MAKE      Used interpretively:  MAKE doer-name  forth-code ;
@@ -206,16 +206,16 @@ UNDO      Usage:  UNDO doer-name ; makes it safe to execute
 \begin{Screen}
 \ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
 : NOTHING ;
-: DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
-VARIABLE MARKER
-: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
-   @ ?DUP IF >R THEN ;
-: MAKE   STATE @ IF ( compiling)
-   COMPILE (MAKE)  HERE MARKER !  0 ,
-   ELSE  HERE  [COMPILE] '  >BODY !
-   [COMPILE] ]  THEN ;   IMMEDIATE
-: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
-: UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+: DOER   Create  ['] NOTHING  >body ,  DOES> @ >r ;
+Variable marker
+: (MAKE)  r>  dup 2+  dup 2+  swap @  >body !
+   @ ?dup IF >r THEN ;
+: MAKE   state @ IF ( compiling)
+   COMPILE (MAKE)  here marker !  0 ,
+   ELSE  here  [compile] '  >body !
+   [compile] ]  THEN ;   immediate
+: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
+: UNDO   ['] NOTHING  >body  [compile] '  >body ! ;
 
 \ The code in this screen is in the public domain.
 
@@ -225,16 +225,16 @@ VARIABLE MARKER
 \begin{Screen}
 ( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
 : NOTHING ;
-: DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
-VARIABLE MARKER
-: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
-   @ ?DUP IF >R THEN ;
-: MAKE   STATE @ IF ( compiling)
-   COMPILE (MAKE)  HERE MARKER !  0 ,
-   ELSE  HERE  [COMPILE] '  >BODY !
-   [COMPILE] ] UNSMUDGE  THEN ;   IMMEDIATE
-: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
-: UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+: DOER   Create  ['] NOTHING  >body ,  DOES> @ >r ;
+Variable marker
+: (MAKE)  r>  dup 2+  dup 2+  swap @  >body !
+   @ ?dup IF >r THEN ;
+: MAKE   state @ IF ( compiling)
+   COMPILE (MAKE)  here marker !  0 ,
+   ELSE  here  [compile] '  >body !
+   [compile] ] UNSMUDGE  THEN ;   immediate
+: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
+: UNDO   ['] NOTHING  >body  [compile] '  >body ! ;
 
 ( The code in this screen is in the public domain.)
 
@@ -245,17 +245,17 @@ VARIABLE MARKER
 ( DOER/MAKE   FIG model                          LPB 12/05/83 )
 : NOTHING   ;
 : DOES-PFA  ( pfa -- pfa of child of <BUILD-DOES> )   2+ ;
-: DOER   <BUILDS  ' NOTHING ,  DOES> @ >R ;
-0 VARIABLE MARKER
-: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ DOES-PFA !
-   @ -DUP IF >R THEN ;
-: MAKE  STATE @ IF ( compiling)
-   COMPILE (MAKE)  HERE MARKER !  0 ,
-   ELSE  HERE  [COMPILE] '  DOES-PFA !
-   SMUDGE    [COMPILE] ] THEN ; IMMEDIATE
-: ;AND   COMPILE ;S  HERE MARKER @ ! ;  IMMEDIATE
-: UNDO   ' NOTHING  [COMPILE] '  DOES-PFA ! ;
-;S
+: DOER   <BUILDS  ' NOTHING ,  DOES> @ >r ;
+0 Variable marker
+: (MAKE)  r>  dup 2+  dup 2+  swap @  2+ DOES-PFA !
+   @ -DUP IF >r THEN ;
+: MAKE  state @ IF ( compiling)
+   COMPILE (MAKE)  here marker !  0 ,
+   ELSE  here  [compile] '  DOES-PFA !
+   SMUDGE    [compile] ] THEN ; immediate
+: ;AND   COMPILE ;s  here marker @ ! ;  immediate
+: UNDO   ' NOTHING  [compile] '  DOES-PFA ! ;
+;s
 The code in this screen is in the public domain.
 
 \end{Screen}
@@ -263,16 +263,16 @@ The code in this screen is in the public domain.
 \begin{Screen}
 ( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
 : NOTHING ;
-: DOER   CREATE  ' NOTHING  ,  DOES> @ >R ;
-VARIABLE MARKER
-: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ ( pfa) !
-   @ ?DUP IF >R THEN ;
-: MAKE   STATE @ IF ( compiling)
-   COMPILE (MAKE)  HERE MARKER !  0 ,
-   ELSE  HERE  [COMPILE] ' !
-    [COMPILE] ]  THEN ;   IMMEDIATE
-: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
-: UNDO   ['] NOTHING  [COMPILE] ' ! ;
+: DOER   Create  ' NOTHING  ,  DOES> @ >r ;
+Variable marker
+: (MAKE)  r>  dup 2+  dup 2+  swap @  2+ ( pfa) !
+   @ ?dup IF >r THEN ;
+: MAKE   state @ IF ( compiling)
+   COMPILE (MAKE)  here marker !  0 ,
+   ELSE  here  [compile] ' !
+    [compile] ]  THEN ;   immediate
+: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
+: UNDO   ['] NOTHING  [compile] ' ! ;
 
 
 ( The code in this screen is in the public domain.)
@@ -283,7 +283,7 @@ VARIABLE MARKER
 ( TODDLER: Example of DOER/MAKE                      12/01/83 )
 DOER ANSWER
 : RECITAL
-  CR ." Your daddy is standing on the table.  Ask him 'WHY?' "
+  cr ." Your daddy is standing on the table.  Ask him 'WHY?' "
   MAKE ANSWER  ." To change the light bulb."
   BEGIN
   MAKE ANSWER  ." Because it's burned out."
@@ -294,8 +294,8 @@ DOER ANSWER
   MAKE ANSWER  ." Stop saying WHY?"
   MAKE ANSWER  ." Because it's driving me crazy."
   MAKE ANSWER  ." Just let me change this light bulb!"
-  FALSE UNTIL ;
-: WHY?   CR  ANSWER  QUIT ;
+  false UNTIL ;
+: WHY?   cr  ANSWER  quit ;
 \end{Screen}
 \index{D!DOER/MAKE|)}
 \vfill

@@ -31,12 +31,12 @@ This syntax will remain the same whether we define it to allocate growing
 upward:
 \begin{Code}
 : RAM-ALLOT  ( #bytes-to-allot -- starting-adr)
-    >RAM @  DUP ROT +  >RAM ! ;
+    >RAM @  dup rot +  >RAM ! ;
 \end{Code}
 or to allocate growing downward:
 \begin{Code}
 : RAM-ALLOT  ( #bytes-to-allot -- starting-adr)
-    >RAM @  SWAP -  DUP >RAM ! ;
+    >RAM @  swap -  dup >RAM ! ;
 \end{Code}
 \end{enumerate}
 
@@ -46,15 +46,15 @@ or to allocate growing downward:
 \item\fi Our solution is as follows:
 \begin{Code}
 \ CARDS Shuffle                              6-20-83
-52 CONSTANT #CARDS
-CREATE DECK  #CARDS ALLOT   \ one card per byte
+52 Constant #CARDS
+Create DECK  #CARDS allot   \ one card per byte
 : CARD ( i -- adr) DECK + ;
-: INIT-DECK  #CARDS 0 DO  I  I CARD  C!  LOOP ;
+: INIT-DECK  #CARDS 0 DO  i  i CARD  c!  LOOP ;
 INIT-DECK
 : 'CSWAP  ( a1 a2 -- )  \  swap bytes at a1 and a2
-   2DUP C@  SWAP C@  ROT C!  SWAP C! ;
+   2dup c@  swap c@  rot c!  swap c! ;
 : SHUFFLE   \  shuffle deck of cards
-   #CARDS 0 DO  I CARD  #CARDS CHOOSE CARD  'CSWAP
+   #CARDS 0 DO  i CARD  #CARDS CHOOSE CARD  'CSWAP
    LOOP ;
 \end{Code}
 \ifeightyfour\end{enumerate}\fi
@@ -63,7 +63,7 @@ INIT-DECK
 \ifeightyfour\begin{enumerate}
 \item This will work:
 \begin{Code}
-20 CHOOSE  2 CHOOSE  IF NEGATE THEN
+20 CHOOSE  2 CHOOSE  IF negate THEN
 \end{Code}
 But this is simpler:
 \begin{Code}
@@ -71,7 +71,7 @@ But this is simpler:
 \end{Code}
 \end{enumerate}\else
 \begin{Code}
-: DIRECTION  ( n|-n|0 -- 1|-1|0)  DUP  IF  0< 1 OR  THEN ;
+: DIRECTION  ( n|-n|0 -- 1|-1|0)  dup  IF  0< 1 or  THEN ;
 \end{Code}
 \fi
 
