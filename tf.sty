@@ -39,6 +39,7 @@
 \newif\ifsplitcover
 \newif\iflatextoc
 \newif\ifisbn
+\newif\ifinitial
 \isbnfalse
 \latextocfalse
 \splitcoverfalse
@@ -49,6 +50,7 @@
 \leofalse
 \thinkerfalse
 \spineuptrue
+\initialfalse
 
 \newdimen\hangout
 \newdimen\hangmark
@@ -93,6 +95,7 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{splitcover}{\splitcovertrue}
 \DeclareOption{latextoc}{\latextoctrue}
 \DeclareOption{isbn}{\isbntrue}
+\DeclareOption{initial}{\initialtrue}
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -719,6 +722,28 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 \setcounter{enumiv}{0}% references are counted per chapter
 }
 
+%% initials
+
+\ifcase \@ptsize\relax
+   \font\@inifont=yinit scaled 1000 \def\inifont{\@inifont\baselineskip 44pt}
+\or
+   \font\@inifont=yinit scaled 1096 \def\inifont{\@inifont\baselineskip 47pt}
+\or
+   \font\@inifont=yinit scaled 1000 \def\inifont{\@inifont\baselineskip 50pt}
+\fi
+
+\ifinitial
+\def\initial#1{\par
+\setbox0\hbox{\lower2\baselineskip\hbox{\inifont \uppercase{#1}}}%
+\hangindent\wd0\hangafter-3\dp0=0pt\noindent\hbox to 0pt{\hss\box0}}
+\def\initialb#1{\par
+\setbox0\hbox{\lower1\baselineskip\hbox{\inifont \uppercase{#1}}}%
+\hangindent\wd0\hangafter-2\dp0=0pt\noindent\hbox to 0pt{\hss\box0}}
+\else
+\let\initial\relax
+\let\initialb\relax
+\fi
+
 %% Forth ``logo''
 %1984 edition spells ``FORTH''
 \ifeightyfour
@@ -731,7 +756,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 %% Names are often typeset in small caps
 
 \ifofour
-\def\person#1{{\rmfamily\scshape#1}}
+\def\person#1{{\scshape#1}}
 \else
 \let\person\relax
 \fi
