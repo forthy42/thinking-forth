@@ -14,13 +14,13 @@ Problems}
 \item The answer depends on whether you believe that other components will
 need to ``know the numeric code associated with each key.  Usually this
 would \emph{not} be the case.  The simpler, more compact form is therefore
-preferable.  Also in the first version, to add a new key would require a 
+preferable.  Also in the first version, to add a new key would require a
 change in two places.
-\item The problem with the words \forth{RAM-ALLOT} and \forth{THERE} are that they are 
-\emph{time-dependent}:  we must execute them ina particular order.  Our solution
-then will be to devise an interface to the RAM allocation pointer that is not
-dependent on order; the way to do this is to have a \emph{single} word which does
-both functions transparently.
+\item The problem with the words \forth{RAM-ALLOT} and \forth{THERE} are
+that they are \emph{time-dependent}:  we must execute them ina particular
+order.  Our solution then will be to devise an interface to the RAM
+allocation pointer that is not dependent on order; the way to do this is
+to have a \emph{single} word which does both functions transparently.
 
 Our word's syntax will be
 \begin{Code}
@@ -41,6 +41,7 @@ or to allocate growing downward:
 \end{enumerate}
 
 \section{\Chap{4}}
+
 \ifeightyfour\begin{enumerate}
 \item\fi Our solution is as follows:
 \begin{Code}
@@ -57,6 +58,7 @@ INIT-DECK
       'CSWAP  LOOP ;
 \end{Code}
 \ifeightyfour\end{enumerate}\fi
+
 \section{\Chap{8}}
 \ifeightyfour\begin{enumerate}
 \item\fi This will work:

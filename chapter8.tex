@@ -11,7 +11,6 @@
 
 \chapter{Minimizing Control~Structures}\Chapmark{8}%
 \index{C!Control structure minimization|(}%
-\index{C!Control structures:!minimization of|see{Control structure minimization}}
 
 Control structures aren't as important in \Forth{} as they are in other
 languages. \Forth{} programmers tend to write very complex applications
@@ -48,11 +47,12 @@ breaking down. And the harder it is for someone to fix.
 \person{Moore}\index{M!Moore, Charles|(} tells this story:
 \begin{tfquot}
 I recently went back to a company we had done some work for several years
-ago. They called me in because their program is now five years old, and it's
-gotten very complicated. They've had programmers going in and patching
-things, adding state variables and conditionals. Every statement that I
-recall being a simple thing five years ago, now has gotten very complicated.
-``If this, else if this, else if this'' \dots{} and then the simple thing.
+ago. They called me in because their program is now five years old, and
+it's gotten very complicated. They've had programmers going in and
+patching things, adding state variables and conditionals. Every statement
+that I recall being a simple thing five years ago, now has gotten very
+complicated.  ``If this, else if this, else if this'' \dots{} and then the
+simple thing.
 
 Reading that statement now, it's impossible for me to figure out what it's
 doing and why. I'd have to remember what each variable indicated, why it
@@ -65,11 +65,11 @@ discovered that they also needed one here, and here. And then a few more.
 Each incremental step only added a little confusion to the program. Since
 they were the programmers, they were right on top of it.
 
-The net result was disastrous. In the end they had half a dozen flags. Test
-this one, reset it, set that one, and so on. As a result of this condition, you
-knew you had other conditions coming up you had to look out for. They
-created the logical equivalent of spaghetti code in spite of the opportunity
-for a structured program.
+The net result was disastrous. In the end they had half a dozen flags.
+Test this one, reset it, set that one, and so on. As a result of this
+condition, you knew you had other conditions coming up you had to look out
+for. They created the logical equivalent of spaghetti code in spite of the
+opportunity for a structured program.
 
 The complexity went far beyond what they had ever intended. But they'd
 committed themselves to going down this path, and they missed the simple
@@ -95,10 +95,10 @@ long-term consequences of the conditional.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}%
 \index{C!Control structure minimization!reasons for|)}%
-Before we introduce some detailed techniques, let's look at three approaches
-to the use of conditionals in a particular example. \Fig{fig8-1},
-\Fig{fig8-2}, and \Fig{fig8-3} illustrate three versions of a design for an
-automatic teller machine.
+Before we introduce some detailed techniques, let's look at three
+approaches to the use of conditionals in a particular example.
+\Fig{fig8-1}, \Fig{fig8-2}, and \Fig{fig8-3} illustrate three versions of
+a design for an automatic teller machine.
 
 \begin{figure*}[tttt]
 \verbfig{fig8-1}{The structured approach.}
@@ -144,9 +144,9 @@ The first example comes straight out of the School for Structured
 Programmers. The logic of the application depends on the correct nesting
 of \forth{IF} statements.
 
-Easy to read? Tell me under what condition the user's card gets
-eaten. To answer, you have to either count \forth{ELSE}s from the bottom and
-match them with the same number of \forth{IF}s from the top, or use a
+Easy to read? Tell me under what condition the user's card gets eaten. To
+answer, you have to either count \forth{ELSE}s from the bottom and match
+them with the same number of \forth{IF}s from the top, or use a
 straightedge.
 
 \begin{figure*}[tttt]
@@ -187,12 +187,12 @@ PROCEDURE DEPOSIT
 \end{BVerbatim}
 \end{center}
 \end{figure*}
-The second version, \Fig{fig8-2}, shows the improvement that using
-many small, named procedures can have on readability. The user's card is
-eaten if the owner is not valid.
+The second version, \Fig{fig8-2}, shows the improvement that using many
+small, named procedures can have on readability. The user's card is eaten
+if the owner is not valid.
 
-But even with this improvement, the design of each word depends
-completely on the \emph{sequence} in which the tests must be performed. The
+But even with this improvement, the design of each word depends completely
+on the \emph{sequence} in which the tests must be performed. The
 supposedly ``highest'' level procedure is burdened with eliminating the
 worst-case, most trivial kind of event. And each test becomes responsible
 for invoking the next test.
@@ -244,25 +244,25 @@ for invoking the next test.
 \end{center}
 \end{figure*}
 
-The third version comes closest to the promise of \Forth{}. The
-highest level word expresses exactly what's happening conceptually,
-showing only the main path. Each of the subordinate words has its own
-error exit, not cluttering the reading of the main word. One test does not
-have to invoke the next test.
+The third version comes closest to the promise of \Forth{}. The highest
+level word expresses exactly what's happening conceptually, showing only
+the main path. Each of the subordinate words has its own error exit, not
+cluttering the reading of the main word. One test does not have to invoke
+the next test.
 
-Also \code{TRANSACT} is designed around the fact that the user will
-make requests by pressing buttons on a keypad. No conditions are
-necessary. One button will initiate a withdrawal, another a deposit. This
-approach readily accommodates design changes later, such as the addition
-of a feature to transfer funds. (And this approach does not thereby
-become dependent on hardware. Details of the interface to the keypad
-may be hidden within the keypad lexicon, \code{READ-BUTTON} and
-\code{BUTTON}.)
+Also \code{TRANSACT} is designed around the fact that the user will make
+requests by pressing buttons on a keypad. No conditions are necessary. One
+button will initiate a withdrawal, another a deposit. This approach
+readily accommodates design changes later, such as the addition of a
+feature to transfer funds. (And this approach does not thereby become
+dependent on hardware. Details of the interface to the keypad may be
+hidden within the keypad lexicon, \code{READ-BUTTON} and \code{BUTTON}.)
 
 Of course, \Forth{} will allow you to take any of the three approaches.
 Which do you prefer?
 
 \section{How to Eliminate Control Structures}
+
 In this section we'll study numerous techniques for simplifying or
 avoiding conditionals. Most of them will produce code that is more
 readable, more maintainable, and more efficient. Some of the techniques
@@ -286,14 +286,15 @@ execute functions are hidden within the \Forth{} system.
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 In my accounting package, if you receive a check from somebody, you type
-the amount, the check number, the word \forth{FROM}, and the person's name:
+the amount, the check number, the word \forth{FROM}, and the person's
+name:
 
 \begin{Code}
 200.00 127 FROM ALLIED
 \end{Code}
-The word \forth{FROM} takes care of that situation. If you want to bill someone,
-you type the amount, the invoice number, the word \forth{BILL} and the person's
-name:
+The word \forth{FROM} takes care of that situation. If you want to bill
+someone, you type the amount, the invoice number, the word \forth{BILL}
+and the person's name:
 
 \begin{Code}
 1000.00 280 BILL TECHNITECH
@@ -302,28 +303,29 @@ name:
 \dots{} One word for each situation. The dictionary is making the decision.\medskip
 \end{interview}
 This notion pervades \Forth{} itself. To add a pair of single-length
-numbers we use the command \forth{+}. To add a pair of double-length numbers
-we use the command \forth{D+}. A less efficient, more complex approach would
-be a single command that somehow ``knows'' which type of numbers are
-being added.
+numbers we use the command \forth{+}. To add a pair of double-length
+numbers we use the command \forth{D+}. A less efficient, more complex
+approach would be a single command that somehow ``knows'' which type of
+numbers are being added.
 
-\Forth{} is efficient because all these words---\forth{FROM} and \forth{BILL} and
-\forth{+} and \forth{D+}---can be implemented without any need for testing and
-branching.
-%
+\Forth{} is efficient because all these words---\forth{FROM} and
+\forth{BILL} and \forth{+} and \forth{D+}---can be implemented without any
+need for testing and branching.
+
 \index{D!Dumb words|(}
 \begin{tip}
 Use dumb words.
 \end{tip}
 This isn't advice for TV writers. It's another instance of using the
 dictionary. A ``dumb'' word is one that is not state-dependent, but
-instead, has the same behavior all the time (``referentially transparent'').
+instead, has the same behavior all the time (``referentially
+transparent'').
 
 A dumb word is unambiguous, and therefore, more trustworthy.
 
-A few common \Forth{} words have been the source of controversy
-recently over this issue. One such word is \forth{."} which prints a string.
-In its simplest form, it's allowed only inside a colon definition:
+A few common \Forth{} words have been the source of controversy recently
+over this issue. One such word is \forth{."} which prints a string.  In
+its simplest form, it's allowed only inside a colon definition:
 
 \begin{Code}
 : TEST   ." THIS IS A STRING " ;
@@ -333,23 +335,23 @@ Actually, this version of the word does \emph{not} print a string. It
 that does the printing at run time.
 
 This is the dumb version of the word. If you use it outside a colon
-definition, it will uselessly compile the string, not at all what a beginner
-might expect.
+definition, it will uselessly compile the string, not at all what a
+beginner might expect.
 
 To solve this problem, the FIG model added a test inside \forth{."} that
-determined whether the system was currently compiling or interpreting.
-In the first case, \forth{."} would compile the string and the address of the
+determined whether the system was currently compiling or interpreting.  In
+the first case, \forth{."} would compile the string and the address of the
 primitives; in the second case it would \forth{TYPE} it.
 
 \forth{."} became two completely different words housed together in one
 definition with an \forth{IF ELSE THEN} structure. The flag that indicates
-whether \Forth{} is compiling or interpreting is called \forth{STATE}. Since the
-\forth{."} depends on \forth{STATE}, it is said to be ``\forth{STATE}-dependent,''
-literally.
+whether \Forth{} is compiling or interpreting is called \forth{STATE}.
+Since the \forth{."} depends on \forth{STATE}, it is said to be
+``\forth{STATE}-dependent,'' literally.
 
-The command \emph{appeared} to behave the same inside and outside a
-colon definition. This duplicity proved useful in afternoon introductions
-to \Forth{}, but the serious student soon learned there's more to it than
+The command \emph{appeared} to behave the same inside and outside a colon
+definition. This duplicity proved useful in afternoon introductions to
+\Forth{}, but the serious student soon learned there's more to it than
 that.
 
 Suppose a student wants to write a new word called \forthb{B."} (for
@@ -370,44 +372,47 @@ mode to normal.
 She tries it. Immediately the illusion is destroyed; the deception is
 revealed; the definition won't work.
 
-To solve her problem, the programmer will have to study the definition
-of \forth{(.")} in her own system. I'm not going to get sidetracked here with
-explaining how \forth{(.")} works---my point is that smartness isn't all it
-appears to be.
+To solve her problem, the programmer will have to study the definition of
+\forth{(.")} in her own system. I'm not going to get sidetracked here with
+explaining how \forth{(.")} works---my point is that smartness isn't all
+it appears to be.
 
-Incidentally, there's a different syntactical approach to our
-student's problem, one that does not require having two separate words,
-\forth{."} and \forth{B."} to print strings. Change the system's \forth{(.")} so
-that it always sets the mode to normal after typing, even though it will
-already be normal most of the time. With this syntax, the programmer
-need merely precede the emphasized string with the simple word \forth{BRIGHT}.
+Incidentally, there's a different syntactical approach to our student's
+problem, one that does not require having two separate words, \forth{."}
+and \forth{B."} to print strings. Change the system's \forth{(.")} so that
+it always sets the mode to normal after typing, even though it will
+already be normal most of the time. With this syntax, the programmer need
+merely precede the emphasized string with the simple word \forth{BRIGHT}.
 
 \begin{Code}
 ." INSERT DISK IN "  BRIGHT ." LEFT "  ." DRIVE "
 \end{Code}
-The '83 Standard now specifies a dumb \forth{."} and, for those cases where an
-interpretive version is wanted, the new word \forth{.(} has been added. Happily,
-in this new standard we're using the dictionary to make a decision by
-having two separate words.
+The '83 Standard now specifies a dumb \forth{."} and, for those cases
+where an interpretive version is wanted, the new word \forth{.(} has been
+added. Happily, in this new standard we're using the dictionary to make a
+decision by having two separate words.
 
-The word \forth{'} (tick) has a similar history. It was \forthb{STATE}-dependent in
-fig-\Forth{}, and is now dumb in the '83 Standard. Tick shares with
-dot-quote the characteristic that a programmer might want to reuse either of
-these words in a higher-level definition and have them behave in the same
-way they do normally.%
+\index{S!STATE|(}
+The word \forth{'} (tick) has a similar history. It was
+\forthb{STATE}-dependent in fig-\Forth{}, and is now dumb in the '83
+Standard. Tick shares with dot-quote the characteristic that a programmer
+might want to reuse either of these words in a higher-level definition and
+have them behave in the same way they do normally.%
 \index{D!Dumb words|)}
 
 \begin{tip}
-Words should not depend on \forthb{STATE} if a programmer might ever want to
-invoke them from within a higher-level definition and expect them to
+Words should not depend on \forthb{STATE} if a programmer might ever want
+to invoke them from within a higher-level definition and expect them to
 behave as they do interpretively.
 \end{tip}
-\forthb{ASCII}\index{A!ASCII} works well as a \forth{STATE}-dependent word, and so does \forthb{MAKE}.
-(See \App{C}.)%
+\forthb{ASCII}\index{A!ASCII} works well as a \forth{STATE}-dependent
+word, and so does \forthb{MAKE}.\index{M!MAKE} (See \App{C}.)%
+\index{S!STATE|)}%
 \index{C!Control structure minimization!dictionary|)}%
 \index{D!Dictionary:!control structure minimization with|)}
 
 \subsection{Nesting and Combining Conditionals}%
+\index{N!Nesting conditionals|(}%
 \index{C!Conditionals, nesting and combining|(}%
 \index{C!Control structure minimization!nesting and combining conditionals|(}
 \begin{tip}
@@ -439,10 +444,10 @@ Instead, you can nest the conditionals, like this:
 \begin{tip}
 Combine booleans of similar weight.
 \end{tip}
-Many instances of doubly-nested \forthb{IF }\forthb{THEN} structures can be simplified
-by combining the flags with logical operators before making the decision.
+Many instances of doubly-nested \forthb{IF }\forthb{THEN} structures can
+be simplified by combining the flags with logical operators before making
+the decision.
 Here's a doubly-nested test:
-
 \begin{Code}
 : ?PLAY   SATURDAY? IF  WORK FINISHED? IF
      GO PARTY  THEN  THEN ;
@@ -457,8 +462,8 @@ let's combine the conditions logically and make a single decision:
 \end{Code}
 It's simpler and more readable.
 
-The logical ``or'' situation, when implemented with \forthb{IF }\forthb{THEN}s, is
-even clumsier:
+The logical ``or'' situation, when implemented with
+\forthb{IF }\forthb{THEN}s, is even clumsier:
 
 \begin{Code}
 : ?RISE    PHONE RINGS? IF  UP GET  THEN
@@ -498,8 +503,8 @@ When multiple conditions have dissimilar weights (in likelihood or
 calculation time) nest conditionals with the term that is least likely
 to be true or easiest to calculate on the outside.
 \end{tip}
-Trying to improve performance in this way is more difficult with the \forth{OR}
-construct. For instance, in the definition
+Trying to improve performance in this way is more difficult with the
+\forth{OR} construct. For instance, in the definition
 
 \begin{Code}
 : ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
@@ -519,6 +524,7 @@ The repetition of \forth{UP GET} is ugly---not nearly as readable as the
 solution using \forth{OR}---but in some cases desirable.%
 \index{C!Conditionals, nesting and combining|)}%
 \index{C!Control structure minimization!nesting and combining conditionals|)}
+\index{N!Nesting conditionals|)}%
 
 \subsection{Choosing Control Structures}%
 \index{C!Control structures:!choosing|(}
@@ -549,9 +555,9 @@ word using nested \forthb{IF }\forthb{ELSE }\forthb{THEN}s, like this:
 \end{Code}
 We can solve this problem more elegantly by using a ``case statement.''
 
-Here's the same definition, rewritten using the ``\person{Eaker} case statement''
-format, named after Dr. \person{Charles E. Eaker}, the gentleman who proposed
-it \cite{eaker}.
+Here's the same definition, rewritten using the ``\person{Eaker} case
+statement'' format, named after Dr. \person{Charles E. Eaker}, the
+gentleman who proposed it \cite{eaker}.
 
 \begin{Code}
 : .SUIT ( suit -- )
@@ -562,23 +568,24 @@ it \cite{eaker}.
   3 OF   ." CLUBS "     ENDOF     ENDCASE ;
 \end{Code}
 The case statement's value lies exclusively in its readability and
-writeability. There's no efficiency improvement either in object memory
-or in execution speed. In fact, the case statement compiles much the
-same code as the nested \forthb{IF }\forthb{THEN} statements. A case statement is a
-good example of compile-time factoring.
+writeability. There's no efficiency improvement either in object memory or
+in execution speed. In fact, the case statement compiles much the same
+code as the nested \forthb{IF }\forthb{THEN} statements. A case statement
+is a good example of compile-time factoring.
 
-Should all \Forth{} systems include such a case statement? That's
-a matter of controversy. The problem is twofold. First, the instances in
-which a case statement is actually needed are rare---rare enough to
-question its value. If there are only a few cases, a nested \forthb{IF }\forthb{ELSE }\forthb{THEN}
-construct will work as well, though perhaps not as readably. If there are
-many cases, a decision table is more flexible.
+Should all \Forth{} systems include such a case statement? That's a matter
+of controversy. The problem is twofold. First, the instances in which a
+case statement is actually needed are rare---rare enough to question its
+value. If there are only a few cases, a nested \forthb{IF }\forthb{ELSE
+}\forthb{THEN} construct will work as well, though perhaps not as
+readably. If there are many cases, a decision table is more flexible.
 
-Second, many case-like problems are not quite appropriate for the
-case structure. The \person{Eaker} case statement assumes that you're testing for
-equality against a number on the stack. In the instance of \forth{.SUIT}, we have
-contiguous integers from zero to three. It's more efficient to use the
-integer to calculate an offset and directly jump to the right code.
+Second, many case-like problems are not quite appropriate for the case
+structure. The \person{Eaker} case statement assumes that you're testing
+for equality against a number on the stack. In the instance of
+\forth{.SUIT}, we have contiguous integers from zero to three. It's more
+efficient to use the integer to calculate an offset and directly jump to
+the right code.
 
 In the case of our Tiny Editor, later in this chapter, we have not but
 two dimensions of possibilities. The case statement doesn't match that
@@ -603,37 +610,40 @@ The right looping structure can eliminate extra conditionals.
 Many times conditionals are used to get out of loops. That particular use
 can be avoided by having loops with multiple exit points.
 
-This is a live topic, because of the multiple \forthb{WHILE} construct which is in
-poly\Forth{} but hasn't percolated up to \Forth{} '83. It's a simple way of
-defining multiple \forthb{WHILE}s in the same \forthb{REPEAT}.
+This is a live topic, because of the multiple \forthb{WHILE} construct
+which is in poly\Forth{} but hasn't percolated up to \Forth{} '83. It's a
+simple way of defining multiple \forthb{WHILE}s in the same
+\forthb{REPEAT}.
 
-Also \person{Dean Sanderson} [of \Forth{}, Inc.] has invented a new construct that
-introduces two exit points to a \forthb{DO }\forthb{LOOP}.\index{D!DO LOOP}
-Given that construction you'll have fewer tests. Very often I leave a
-truth value on the stack, and if I'm leaving a loop early, I change
-the truth value to remind myself that I left the loop early. Then
-later I'll have an \forthb{IF} to see whether I left the loop early,
-and it's just clumsy.
+Also \person{Dean Sanderson}\index{S!Sanderson, Dean} [of \Forth{}, Inc.]
+has invented a new construct that introduces two exit points to a
+\forthb{DO }\forthb{LOOP}.\index{D!DO LOOP} Given that construction you'll
+have fewer tests. Very often I leave a truth value on the stack, and if
+I'm leaving a loop early, I change the truth value to remind myself that I
+left the loop early. Then later I'll have an \forthb{IF} to see whether I
+left the loop early, and it's just clumsy.
 
 Once you've made a decision, you shouldn't have to make it again. With the
-proper looping constructs you won't need to remember where you came
-from, so more conditionals will go away.
+proper looping constructs you won't need to remember where you came from,
+so more conditionals will go away.
 
 This is not completely popular because it's rather unstructured. Or perhaps
 it is elaborately structured. The value is that you get simpler programs.
 And it costs nothing.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-Indeed, this is a live topic. As of this writing it's too early to make any
-specific proposals for new loop constructs. Check your system's
-documentation to see what it offers in the way of exotic looping structures.
-Or, depending on the needs of your application, consider adding
-your own conditional constructs. It's not that hard in \Forth{}.
+Indeed, this is a live topic. As of this writing it's too early to make
+any specific proposals for new loop constructs. Check your system's
+documentation to see what it offers in the way of exotic looping
+structures.  Or, depending on the needs of your application, consider
+adding your own conditional constructs. It's not that hard in \Forth{}.
 
-I'm not even sure whether this use of multiple exits doesn't violate
-the doctrine of structured programming. In a \forthb{BEGIN }\forthb{WHILE }\forthb{REPEAT}
+I'm not even sure whether this use of multiple exits doesn't violate the
+doctrine of structured programming. In a
+\forthb{BEGIN }\forthb{WHILE }\forthb{REPEAT}
 loop with multiple \forthb{WHILE}s, all the exits bring you to a common
-``continue'' point: the \forthb{REPEAT}. But with \person{Sanderson}'s construct, you
+``continue'' point: the \forthb{REPEAT}. But with \person{Sanderson}'s
+\index{S!Sanderson, Dean} construct, you
 can exit the loop by jumping \emph{past} the end of the loop, continuing
 at an \forthb{ELSE}. There are two possible ``continue'' points.
 
@@ -648,6 +658,7 @@ loop prematurely, this approach seems the most natural structure to use.
 Exits.'')
 %
 \index{C!Counts vs. terminators|(}
+\index{T!Terminators vs. counts|(}
 \begin{tip}
 Favor counts over terminators.
 \end{tip}
@@ -672,24 +683,25 @@ would have to be written:
 : TYPE  ( a)  BEGIN DUP C@  ?DUP WHILE  EMIT  1+
    REPEAT  DROP ;
 \end{Code}
-An extra test is needed on each pass of the loop. (\forthb{WHILE} is a conditional
-operator.)
+An extra test is needed on each pass of the loop. (\forthb{WHILE} is a
+conditional operator.)
 
-Optimization note: The use of \forthb{?DUP} in this solution is expensive in
-terms of time because it contains an extra decision itself. A faster
+Optimization note: The use of \forthb{?DUP} in this solution is expensive
+in terms of time because it contains an extra decision itself. A faster
 definition would be:
 
 \begin{Code}
 : TYPE  ( a)  BEGIN DUP C@  DUP WHILE EMIT 1+
     REPEAT  2DROP ;
 \end{Code}
-The '83 Standard applied this principle to \forthb{INTERPRET} which now accepts
-a count rather than looking for a terminator.
+The '83 Standard applied this principle to \forthb{INTERPRET}
+\index{I!INTERPRET}
+which now accepts a count rather than looking for a terminator.
 
 The flip side of this coin is certain data structures in which it's
-easiest to \emph{link} the structures together. Each record points to the next
-(or previous) record. The last (or first) record in the chain can be indicated
-with a zero in its link field.
+easiest to \emph{link} the structures together. Each record points to the
+next (or previous) record. The last (or first) record in the chain can be
+indicated with a zero in its link field.
 
 If you have a link field, you have to fetch it anyway. You might as
 well test for zero. You don't need to keep a counter of how many records
@@ -698,11 +710,12 @@ you're making more work for yourself. (This is the technique used to
 implement \Forth{}'s dictionary as a linked list.)%
 \index{C!Counts vs. terminators|)}%
 \index{C!Control structure minimization!looping structures|)}%
-\index{L!Loops|)}
+\index{L!Loops|)}%
+\index{T!Terminators vs. counts|)}%
 
 \subsubsection{Calculating Results}%
 \index{C!Control structure minimization!calculating results|(}%
-\index{C!Calculations|(}
+\index{C!Calculations|(}%
 
 \begin{tip}
 Don't decide, calculate.
@@ -733,10 +746,10 @@ represent its high-order part. But converting a negative integer to
 double-length requires ``sign extension;'' that is, the high-order part
 should be all ones.)
 
-The above definition tests whether the single-length number is
-negative. If so, it pushes a negative one onto the stack; otherwise a zero.
-But notice that the outcome is merely arithmetic; there's no change
-in process. We can take advantage of this fact by using the boolean itself:
+The above definition tests whether the single-length number is negative.
+If so, it pushes a negative one onto the stack; otherwise a zero.  But
+notice that the outcome is merely arithmetic; there's no change in
+process. We can take advantage of this fact by using the boolean itself:
 
 \begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
@@ -762,8 +775,8 @@ We can do even more with ``hybrid values'':
 \begin{tip}
 To effect a decision with a numeric outcome, use \forthb{AND}.
 \end{tip}
-In the case of a decision that produces either zero or a non-zero ``$n$,'' the
-traditional phrase
+In the case of a decision that produces either zero or a non-zero ``$n$,''
+the traditional phrase
 
 \begin{Code}
 ( ? ) IF  n  ELSE  O  THEN
@@ -773,9 +786,9 @@ is equivalent to the simpler statement
 \begin{Code}
 ( ? )  n AND
 \end{Code}
-Again, the secret is that ``false'' is represented by $-1$ (all ones) in '83
-\Forth{} systems. \forthb{AND}ing ``$n$'' with the flag will either produce ``$n$'' (all
-bits intact) or ``0'' (all bits cleared).
+Again, the secret is that ``false'' is represented by $-1$ (all ones) in
+'83 \Forth{} systems. \forthb{AND}ing ``$n$'' with the flag will either
+produce ``$n$'' (all bits intact) or ``$0$'' (all bits cleared).
 
 To restate with an example:
 
@@ -792,10 +805,11 @@ Take a look at this example:
 \begin{Code}
 n  a b <  IF  45 +  THEN
 \end{Code}
-This phrase either adds 45 to ``$n$'' or doesn't, depending on the relative
-sizes of ``$a$'' and ``$b$.'' Since ``adding 45 or not'' is the same as ``adding 45
-or adding 0,'' the difference between the two outcomes is purely numeric.
-We can rid ourselves of a decision, and simply compute:
+This phrase either adds 45 to ``$n$'' or doesn't, depending on the
+relative sizes of ``$a$'' and ``$b$.'' Since ``adding 45 or not'' is the
+same as ``adding 45 or adding 0,'' the difference between the two outcomes
+is purely numeric.  We can rid ourselves of a decision, and simply
+compute:
 
 \begin{Code}
 n  a b <  45 AND  +
@@ -803,10 +817,10 @@ n  a b <  45 AND  +
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
-The ``\forth{45 AND}'' is faster than the \forth{IF}, and certainly more graceful. It's
-simpler. If you form a habit of looking for instances where you're
-calculating this value from that value, then usually by doing arithmetic on
-the logic you get the same result more cleanly.
+The ``\forth{45 AND}'' is faster than the \forth{IF}, and certainly more
+graceful. It's simpler. If you form a habit of looking for instances where
+you're calculating this value from that value, then usually by doing
+arithmetic on the logic you get the same result more cleanly.
 
 I don't know what you call this. It has no terminology; it's merely doing
 arithmetic with truth values. But it's perfectly valid, and someday boolean
@@ -834,8 +848,8 @@ else to call them.%
 \index{H!Hybrid values|)}
 
 We can eliminate numeric \forth{ELSE} clauses as well (where both results
-are non-zero), by factoring out the difference between the two results. For
-instance,
+are non-zero), by factoring out the difference between the two results.
+For instance,
 
 \begin{Code}
 : STEPPERS  'TESTING? @  IF 150 ELSE 151  THEN  LOAD ;
@@ -851,6 +865,7 @@ Screen 150, or if testing, the next screen past it.%
 \index{C!Control structure minimization!calculating results|)}
 
 \section{A Note on Tricks}%
+\index{T!Tricks|(}%
 \index{C!Control structure minimization!tricks|(}
 
 This sort of approach is often labeled a ``trick.'' In the computing
@@ -874,14 +889,17 @@ information hiding.
 Also, tricks become difficult to read when the assumptions on which
 they're based aren't understood or explained. In the case of replacing
 conditionals with \forth{AND}, once this technique becomes part of every
-programmer's vocabulary, code can become \emph{more} readable. In the case of
-a trick that is specific to a specific application, such as the order in which
-data are arranged in a table, the listing must clearly document the
-assumption used by the trick.%
-\index{C!Control structure minimization!tricks|)}
+programmer's vocabulary, code can become \emph{more} readable. In the case
+of a trick that is specific to a specific application, such as the order
+in which data are arranged in a table, the listing must clearly document
+the assumption used by the trick.%
+\index{C!Control structure minimization!tricks|)}%
+\index{T!Tricks|)}%
 
 \begin{tip}
 Use \forthb{MIN} and \forthb{MAX} for clipping.
+\index{M!MAX}%
+\index{M!MIN}%
 \end{tip}
 Suppose we want to decrement the contents of the variable \forth{VALUE}, but
 we don't want the value to go below zero:
@@ -907,27 +925,30 @@ We introduced these in \Chap{2}. A decision table is a structure that
 contains either data (a ``data table'') or addresses of functions (a
 ``function table'') arranged according to any number of dimensions. Each
 dimension represents all the possible, mutually exclusive states of a
-particular aspect of the problem. At the intersection of the ``true'' states
-of each dimension lies the desired element: the piece of data or the function
-to be performed.
+particular aspect of the problem. At the intersection of the ``true''
+states of each dimension lies the desired element: the piece of data or
+the function to be performed.
 
 A decision table is clearly a better choice than a conditional structure
 when the problem has multiple dimensions.
 
 \subsubsection{One-Dimensional Data Table}
+\index{O!One-dimensional data table|(}
 
 Here's an example of a simple, one-dimensional data table. Our application
 has a flag called \forth{'FREEWAY?} which is true when we're referring to
 freeways, false when we're referring to city streets.
 
 Let's construct the word \forth{SPEED-LIMIT}, which returns the speed
-limit depending on the current state. Using \forthb{IF }\forthb{THEN} we would write:
+limit depending on the current state.
+Using \forthb{IF }\forthb{THEN} we would write:
 
 \begin{Code}
 : SPEED-LIMIT  ( -- speed-limit)
      'FREEWAY? @  IF  55  ELSE  25  THEN ;
 \end{Code}
-We might eliminate the \forthb{IF }\forthb{THEN} by using a hybrid value with \forthb{AND}:
+We might eliminate the \forthb{IF }\forthb{THEN} by using a hybrid value
+with \forthb{AND}:
 
 \begin{Code}
 : SPEED-LIMIT   25  'FREEWAY? @  30 AND + ;
@@ -948,8 +969,8 @@ the data table:
 : SPEED-LIMIT  ( -- speed-limit)
      LIMITS  'FREEWAY? @  2 AND  +  @ ;
 \end{Code}
-Have we gained anything over the \forthb{IF }\forthb{THEN} approach? Probably not,
-with so simple a problem.
+Have we gained anything over the \forthb{IF }\forthb{THEN} approach?
+Probably not, with so simple a problem.
 
 What we have done, though, is to factor out the decision-making
 process from the data itself. This becomes more cost-effective when we
@@ -976,8 +997,10 @@ Applying techniques of factoring, we simplify this to:
 \end{Code}
 Another example of the one-dimensional data table is the ``superstring''
 (\emph{Starting \Forth{}}, Chapter Ten).
+\index{O!One-dimensional data table|)}
 
 \subsubsection{Two-Dimensional Data Table}
+\index{T!Two-dimensional data table|(}
 In \Chap{2} we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
@@ -1032,13 +1055,15 @@ etc.\goodbreak
 The current charge, either first minute, additional minute, or per mile,
 is expressed as an offset into the table (0, 2, or 4).
 
-An optimization note: we've implemented the two-dimensional table
-as a set of three one-dimensional tables, each pointed to by \forth{RATE}. This
+An optimization note: we've implemented the two-dimensional table as a set
+of three one-dimensional tables, each pointed to by \forth{RATE}. This
 approach eliminates the need for a multiplication that would otherwise be
-needed to implement a two-dimensional structure. The multiplication can
-be prohibitively slow in certain cases.
+needed to implement a two-dimensional structure. The multiplication can be
+prohibitively slow in certain cases.
+\index{T!Two-dimensional data table|)}
 
 \subsubsection{Two-Dimensional Decision Table}
+\index{T!Two-dimensional decision table|(}
 
 We'll hark back to our Tiny Editor example in \Chap{3} to illustrate
 a two-dimensional decision table.
@@ -1073,10 +1098,10 @@ address of the cell containing the match. (We preset the variable
 \forth{MATCHED} to point to the last row of the table---the functions we want
 when \emph{any} character is pressed.)
 
-The word \forth{ACTION} invokes \forth{'FUNCTION}, then adds the contents of
-the variable \forth{MODE\#}. Since \forth{MODE\#} will contain either a 2 or a 4, by
-adding this offset we're now pointing into the table at the address
-of the routine we want to perform. A simple
+The word \forth{ACTION} invokes \forth{'FUNCTION}, then adds the contents
+of the variable \forth{MODE\#}. Since \forth{MODE\#} will contain either a
+2 or a 4, by adding this offset we're now pointing into the table at the
+address of the routine we want to perform. A simple
 
 \begin{Code}
 @ EXECUTE
@@ -1156,9 +1181,9 @@ below the function table:
 HERE /KEY -  CONSTANT 'NOMATCH  \  adr of no-match key
 \end{Code}
 We're making a constant out of the last row in the function table. (At the
-moment we invoke \forthb{HERE}, it's pointing to the next free cell after the last
-table entry has been filled in. Six bytes back is the last row.) We now have
-two words:
+moment we invoke \forthb{HERE}, it's pointing to the next free cell after
+the last table entry has been filled in. Six bytes back is the last row.)
+We now have two words:
 \begin{Code}
 FUNCTIONS  ( adr of beginning of function table )
 'NOMATCH   ( adr of "no-match" row; these are the
@@ -1187,6 +1212,7 @@ manipulation. A simpler solution that uses no local variable is:
 \end{Code}
 (We'll offer still another solution later in this chapter, under ``Using
 Structured Exits.'')
+\index{T!Two-dimensional decision table|)}%
 
 \section{Decision Tables for Speed}
 
@@ -1225,26 +1251,27 @@ and avoiding the table lookup.
 \index{C!Control structure minimization!decision tables|)}
 
 \subsection{Redesigning}%
+\index{R!Redesigning to minimize control structures|(}%
 \index{C!Control structure minimization!redesigning|(}
 
 \begin{tip}
 One change at the bottom can save ten decisions at the top.
 \end{tip}
-In our interview with \person{Moore}\index{M!Moore, Charles} at
-the beginning of the chapter, he mentioned
-that much conditional testing could have been eliminated from an
-application if it had been redesigned so that there were two words instead
-of one: ``You either say \forth{GO} or you say \forth{PRETEND}.''
+In our interview with \person{Moore}\index{M!Moore, Charles} at the
+beginning of the chapter, he mentioned that much conditional testing could
+have been eliminated from an application if it had been redesigned so that
+there were two words instead of one: ``You either say \forth{GO} or you
+say \forth{PRETEND}.''
 
 It's easier to perform a simple, consistent algorithm while changing
 the context of your environment than to choose from several algorithms
 while keeping a fixed environment.
 
-Recall from \Chap{1} our example of the word \forth{APPLES}. This
-was originally defined as a variable; it was referred to many times
-throughout the application by words that incremented the number of
-apples (when shipments arrive), decremented the number (when apples are
-sold), and checked the current number (for inventory control).
+Recall from \Chap{1} our example of the word \forth{APPLES}. This was
+originally defined as a variable; it was referred to many times throughout
+the application by words that incremented the number of apples (when
+shipments arrive), decremented the number (when apples are sold), and
+checked the current number (for inventory control).
 
 When it became necessary to handle a second type of apples, the
 \emph{wrong} approach would have been to add that complexity to all
@@ -1252,13 +1279,13 @@ the shipment/\hy sales/\hy inventory words. The \emph{right} approach
 was the one we took: to add the complexity ``at the bottom''; that is,
 to \forth{APPLES} itself.
 
-This principle can be realized in many ways. In \Chap{7}
-(under ``The State Table'') we used state tables to implement the words
-\forth{WORKING} and \forth{PRETENDING}, which changed the meaning of a group
-of variables. Later in that chapter, we used vectored execution to define
-\forth{VISIBLE} and \forth{INVISIBLE}, to change the meanings of \forth{TYPE'}, \forth{EMIT'},
-\forth{SPACES'} and \forth{CR'} and thereby easily change all the formatting code that
-uses them.
+This principle can be realized in many ways. In \Chap{7} (under ``The
+State Table'') we used state tables to implement the words \forth{WORKING}
+and \forth{PRETENDING}, which changed the meaning of a group of variables.
+Later in that chapter, we used vectored execution to define
+\forth{VISIBLE} and \forth{INVISIBLE}, to change the meanings of
+\forth{TYPE'}, \forth{EMIT'}, \forth{SPACES'} and \forth{CR'} and thereby
+easily change all the formatting code that uses them.
 
 \begin{tip}
 Don't test for something that can't possibly happen.
@@ -1277,11 +1304,11 @@ Reexamine the algorithm.
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 A lot of conditionals arise from fuzzy thinking about the problem. In
-servo-control theory, a lot of people think that the algorithm for the servo
-ought to be different when the distance is great than when it is close. Far
-away, you're in slew mode; closer to the target you're in decelerate mode;
-very close you're in hunt mode. You have to test how far you are to know
-which algorithm to apply.
+servo-control theory, a lot of people think that the algorithm for the
+servo ought to be different when the distance is great than when it is
+close. Far away, you're in slew mode; closer to the target you're in
+decelerate mode; very close you're in hunt mode. You have to test how far
+you are to know which algorithm to apply.
 
 I've worked out a non-linear servo-control algorithm that will handle full
 range. This approach eliminates the glitches at the transitioning points
@@ -1381,9 +1408,9 @@ table.
 \begin{tfquot}
 The 68000 assembler is another example you can break your heart over,
 looking for a good way to express those op-codes with the minimal number
-of operators. All the evidence suggests there is no good solution. The people
-who designed the 68000 didn't have assemblers in mind. And they could
-have made things a lot easier, at no cost to themselves.
+of operators. All the evidence suggests there is no good solution. The
+people who designed the 68000 didn't have assemblers in mind. And they
+could have made things a lot easier, at no cost to themselves.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 By using properties of a component in this way, your code becomes
@@ -1391,8 +1418,10 @@ dependent on those properties and thus on the component itself. This is
 excusable, though, because all the dependent code is confined to a single
 lexicon, which can easily be changed if necessary.%
 \index{C!Control structure minimization!redesigning|)}
+\index{R!Redesigning to minimize control structures|)}%
 
 \subsection{Using Structured Exits}%
+\index{S!Structured exits|(}%
 \index{C!Control structure minimization!structured exits|(}
 
 \begin{tip}
@@ -1415,14 +1444,14 @@ simplify code, and thereby improve readability and maintainability.
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
-More and more I've come to favor \forth{R> DROP} to alter the flow of control.
-It's similar to the effect of an \forthb{ABORT"}, which has an \forthb{IF }\forthb{THEN}
-built in it. But that's only one \forthb{IF }\forthb{THEN} in the system, not at every
-error.
+More and more I've come to favor \forth{R> DROP} to alter the flow of
+control.  It's similar to the effect of an \forthb{ABORT"}, which has an
+\forthb{IF }\forthb{THEN} built in it. But that's only one \forthb{IF
+}\forthb{THEN} in the system, not at every error.
 
-I either abort or I don't abort. If I don't abort, I continue. If I do abort, I
-don't have to thread my way through the path. I short-circuit the whole
-thing.
+I either abort or I don't abort. If I don't abort, I continue. If I do
+abort, I don't have to thread my way through the path. I short-circuit the
+whole thing.
 
 The alternative is burdening the rest of the application with checking
 whether an error occurred. That's an inconvenience.
@@ -1435,20 +1464,21 @@ special conditions. \Forth{} provides this capability with the words
 The ``structured exit'' extends the concept by allowing the immediate
 termination of a single word, without quitting the entire application.
 
-This technique should not be confused with the use of GOTO, which
-is unstructured to the extreme. With GOTO you can go anywhere, inside
-or outside the current module. With this technique, you effectively jump
+This technique should not be confused with the use of GOTO, which is
+unstructured to the extreme. With GOTO you can go anywhere, inside or
+outside the current module. With this technique, you effectively jump
 directly to the final exit point of the module (the semicolon) and resume
 execution of the calling word.
 %
 \index{E!EXIT|(}
-The word \forthb{EXIT} terminates the definition in which the word appears.
-The phrase \forthb{R> DROP} terminates the definition that called the
-definition in which the phrase appears; thus it has the same effect but can
-be used one level down. Here are some examples of both approaches.
+The word \forthb{EXIT} terminates the definition in which the word
+appears.  The phrase \forthb{R> DROP} terminates the definition that
+called the definition in which the phrase appears; thus it has the same
+effect but can be used one level down. Here are some examples of both
+approaches.
 
-If you have an \forthb{IF }\forthb{ELSE }\forthb{THEN} phrase in which no code follows
-\forthb{THEN}, like this:
+If you have an \forthb{IF }\forthb{ELSE }\forthb{THEN} phrase in which no
+code follows \forthb{THEN}, like this:
 
 \begin{Code}
 ... HUNGRY?  IF  EAT-IT  ELSE  FREEZE-IT  THEN ;
@@ -1458,19 +1488,21 @@ you can eliminate \forthb{ELSE} by using \forthb{EXIT}:
 \begin{Code}
 ... HUNGRY?  IF EAT-IT EXIT  THEN  FREEZE-IT ;
 \end{Code}
-(If the condition is true, we eat and run; \forthb{EXIT} acts like a semicolon.
-If the condition is false, we skip to \forthb{THEN} and \forth{FREEZE-IT}.)
+(If the condition is true, we eat and run; \forthb{EXIT} acts like a
+semicolon.  If the condition is false, we skip to \forthb{THEN} and
+\forth{FREEZE-IT}.)
 
-The use of \forthb{EXIT} here is more efficient, saving two bytes and extra
-code to perform, but it is not as readable.%
+The use of \forthb{EXIT} here is more efficient, saving two bytes and
+extra code to perform, but it is not as readable.%
 \index{E!EXIT|)}
 
 \begin{interview}
-\person{Moore}\index{M!Moore, Charles|(} comments on the value, and danger, of this technique:
+\person{Moore}\index{M!Moore, Charles|(} comments on the value, and
+danger, of this technique:
 \begin{tfquot}
-Especially if your conditionals are getting elaborate, it's handy to jump out
-in the middle without having to match all your \forthb{THEN}s at the end. In one
-application I had a word that went like this:
+Especially if your conditionals are getting elaborate, it's handy to jump
+out in the middle without having to match all your \forthb{THEN}s at the
+end. In one application I had a word that went like this:
 
 \begin{Code}
 : TESTING
@@ -1482,21 +1514,21 @@ SIMPLE handled the simple cases. SIMPLE ended up with \forthb{R> DROP}.
 These other conditions were the more complex ones.
 
 Everyone exited at the same point without having to painfully match all
-the \forthb{IF}s, \forthb{ELSE}s, and \forthb{THEN}s. The final result, if none of the
-conditions matched, was an error condition.
+the \forthb{IF}s, \forthb{ELSE}s, and \forthb{THEN}s. The final result, if
+none of the conditions matched, was an error condition.
 
 It was bad code, difficult to debug. But it reflected the nature of the
-problem. There wasn't any better scheme to handle it. The \forthb{EXIT} and
-\forthb{R> DROP} at least kept things manageable.
+problem. There wasn't any better scheme to handle it. The \forthb{EXIT}
+and \forthb{R> DROP} at least kept things manageable.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 Programmers sometimes also use \forthb{EXIT} to get out of a complicated
-\forthb{BEGIN} loop in a graceful way. Or we might use a related technique in the
-\forthb{DO }\forthb{LOOP} that we wrote for \forth{'FUNCTION} in our Tiny Editor, earlier in
-this chapter. In this word, we are searching through a series of locations
-looking for a match. If we find a match, we want to return the address
-where we found it; if we don't find a match, we want the address of the
-last row of the functions table.
+\forthb{BEGIN} loop in a graceful way. Or we might use a related technique
+in the \forthb{DO }\forthb{LOOP} that we wrote for \forth{'FUNCTION} in
+our Tiny Editor, earlier in this chapter. In this word, we are searching
+through a series of locations looking for a match. If we find a match, we
+want to return the address where we found it; if we don't find a match, we
+want the address of the last row of the functions table.
 
 We can introduce the word \forth{LEAP} (see \App{C}), which will work
 like \forthb{EXIT} (it will simulate a semicolon). Now we can write:
@@ -1506,9 +1538,9 @@ like \forthb{EXIT} (it will simulate a semicolon). Now we can write:
    'NOMATCH FUNCTIONS DO  DUP  I @ =  IF  DROP I LEAP
    THEN  /KEY +LOOP  DROP  'NOMATCH ;
 \end{Code}
-If we find a match we \forth{LEAP}, not to \forthb{+LOOP}, but right out of the definition,
-leaving \forth{I} (the address at which we found it) on the stack. If we don't
-find a match, we fall through the loop and execute
+If we find a match we \forth{LEAP}, not to \forthb{+LOOP}, but right out
+of the definition, leaving \forth{I} (the address at which we found it) on
+the stack. If we don't find a match, we fall through the loop and execute
 
 \begin{Code}
 DROP  'NOMATCH
@@ -1519,17 +1551,18 @@ last row!
 As we've seen, there may be times when a premature exit is appropriate,
 even multiple exit points and multiple ``continue'' points.
 
-Remember though, this use of \forthb{EXIT} and \forthb{R> DROP} is \emph{not consistent}
-with structured programming in the strictest sense, and requires great
-care.
+Remember though, this use of \forthb{EXIT} and \forthb{R> DROP} is
+\emph{not consistent} with structured programming in the strictest sense,
+and requires great care.
 
-For instance, you may have a value on the stack at the beginning of
-a definition which is consumed at the end. A premature \forthb{EXIT} will leave
-the unwanted value on the stack.
+For instance, you may have a value on the stack at the beginning of a
+definition which is consumed at the end. A premature \forthb{EXIT} will
+leave the unwanted value on the stack.
 
 Fooling with the return stack is like playing with fire. You can get
 burned. But how convenient it is to have fire.%
 \index{C!Control structure minimization!structured exits|)}
+\index{S!Structured exits|)}%
 
 \subsection{Employing Good Timing}%
 \index{C!Control structure minimization!timing|(}
@@ -1538,9 +1571,9 @@ burned. But how convenient it is to have fire.%
 Take the action when you know you need to, not later.
 \end{tip}
 Any time you set a flag, ask yourself why you're setting it. If the answer
-is, ``So I'll know to do such-and-such later,'' then ask yourself if you can
-do such-and-such \emph{now}. A little restructuring can greatly simplify your
-design.
+is, ``So I'll know to do such-and-such later,'' then ask yourself if you
+can do such-and-such \emph{now}. A little restructuring can greatly
+simplify your design.
 
 \begin{tip}
 Don't put off till run time what you can compile today.
@@ -1645,8 +1678,8 @@ DOER TYPE  ( a # -- )
 : VIDEO   MAKE TYPE ( ...code for video...) ;
 : PRINTER   MAKE TYPE ( ...code for printer...) ;
 \end{Code}
-This is better because \forth{TYPE} doesn't have to decide which code to use, it
-already knows.
+This is better because \forth{TYPE} doesn't have to decide which code to
+use, it already knows.
 
 (On a multi-tasked system, the printer and monitor tasks would
 each have their own copies of an execution vector for \forth{TYPE}
@@ -1675,11 +1708,11 @@ DOER TYPE
 Thus \forth{TYPE} already knows which code to execute, but other definitions
 will refer to the flag.
 
-Another possibility is to write a word that fetches the parameter of
-the \forthb{DOER} word \forth{TYPE} (the pointer to the current code) and compares it
-against the address of \forth{PRINTER}. If it's less than the address of
-\forth{PRINTER}, we're using the \forth{VIDEO} routine; otherwise we're using the
-\forth{PRINTER} routine.
+Another possibility is to write a word that fetches the parameter of the
+\forthb{DOER} word \forth{TYPE} (the pointer to the current code) and
+compares it against the address of \forth{PRINTER}. If it's less than the
+address of \forth{PRINTER}, we're using the \forth{VIDEO} routine;
+otherwise we're using the \forth{PRINTER} routine.
 
 If changing the state involves changing a small number of functions,
 you can still use \forth{DOER}/\forth{MAKE}. Here are definitions of three
@@ -1710,24 +1743,25 @@ DOER HESITATE  ( the exit hook)
 \begin{Code}
 : RELENT   MAKE HESITATE   SEND-FLOWERS  R> DROP ;
 \end{Code}
-By default, \forth{HESITATE} does nothing. If we invoke \forth{DISSOLVE}, we'll
-end up in court. But if we \forth{RELENT} before we \forth{DISSOLVE}, we'll send
-flowers, then jump clear to the semicolon, canceling that court order
-before our partner ever finds out.
+By default, \forth{HESITATE} does nothing. If we invoke \forth{DISSOLVE},
+we'll end up in court. But if we \forth{RELENT} before we
+\forth{DISSOLVE}, we'll send flowers, then jump clear to the semicolon,
+canceling that court order before our partner ever finds out.
 
-This approach is especially appropriate when the cancellation must
-be performed by a function defined much later in the listing (decomposition
+This approach is especially appropriate when the cancellation must be
+performed by a function defined much later in the listing (decomposition
 by sequential complexity). Increased complexity of the earlier code is
 limited solely to defining the hook and invoking it at the right spot.%
 \index{C!Control structure minimization!timing|)}
 
 \subsection{Simplifying}%
+\index{S!Simplicity|(}%
 \index{C!Control structure minimization!simplification|(}
 
-I've saved this tip for last because it exemplifies the rewards of opting for
-simplicity. While other tips concern maintainability, performance,
-compactness, etc., this tip relates to the sort of satisfaction that Thoreau
-sought at Walden Pond.
+I've saved this tip for last because it exemplifies the rewards of opting
+for simplicity. While other tips concern maintainability, performance,
+compactness, etc., this tip relates to the sort of satisfaction that
+Thoreau sought at Walden Pond.
 
 \begin{tip}
 Try to avoid altogether saving flags in memory.
@@ -1745,21 +1779,21 @@ flag. The location must be:
 \begin{itemize}
 \item created
 \item initialized (even before anything actually changes)
-\item reset (otherwise, passing a flag to a command leaves the flag in that current
-state).
+\item reset (otherwise, passing a flag to a command leaves the flag in
+that current state).
 \end{itemize}
 Because flags in memory are variables, they are not reentrant.
 
-An example of a case in which we might reconsider the need for a
-flag is one we've seen several times already. In our ``colors'' example we
-made the assumption that the best syntax would be:
+An example of a case in which we might reconsider the need for a flag is
+one we've seen several times already. In our ``colors'' example we made
+the assumption that the best syntax would be:
 
 \begin{Code}
 LIGHT BLUE
 \end{Code}
-that is, the adjective \forth{LIGHT} preceding the color. Fine. But remember the
-code to implement that version? Compare it with the simplicity of this
-approach:
+that is, the adjective \forth{LIGHT} preceding the color. Fine. But
+remember the code to implement that version? Compare it with the
+simplicity of this approach:
 
 \begin{Code}
 O CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
@@ -1779,8 +1813,9 @@ variable and more code to reset the variable when we're done. And the
 code is so simple it's impossible not to understand.
 
 When I first wrote these commands, I took the English-like approach.
-``\forth{BLUE LIGHT}'' sounded backwards, not at all acceptable. That
-was before my conversations with \person{Chuck Moore}\index{M!Moore, Charles|(}.
+``\forth{BLUE LIGHT}'' sounded backwards, not at all acceptable. That was
+before my conversations with
+\person{Chuck Moore}\index{M!Moore, Charles|(}.
 
 \begin{interview}
 \person{Moore}'s philosophy is persuasive:
@@ -1789,16 +1824,17 @@ I would distinguish between reading nicely in English and reading nicely.
 In other languages such as Spanish, adjectives follow nouns. We should be
 independent of details like which language we're thinking in.
 
-It depends on your intention: simplicity, or emulation of English. English is
-not such a superb language that we should follow it slavishly.
+It depends on your intention: simplicity, or emulation of English. English
+is not such a superb language that we should follow it slavishly.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 If I were selling my ``colors'' words in a package for graphic artists, I
 would take the trouble to create the flag. But writing these words for my
-own use, if I had to do it over again, I'd favor the \person{Moore}-ish influence,
-and use ``\forth{BLUE LIGHT}.''%
+own use, if I had to do it over again, I'd favor the \person{Moore}-ish
+influence, and use ``\forth{BLUE LIGHT}.''%
 \index{C!Control structure minimization|)}%
-\index{C!Control structure minimization!simplification|)}
+\index{C!Control structure minimization!simplification|)}%
+\index{S!Simplicity|)}%
 
 \section{Summary}
 
@@ -1836,9 +1872,10 @@ Dimensions} II/3, p. 37.
 \section{For Further Thinking}
 
 \ifeightyfour\begin{enumerate}
-\item\fi You have the word \forth{CHOOSE} which takes an argument ``$n$'' and returns a
-random number between 0 and $n-1$. The result is always positive or zero.
-You can use \forth{CHOOSE} to produce a flag; the phrase
+\item\fi You have the word \forth{CHOOSE} which takes an argument ``$n$''
+and returns a random number between 0 and $n-1$. The result is always
+positive or zero.  You can use \forth{CHOOSE} to produce a flag; the
+phrase
 \begin{Code}
 2 CHOOSE
 \end{Code}

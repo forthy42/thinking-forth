@@ -6,12 +6,8 @@
 %% Chapter: Four - Detailed Design/Problem Solving
 
 \chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}\Chapmark{4}
-
 \index{D!Detailed design|(}%
-\index{D!Design|see{Detailed design, Preliminary design}}%
 \index{D!Detailed design!problem solving techniques|(}%
-\index{P!Programming cycle:!detailed design|see{Detailed design}}%
-\index{E!Engineering|see{Detailed design; Preliminary design}}%
 \begin{tfquot}
 \emph{Trivial:} I can see how to do this. I just don't know how long it
 will take.\\
@@ -26,17 +22,17 @@ Chemistry Dept., Virginia Polytechnic Institute and State University}
 \end{tfquot}
 Once you've decided upon the components in your application, your next
 step is to design those components. In this chapter we'll apply
-problem-solving techniques to the detailed design of a \Forth{} application.
-This is the time for pure invention, the part that many of us find the most
-fun. There's a special satisfaction in going to the mat with a non-trivial
-problem and coming out the victor.
+problem-solving techniques to the detailed design of a \Forth{}
+application.  This is the time for pure invention, the part that many of
+us find the most fun. There's a special satisfaction in going to the mat
+with a non-trivial problem and coming out the victor.
 
 In English it's difficult to separate an idea from the words used to
 express the idea. In writing a \Forth{} application it's difficult to
-separate the detailed design phase from implementation, because we tend
-to design in \Forth{}. For this reason, we'll get a bit ahead of ourselves in
-this chapter by not only presenting a problem but also designing a solution
-to it, right on through to the coded implementation.
+separate the detailed design phase from implementation, because we tend to
+design in \Forth{}. For this reason, we'll get a bit ahead of ourselves in
+this chapter by not only presenting a problem but also designing a
+solution to it, right on through to the coded implementation.
 
 \section{Problem-Solving Techniques}%
 \index{P!Problem-solving techniques|(}%
@@ -52,7 +48,7 @@ techniques.
 the mathematical problem. The most accessible of these is
 \emph{How to Solve It} \cite{polya}.%
 \index{P!Polya, G.}%
-\index{H!\emph{How to Solve It} (Polya)}
+\index{H!How to@\emph{How to Solve It} (Polya)}
 Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
 
@@ -297,21 +293,22 @@ difficulty of solving a large problem by means of logic:
 %!! begin indented paragraph
 \begin{tfquot}
 A huge load is placed on that one small function of the brain that can be
-brought into the attention zone for a period. The feat is possible, like the
-circus act, but it seems more sensible to\dots{} use the full resources of our
-glorious neocortex\dots{} the multibillion-neuron capacity of the brain.
+brought into the attention zone for a period. The feat is possible, like
+the circus act, but it seems more sensible to\dots{} use the full
+resources of our glorious neocortex\dots{} the multibillion-neuron
+capacity of the brain.
 
 \dots{} The work aspect lies in providing the brain with raw input, as in
-observing, reading, collecting data, and reviewing what others have achieved.
-Once in, [subconscious] procedures take over, simultaneously, automatically,
-outside of the attention zone.
+observing, reading, collecting data, and reviewing what others have
+achieved.  Once in, [subconscious] procedures take over, simultaneously,
+automatically, outside of the attention zone.
 
-\dots{} It seems apparent\dots{} that a search is going on during the interval,
-though not necessarily continuously, much as in a large computer. I would
-hazard the guess that the search ramifies, starts and stops, reaches dead
-ends and begins afresh, and eventually assembles an answer that is
-evaluated and then popped into conscious attention---often in astonishingly
-full-blown detail.
+\dots{} It seems apparent\dots{} that a search is going on during the
+interval, though not necessarily continuously, much as in a large
+computer. I would hazard the guess that the search ramifies, starts and
+stops, reaches dead ends and begins afresh, and eventually assembles an
+answer that is evaluated and then popped into conscious attention---often
+in astonishingly full-blown detail.
 \end{tfquot}
 %!! end indented paragraph
 
@@ -339,7 +336,8 @@ Inc.:
 %!! begin indented paragraph
 \begin{tfquot}
 I have a few techniques I've found useful over the years in designing
-anything, to keep myself flexible. My first rule is, ``Nothing is impossible.''
+anything, to keep myself flexible.
+My first rule is, ``Nothing is impossible.''
 My second rule is, ``Don't forget, the object is to make a buck.''
 
 First examine the problem, laying out two or three approaches on paper.
@@ -382,9 +380,9 @@ into two and transfer one of them to an earlier block so I can use it earlier.
 I run the hardware if I have it; otherwise I simulate it.
 
 \Forth{} requires self-discipline. You have to stop diddling with the
-keyboard. \Forth{} is so willing to do what I tell it to, I'll tell it to do all
-kinds of ridiculous things that have nothing to do with where I'm trying to
-go. At those times I have to get away from the keyboard.
+keyboard. \Forth{} is so willing to do what I tell it to, I'll tell it to
+do all kinds of ridiculous things that have nothing to do with where I'm
+trying to go. At those times I have to get away from the keyboard.
 
 \Forth{} lets you play. That's fine, chances are you'll get some ideas. As
 long as you keep yourself from playing as a habit. Your head is a whole lot
@@ -467,8 +465,8 @@ emits ``$n$'' number of spaces, is
 20 SPACES
 \end{Code}
 Sometimes this rule violates the order that our ear is accustomed to
-hearing. For instance, the \Forth{} word \forth{+} expects to be preceded by both
-arguments, as in
+hearing. For instance, the \Forth{} word \forth{+} expects to be preceded
+by both arguments, as in
 
 \begin{Code}
 3 4 +
@@ -477,7 +475,8 @@ arguments, as in
 This ordering, in which values precede operators, is called ``postfix.''
 
 \Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
-You could redefine \forth{+} to expect one number in the input stream, like this:
+You could redefine \forth{+} to expect one number in the input stream,
+like this:
 
 \begin{Code}
 3 + 4
@@ -490,12 +489,13 @@ by defining it so:
 \forthb{NUMBER} returns a double-length value as in the 83 Standard
 Uncontrolled Reference Words).
 
-Fine. But you wouldn't be able to use this definition inside other
-colon definitions or pass it arguments, thereby defeating one of \Forth{}'s
+Fine. But you wouldn't be able to use this definition inside other colon
+definitions or pass it arguments, thereby defeating one of \Forth{}'s
 major advantages.
 
 Frequently, ``noun'' type words pass their addresses (or any type of
-pointer) as a stack argument to ``verb'' type words. The \Forth{}-like syntax of
+pointer) as a stack argument to ``verb'' type words. The \Forth{}-like
+syntax of
 \begin{quote}
 %!! sans-serif
 {\sf ``noun'' ``verb''}
@@ -525,11 +525,11 @@ If the requirements insist on the syntax
 \begin{Code}
 SHOW INVENTORY
 \end{Code}
-we have several options. \forth{SHOW} might set a flag and \forth{INVENTORY} would act
-according to the flag. Such an approach has certain disadvantages,
-especially that \forth{INVENTORY} must be ``smart'' enough to know all the
-possible actions that might be taken on it. (We'll treat these
-problems in Chapters \ref{chapter-7} and \ref{chapter-8}.)%
+we have several options. \forth{SHOW} might set a flag and
+\forth{INVENTORY} would act according to the flag. Such an approach has
+certain disadvantages, especially that \forth{INVENTORY} must be ``smart''
+enough to know all the possible actions that might be taken on it. (We'll
+treat these problems in Chapters \ref{chapter-7} and \ref{chapter-8}.)%
 \index{P!Postfix notation|)}
 
 Or, \forth{SHOW} might look ahead at the next word in the input stream.
@@ -548,9 +548,9 @@ If the \Forth{} interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
 reason, an undefined string must be preceded by a defined word.
 
-An example is \forth{."} (dot-quote), which precedes the text it will later
-print. Another example is \forthb{CREATE} (as well as all defining words), which
-precedes the name that is, at the moment, still undefined.
+An example is \forth{."} (dot-quote), which precedes the text it will
+later print. Another example is \forthb{CREATE} (as well as all defining
+words), which precedes the name that is, at the moment, still undefined.
 
 The rule also applies to defined words that you want to refer to, but
 not execute in the usual way. An example is \forthb{FORGET}, as in
@@ -558,8 +558,8 @@ not execute in the usual way. An example is \forthb{FORGET}, as in
 \begin{Code}
 FORGET TASK
 \end{Code}
-Syntactically, \forthb{FORGET} must precede \forth{TASK} so that \forth{TASK} doesn't
-execute.
+Syntactically, \forthb{FORGET} must precede \forth{TASK} so that
+\forth{TASK} doesn't execute.
 
 \begin{tip}
 Let definitions consume their arguments.
@@ -575,16 +575,16 @@ definition to look roughly like this:
 : LAUNCH  ( pad#)  LOAD  AIM  FIRE ;
 \end{Code}
 Each of the three internal definitions will require the same argument, the
-launch pad number. You'll need two \forthb{DUP}s somewhere. The question is
-where? If you put them inside \forth{LOAD} and \forth{AIM}, then you can keep them
-out of \forth{LAUNCH}, as in the definition above. If you leave them out of
-\forth{LOAD} and \forth{AIM}, you'll have to define:
+launch pad number. You'll need two \forthb{DUP}s somewhere. The question
+is where? If you put them inside \forth{LOAD} and \forth{AIM}, then you
+can keep them out of \forth{LAUNCH}, as in the definition above. If you
+leave them out of \forth{LOAD} and \forth{AIM}, you'll have to define:
 \begin{Code}
 : LAUNCH  ( pad#)  DUP LOAD  DUP AIM  FIRE ;
 \end{Code}
-By convention, the latter version is preferable, because \forth{LOAD} and \forth{AIM}
-are cleaner. They do what you expect them to do. Should you have to
-define \forth{READY}, you can do it so:
+By convention, the latter version is preferable, because \forth{LOAD} and
+\forth{AIM} are cleaner. They do what you expect them to do. Should you
+have to define \forth{READY}, you can do it so:
 \begin{Code}
 : READY  ( pad#)  DUP LOAD  AIM ;
 \end{Code}
@@ -602,10 +602,10 @@ third,'' etc. Mathematical models, on the other hand, work more naturally
 when starting with zero. Since computers are numeric processors, software
 becomes easier to write when we use zero-relative numbering.
 
-To illustrate, suppose we have a table of eight-byte records. The
-first record occupies the first eight bytes of the table. To compute its
-starting address, we add ``0'' to \forth{TABLE}. To compute the starting address
-of the ``second'' record, we add ``8'' to \forth{TABLE}.
+To illustrate, suppose we have a table of eight-byte records. The first
+record occupies the first eight bytes of the table. To compute its
+starting address, we add ``0'' to \forth{TABLE}. To compute the starting
+address of the ``second'' record, we add ``8'' to \forth{TABLE}.
 
 \wepsfiga{fig4-6}{A table of 8-byte records.}
 
@@ -645,9 +645,9 @@ include the conversion from zero-to one-relative numbering:
 \begin{tip}
 Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
 \end{tip}
-Again, this is a convention, not a requirement of \Forth{}, but such conventions
-are essential for readable code. You'll find examples of this rule
-in the words \forthb{TYPE}, \forthb{ERASE}, and \forthb{BLANK}.
+Again, this is a convention, not a requirement of \Forth{}, but such
+conventions are essential for readable code. You'll find examples of this
+rule in the words \forthb{TYPE}, \forthb{ERASE}, and \forthb{BLANK}.
 
 \begin{tip}
 Let sources precede destinations.
@@ -660,7 +660,6 @@ phrase
 \end{Code}
 copies Screen 22 to Screen 37. The syntax of \forth{CMOVE} incorporates both
 this convention and the previous convention:
-%!! does \bf work inside verbatim blocks?
 \begin{Code}[commandchars=\&\{\}]
 source destination count &poorbf{CMOVE}
 \end{Code}
@@ -673,8 +672,8 @@ Generally try to avoid creating words that presume there will be other
 words in the input stream.
 
 Suppose your color computer represents blue with the value 1, and
-light-blue with 9. You want to define two words: \forth{BLUE} will return 1;
-\forth{LIGHT} may precede \forth{BLUE} to produce 9.
+light-blue with 9. You want to define two words: \forth{BLUE} will return
+1; \forth{LIGHT} may precede \forth{BLUE} to produce 9.
 
 In \Forth{}, it would be possible to define \forth{BLUE} as a constant, so
 that when executed it always returns 1.
@@ -682,9 +681,9 @@ that when executed it always returns 1.
 \begin{Code}
 1 CONSTANT BLUE
 \end{Code}
-And then define \forth{LIGHT} such that it looks for the next word in the input
-stream, executes it, and ``ors'' it with 8 (the logic of this will become
-apparent when we visit this example again, later in the book):
+And then define \forth{LIGHT} such that it looks for the next word in the
+input stream, executes it, and ``ors'' it with 8 (the logic of this will
+become apparent when we visit this example again, later in the book):
 \begin{Code}
 : LIGHT  ( precedes a color)  ( -- color value)
      ' EXECUTE  8 OR ;
@@ -695,13 +694,15 @@ apparent when we visit this example again, later in the book):
 \end{Code}
 %!! The closing paren at the end of this code is a bit misleading.
 %!! At least a leading space and a different font should be used.
-(For novices: The apostrophe in the definition of \forth{LIGHT} is a \Forth{}
-word called ``tick.'' Tick is a dictionary-search word; it takes a name and
-looks it up in the dictionary, returning the address where the definition
-resides. Used in this definition, it will find the address of the word
-following \forth{LIGHT}---for instance, \forth{BLUE}---and pass this address to the word
-\forthb{EXECUTE}, which will execute \forth{BLUE}, pushing a one onto the stack.
-Having ``sucked up'' the operation of \forth{BLUE}, \forth{LIGHT} now ``or''s an 8 into
+
+(For novices: The apostrophe in the definition of \forth{LIGHT} is a
+\Forth{} word called ``tick.'' Tick is a dictionary-search word; it takes
+a name and looks it up in the dictionary, returning the address where the
+definition resides. Used in this definition, it will find the address of
+the word following \forth{LIGHT}---for instance, \forth{BLUE}---and pass
+this address to the word \forthb{EXECUTE}, which will execute
+\forth{BLUE}, pushing a one onto the stack.  Having ``sucked up'' the
+operation of \forth{BLUE}, \forth{LIGHT} now ``or''s an 8 into
 the 1, producing a 9.)
 
 This definition will work when invoked in the input stream, but special
@@ -710,8 +711,8 @@ colon definition, as in:
 \begin{Code}
 : EDITING   LIGHT BLUE BORDER ;
 \end{Code}
-Even in the input stream, the use of \forth{EXECUTE} here will cause
-a crash if \forth{LIGHT} is accidentally followed by something other than a
+Even in the input stream, the use of \forth{EXECUTE} here will cause a
+crash if \forth{LIGHT} is accidentally followed by something other than a
 defined word.
 
 The preferred technique, if you're forced to use this particular
@@ -742,22 +743,23 @@ caricatured in \Fig{fig4-7}. It has very few rules:
 
 %!! this paragraph should be an indented, unordered list
 \begin{itemize}
-\item Scan for the next word in the input stream and look it up in the dictionary.
+\item Scan for the next word in the input stream and look it up in the
+dictionary.
 
 \item If it's an ordinary word, \emph{compile} its address.
 
 \item If it's an ``immediate'' word, \emph{execute} it.
 
-\item If it's not a defined word, try to convert it to a number and compile it as a
-literal.
+\item If it's not a defined word, try to convert it to a number and
+compile it as a literal.
 
 \item If it's not a number, abort with an error message.
 \end{itemize}
-Nothing is mentioned about compiling-words such as \forthb{IF}, \forthb{ELSE},
-\forthb{THEN}, etc. The colon compiler doesn't know about these words. It merely
-recognizes certain words as ``immediate'' and executes them, letting
-them do their own work. (See \emph{Starting \Forth{}}, Chapter Eleven, ``How to
-Control the Colon Compiler.'')
+Nothing is mentioned about compiling-words such as \forthb{IF},
+\forthb{ELSE}, \forthb{THEN}, etc. The colon compiler doesn't know about
+these words. It merely recognizes certain words as ``immediate'' and
+executes them, letting them do their own work. (See \emph{Starting
+\Forth{}}, Chapter Eleven, ``How to Control the Colon Compiler.'')
 
 The compiler doesn't even ``look for'' semicolon to know when to
 stop compiling. Instead it executes semicolon, allowing it to do the work
@@ -787,9 +789,9 @@ instructions you want assembled. Here again, \Forth{} takes a radical
 departure from mainstream philosophy.
 
 Traditional assemblers\index{A!Assemblers} are special-purpose
-interpreters---that is,
-they are complicated programs that scan the assembly-language listing
-looking for recognized mnemonics such as \code{ADD}, \code{SUB}, \code{JMP}, etc., and
+interpreters---that is, they are complicated programs that scan the
+assembly-language listing looking for recognized mnemonics such as
+\code{ADD}, \code{SUB}, \code{JMP}, etc., and
 assemble machine instructions correspondingly. The \Forth{} assembler,
 however, is merely a lexicon of \Forth{} words that themselves assemble
 machine instructions.
@@ -799,9 +801,9 @@ each specific to individual applications. For instance:
 
 %!! begin ordered list
 \begin{enumerate}
-\item If you're building an Adventure-type game, you'd want to write a language
-that lets you create and describe monsters and rooms, etc. You might
-create a defining word called \forth{ROOM} to be used like this:
+\item If you're building an Adventure-type game, you'd want to write a
+language that lets you create and describe monsters and rooms, etc. You
+might create a defining word called \forth{ROOM} to be used like this:
 
 \begin{Code}
 ROOM DUNGEON
@@ -828,26 +830,26 @@ pins. A PAL programmer was written with wonderful simplicity in
 \Forth{} by \person{Michael Stolowitz} \cite{stolowitz82}.
 \index{S!Stolowitz, Michael}
 
-\item If you must create a series of user menus to drive your application, you
-might want to first develop a menu-compiling language. The words of this
-new language allow an application programmer to quickly program the
+\item If you must create a series of user menus to drive your application,
+you might want to first develop a menu-compiling language. The words of
+this new language allow an application programmer to quickly program the
 needed menus---while hiding information about how to draw borders, move
 the cursor, etc.
 \end{enumerate}
-All of these examples can be coded in \Forth{} as lexicons, using the normal
-\Forth{} interpreter, without having to write a special-purpose interpreter
-or compiler.
+All of these examples can be coded in \Forth{} as lexicons, using the
+normal \Forth{} interpreter, without having to write a special-purpose
+interpreter or compiler.
 \index{C!Compilers|)}
 
 \index{M!Moore, Charles|(}
 \begin{interview}
 \person{Moore}:
 \begin{tfquot}
-A simple solution is one that does not obscure the problem with irrelevancies.
-It's conceivable that something about the problem requires a unique
-interpreter. But every time you see a unique interpreter, it implies that
-there is something particularly awkward about the problem. And that is
-almost never the case.
+A simple solution is one that does not obscure the problem with
+irrelevancies.  It's conceivable that something about the problem requires
+a unique interpreter. But every time you see a unique interpreter, it
+implies that there is something particularly awkward about the problem.
+And that is almost never the case.
 
 If you write your own interpreter, the interpreter is almost certainly the
 most complex, elaborate part of your entire application. You have switched
@@ -870,21 +872,20 @@ and start solving problems.
 \index{A!Algorithms|(}%
 \index{D!Detailed design!algorithms|(}
 
-In \Chap{2} we learned how to describe a problem's requirements in
-terms of interfaces and rules. In this section we'll refine the conceptual
-model for each component into clearly defined algorithms and data
-structures.
+In \Chap{2} we learned how to describe a problem's requirements in terms
+of interfaces and rules. In this section we'll refine the conceptual model
+for each component into clearly defined algorithms and data structures.
 
-An algorithm is a procedure, described as a finite number of rules,
-for accomplishing a certain task. The rules must be unambiguous and
-guaranteed to terminate after a finite number of applications. (The word
-is named for the ninth century Persian mathematician \person{al-Khowarizimi}.)
+An algorithm is a procedure, described as a finite number of rules, for
+accomplishing a certain task. The rules must be unambiguous and guaranteed
+to terminate after a finite number of applications. (The word is named for
+the ninth century Persian mathematician \person{al-Khowarizimi}.)
 
-An algorithm lies halfway between the imprecise directives of
-human speech, such as ``Please sort these letters chronologically,'' and the
-precise directives of computer language, such as ``\forth{BEGIN 2DUP < IF} \dots{}''
-etc. The algorithm for sorting letters chronologically might be this:
-%!! there's certainly some better way to do ordered lists in TeX
+An algorithm lies halfway between the imprecise directives of human
+speech, such as ``Please sort these letters chronologically,'' and the
+precise directives of computer language, such as ``\forth{BEGIN 2DUP < IF}
+\dots{}'' etc. The algorithm for sorting letters chronologically might be
+this:
 \begin{enumerate}
 \item Take an unsorted letter and note its date.
 \item Find the correspondence folder for that month and year.
@@ -900,11 +901,12 @@ efficient algorithm, such as this:
 \begin{enumerate}
 \item (same)
 \item (same)
-\item If the date falls within the first half of the month, open the folder a
-   third of the way in. If the letter you find there is dated later than your
-   current letter, search forward until you find a letter dated the same or
-   before your current letter. Insert your letter at that point. If the letter
-   you find is dated earlier than your current letter, search backward\dots{}
+\item If the date falls within the first half of the month, open the
+folder a third of the way in. If the letter you find there is dated later
+than your current letter, search forward until you find a letter dated the
+same or before your current letter. Insert your letter at that point. If
+the letter you find is dated earlier than your current letter, search
+backward\dots{}
 \end{enumerate}
 \dots{} You get the point. This second algorithm is more complicated than
 the first. But in execution it will require fewer steps on the average
@@ -917,7 +919,6 @@ organized especially to match the problem. In the last example, the file
 cabinet containing folders and the folders containing individual letters
 can be thought of as data structures.
 \index{D!Data structures:!defined|)}%
-\index{D!Data structures:|see{\emph{also} Variables}}
 
 The new conceptual model includes the filing cabinets and folders
 (data structures) plus the steps for doing the filing (algorithms).
@@ -976,8 +977,8 @@ The problem of converting angles to sines and cosines can be implemented
 more simply (at least in terms of lines of code and object size)
 by calculating the answers than by using a data structure. But for many
 applications requiring trig, it's faster to look up the answer in a table
-stored in memory. In this case, the simplest \emph{adequate} solution is using
-the data structure.
+stored in memory. In this case, the simplest \emph{adequate} solution is
+using the data structure.
 
 In \Chap{2} we introduced the telephone rate problem. In that
 problem the rates appeared to be arbitrary, so we designed a data
@@ -1053,7 +1054,6 @@ application.
 \index{D!Detailed design!calculations|)}%
 \index{D!Detailed design!data structures|)}%
 \index{D!Detailed design!logic|)}%
-\index{P!Problem-solving techniques|see{\emph{also} Detailed design}}%
 \index{L!Logic|)}
 
 \section{Solving a Problem: Computing Roman Numerals}%
@@ -1071,11 +1071,11 @@ would be in reality.
 Here goes: The problem is to write a definition that consumes a
 number on the stack and displays it as a Roman numeral.
 
-This problem most likely represents a component of a larger
-system. We'll probably end up defining several words in the course of
-solving this problem, including data structures. But this particular
-lexicon will include only one name, \forth{ROMAN}, and it will take its argument
-from the stack. (Other words will be internal to the component.)
+This problem most likely represents a component of a larger system. We'll
+probably end up defining several words in the course of solving this
+problem, including data structures. But this particular lexicon will
+include only one name, \forth{ROMAN}, and it will take its argument from
+the stack. (Other words will be internal to the component.)
 
 Having thus decided on the external syntax, we can now proceed to
 devise the algorithms\index{A!Algorithms} and data structures.
@@ -1113,9 +1113,9 @@ III). On the other hand, special symbols are used to represent groups
 (5 = V). In fact, it seems we can't have more than three I's in a row
 before we use a larger symbol.
 
-Second, there's a symmetry around five. There's a symbol for five
-(V), and a symbol for ten (X). The pattern I, II, III repeats in the second
-half, but with a preceding V.
+Second, there's a symmetry around five. There's a symbol for five (V), and
+a symbol for ten (X). The pattern I, II, III repeats in the second half,
+but with a preceding V.
 
 One-less-than-five is written IV, and one-less-than-ten is written IX.
 It seems that putting an ``I'' in front of a larger-value symbol is like
@@ -1175,10 +1175,10 @@ modulo division by ten. For instance, if we say
 we'll get a 7 and a 3 on the stack (the three---being the quotient---is on
 top.)
 
-But these observations raise a question: What about below ten,
-where there is no decimal digit? Is this a special case? Well, if we consider
-that each ``X'' represents ten, then the absence of ``X'' represents zero.
-So it's \emph{not} a special case. Our algorithm works, even for numbers less
+But these observations raise a question: What about below ten, where there
+is no decimal digit? Is this a special case? Well, if we consider that
+each ``X'' represents ten, then the absence of ``X'' represents zero.  So
+it's \emph{not} a special case. Our algorithm works, even for numbers less
 than ten.
 
 Let's continue our observations, paying special attention to the
@@ -1229,12 +1229,12 @@ data structure.
 \subsection{Algorithm}
 
 Divide $n$ by 10. The quotient is the tens' column digit; the remainder is
-the ones' column digit. Look up the ten's digit in the tens' table and print
-the corresponding symbol pattern. Look up the ones' digit in the one's
-table and print that corresponding symbol pattern.
+the ones' column digit. Look up the ten's digit in the tens' table and
+print the corresponding symbol pattern. Look up the ones' digit in the
+one's table and print that corresponding symbol pattern.
 
-For example, if the number is 72, the quotient is 7, the remainder is
-2. 7 in the tens' table corresponds to ``LXX,'' so print that. 2 in the ones'
+For example, if the number is 72, the quotient is 7, the remainder is 2. 7
+in the tens' table corresponds to ``LXX,'' so print that. 2 in the ones'
 column corresponds to ``II,'' so print that. The result:
 
 %!! sans-serif + indented
@@ -1268,72 +1268,73 @@ M & \\
 \end{tabular}}
 \bigskip
 
-In listing the symbols, we've also \emph{organized} them in a way that seems
-right. The symbols in the left column are all multiples of ten; the symbols
-in the right column are multiples of five. Furthermore, the symbols in
-each row have ten times the value of the symbols directly above them.
+In listing the symbols, we've also \emph{organized} them in a way that
+seems right. The symbols in the left column are all multiples of ten; the
+symbols in the right column are multiples of five. Furthermore, the
+symbols in each row have ten times the value of the symbols directly above
+them.
 
-Another difference, the symbols in the first column can all be combined
-in multiples, as ``XXXIII.'' But you can't have multiples of any of
-the right-column symbols, such as VVV. Is this observation useful? Who
-knows?
+Another difference, the symbols in the first column can all be combined in
+multiples, as ``XXXIII.'' But you can't have multiples of any of the
+right-column symbols, such as VVV. Is this observation useful? Who knows?
 
 Let's call the symbols in the left column \forth{ONERS} and in the right
-column \forth{FIVERS}. The \forth{ONERS} represent the values 1, 10, 100, and 1,000;
-that is, the value of one in every possible decimal place. The \forth{FIVERS}
-represent 5, 50, and 500; that is, the value of five in every possible
-decimal place.
+column \forth{FIVERS}. The \forth{ONERS} represent the values 1, 10, 100,
+and 1,000; that is, the value of one in every possible decimal place. The
+\forth{FIVERS} represent 5, 50, and 500; that is, the value of five in
+every possible decimal place.
 
-Using these terms, instead of the symbols themselves, we should be
-able to express the algorithm\index{A!Algorithms} for producing any digit. (We've factored
-out the actual symbols from the \emph{kind} of symbols.) For instance, we can
-state the following preliminary algorithm:
+Using these terms, instead of the symbols themselves, we should be able to
+express the algorithm\index{A!Algorithms} for producing any digit. (We've
+factored out the actual symbols from the \emph{kind} of symbols.) For
+instance, we can state the following preliminary algorithm:
 
 %!! indent paragraph
 \begin{tfquot}
-For any digit, print as many \forth{ONERS} as necessary to add up to the value.
+For any digit, print as many \forth{ONERS} as necessary to add up to the
+value.
 \end{tfquot}
-Thus, for 300 we get ``CCC,'' for 20 we get ``XX'' for one we get ``I.'' And
-for 321 we get ``CCCXXI.''
+Thus, for 300 we get ``CCC,'' for 20 we get ``XX'' for one we get ``I.''
+And for 321 we get ``CCCXXI.''
 
 This algorithm works until the digit is 4. Now we'll have to expand
 our algorithm to cover this exception:
 
-%!! indent paragraph
 \begin{tfquot}
-Print as many \forth{ONERS} as necessary to add up to the value, but if the digit
-is 4, print a \forth{ONER} then a \forth{FIVER}.
+Print as many \forth{ONERS} as necessary to add up to the value, but if
+the digit is 4, print a \forth{ONER} then a \forth{FIVER}.
 %!! vertical half space
 Hence, 40 is ``XL''; 4 is ``IV.''
 \end{tfquot}
 This new rule works until the digit is 5. As we noticed before, digits of
-five and above begin with a \forth{FIVER} symbol. So we expand our rule again:
+five and above begin with a \forth{FIVER} symbol. So we expand our rule
+again:
 
-%!! indent paragraph
 \begin{tfquot}
-If the digit is 5 or more, begin with a \forth{FIVER} and subtract five from the
-value; otherwise do nothing. Then print as many \forth{ONERS} as necessary to
-add up to the value. But if the digit is 4, print only a \forth{ONER} and a \forth{FIVER}.
+If the digit is 5 or more, begin with a \forth{FIVER} and subtract five
+from the value; otherwise do nothing. Then print as many \forth{ONERS} as
+necessary to add up to the value. But if the digit is 4, print only a
+\forth{ONER} and a \forth{FIVER}.
 \end{tfquot}
-This rule works until the digit is 9. In this case, we must print a \forth{ONER}
-preceding a---what? A \forth{ONER} from the next higher decimal place (the
-next row below). Let's call this a \forth{TENER}. Our complete model, then is:
+This rule works until the digit is 9. In this case, we must print a
+\forth{ONER} preceding a---what? A \forth{ONER} from the next higher
+decimal place (the next row below). Let's call this a \forth{TENER}. Our
+complete model, then is:
 
-%!! indent paragraph
 \begin{tfquot}
-If the digit is 5 or more, begin with a \forth{FIVER} and subtract five from the
-value; otherwise do nothing. Then, print as many \forth{ONERS} as necessary to
-add up to the value. But if the digit is 4, print only a \forth{ONER} and a \forth{FIVER},
-or if it's 9, print only a \forth{ONER} and a \forth{TENER}.
+If the digit is 5 or more, begin with a \forth{FIVER} and subtract five
+from the value; otherwise do nothing. Then, print as many \forth{ONERS} as
+necessary to add up to the value. But if the digit is 4, print only a
+\forth{ONER} and a \forth{FIVER}, or if it's 9, print only a \forth{ONER}
+and a \forth{TENER}.
 \end{tfquot}
-We now have an English-language version of our
-algorithm.\index{A!Algorithms|(} But we still
+\index{A!Algorithms|(}%
+We now have an English-language version of our algorithm.  But we still
 have some steps to go before we can run it on our computer.
 
 In particular, we have to be more specific about the exceptions. We
 can't just say,
 
-%!! indent paragraph
 \begin{tfquot}
 Do a, b, and c. \emph{But} in such and such a case, do something different.
 \end{tfquot}
@@ -1363,10 +1364,11 @@ find it helpful to capture the structure in a diagram, or in code as we've
 done here.
 \index{A!Algorithms|)}
 
-In \Forth{} we try to minimize our dependence on logic. But in this
-case we need the conditional \forthb{IF} because we have an exception we need to
-eliminate. Still, we've minimized the complexity of the control structure
-by limiting the number of \forthb{IF }\forthb{THEN}s in this definition to one.
+In \Forth{} we try to minimize our dependence on logic. But in this case
+we need the conditional \forthb{IF} because we have an exception we need
+to eliminate. Still, we've minimized the complexity of the control
+structure by limiting the number of \forthb{IF }\forthb{THEN}s in this
+definition to one.
 
 Yes, we still have to distinguish between the 4-case and the 9-case,
 but we've deferred that structural dimension to lower-level
@@ -1382,13 +1384,13 @@ merely to test for each exception, as in this version:
                 normal case... ;
 \end{Code}
 because the normal case is never excluded. (There's no way to put an
-\forthb{ELSE} just before the normal case, because \forthb{ELSE} must appear between
-\forthb{IF} and \forthb{THEN}.)
+\forthb{ELSE} just before the normal case, because \forthb{ELSE} must
+appear between \forthb{IF} and \forthb{THEN}.)
 
-If we insist on handling the 4-exception and the 9-exception
-separately, we could arrange for each exception to pass an additional
-flag, indicating that the exception occurred. If either of these flags is
-true, then we can exclude the normal case:
+If we insist on handling the 4-exception and the 9-exception separately,
+we could arrange for each exception to pass an additional flag, indicating
+that the exception occurred. If either of these flags is true, then we can
+exclude the normal case:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
@@ -1401,8 +1403,8 @@ control structures. We'll leave it like it was.
 
 Now we have a general idea of the structure of our main definition.
 
-We stated, ``If the digit is 5 or more, begin with a \forth{FIVER} and subtract
-five from the value; otherwise do nothing. Then, print as many
+We stated, ``If the digit is 5 or more, begin with a \forth{FIVER} and
+subtract five from the value; otherwise do nothing. Then, print as many
 \forth{ONERS} as necessary to add up to the value.''
 
 A direct translation of these rules into \Forth{} would look like this:
@@ -1422,19 +1424,18 @@ when the number is less than five, and one (true) when it's between 5 and
 \end{Code}
 The quotient/flag becomes the argument to \forth{IF}.
 
-Furthermore, the remainder of modulo 5 division is always a
-number between 0 and 4, which means that (except for our exception) we
-can use the remainder directly as the argument to \forth{ONERS}. We revise our
-phrase to
+Furthermore, the remainder of modulo 5 division is always a number between
+0 and 4, which means that (except for our exception) we can use the
+remainder directly as the argument to \forth{ONERS}. We revise our phrase
+to
 
-%!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
 ( n )  5 &poorbf{/MOD} IF FIVER THEN  &poorbf{ONERS}
 \end{Code}
-Getting back to that exception, we now see that we can test for both 4
-and 9 with a single test---namely, if the remainder is 4. This suggests that
-we can do our 5 \forthb{/MOD} first, then test for the exception. Something like
-this:
+Getting back to that exception, we now see that we can test for both 4 and
+9 with a single test---namely, if the remainder is 4. This suggests that
+we can do our 5 \forthb{/MOD} first, then test for the exception.
+Something like this:
 
 %!! warning: \textbf{} in verbatim block
 \begin{Code}[commandchars=\&\{\}]
@@ -1445,19 +1446,18 @@ this:
 (Notice that we \forthb{OVER}ed the remainder so that we could compare it with
 4 without consuming it.)
 
-So it turns out we \emph{do} have a doubly-nested \forthb{IF THEN} construct
-after all. But it seems justified because the \forthb{IF THEN} is handling the
-special case. The other is such a short phrase, ``\forth{IF FIVER THEN}'', it's
-hardly worth making into a separate definition. You could though. (But we
-won't.)
+So it turns out we \emph{do} have a doubly-nested \forthb{IF THEN}
+construct after all. But it seems justified because the \forthb{IF THEN}
+is handling the special case. The other is such a short phrase,
+``\forth{IF FIVER THEN}'', it's hardly worth making into a separate
+definition. You could though. (But we won't.)
 
-Let's focus on the code for the special case. To state its algorithm:
-``If the digit is four, print a \forth{ONER} and a \forth{FIVER}. If the digit is nine, print
-a \forth{ONER} and a \forth{TENER}.''
+Let's focus on the code for the special case. To state its algorithm: ``If
+the digit is four, print a \forth{ONER} and a \forth{FIVER}. If the digit
+is nine, print a \forth{ONER} and a \forth{TENER}.''
 
-We can assume that the digit will be one or the other, or else we'd
-never be executing this definition. The question is, how do we tell which
-one?
+We can assume that the digit will be one or the other, or else we'd never
+be executing this definition. The question is, how do we tell which one?
 
 Again, we can use the quotient of division by five. If the quotient is
 zero, the digit must have been four; otherwise it was nine. So we'll play
@@ -1467,8 +1467,8 @@ the same trick and use the quotient as a boolean flag. We'll write:
 : ALMOST  ( quotient )
      IF  ONER TENER  ELSE  ONER FIVER  THEN ;
 \end{Code}
-In retrospect, we notice that we're printing a \forth{ONER} either way. We can
-simplify the definition to:
+In retrospect, we notice that we're printing a \forth{ONER} either way. We
+can simplify the definition to:
 
 \begin{Code}
 : ALMOST  ( quotient )
@@ -1483,9 +1483,9 @@ to our definition of \forth{DIGIT} and make sure that we do, in fact:
      5 /MOD  OVER 4 =  IF  &poorbf{ALMOST}  ELSE
      IF FIVER THEN  ONERS  THEN ;
 \end{Code}
-It turns out that we have not only a quotient, but a remainder
-underneath as well. We're keeping both on the stack in the event we
-execute the \forthb{ELSE} clause. The word \forthb{ALMOST}, however, only needs the
+It turns out that we have not only a quotient, but a remainder underneath
+as well. We're keeping both on the stack in the event we execute the
+\forthb{ELSE} clause. The word \forthb{ALMOST}, however, only needs the
 quotient. So, for symmetry, we must \forthb{DROP} the remainder like this:
 
 %!! warning: \textbf{} in verbatim block
@@ -1564,14 +1564,14 @@ thousands & M \\
 \end{tabular}}
 \bigskip
 
-\noindent Now we can imagine that each column name (``ones,''
-``tens,'' etc.) points to the \forth{ONER} of that column. From there we can
-also get each column's \forth{FIVER} by reaching down one slot below the
+\noindent Now we can imagine that each column name (``ones,'' ``tens,''
+etc.) points to the \forth{ONER} of that column. From there we can also
+get each column's \forth{FIVER} by reaching down one slot below the
 current \forth{ONER}, and the \forth{TENER} by reaching down two slots.
 
 It's like building an arm with three hands. We can attach it to the
-\forth{ONES} column, as in \Fig{fig4-8}a, or we can attach it to the tens' column,
-as in \Fig{fig4-8}b, or to any power of ten.
+\forth{ONES} column, as in \Fig{fig4-8}a, or we can attach it to the tens'
+column, as in \Fig{fig4-8}b, or to any power of ten.
 
 \wepsfigt{fig4-8}{A mechanical representation: accessing the data
 structure.}
@@ -1591,8 +1591,9 @@ If you have trouble thinking about a conceptual model,
 \index{C!Conceptual model}
 visualize it---or draw it---as a mechanical device.
 \end{tip}
-Our table is simply an array of characters. Since a character requires only
-a byte, let's make each ``slot'' one byte. We'll call the table \forth{ROMANS}:
+Our table is simply an array of characters. Since a character requires
+only a byte, let's make each ``slot'' one byte. We'll call the table
+\forth{ROMANS}:
 
 \begin{Code}
 CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
@@ -1632,7 +1633,8 @@ VARIABLE COLUMN#  ( current offset)
 : THOUSANDS   6 COLUMN# ! ;
 \end{Code}
 Now we can find our way to any ``arm position'' by adding the contents of
-\forth{COLUMN\#} to the beginning address of the table, given by \forth{ROMANS}:
+\forth{COLUMN\#} to the beginning address of the table, given by
+\forth{ROMANS}:
 
 \begin{Code}
 : COLUMN  ( -- adr of column)  ROMANS  COLUMN# @  + ;
@@ -1651,18 +1653,18 @@ How do we get it there? With \forthb{C@}.
 \begin{Code}
 : ONER                C@ EMIT ;
 \end{Code}
-\forthb{C@} requires the \emph{address} of the slot that contains the symbol we
-want. How do we get that address?
+\forthb{C@} requires the \emph{address} of the slot that contains the
+symbol we want. How do we get that address?
 
 The \forth{ONER} is the first ``hand'' on the movable arm---the position
-that \forth{COLUMN} is already pointing to. So, the address we want is simply
-the address returned by \forth{COLUMN}:
+that \forth{COLUMN} is already pointing to. So, the address we want is
+simply the address returned by \forth{COLUMN}:
 
 \begin{Code}
 : ONER   COLUMN       C@ EMIT ;
 \end{Code}
-Now let's write \forth{FIVER}. It computes the same slot address, then adds
-one to get the next slot, before fetching the symbol and emitting it:
+Now let's write \forth{FIVER}. It computes the same slot address, then
+adds one to get the next slot, before fetching the symbol and emitting it:
 
 \begin{Code}
 : FIVER  COLUMN 1+    C@ EMIT ;
@@ -1673,8 +1675,8 @@ And \forth{TENER} is:
 : TENER  COLUMN 2+    C@ EMIT ;
 \end{Code}
 These three definitions are redundant. Since the only difference between
-them is the incidental offset, we can factor the incidental offset out from
-the rest of the definitions:
+them is the incidental offset, we can factor the incidental offset out
+from the rest of the definitions:
 
 \begin{Code}
 : .SYMBOL  ( offset)  COLUMN +  C@ EMIT ;
@@ -1717,8 +1719,8 @@ We might redefine ROMAN as follows:
 \begin{tfquot}
 There's a definite sense of rightness when you've done it right. It may be
 that feeling that distinguishes \Forth{} from other languages, where you
-never feel you've really done well. In \Forth{}, it's the ``Aha!'' reaction. You
-want to run off and tell somebody.
+never feel you've really done well. In \Forth{}, it's the ``Aha!''
+reaction. You want to run off and tell somebody.
 
 Of course, nobody will appreciate it like you do.
 \end{tfquot}\index{M!Moore, Charles|)}

@@ -17,7 +17,6 @@ software development cycle is a fool.
 Nevertheless \dots{}
 
 \section{The Nine Phases of the Programming Cycle}%
-\index{D!Development cycle|see{Programming Cycle}}
 
 As we've seen, \Forth{} integrates aspects of design with aspects of
 implementation and maintenance. As a result, the notion of a ``typical
@@ -91,8 +90,8 @@ by \person{Kim Harris}, \emph{Dr. Dobb's Journal.}}%
 The \emph{goal} of the method is to produce a model which accurately
 predicts all observable behavior of the natural system.
 \end{tfquot}
-\person{Harris} then applies the scientific method to the software development
-cycle, illustrated in \Fig{fig2-1}:
+\person{Harris} then applies the scientific method to the software
+development cycle, illustrated in \Fig{fig2-1}:
 
 \begin{enumerate}
 \item A problem is analyzed to determine what functions are required
@@ -140,10 +139,10 @@ Exactly what degree is appropriate?%
 \index{J!Johnson, Dave|(}
 \begin{interview}
 \noindent More than one \Forth{} programmer has expressed high regard for
-\person{Dave Johnson}'s meticulous approach to planning. \person{Johnson} is supervisor at
-Moore Products Co. in Springhouse, Pennsylvania. The firm specializes
-in industrial instrumentation and process control applications. Dave has
-been using \Forth{} since 1978.
+\person{Dave Johnson}'s meticulous approach to planning. \person{Johnson}
+is supervisor at Moore Products Co. in Springhouse, Pennsylvania. The firm
+specializes in industrial instrumentation and process control
+applications. Dave has been using \Forth{} since 1978.
 
 He describes his approach:
 \begin{tfquot}
@@ -276,9 +275,9 @@ coding. But planning has certain limitations. The following interviews
 give different perspectives to the value of planning.%
 \begin{interview}
 \index{T!Teleska, John|(}
-\noindent Despite \person{Teleska}'s preference for a well-planned project, he
-suggests that the choice between a top-down and bottom-up approach may
-depend on the situation:
+\noindent Despite \person{Teleska}'s preference for a well-planned
+project, he suggests that the choice between a top-down and bottom-up
+approach may depend on the situation:
 
 \begin{tfquot}
 On two recent projects involving a lot of technical interface work, I
@@ -389,15 +388,15 @@ Pick any two!
 \end{tfquot}
 \end{interview}
 
-\noindent As \person{Starling} observes, you don't know completely what you're
-doing till you've done it once. In my own experience, the best way to
-write an application is to write it twice. Throw away the first
+\noindent As \person{Starling} observes, you don't know completely what
+you're doing till you've done it once. In my own experience, the best way
+to write an application is to write it twice. Throw away the first
 version and chalk it up to experience.%
 \index{S!Starling, Michael|)}%
 \index{K!Kogge, Peter|(}
 \begin{interview}
-\noindent \person{Peter Kogge} is Senior Technical Staff in the IBM Federal
-Systems Division, Oswego, New York:
+\noindent \person{Peter Kogge} is Senior Technical Staff in the IBM
+Federal Systems Division, Oswego, New York:
 
 \begin{tfquot}
 One of the key advantages I find in \Forth{} is that it allows me to
@@ -447,7 +446,6 @@ Prototype.
 
 \section{The Analysis Phase}%
 \index{A!Analysis|(}%
-\index{P!Programming cycle:!analysis|see{Analysis}}
 
 In the remainder of this chapter we'll discuss the analysis phase.
 Analysis is an organized way of understanding and documenting what
@@ -608,8 +606,9 @@ system's interfaces.\index{I!Interface definition}
 
 \begin{tfquot}
 The ``spec'' basically deals with WHAT. In its most glorious form, it
-describes what the system would look like to the user---you might call it the
-user's manual. I find I write more notes on the human interaction---what it
+describes what the system would look like to the user---you might call it
+the user's manual. I find I write more notes on the human
+interaction---what it
 %Page 049 in first edition
 will look like on the outside---than on the part that gets the job
 done. For instance, I'll include a whole error-action listing to show
@@ -634,7 +633,7 @@ I use any techniques, diagrams, etc., to show the customer what the
 inputs and outputs look like, using his description of what the
 product has to do.  But in parallel, in my own mind, I'm imagining how
 it will be implemented.  I'm evaluating whether I can do this
-efficiently. So to me it's not a black box, it's a grey box. The
+efficiently. So to me it's not a black box, it's a gray box. The
 designer must be able to see inside the black boxes.
 
 When I design a system that's got different modules, I try to make the
@@ -754,10 +753,10 @@ NEED 50 AXLES
 the stack, translates the string \forth{AXLES} into a part number,
 also on the stack, then calls \forth{REQUEST}. Such a command should
 be defined only at the outer-most level.)%
-\index{J!Johnson, Dave|(}
 \begin{interview}
-\person{Johnson} of Moore Products Co. has a few words on \Forth{} pseudocode:
-
+\index{J!Johnson, Dave|(}
+\person{Johnson} of Moore Products Co. has a few words on \Forth{}
+pseudocode:
 \begin{tfquot}
 IBM uses a rigorously documented PDL (program design language). We use
 a PDL here as well, although we call it FDL, for \Forth{} design
@@ -768,8 +767,8 @@ language. You just have to leave out the so-called ``noise'' words:
 flow. Most \Forth{} people probably do that informally. We do it
 purposefully.
 \end{tfquot}%
-\end{interview}%
 \index{J!Johnson, Dave|)}%
+\end{interview}%
 \index{P!Pseudocode|)}
 %Page 052 in first edition
 \begin{interview*}
@@ -997,8 +996,8 @@ similar to the drawing.
 \item[Ability to trace the logic upwards.] Find a condition and see what
 factors produced it.
 
-\item[Clearer graphic representation.] Decision tables serve as a better tool
-for understanding, both for the implementor and the analyst.
+\item[Clearer graphic representation.] Decision tables serve as a better
+tool for understanding, both for the implementor and the analyst.
 \end{description}
 
 Unlike decision trees, these decision tables group the \emph{results}

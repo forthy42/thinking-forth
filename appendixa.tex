@@ -5,11 +5,13 @@
 %% Chapter: Appendix A, Overview of \Forth{} (For Newcomers)
 \appendix{}
 \Chapmark{A}
-\chapter{Overview
-of~\Forth{}
-(For~Newcomers)}
-\section{The Dictionary}\index{D!Dictionary:!defined|(}%
-\Forth{}\index{F!forth@\Forth{}!overview of|(} is expressed in words (and numbers) and is separated by spaces:
+\chapter{Overview of~\Forth{} (For~Newcomers)}
+
+\section{The Dictionary}%
+\index{D!Dictionary:!defined|(}%
+\index{F!forth@\Forth{}!overview of|(}%
+
+\Forth{} is expressed in words (and numbers) and is separated by spaces:
 \begin{Code}
 HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
 \end{Code}
@@ -17,35 +19,40 @@ Such commands may be typed directly from the keyboard, or edited onto
 mass storage then ``\forthb{LOAD}''ed.
 
 \index{D!Defining words:!procedure|(}
-All words, whether included with the system or user-defined,
-exist in the ``dictionary,'' a linked list.  A ``defining word,'' is used to add
-new names to the dictionary.  One defining word is \forthb{:} (pronounced
-``colon''), which is used to define a new word in terms of previously-
+All words, whether included with the system or user-defined, exist in the
+``dictionary,'' a linked list.  A ``defining word,'' is used to add new
+names to the dictionary.  One defining word is \forthb{:} (pronounced
+``colon''), which is used to define a new word in terms of previously
 defined words.  Here is how one might define a new word called \forth{LIFT}:
 \begin{Code}
 : LIFT   HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE ;
 \end{Code}
-The \forthb{;} terminates the definition.  The new word \forth{LIFT} may now be used
-instead of the long sequence of words that comprise its definition.
+The \forthb{;} terminates the definition.  The new word \forth{LIFT} may
+now be used instead of the long sequence of words that comprise its
+definition.
 
 \Forth{} words can be nested like this indefinitely.  Writing a 
 \Forth{} application consists of building increasingly powerful definitions,
 such as this one, in terms of previously defined ones.
 
-Another defining word is \forthb{CODE},\index{C!CODE} which is used in place of colon to
-define a command in terms of machine instructions for the native processor.
-Words defined with \forthb{CODE} are indistinguishable to the user from 
-words defined with colon.  \forthb{CODE} definitions are needed only for the most
-time-critical portions of an applications, if at all.
+Another defining word is \forthb{CODE},\index{C!CODE}
+which is used in place of colon to define a command in terms of machine
+instructions for the native processor.  Words defined with \forthb{CODE}
+are indistinguishable to the user from words defined with colon.
+\forthb{CODE} definitions are needed only for the most time-critical
+portions of an applications, if at all.
 \index{D!Defining words:!procedure|)}
+
 \section{Data Structures}%
 \index{D!Data structures:!operators}%
+
 Still another defining word is \forthb{CONSTANT},\index{C!CONSTANT} which
 is used like this:
 \begin{Code}
 17 CONSTANT SEVENTEEN
 \end{Code}
-The new word \forth{SEVENTEEN} can now be used in place of the actual number 17.
+The new word \forth{SEVENTEEN} can now be used in place of the actual
+number 17.
 
 {\sloppy
 The defining word \forth{VARIABLE}\index{V!VARIABLE} creates a location
@@ -60,8 +67,9 @@ Fetching the contents of this location is the job of the word \forthb{@}
 \begin{Code}
 BANANAS @
 \end{Code}
-fetches the contents of the variable \forth{BANANAS}.  Its counterpart is \forthb{!}
-(pronounced ``store''), which stores a value into the location, as in:
+fetches the contents of the variable \forth{BANANAS}.  Its counterpart is
+\forthb{!} (pronounced ``store''), which stores a value into the location,
+as in:
 \begin{Code}
 100 BANANAS !
 \end{Code}
@@ -81,13 +89,12 @@ create any time of data structure needed for the application.%
 \section{The Stack}
 \index{D!Data stacks!defined|(}
 In \Forth{}, variables and arrays are used for saving values that may be
-required by many other routines and/or at unpredictable times.  They are {\em not}
-used for the local passing of data between the definitions.  For this, \Forth{}
-employs a much simpler mechanism: the data stack.
+required by many other routines and/or at unpredictable times.  They are
+\emph{not} used for the local passing of data between the definitions.
+For this, \Forth{} employs a much simpler mechanism: the data stack.
 
-When you type a number, it goes on the stack.  When you invoke a 
-word which has numeric input, it will take it from the stack.  Thus the
-phrase
+When you type a number, it goes on the stack.  When you invoke a word
+which has numeric input, it will take it from the stack.  Thus the phrase
 \begin{Code}
 17 SPACES
 \end{Code}
@@ -101,17 +108,17 @@ SEVENTEEN SPACES
 has the same effect.
 
 The stack operates on a ``last-in, first-out'' (LIFO) basis.  This means
-that data can be passed between words in an orderly, modular way, consistent
-with the nesting of colon definitions.
+that data can be passed between words in an orderly, modular way,
+consistent with the nesting of colon definitions.
 
-For instance, a defintion called \forth{GRID} might invoke the phrase
+For instance, a definition called \forth{GRID} might invoke the phrase
 \forth{17 SPACES}.  This temporary activity on the stack will be
-transmparent to any other definition that invokes \forth{GRID} because
-the value placed on the stack is removed before the defintion of
-\forth{GRID} ends.  The calling definition might have placed some
-numbers of its own on the stack prior to calling \forth{GRID}.  These
-will remain on the stack, unharmed, until \forth{GRID} has been
-executed and the calling definition continues.
+transparent to any other definition that invokes \forth{GRID} because the
+value placed on the stack is removed before the definition of \forth{GRID}
+ends.  The calling definition might have placed some numbers of its own on
+the stack prior to calling \forth{GRID}.  These will remain on the stack,
+unharmed, until \forth{GRID} has been executed and the calling definition
+continues.
 \index{D!Data stacks!defined|)}
 
 \section{Control Structures}
@@ -123,21 +130,22 @@ The syntax of the \forthb{IF THEN} construct is as follows:
 \begin{Code}
 ... ( flag ) IF  KNOCK  THEN  OPEN ...
 \end{Code}
-The ``flag''\index{F!Flags} is a value on the stack, consumed by IF. A non-zero value
-indicates true, zero indicates false.  A true flag causes the code after \forthb{IF} (in
-this case, the word \forth{KNOCK}) to be executed.  The word \forthb{THEN} marks the
-end of the conditional phrase; execution resumes with the word \forth{OPEN}.  A
-false flag causes the code between \forthb{IF} and \forthb{THEN} to {\em not} be executed.  In
+The ``flag''\index{F!Flags} is a value on the stack, consumed by IF. A
+non-zero value indicates true, zero indicates false.  A true flag causes
+the code after \forthb{IF} (in this case, the word \forth{KNOCK}) to be
+executed.  The word \forthb{THEN} marks the end of the conditional phrase;
+execution resumes with the word \forth{OPEN}.  A false flag causes the
+code between \forthb{IF} and \forthb{THEN} to {\em not} be executed.  In
 either case, \forth{OPEN} will be performed.
 
-The word \forthb{ELSE}\index{E!ELSE} allows an alternate phrase to be executed
-in the false case. In the phrase:
+The word \forthb{ELSE}\index{E!ELSE} allows an alternate phrase to be
+executed in the false case. In the phrase:
 \begin{Code}
 ( flag ) IF KNOCK  ELSE  RING  THEN  OPEN ...
 \end{Code}
-the word \forth{KNOCK} will be performed if the flag is true, otherwise the word
-\forth{RING} will be performed.  Either way, execution will continue starting
-with \forth{OPEN}.
+the word \forth{KNOCK} will be performed if the flag is true, otherwise
+the word \forth{RING} will be performed.  Either way, execution will
+continue starting with \forth{OPEN}.
 
 \Forth{} also provides for indexed loops\index{L!Loops} in the form
 \begin{Code}
@@ -152,6 +160,6 @@ and
 ... BEGIN  ...  ( flag) WHILE ... REPEAT ;
 \end{Code}
 \section{For the Whole Story}
-For a complete instroduction to the \Forth{} command set, read {\em Starting
-\Forth{}}, published by Prentice-Hall.%
+For a complete introduction to the \Forth{} command set, read
+\emph{Starting \Forth{}}, published by Prentice-Hall.%
 \index{F!forth@\Forth{}!overview of|)}%

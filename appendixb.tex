@@ -7,32 +7,32 @@
 \chapter{Defining
 DOER/MAKE}
 \index{D!DOER/MAKE|(}
-If your system doesn't have \forth{DOER} and \forth{MAKE}
-already defined, this appendix
-is meant to help you install them and, if necessary, understand
-how they work.  Because by its nature this construct is system
+If your system doesn't have \forth{DOER} and \forth{MAKE} already defined,
+this appendix is meant to help you install them and, if necessary,
+understand how they work.  Because by its nature this construct is system
 dependent, I've included several different implementations at the end of
-this appendix in the hope that one of them will work for you.  If no, and if
-this section doesn't give you enough information to get them running,
+this appendix in the hope that one of them will work for you.  If no, and
+if this section doesn't give you enough information to get them running,
 you probably have an unusual system.  Please don't ask me for help; ask
 your \Forth{} vendor.
 
-Here's how it works.  \forthb{DOER} is a defining word that creates an entry
-with one cell in its parameter field. That cell contains the vector address,
-and is initialized to point to a no-op word called \forthb{NOTHING}.
+Here's how it works.  \forthb{DOER} is a defining word that creates an
+entry with one cell in its parameter field. That cell contains the vector
+address, and is initialized to point to a no-op word called
+\forthb{NOTHING}.
 
-Children of \forthb{DOER} will execute that \forthb{DOES>} code of \forthb{DOER}, which
-does only two things:  fetch the vector address and place it on the return
-stack.  That's all.  \Forth{} execution then continues with this address on
-the return stack, which will cause the vectored function to be performed.
-It's like saying (in '83-Standard)
+Children of \forthb{DOER} will execute that \forthb{DOES>} code of
+\forthb{DOER}, which does only two things:  fetch the vector address and
+place it on the return stack.  That's all.  \Forth{} execution then
+continues with this address on the return stack, which will cause the
+vectored function to be performed.  It's like saying (in '83-Standard)
 \begin{Code}
 ' NOTHING >BODY >R <return>
 \end{Code}
-which executes \forth{NOTHING}.  (This trick only works with colon definitions.)
+which executes \forth{NOTHING}.  (This trick only works with colon
+definitions.)
 
 Here's an illustration of the dictionary entry created when we enter
-
 
 {\sf
 \bigskip
@@ -50,7 +50,8 @@ DOER JOE & \\
 \begin{Code}
 : TEST   MAKE JOE  CR ;
 \end{Code}
-that is, we define a word that can vector \forth{JOE} to do a carriage return.
+that is, we define a word that can vector \forth{JOE} to do a carriage
+return.
 
 Here's a picture of the compiled definition of \forth{TEST}:
 %! This is supposed to be the cell diagram on p. 277, but I just 
@@ -63,14 +64,17 @@ TEST & (MAKE) & 0 & JOE & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
 \end{tabular}
 \bigskip}
 
-\noindent Let's look at the code for \forthb{MAKE}.  Since we're using \forthb{MAKE} inside a colon
-definition, \forthb{STATE} will be true, and we'll execut the phrase:
+\noindent Let's look at the code for \forthb{MAKE}.  Since we're using
+\forthb{MAKE} inside a colon definition, \forthb{STATE} will be true, and
+we'll execute the phrase:
 \begin{Code}
 COMPILE (MAKE)  HERE MARKER !  0 ,
 \end{Code}
-We can see how \forthb{MAKE} has compiled the address of the run-time routine,
-\forthb{(MAKE)}, followed by a zero.  (We'll explain what the zero is for, and why
-we save its address in a the variable \forthb{MARKER}, later).  % should probably be "save its address in the variable..."
+We can see how \forthb{MAKE} has compiled the address of the run-time
+routine, \forthb{(MAKE)}, followed by a zero.  (We'll explain what the
+zero is for, and why we save its address in a the variable
+\forthb{MARKER}, later).  % should probably be "save its address in the
+variable..."
 
 Now let's look at what \forthb{(MAKE)} does when we execute our new 
 definition \forthb{TEST}:
@@ -110,8 +114,9 @@ for the use of \forthb{;AND}.  Suppose we changed \forth{TEST} to read:
 \begin{Code}
 : TEST   MAKE JOE  CR ;AND SPACE ;
 \end{Code}
-That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a \forthb{CR}, and we'll do a
-\forthb{SPACE} right now.  Here's what this new version of \forth{TEST} will look like:
+That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a
+\forthb{CR}, and we'll do a \forthb{SPACE} right now.  Here's what this
+new version of \forth{TEST} will look like:
 %! The diagram from page 278 is supposed to be here -- I didn't have a 
 %! clue, so I just omitted it.
 
@@ -130,41 +135,42 @@ Here's the definition of \forthb{;AND}:
 We can see that \forthb{;AND} has compiled an \forthb{EXIT}\index{E!EXIT},
 just as semicolon would.
 
-Next, recall that \forthb{MAKE} saved the address of that cell in a variable
-called \forthb{MARKER}.  Now \forthb{;AND} stores \forthb{HERE} (the location of the second
-string of code beginning with \forthb{SPACE}) into the cell previously containing
-zero.  Now \forthb{(MAKE)} has a pointer to the place to resume execution.  The
-phrase
+Next, recall that \forthb{MAKE} saved the address of that cell in a
+variable called \forthb{MARKER}.  Now \forthb{;AND} stores \forthb{HERE}
+(the location of the second string of code beginning with \forthb{SPACE})
+into the cell previously containing zero.  Now \forthb{(MAKE)} has a
+pointer to the place to resume execution.  The phrase
 \begin{Code}
 IF >R THEN
 \end{Code}
-will leave on the return stack the address of the code beginning with 
-\forthb{SPACE}.  Thus execution will skip over the code between \forthb{MAKE} and 
-\forthb{;AND} and continue with the remainder of the definition up to semicolon.
+will leave on the return stack the address of the code beginning with
+\forthb{SPACE}.  Thus execution will skip over the code between
+\forthb{MAKE} and \forthb{;AND} and continue with the remainder of the
+definition up to semicolon.
 
 The word \forthb{UNDO} ticks the name of a \forthb{DOER} word, and stores the
 address of \forthb{NOTHING} into it.
 
-One final note:  on some systems you may encounter a problem.  If
-you use \forthb{MAKE} outside of a colon definition to create a forward reference,
+One final note:  on some systems you may encounter a problem.  If you use
+\forthb{MAKE} outside of a colon definition to create a forward reference,
 you may not be able to find the most recently defined word.  For instance,
 if you have:
 \begin{Code}
 : REFRAIN   DO-DAH  DO-DAH ;
 MAKE SONG  CHORUS  REFRAIN ;
 \end{Code}
-your system might think that refrain has not been defined.  The problem
-is due to the placement of \forth{SMUDGE}.  As a solution, try rearranging
+your system might think that refrain has not been defined.  The problem is
+due to the placement of \forth{SMUDGE}.  As a solution, try rearranging
 the order of definitions or, if necessary, put \forth{MAKE} code inside a 
 definition which you then execute:
 \begin{Code}
 : SETUP   MAKE SONG  CHORUS  REFRAIN ;   SETUP
 \end{Code}
-In Laboratory Microsystems PC/FORTH 2.0, the \forth{UNSMUDGE} on line 9 
-handles the problem.  This problem does not arrize with the Laxen/Perry/Harris
-model.
+In Laboratory Microsystems PC/FORTH 2.0, the \forth{UNSMUDGE} on line 9
+handles the problem.  This problem does not arise with the
+Laxen/Perry/Harris model.
 
-The final screen is an example of using \forthb{DOER/MAKE}.  After loading 
+The final screen is an example of using \forthb{DOER/MAKE}.  After loading
 the block, enter
 \begin{Code}
 RECITAL

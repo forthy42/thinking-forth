@@ -5,10 +5,11 @@
 %%
 %\chapternum{THREE}
 \chapter{Preliminary Design/\hy Decomposition}\Chapmark{3}%
-\index{P!Preliminary Design|(}
-Assuming you have some idea of what your program should accomplish,
-it's time to begin the design. The first stage, preliminary design, focuses
-on shrinking your mountainous problem into manageable molehills.
+\index{P!Preliminary Design|(}%
+
+Assuming you have some idea of what your program should accomplish, it's
+time to begin the design. The first stage, preliminary design, focuses on
+shrinking your mountainous problem into manageable molehills.
 
 In this chapter we'll discuss two ways to decompose your \Forth{}
 application.
@@ -17,8 +18,6 @@ application.
 \index{C!Components:!decomposition by|(}%
 \index{D!Decomposition!by component|(}%
 \index{P!Preliminary Design!decomposition by component|(}%
-\index{P!Programming cycle:!preliminary
-design/decomposition|see{Preliminary design}}
 
 Has this sort of thing ever happened to you? You've been planning for
 three months to take a weekend vacation to the mountains. You've been
@@ -638,14 +637,14 @@ the output component---each one shouldering part of the function of the
 formatter as a whole.
 
 The data interface between these two components is fairly complex.
-The interface consists of two buffers, a variable that indicates the current
-number of valid characters, and finally a ``knowledge'' of what all those
-attribute patterns mean.
+The interface consists of two buffers, a variable that indicates the
+current number of valid characters, and finally a ``knowledge'' of what
+all those attribute patterns mean.
 
-In \Forth{} I've defined these elements together in a single screen.
-The buffers are defined with \forthb{CREATE}, the count is an ordinary
-\forthb{VARIABLE}, and the attribute patterns are defined as \forthb{CONSTANT}s,
-such as:
+In \Forth{} I've defined these elements together in a single screen.  The
+buffers are defined with \forthb{CREATE}, the count is an ordinary
+\forthb{VARIABLE}, and the attribute patterns are defined as
+\forthb{CONSTANT}s, such as:
 \begin{Code}
 1 CONSTANT UNDERNESS ( bit mask for underlining)
 2 CONSTANT BOLDNESS ( bit mask for boldface)
@@ -678,9 +677,9 @@ measurement, the number of which remains constant for the line.
 Changing type widths would mean changing the number of units per
 character. But getting back to the mistake at hand\dots)
 
-Alas, I was also using \forth{WALL} inside the output component to determine
-how many characters to display. My reasoning was that this value would
-change depending on what type-width I was using.
+Alas, I was also using \forth{WALL} inside the output component to
+determine how many characters to display. My reasoning was that this value
+would change depending on what type-width I was using.
 
 I was right---99\% of the time. But one day I discovered that, under
 a certain condition, a line of condensed text was being somehow cut
@@ -774,8 +773,8 @@ new page:
 : NEWPAGE  ... ( terminate page with footer)
    ( start new page with header)  ...  ?HOLDOVER ... ;
 \end{Code}
-How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is not
-defined until much later?
+How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is
+not defined until much later?
 
 While it's theoretically possible to organize the listing so that the
 advance capability is defined before the root function, that approach is
@@ -853,7 +852,7 @@ number of large boxes would appear on the screen.
 \end{tfquot}
 
 \noindent Are you advocating a ``fun-down'' approach?%
-\index{F!Fun@``Fun-down'' approach|(}
+\index{F!Fundown@``Fun-down'' approach|(}
 
 \begin{tfquot}
 	Given that you're doing it in a free-spirit fashion, yes. If
@@ -873,7 +872,7 @@ number of large boxes would appear on the screen.
 	level, last integration level---it's just tedious and not
 	helpful. My levels get all mixed up hopelessly.
 \end{tfquot}\index{M!Moore, Charles|)}%
-\index{F!Fun@``Fun-down'' approach|)}
+\index{F!Fundown@``Fun-down'' approach|)}
 \end{interview}
 Designing by components makes where you start less important. You
 could start with the key interpreter, for instance. Its goal is to
@@ -885,27 +884,26 @@ routines that have anything to do with drawing squares.
 %!! original had a typo: s/it without using/it. without using/
 %   that was fixed in the '94 edition and here
 
-On the other hand, if the application required hardware support
-(such as a graphics package) that we didn't have or couldn't buy, we
-might want to substitute something available, such as displaying an
-asterisk, just to get into the problem. Thinking in terms of lexicons is like
-painting a huge mural that spans several canvases. You work on all the
-canvases at once, first sketching in the key design elements, then adding
-splashes of color here and there\dots{} until the entire wall is complete.
+On the other hand, if the application required hardware support (such as a
+graphics package) that we didn't have or couldn't buy, we might want to
+substitute something available, such as displaying an asterisk, just to
+get into the problem. Thinking in terms of lexicons is like painting a
+huge mural that spans several canvases. You work on all the canvases at
+once, first sketching in the key design elements, then adding splashes of
+color here and there\dots{} until the entire wall is complete.
 
 \begin{tip}
 In deciding where to start designing, look for:\medskip
-
 \begin{itemize}
-	\item areas where the most creativity is required (the areas
-	where change is most likely)
-	\item areas that give the most satisfying feedback (get the
-	juices flowing)
-	\item areas in which the approach decided upon will greatly
-	affect other areas, or which will determine whether the stated
-	problem can be solved at all
-	\item things you should show the customer, for mutual understanding
-	\item things you can show the investors, if necessary for the rent.
+\item areas where the most creativity is required (the areas where change
+is most likely)
+\item areas that give the most satisfying feedback (get the juices
+flowing)
+\item areas in which the approach decided upon will greatly affect other
+areas, or which will determine whether the stated problem can be solved at
+all
+\item things you should show the customer, for mutual understanding
+\item things you can show the investors, if necessary for the rent.
 \end{itemize}
 \end{tip}
 
@@ -952,11 +950,12 @@ the IBM Personal Computer. Besides the processor itself (with its own
 machine instruction set, of course), there are these software levels:
 
 \begin{itemize}
-	\item the set of utilities written in assembler and burned into the system's ROM
-	\item the disk operating system, which invokes the utilities
-	\item the high-level language of choice, which invokes the operating system and
-	the utilities
-	\item and finally, any application using the language.
+\item the set of utilities written in assembler and burned into the
+system's ROM
+\item the disk operating system, which invokes the utilities
+\item the high-level language of choice, which invokes the operating
+system and the utilities
+\item and finally, any application using the language.
 \end{itemize}
 
 \noindent The ROM utilities provide the hardware-dependent routines:
@@ -965,8 +964,8 @@ invoke them by placing a control code in a certain register and
 generating the appropriate software interrupt.
 
 For instance, software interrupt \code{10H} causes entry to the video
-routines. There are 16 of these routines. You load register \code{AH} with the
-number of the video routine you want.
+routines. There are 16 of these routines. You load register \code{AH} with
+the number of the video routine you want.
 
 Unfortunately, in all 16 routines there is not one that displays a text
 string. To do that, you must repeat the process of loading registers and
@@ -1010,7 +1009,7 @@ Don't bury your tools.
 
 The final deception perpetrated by level thinking is that programming
 languages should become qualitatively different the ``higher'' you go. We
-tend to speak of high-level code as something rarified, and low-level code
+tend to speak of high-level code as something rarefied, and low-level code
 as something grubby and profane.
 
 To some degree these distinctions have validity, but this is only the
@@ -1097,8 +1096,8 @@ DECIMAL
 
 Let's suppose we have a region of memory outside of the \Forth{}
 dictionary which we want to allocate for data structures (for whatever
-reason). The region of memory begins at \forth{HEX} address \code{C000}. We want to
-define a series of arrays which will reside in that memory.
+reason). The region of memory begins at \forth{HEX} address \code{C000}.
+We want to define a series of arrays which will reside in that memory.
 
  We might do something like this:
 
@@ -1154,8 +1153,8 @@ throughout our application.
 
 Now, the problem: Somehow the architecture of our system changes and
 we decide that we must allocate this memory such that it \emph{ends}
-at \forth{HEX} address \forth{EFFF}. In other words, we must start at the end,
-allocating arrays backwards. We still want each array name to return
+at \forth{HEX} address \forth{EFFF}. In other words, we must start at the
+end, allocating arrays backwards. We still want each array name to return
 its \emph{starting} address, however.
 
 To do this, we must now write:
@@ -1169,16 +1168,15 @@ F000 >RAM ! ( EFFF, last byte, plus one)
   6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
 100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
 \end{Code}
-This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's
-okay, it's easy to add \forth{NEGATE} to the definition of
-\forth{RAM-ALLOT}. Our present concern is that each time we define an
-array we must \forth{RAM-ALLOT} \emph{before} defining it, not after. Twenty
-places in our code need finding and correcting.
+This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's okay,
+it's easy to add \forth{NEGATE} to the definition of \forth{RAM-ALLOT}.
+Our present concern is that each time we define an array we must
+\forth{RAM-ALLOT} \emph{before} defining it, not after. Twenty places in
+our code need finding and correcting.
 
-The words \forth{THERE} and \forth{RAM-ALLOT} are nice and friendly,
-but they didn't succeed at hiding \emph{how} the region is
-allocated. If they had, it wouldn't matter which order we invoked them
-in.
+The words \forth{THERE} and \forth{RAM-ALLOT} are nice and friendly, but
+they didn't succeed at hiding \emph{how} the region is allocated. If they
+had, it wouldn't matter which order we invoked them in.
 
 At long last, our question: What could we have done to \forth{THERE} and
 \forth{RAM-ALLOT} to minimize the impact of this design change? (Again, the

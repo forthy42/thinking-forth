@@ -5,6 +5,7 @@
 %% Chapter: <6>
 
 \chapter{Factoring}\Chapmark{6}
+\index{F!Factoring|(}
 
 In this chapter we'll continue our study of the implementations phase,
 this time focusing on factoring.
@@ -17,11 +18,13 @@ Since every colon definition reflects decisions of factoring, an
 understanding of good factoring technique is perhaps the most
 important skill for a \Forth{} programmer.
 
+\index{F!Factoring!defined|(}
 What is factoring? Factoring means organizing code into useful
 fragments. To make a fragment useful, you often must separate reusable
 parts from non-reusable parts. The reusable parts become new
 definitions. The non-reusable parts become arguments or parameters to the
 definitions.
+\index{F!Factoring!defined|)}
 
 Making this separation is usually referred to as ``factoring out.''
 The first part of this chapter will discuss various ``factoring-out''
@@ -32,6 +35,7 @@ another aspect of factoring. The second section will outline the
 criteria for useful factoring.
 
 \section{Factoring Techniques}
+\index{F!Factoring!techniques|(}
 
 \begin{tfquot}
 If a module seems almost, but not quite, useful form a second place in
@@ -110,6 +114,7 @@ as a procedural difference.
 \index{D!Data, factoring out|)}
 
 \subsection{Factoring Out Functions}
+\index{F!Functions:!factoring out|(}
 On the other hand, the difference sometimes \emph{is} a function. Witness:
 
 %ARN - this gets messed up Code doesn't indent properly
@@ -167,14 +172,15 @@ doesn't match the conceptual model. What are \forth{TRUE BLETCHES}
 as opposed to \forth{FALSE BLETCHES}?
 \index{C!Control flags|)}
 \index{F!Flags|)}
+\index{F!Functions:!factoring out|)}
 
 \subsection{Factoring Out Code from Within Control Structures}
 \index{C!Code:!factoring out from within control structures|(}
 \index{C!Control structures:!factoring out|(}
 \index{C!Control structures:!factoring out code from within|(}
 
-Be alert to repetitions on either side of an \forthb{IF }\forthb{ELSE }\forthb{THEN}
-statement. For instance:
+Be alert to repetitions on either side of an
+\forthb{IF }\forthb{ELSE }\forthb{THEN} statement. For instance:
 
 \index{E!EMIT|(}
 \begin{Code}
@@ -245,13 +251,15 @@ discuss this technique---pros and cons---in \Chap{8}.
 
 More benign examples of factoring-out control structures include case
 statements,\index{C!Case statements} which eliminate nested
-\forthb{IF }\forthb{ELSE }\forthb{THEN}s, and multiple exit loops (the
-\forthb{BEGIN }\forthb{WHILE }\forthb{WHILE }\forthb{WHILE}
+\forthb{IF }\forthb{ELSE }\forthb{THEN}s, and multiple exit loops
+\index{M!Multiple exit loops}
+(the \forthb{BEGIN }\forthb{WHILE }\forthb{WHILE }\forthb{WHILE}
 \forthb{\dots{} }\forthb{REPEAT} construct). We'll also discuss these
-topics in \Chap{8}.  \index{C!Control structures:!factoring out code
-from within|)}
+topics in \Chap{8}.
+\index{C!Control structures:!factoring out code from within|)}
 
 \subsection{Factoring Out Names}
+\index{N!Names:!factoring out|(}%
 It's even good to factor out names, when the names seem almost, but
 not quite, the same. Examine the following terrible example of code,
 which is meant to initialize three variables associated with each of
@@ -315,8 +323,10 @@ can copy the string \emph{and} the count with a single \forthb{CMOVE}.
 
 When you start finding the same awkwardness here and there, you can
 combine things and make the awkwardness go away.
+\index{N!Names:!factoring out|)}%
 
 \subsection{Factoring Out Functions into Defining Words}
+\index{F!Functions:!factoring out|(}
 
 \begin{tip}
 If a series of definitions contains identical functions, with
@@ -355,7 +365,7 @@ definition needs the address of \forthb{EXIT} to conclude the
 definition.(In defining eight words, the use of a defining word saves
 14 bytes on a 16-bit \Forth{}.) Also, in a colon definition each
 reference to a numeric literal requires the compilation of
-\forthb{LIT} (or \forthb{literal}), another 2 bytes per
+\forthb{LIT}\index{L!LIT} (or \forthb{literal}), another 2 bytes per
 definition. (If 1 and 2 are predefined constants, this costs another
 10 bytes---24 total.)
 
@@ -365,8 +375,11 @@ that all the colors it defines belong to the same family of words.
 The greatest strength of defining words, however, arises when a series
 of definitions share the same \emph{compile-time} behavior. This topic
 is the subject of a later section, ``Compile-Time Factoring.''
+\index{F!Factoring!techniques|)}
+\index{F!Functions:!factoring out|)}
 
 \section{Factoring Criteria}
+\index{F!Factoring!criteria|(}
 Armed with an understanding of factoring techniques, let's now discuss
 several of the criteria for factoring \Forth{} definitions. They
 include:
@@ -449,10 +462,10 @@ Don't let your ego take over with an ``I can lick this!'' attitude.
 \person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
-Feeling like you might have introduced a bug is one reason for
-factoring. Any time you see a doubly-nested \forthb{DO }\forthb{LOOP}, that's a
-sign that something's wrong because it will be hard to debug. Almost
-always take the inner \forthb{DO }\forthb{LOOP} and make a word.
+Feeling like you might have introduced a bug is one reason for factoring.
+Any time you see a doubly-nested \forthb{DO }\forthb{LOOP}, that's a sign
+that something's wrong because it will be hard to debug. Almost always
+take the inner \forthb{DO }\forthb{LOOP} and make a word.
 
 And having factored out a word for testing, there's no reason for
 putting it back. You found it useful in the first place. There's no
@@ -565,6 +578,7 @@ to be performed on the address.
 
 Similar to our injunction against repetition of code:
 
+\index{P!Pattern repetition|(}
 \begin{tip}
 Look for repetition of patterns.
 \end{tip}
@@ -573,7 +587,9 @@ of previously-used words, then you may have mixed in a general idea
 with a specific application. The part of the pattern you are copying
 perhaps can be factored out as an independent definition that can be
 used in all the similar cases.
+\index{P!Pattern repetition|)}
 
+\index{N!Nameability|(}%
 \begin{tip}
 Be sure you can name what you factor.
 \end{tip}
@@ -588,6 +604,7 @@ ability to assign a name is a necessary part of decomposition.
 Certainly you get more confidence in the idea.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
+\index{N!Nameability|)}%
 Compare this view with the criteria for decomposing a module espoused
 by structured design in \Chap{1}. According to that method, a module
 should exhibit ``functional binding,'' Which can be verified by
@@ -598,6 +615,8 @@ refined.
 \begin{tip}
 Factor definitions to hide details that may change.
 \end{tip}
+\index{F!forth@\Forth{}!information-hiding|(}%
+\index{I!Information-hiding|(}
 We've seen the value of information hiding in earlier chapters,
 especially with regard to preliminary design. It's useful to remember
 this criterion during the implementation stage as well.
@@ -607,14 +626,14 @@ Here's a very short definition that does little except hide information:
 \begin{Code}
 : >BODY  ( acf -- apf )  2+ ;
 \end{Code}
-This definition allows you to convert an acf (address of code field) to
-an apf (address of parameter field) without depending on the actual
-structure of a dictionary definition. If you were to use \forthb{2+} instead of
-the word \forthb{>BODY}, you would lose transportability if you ever
-converted to a \Forth{} system in which the heads were separated from
-the bodies. (This is one of a set of words suggested by Kim Harris,
-and included as an Experimental Proposal in the \Forth{}-83 Standard
-\cite{harris83}.)
+This definition allows you to convert an acf (address of code field) to an
+apf (address of parameter field) without depending on the actual structure
+of a dictionary definition. If you were to use \forthb{2+} instead of the
+word \forthb{>BODY}, you would lose transportability if you ever converted
+to a \Forth{} system in which the heads were separated from the bodies.
+(This is one of a set of words suggested by \person{Kim Harris}, and
+included as an Experimental Proposal in the
+\Forth{}-83 Standard \cite{harris83}.)
 
 Here's a group of definitions that might be used in writing an editor:
 
@@ -712,11 +731,11 @@ into the definition
 \begin{Code}
 : FRAME   SCR @ BLOCK ;
 \end{Code}
-remember you are doing so only because you may want to change the
-location of the editing frame. Don't blindly replace all occurrences
-of the phrase with the new word \forth{FRAME,} because you may change the
-definition of \forth{FRAME} and there will certainly be times when you really
-want \forthb{SCR }\forthb{@ }\forthb{BLOCK}.
+remember you are doing so only because you may want to change the location
+of the editing frame. Don't blindly replace all occurrences of the phrase
+with the new word \forth{FRAME,} because you may change the definition of
+\forth{FRAME} and there will certainly be times when you really want
+\forthb{SCR }\forthb{@ }\forthb{BLOCK}.
 
 \begin{tip}
 If a repeated code fragment is likely to change in some cases but not
@@ -735,6 +754,8 @@ in Implementation.''
 \begin{tip}
 Simplify the command interface by reducing the number of commands.
 \end{tip}
+\index{F!forth@\Forth{}!information-hiding|)}%
+\index{I!Information-hiding|)}%
 It may seem paradoxical, but good factoring can often yield
 \emph{fewer} names. In \Chap{5} we saw how six simple names
 (\forth{LEFT}, \forth{RIGHT}, \forth{MOTOR}, \forth{SOLENOID},
@@ -937,8 +958,8 @@ shorter object code.
 \index{C!Commands, reducing number of|)}
 
 \begin{tip}
-Don't factor for the sake of factoring. Use clichés.
-\index{C!Clichés|(}
+Don't factor for the sake of factoring. Use clich\'es.
+\index{C!Clich\'es|(}
 \end{tip}
 The phrase
 
@@ -974,14 +995,16 @@ value than \forth{RANGE}.
 \end{tfquot}
 \index{M!Moore, Charles|)}
 \end{interview}
-%% Could not get that special e in clichés.
-I call these phrases ``clichés.'' They stick together as meaningful
+%% Could not get that special e in clich\'es.
+I call these phrases ``clich\'es.'' They stick together as meaningful
 functions. You don't have to remember how the phrase works, just what
 it does. And you don't have to remember an extra name.
 \index{C!Clichés|)}
+\index{F!Factoring!criteria|)}
 
 \section{Compile-Time Factoring}
 \index{C!Compile-time factoring|(}
+\index{F!Factoring!compile-time|(}
 
 \noindent
 In the last section we looked at many techniques for organizing code
@@ -1106,7 +1129,8 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{figure*}
 The phrase ``\forth{HERE POINTS -}'' computes the number of x--y
 coordinates in the table: this value becomes the constant
-\forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forthb{DO }\forthb{LOOP}.
+\forth{\#POINTS}, used as the limit in \forth{DRAW}'s
+\forthb{DO }\forthb{LOOP}.
 \index{D!DO LOOP}
 
 This construct lets you add or subtract points from the table without
@@ -1114,7 +1138,6 @@ worrying about the number of points there are. \Forth{} computes this
 for you.
 
 \subsection{Compile-Time Factoring through Defining Words}%
-\index{W!Words:!defining|see{Defining words}}%
 \index{D!Defining words:!compile-time factoring through}
 Let's examine a series of approaches to the same problem---defining a
 group of related addresses. Here's the first try:
@@ -1202,9 +1225,11 @@ HEX 01A0  ( base port adr)
 DROP
 \end{Code}
 \index{C!Compile-time factoring|)}
+\index{F!Factoring!compile-time|)}
 
 \section{The Iterative Approach in Implementation}
 \index{I!Iterative approach|(}
+\index{F!Factoring!iterative approach|(}
 Earlier in the book we discussed the iterative approach, paying
 particular attention to its impact on the design phase. Now that we're
 talking about implementation, let's see how the approach is actually
@@ -1385,14 +1410,17 @@ adding complexity. Add complexity only as necessary to make the
 current iteration work.
 \end{tip}
 \index{I!Iterative approach|)}
+\index{F!Factoring!iterative approach|)}
 
 \subsection{Summary}
 In this chapter we've discussed various techniques and criteria for
 factoring. We also examined how the iterative approach applies to the
 implementation phase.
+\index{F!Factoring|)}
 
 \begin{references}{9}
-\bibitem{stevens74-6} \person{W.P. Stevens}, \person{G.J. Myers}, and \person{L.L. Constantine},
+\bibitem{stevens74-6} \person{W.P. Stevens}, \person{G.J. Myers},
+and \person{L.L. Constantine},
 \emph{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by
 International Business Machines Corporation.
 \bibitem{miller56} \person{G.A. Miller}, ``The Magical Number Seven, Plus or

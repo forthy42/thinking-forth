@@ -22,6 +22,32 @@ scientists over the years. After tracing the trajectory of these
 advances, we'll compare---and contrast---\Forth{} with these
 state-of-the-art programming principles.
 
+% These all need to be on page without the start of
+% a range of the same name.
+\index{C!Control structures:!minimization of|see{Control
+structure minimization}}%
+\index{D!Data handling|see{Data stacks, Data structures}}%
+\index{D!Data structures:|see{\emph{also} Variables}}%
+\index{D!Design|see{Detailed design, Preliminary design}}%
+\index{D!Development cycle|see{Programming Cycle}}%
+\index{E!Engineering|see{Detailed design; Preliminary design}}%
+\index{F!forth@\Forth{}!data handling|see{Data stacks, Data structures}}%
+\index{F!forth@\Forth{}!programming cycle|see{Programming cycle}}%
+\index{F!forth@\Forth{}!style|see{Implementation}}%
+\index{I!Implementation!factoring|see{Factoring}}%
+\index{M!Modularity|see{Structured programming}}%
+\index{P!Problem-solving techniques|see{\emph{also} Detailed design}}%
+\index{P!Programming cycle:!analysis|see{Analysis}}
+\index{P!Programming cycle:!detailed design|see{Detailed design}}%
+\index{P!Programming cycle:!implementation|see{Implementation}}%
+\index{P!Programming cycle:!preliminary
+design/decomposition|see{Preliminary design}}%
+\index{S!Screens!load|see{Load screens}}%
+\index{S!Software development cycle|see{Programming cycle}}%
+\index{S!Software elegance, history of!structured
+programming|see{Structured programming}}%
+\index{S!Stacks|see{Data stacks}}%
+\index{W!Words:!defining|see{Defining words}}%
 
 \section{An Armchair History of Software Elegance}%
 \index{S!Software elegance, history of|(}
@@ -139,6 +165,7 @@ ultimately offers more restriction than freedom.%
 
 \subsection{Manageability}%
 \index{M!Manageability|(}
+\index{S!Software elegance, history of!manageability|(}%
 Most computer programs involve much more than lists of instructions
 to work down from start to finish. They also involve testing for various
 conditions and then ``branching'' to the appropriate parts of the
@@ -181,12 +208,11 @@ written. Unfortunately the programmer had to make the translation from
 code to flow chart and back by hand. Many programmers found
 old-fashioned flow charts less than useful.%
 \index{M!Manageability|)}
+\index{S!Software elegance, history of!manageability|)}%
 
 \subsection{Modularity}%
 \index{S!Structured programming!(modularity)|(}%
-\index{S!Software elegance, history of!structured programming|see{Structured programming}}%
 \index{S!Structured programming!characteristics of|(}%
-\index{M!Modularity|see{Structured programming}}
 A significant advance arose with the invention of ``Structured
 Programming,'' a methodology based on the observation that large problems
 are more easily solved if treated as collections of smaller problems
@@ -546,7 +572,8 @@ elaborate methods of passing arguments from one module to another.%
 \subsection{Hierarchical Input-Process-Output Designing}%
 \index{H!Hierarchical input-process-output designing|(}%
 \index{I!Input-process-output designing, hierarchical|(}%
-\index{S!Structured programming!hierarchical input-process-output designing|(}
+\index{S!Structured programming!hierarchical
+input-process-output designing|(}
 A third precept of structured design concerns the design process.
 Designers are advised to use a top-down approach, but to pay less
 attention initially to control structures. ``Decision designing'' can
@@ -584,14 +611,16 @@ change in plan won't have so disastrous an effect.%
 \index{H!Hierarchical input-process-output designing|)}%
 \index{I!Input-process-output designing, hierarchical|)}%
 \index{S!Structure chart|)}%
-\index{S!Structured programming!hierarchical input-process-output designing|)}
+\index{S!Structured programming!hierarchical
+input-process-output designing|)}
 
 
 \subsection{Information-Hiding }%
 \index{F!forth@\Forth{}!information-hiding|(}%
 \index{I!Information-hiding|(}%
 \index{S!Structured programming!information-hiding|(}
-In a paper \cite{parnas72} published back in 1972, Dr. \person{David L. Parnas}%
+In a paper \cite{parnas72} published back in 1972,
+Dr. \person{David L. Parnas}%
 \index{P!Parnas, David} showed
 that the criteria for decomposing modules should not be steps in the
 process, but rather pieces of information that might possibly change.
@@ -647,18 +676,18 @@ hardware redundancy (backup computers, etc.) can make a system more
 secure, redundancy of information is dangerous.
 
 As any knowledgeable programmer will tell you, a number that a program
-uses and that might conceivably change should be made into a
-``constant'' and referred to throughout the program by name, not by
-value. For instance, the number of columns representing the width of
-your computer paper forms should be expressed as a constant. Even
-assembly languages provide ``\code{EQU}''s and labels for associating values
-such as addresses and bit-patterns with names.
+uses and that might conceivably change should be made into a ``constant''
+and referred to throughout the program by name, not by value. For
+instance, the number of columns representing the width of your computer
+paper forms should be expressed as a constant. Even assembly languages
+provide ``\code{EQU}''s and labels for associating values such as
+addresses and bit-patterns with names.
 
-Any good programmer will also apply the concept of information-hiding
-to the development of subroutines, ensuring that each module knows as
-little as possible about the insides of other modules. Contemporary
-programming languages such as C, Modula 2, and Edison apply this
-concept to the architecture of their procedures.
+Any good programmer will also apply the concept of information-hiding to
+the development of subroutines, ensuring that each module knows as little
+as possible about the insides of other modules. Contemporary programming
+languages such as C, Modula 2, and Edison apply this concept to the
+architecture of their procedures.
 
 But \person{Parnas}%
 \index{P!Parnas, David}
@@ -675,7 +704,8 @@ the primary basis for design!%
 \index{S!Structured programming!new view of|(}%
 \index{S!Structure!superficiality of|(}
 
-\person{Parnas}\index{P!Parnas, David} proposes two criteria for decomposition:
+\person{Parnas}\index{P!Parnas, David} proposes two criteria for
+decomposition:
 
 %% special case: uses second level without outer level
 \begin{tfquot}
@@ -706,7 +736,8 @@ the application. The procedures are considered to be a single module
 because they are interdependent. You can't change the method for
 pushing a value without also changing the method for popping a value.
 
-The word \emph{uses} plays an important role in this concept.  \person{Parnas}%
+The word \emph{uses} plays an important role in this concept.
+\person{Parnas}%
 \index{P!Parnas, David|(}
 writes in a later paper \cite{parnas79}:
 
@@ -951,13 +982,14 @@ does \emph{not} bury its supporting components, as is often the case
 with layered approaches to design. Instead, each lexicon is free to
 use all of the commands beneath it. The robot-movement command relies
 on the root language, with its variables, constants, stack operators,
-math operators, and so on, as heavily as any other component.%%
-\index{F!forth@\Forth{}!component programming|)}\index{C!Component programming|)}
+math operators, and so on, as heavily as any other component.%
+\index{F!forth@\Forth{}!component programming|)}%
+\index{C!Component programming|)}
 
 An important result of this approach is that the entire application
 employs a single syntax, which makes it easy to learn and maintain.
 This is why I use the term ``lexicon'' and not ``language.''
-Languages have unique syntaxes.%%
+Languages have unique syntaxes.%
 \index{L!Lexicons|)}\index{F!forth@\Forth{}!lexicon|)}
 
 This availability of commands also makes the process of testing and
@@ -1260,7 +1292,7 @@ You decide. (\Forth{} doesn't care.)
 
 \section{The Language of Design}
 %
-\index{F!forth@\Forth{}!as design language|(}
+\index{F!forth@\Forth{}!design@as design language|(}
 \Forth{} is a design language. To the student of traditional computer
 science, this statement is self-contradictory. ``One doesn't design
 with a language, one implements with a language.  Design precedes
@@ -1304,7 +1336,7 @@ breadboarding is in electronic design.
 
 As we'll see in the next chapter, experimentation proves more reliable
 in arriving at the truth than the guesswork of planning.%
-\index{F!forth@\Forth{}!as design language|)}
+\index{F!forth@\Forth{}!design@as design language|)}
 
 
 \section{The Language of Performance}%
@@ -1337,8 +1369,6 @@ assembler. Here are three reasons:
 
 First and foremost, \Forth{} is simple. \Forth{}'s use of a data stack%
 \index{D!Data stacks}%
-\index{F!forth@\Forth{}!data handling|see{Data stacks, Data structures}}%
-\index{D!Data handling|see{Data stacks, Data structures}}
 greatly reduces the performance cost of passing arguments from word to
 word. In most languages, passing arguments between modules is one of
 the main reasons that the use of subroutines inhibits performance.
