@@ -742,13 +742,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% initials
 
-\ifcase \@ptsize\relax
-   \font\@inifont=yinit scaled 1000 \def\inifont{\@inifont\baselineskip 44pt}
-\or
-   \font\@inifont=yinit scaled 1096 \def\inifont{\@inifont\baselineskip 47pt}
-\or
-   \font\@inifont=yinit scaled 1000 \def\inifont{\@inifont\baselineskip 50pt}
-\fi
+\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
 
 \ifinitial
 \def\initial#1{\par
