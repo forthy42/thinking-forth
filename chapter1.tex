@@ -23,7 +23,7 @@ advances, we'll compare---and contrast---\Forth{} with these
 state-of-the-art programming principles.
 
 
-\section{An Armchair History of Software Elegance}
+\section{An Armchair History of Software Elegance}%
 \index{S!Software elegance, history of|(}
 
 In the prehistoric days of programming, when computers were dinosaurs,
@@ -42,7 +42,7 @@ In this section we'll outline a history of the tools and techniques
 for writing more elegant programs.
 
 \subsection{Memorability}
-The first computer programs looked something like this:
+The first computer programs looked something like this:%
 \index{S!Software elegance, history of!mnemonics|(}
 \begin{Code}
 00110101
@@ -76,7 +76,7 @@ Each instruction ``assembled'' the appropriate bit pattern for that
 instruction, with a one-to-one correspondence between assembly
 instruction and machine instruction.  But names are easier for
 programmers to remember. For this reason the new instructions were called
-\emph{mnemonics}.\index{M!Mnemonics|)}
+\emph{mnemonics}.\index{M!Mnemonics|)}%
 \index{S!Software elegance, history of!mnemonics|)}
 
 
@@ -91,7 +91,7 @@ In practice, programmers found themselves often repeating the same
 thing in different parts of the program.  How nice it would be to have
 a name which would represent each of these common sequences.
 
-This need was met by the ``macro assembler,''
+This need was met by the ``macro assembler,''%
 \index{M!Macro assembler}
 a more complicated assembler that could recognize not only normal
 instructions, but also special names (``macros''). For each name, the
@@ -99,13 +99,14 @@ macro assembler assembles the five or ten machine instructions
 represented by the name, just as though the programmer had written
 them out in full.
 
+\wepsfigp{img1-004}{So then I typed GOTO 500---and here I am!} %Page 004
 
-\subsection{Abstraction}
-\index{A!Abstraction|(}
+\subsection{Abstraction}%
+\index{A!Abstraction|(}%
 \index{S!Software elegance, history of!abstraction|(}
-A major advance was the invention of the ``high-level language.''
+A major advance was the invention of the ``high-level language.''%
 \index{H!High-level languages:!development of}
-Again this was a translator program, but a more powerful
+Again this was a translator program, but a more powerful%
 \index{S!Software elegance, history of!power} one. High-level
 languages make it possible for programmers to write code like this:
 \begin{Code}
@@ -125,20 +126,18 @@ machine instructions.
 
 The actual instructions depend on each entire ``statement'' of
 source code taken as a whole. Operators such as
-\forth{+} and \forth{=} have no meaning
+$+$ and $=$ have no meaning
 by themselves. They are merely part of a complex symbology that depends
 upon syntax and the operator's location in the statement.
 
 This nonlinear, syntax-dependent correspondence between source and
 object code is widely considered to be an invaluable step in the
 progress of programming methodology. But as we'll see, the approach
-ultimately offers more restriction than freedom.
-\index{A!Abstraction|)}
+ultimately offers more restriction than freedom.%
+\index{A!Abstraction|)}%
 \index{S!Software elegance, history of!abstraction|)}
 
-\wepsfigp{img1-004}{So then I typed GOTO 500---and here I am!} %Page 004
-
-\subsection{Manageability}
+\subsection{Manageability}%
 \index{M!Manageability|(}
 Most computer programs involve much more than lists of instructions
 to work down from start to finish. They also involve testing for various
@@ -149,13 +148,13 @@ moment to branch out of the loop.
 
 Both assembler and high-level languages
 provide branching\index{B!Branching} and looping\index{L!Loops}
-capabilities. In assembly languages
+capabilities. In assembly languages%
 \index{A!Assembly language}
-you use ``jump instructions'';
+you use ``jump instructions;''%
 \index{J!Jump instructions}
-in some high-level languages
+in some high-level languages%
 \index{H!High-level languages:!development of}
-you use ``GO TO'' commands
+you use ``GO TO'' commands%
 \index{G!GO TO commands}.
 When these capabilities are used in the most brute-force way, programs
 tend to look like the jumble you see in \Fig{fig1-1}.
@@ -172,22 +171,22 @@ school of programming, it's impossible to test a single part of the
 code or to figure out how something is getting executed that isn't
 supposed to be getting executed.
 
-Difficulties with spaghetti programs
+Difficulties with spaghetti programs%
 \index{S!Spagetti@``Spaghetti'' programs}
-led to the discovery of ``flow charts.''
+led to the discovery of ``flow charts.''%
 \index{F!Flow charts}
 These were pen-and-ink drawings representing the ``flow'' of execution
 used by the programmer as an aid to understanding the code being
 written. Unfortunately the programmer had to make the translation from
 code to flow chart and back by hand. Many programmers found
-old-fashioned flow charts less than useful.
+old-fashioned flow charts less than useful.%
 \index{M!Manageability|)}
 
-\subsection{Modularity}
-\index{S!Structured programming!(modularity)|(}
+\subsection{Modularity}%
+\index{S!Structured programming!(modularity)|(}%
 \index{S!Software elegance,
-   history of!structured programming|see{Structured programming}}
-\index{S!Structured programming!characteristics of|(}
+   history of!structured programming|see{Structured programming}}%
+\index{S!Structured programming!characteristics of|(}%
 \index{M!Modularity|see{Structured programming}}
 A significant advance arose with the invention of ``Structured
 Programming,'' a methodology based on the observation that large problems
@@ -211,7 +210,7 @@ A branching decision occurs in this module to choose between the
 ``cold cereal'' module and the ``eggs'' module, but control flow stays
 within the outer module
 
-Structured programming has three premises:
+Structured programming has three premises:%
 \index{S!Structured programming!premises of}
 
 \begin{enumerate}\parsep=0pt\itemsep=0pt
@@ -245,20 +244,20 @@ Structured programming was originally conceived as a design approach.
 Modules were imaginary entities that existed in the mind of the
 programmer or designer, not actual units of source code. When
 structured programming design techniques are applied to non-structured
-languages like BASIC
+languages like BASIC%
 \index{B!BASIC},
 the result looks something like \Fig{fig1-3}.
 
 
-\subsection{Writeability}
-\index{W!Writeability|(}
+\subsection{Writeability}%
+\index{W!Writeability|(}%
 \index{S!Structured programming!writeability|(}
 Yet another breakthrough encouraged the use of structured programs:
 structured programming languages. These languages include control
 structures in their command sets, so you can write programs that have
-a more modular appearance. Pascal
+a more modular appearance. Pascal%
 \index{P!Pascal}
-is such a language, invented by Niklaus Wirth
+is such a language, invented by Niklaus Wirth%
 \index{W!Wirth, Niklaus}
 to teach the principles of structured programming to his students.
 
@@ -273,14 +272,14 @@ flow. As you can see, indentation is important for readability, since
 all the instructions within each module are still written out rather
 than being referred to by name (e.g., ``\forth{MAKE-CEREAL}'').
 The finished program might take ten pages, with the \forth{ELSE}
-on page five.
-\index{W!Writeability|)}
-\index{S!Structured programming!writeability|)}
+on page five.%
+\index{W!Writeability|)}%
+\index{S!Structured programming!writeability|)}%
 \index{S!Structured programming!characteristics of|)}
 
 
-\subsection{Designing from the Top}
-\index{T!Top-down design|(}
+\subsection{Designing from the Top}%
+\index{T!Top-down design|(}%
 \index{S!Structured programming!top-down design|(}
 How does one go about designing these modules? A methodology called
 ``top-down design'' proclaims that modules should be designed in order
@@ -302,15 +301,15 @@ Because programs are so difficult to change once they've been written,
 any design oversight at the preliminary planning stage should be
 revealed before the actual code-level modules are written, according
 to the top-down design, Otherwise, man-years of effort may be wasted
-writing code that cannot be used.
-\index{T!Top-down design|)}
+writing code that cannot be used.%
+\index{T!Top-down design|)}%
 \index{S!Structured programming!top-down design|)}
 
 \wepsfigp{img1-010}{Software patches are ugly and
 conceal structural weaknesses.}
 
-\subsection{Subroutines}
-\index{S!Subroutines|(}
+\subsection{Subroutines}%
+\index{S!Subroutines|(}%
 \index{S!Structured programming!subroutines|(}
 We've been discussing ``modules'' as abstract entities only. But
 all high-level programming languages incorporate techniques that allow
@@ -348,7 +347,6 @@ procedure make-breakfast
    &textbf{call cleanup}
 end
 \end{Code}
-\label{make-breakfast}
 \medskip
 The phrase ``call make-cereal'' causes the subroutine named
 ``make-cereal'' to be executed. When the subroutine has finished being
@@ -390,13 +388,13 @@ need to write a special testing program to call them from.
 
 For these reasons computer scientists recommend their use in
 moderation.  In practice subroutines are usually fairly large between
-a half page to a full page of source code in length.
-\index{S!Subroutines|)}
+a half page to a full page of source code in length.%
+\index{S!Subroutines|)}%
 \index{S!Structured programming!subroutines|)}
 
 
-\subsection{Successive Refinement}
-\index{S!Structured programming!successive refinement|(}
+\subsection{Successive Refinement}%
+\index{S!Structured programming!successive refinement|(}%
 \index{S!Successive refinement|(}
 An approach that relies heavily on subroutines is called ``Successive
 Refinement'' \cite{wirth71}. The idea is that you begin by writing a
@@ -408,7 +406,7 @@ itself.
 
 At each step the programmer must make decisions about the algorithms
 being used and about the data structures they're being used on.
-Decisions about the algorithms
+Decisions about the algorithms%
 \index{A!Algorithms}
 and associated data structures should be made in parallel.
 
@@ -422,8 +420,8 @@ completely designed it.
 
 Also notice: Successive refinement forces you to work out
 all details of control structure on each level before proceeding
-to the next lower level.
-\index{S!Structured programming!successive refinement|)}
+to the next lower level.%
+\index{S!Structured programming!successive refinement|)}%
 \index{S!Successive refinement|)}
 
 \wepsfigp{img1-013}{Tobias, I think you've carried the successive
@@ -465,8 +463,8 @@ But what is a module, and on what basis does one make the divisions?
 ``Structured Design'' outlines three factors for designing modules.
 
 
-\subsection{Functional Strength}
-\index{F!Functional strength|(}
+\subsection{Functional Strength}%
+\index{F!Functional strength|(}%
 \index{S!Structured programming!functional strength|(}
 One factor is something called ``functional strength,'' which is a
 measure of the uniformity of purpose of all the statements within a
@@ -505,15 +503,15 @@ to the same set of data)
 \item [Sequential~binding:]\index{S!Sequential binding}
 (where the output of one statement serves as input for the next statement)
 \end{description}
-Our ``MAKE-CEREAL'' module exhibits functional binding, because
+Our ``\forth{MAKE-CEREAL}'' module exhibits functional binding, because
 it can be thought of as doing one thing, even though it consists of
-several subordinate tasks.
-\index{F!Functional strength|)}
+several subordinate tasks.%
+\index{F!Functional strength|)}%
 \index{S!Structured programming!functional strength|)}
 
 
-\subsection{Coupling}
-\index{C!Coupling|(}
+\subsection{Coupling}%
+\index{C!Coupling|(}%
 \index{S!Structured programming!coupling|(}
 A second tenet of structured design concerns ``coupling,'' a measure
 of how modules influence the behavior of other modules.  Strong
@@ -522,7 +520,7 @@ actually modifies code inside another module. Even passing control
 flags to other modules with the intent to control their function is
 dangerous.
 
-An acceptable form of coupling is ``data coupling,''
+An acceptable form of coupling is ``data coupling,''%
 \index{D!Data coupling}
 which involves passing data (not control information) from one module
 to another.  Even then, systems are easiest to build and maintain when
@@ -541,14 +539,14 @@ to have put the answer in the variable named Z. No one else will use
 these variables.''
 
 As we said, conventional languages that support subroutines include
-elaborate methods of passing arguments from one module to another.
-\index{C!Coupling|)}
+elaborate methods of passing arguments from one module to another.%
+\index{C!Coupling|)}%
 \index{S!Structured programming!coupling|)}
 
 
-\subsection{Hierarchical Input-Process-Output Designing}
-\index{H!Hierarchical input-process-output designing|(}
-\index{I!Input-process-output designing, hierarchical|(}
+\subsection{Hierarchical Input-Process-Output Designing}%
+\index{H!Hierarchical input-process-output designing|(}%
+\index{I!Input-process-output designing, hierarchical|(}%
 \index{S!Structured programming!hierarchical input-process-output designing|(}
 A third precept of structured design concerns the design process.
 Designers are advised to use a top-down approach, but to pay less
@@ -558,7 +556,7 @@ design should focus on the program's hierarchy (which modules call
 which modules) and to the passing of data from one module to another.
 
 To help designers think along these new lines, a graphic
-representation was invented, called the ``structure chart.''
+representation was invented, called the ``structure chart.''%
 \index{S!Structure chart|(}
 (A slightly different form is called the ``HIPO chart,'' which stands
 for ``hierarchical input-process-output.'') Structure charts include
@@ -583,18 +581,18 @@ As we'll see, control flow is a superficial aspect of the problem.
 Minor changes in the requirements can profoundly change the program's
 control structures, and ``deep-six'' years of work.  But if programs
 are designed around other concerns, such as the flow of data, then a
-change in plan won't have so disastrous an effect.
-\index{H!Hierarchical input-process-output designing|)}
-\index{I!Input-process-output designing, hierarchical|)}
-\index{S!Structure chart|)}
+change in plan won't have so disastrous an effect.%
+\index{H!Hierarchical input-process-output designing|)}%
+\index{I!Input-process-output designing, hierarchical|)}%
+\index{S!Structure chart|)}%
 \index{S!Structured programming!hierarchical input-process-output designing|)}
 
 
-\subsection{Information-Hiding }
-\index{F!\Forth{}!information-hiding|(}
-\index{I!Information-hiding|(}
+\subsection{Information-Hiding }%
+\index{F!\Forth{}!information-hiding|(}%
+\index{I!Information-hiding|(}%
 \index{S!Structured programming!information-hiding|(}
-In a paper \cite{parnas72} published back in 1972, Dr. \person{David L. Parnas}
+In a paper \cite{parnas72} published back in 1972, Dr. \person{David L. Parnas}%
 \index{P!Parnas, David} showed
 that the criteria for decomposing modules should not be steps in the
 process, but rather pieces of information that might possibly change.
@@ -607,8 +605,8 @@ Here's a portion:
 \begin{tfquot}
 Sales Dept. takes order\\
 sends blue copy to Bookkeeping\\
-orange copy to Shipping\\
- \\
+orange copy to Shipping
+
 Jay logs the orange copy in the red binder on his desk, and completes
 packing slip.
 \end{tfquot}
@@ -621,7 +619,7 @@ and gets replaced with a black one.
 
 Your entire manual is obsolete. You could have avoided the
 obsolescence by using the term ``Shipping Clerk'' instead of the name
-Jay, the terms ``Bookkeeping Dept. copy and'' ``Shipping Dept.  copy''
+``Jay,'' the terms ``Bookkeeping Dept. copy and'' ``Shipping Dept.  copy''
 instead of ``blue'' and ``orange,'' etc.
 
 This example illustrates that in order to maintain correctness in the
@@ -654,7 +652,7 @@ uses and that might conceivably change should be made into a
 ``constant'' and referred to throughout the program by name, not by
 value. For instance, the number of columns representing the width of
 your computer paper forms should be expressed as a constant. Even
-assembly languages provide ``EQU''s and labels for associating values
+assembly languages provide ``\code{EQU}''s and labels for associating values
 such as addresses and bit-patterns with names.
 
 Any good programmer will also apply the concept of information-hiding
@@ -663,19 +661,19 @@ little as possible about the insides of other modules. Contemporary
 programming languages such as C, Modula 2, and Edison apply this
 concept to the architecture of their procedures.
 
-But \person{Parnas}
+But \person{Parnas}%
 \index{P!Parnas, David}
 takes the idea much further. He suggests that the concept should be
 extended to algorithms and data structures.  In fact, hiding
 information---not decision-structure or calling-hierarchy---should be
-the primary basis for design!
-\index{I!Information-hiding|)}
-\index{F!\Forth{}!information-hiding|)}
-\index{S!Software elegance, history of|)}
+the primary basis for design!%
+\index{I!Information-hiding|)}%
+\index{F!\Forth{}!information-hiding|)}%
+\index{S!Software elegance, history of|)}%
 \index{S!Structured programming!information-hiding|)}
 
-\section{The Superficiality of Structure}
-\index{S!Structured programming!new view of|(}
+\section{The Superficiality of Structure}%
+\index{S!Structured programming!new view of|(}%
 \index{S!Structure!superficiality of|(}
 
 \person{Parnas}\index{P!Parnas, David} proposes two criteria for decomposition:
@@ -695,24 +693,24 @@ view. This ``module'' is a collection of routines, usually very
 small, which together hide information about some aspect of the problem. 
 
 Two other writers describe the same idea in a different way, using the
-term ``data abstraction'' \cite{liskov75}
+term ``data abstraction'' \cite{liskov75}%
 \index{D!Data abstraction}.
 Their example is a push-down stack. The stack ``module'' consists of
 routines to initialize the stack, push a value onto the stack, pop a
 value from the stack, and determine whether the stack is empty. This
-``multiprocedure module''
+``multiprocedure module''%
 \index{M!Multiprocedure module}
 hides the information of how the stack is constructed from the rest of
 the application. The procedures are considered to be a single module
 because they are interdependent. You can't change the method for
 pushing a value without also changing the method for popping a value.
 
-The word \emph{uses} plays an important role in this concept.  \person{Parnas}
+The word \emph{uses} plays an important role in this concept.  \person{Parnas}%
 \index{P!Parnas, David|(}
 writes in a later paper \cite{parnas79}:
 
 \begin{tfquot}
-Systems that have achieved a certain ``elegance''\dots{}have done so
+Systems that have achieved a certain ``elegance''\dots{} have done so
 by having parts of the system use other parts\dots{}
 
 If such a hierarchical ordering exists then each level offers a
@@ -728,24 +726,23 @@ sequence will not readily allow design changes. Structure, in the
 sense or control-flow hierarchy, is superficial.
 
 A design in which modules are grouped according to things that may
-change can readily accommodate change.
-\index{S!Structured programming!new view of|)}
+change can readily accommodate change.%
+\index{S!Structured programming!new view of|)}%
 \index{S!Structure!superficiality of|)}
 
 
-\section{Looking Back, and \Forth{}}
+\section{Looking Back, and \Forth{}}%
 \index{F!\Forth{}|(}
 In this section we'll review the fundamental features of \Forth{} and
-relate them to what we've seen about traditional methodologies. Here's
-an example of \Forth{} code;
+relate them to what we've seen about traditional methodologies.
 
-Here's an example of FORTH code;
+Here's an example of \Forth{} code;
 \begin{Code}
 : BREAKFAST
    HURRIED?  IF  CEREAL  ELSE  EGGS  THEN CLEAN ;
 \end{Code}
 This is structurally identical to the procedure \forth{MAKE-BREAKFAST} on
-page \pageref{make-breakfast}. (If you're new to \Forth{}, refer to
+page \pageref{fig-fig1-4}. (If you're new to \Forth{}, refer to
 \App{A} for an explanation.)  The words \forth{HURRIED?},
 \forth{CEREAL}, \forth{EGGS}, and \forth{CLEAN} are (most likely) also
 defined. as colon definitions.
@@ -768,9 +765,9 @@ Before we explore the significance of a word-based environment, let's
 first study two \Forth{} inventions that make it possible.
 
 
-\subsection{Implicit Calls}
-\index{C!Calls, implicit|(}
-\index{F!\Forth{}!implicit calls|(}
+\subsection{Implicit Calls}%
+\index{C!Calls, implicit|(}%
+\index{F!\Forth{}!implicit calls|(}%
 \index{I!Implicit calls|(}
 First, calls are implicit. You don't have to say \forth{CALL CEREAL},
 you simply say \forth{CEREAL}. In \Forth{}, the definition of
@@ -779,24 +776,25 @@ use to invoke itself.
 
 Thus variables and constants, system functions, utilities, as well
 as any user-defined commands or data structures can all be ``called''
-simply by name.
-\index{C!Calls, implicit|)}
-\index{F!\Forth{}!implicit calls|)}
+simply by name.%
+\index{C!Calls, implicit|)}%
+\index{F!\Forth{}!implicit calls|)}%
 \index{I!Implicit calls|)}
 
 
-\subsection{Implicit Data Passing}
-\index{F!\Forth{}!implicit data passing|(}
+\subsection{Implicit Data Passing}%
+\index{F!\Forth{}!implicit data passing|(}%
 \index{I!Implicit data passing|(}
-Second, data passing is implicit
+Second, data passing is implicit%
 \index{D!Data passing, implicit}.
-The mechanism that produces this effect is \Forth{}'s data stack
+The mechanism that produces this effect is \Forth{}'s data stack%
 \index{D!Data stacks}.
 \Forth{} automatically pushes numbers onto the stack; words that require
 numbers as input automatically pop them off the stack; words that
 produce numbers as output automatically push them onto the stack. The
 words \forth{PUSH} and \forth{POP} do not exist in high-level \Forth{}.
 
+\medbreak
 Thus we can write:
 \begin{Code}
 : DOIT
@@ -820,8 +818,8 @@ while providing a simple mechanism for passing local arguments.
 invoked and \emph{how} data are passed. What's left? Only the words
 that describe our problem.
 
-Having words, we can fully exploit the recommendations of \person{Parnas}---
-\index{P!Parnas, David}
+Having words, we can fully exploit the recommendations of \person{Parnas}---%
+\index{P!Parnas, David}%
 to decompose problems according to things that may change, and have
 each ``module'' consist of many small functions, as many as are needed
 to hide information about that module. In \Forth{} we can write as many
@@ -838,13 +836,13 @@ Few other languages would encourage you to concoct a subroutine called
 Since a \Forth{} word is easier to invoke than a subroutine (simply by
 being named, not by being called), a \Forth{} program is likely to be
 decomposed into more words than a conventional program would be into
-subroutines.
-\index{I!Implicit data passing|)}
+subroutines.%
+\index{I!Implicit data passing|)}%
 \index{F!\Forth{}!implicit data passing|)}
 
 
-\section{Component Programming}
-\index{C!Component programming|(}
+\section{Component Programming}%
+\index{C!Component programming|(}%
 \index{F!\Forth{}!component programming|(}
 Having a larger set of simpler words makes it easy to use a technique
 we'll call ``component programming.'' To explain, let's first
@@ -867,7 +865,7 @@ A component is a resource. It may be a piece of hardware such as a
 UART or a hardware stack. Or the component may be a software resource
 such as a queue, a dictionary, or a software stack.
 
-All components involve data objects and algorithms
+All components involve data objects and algorithms%
 \index{A!Algorithms}.
 It doesn't matter whether the data object is physical (such as a
 hardware register), or abstract (such as a stack location or a field
@@ -876,7 +874,7 @@ in machine code or in problem-oriented words such as \forth{CEREAL}
 and \forth{EGGS}.
 
 \wepsfigt{fig1-7}{Structured design vs. component design.}
-
+%
 \index{S!Structured programming!component@vs. component programming|(}
 \Fig{fig1-7} contrasts the results of structured design with the
 results of designing by components. Instead of \emph{modules} called
@@ -901,11 +899,11 @@ that uses this component needs to know of the change.
 Aside from maintenance, an advantage to this scheme is that
 programmers on a team can be assigned components individually, with
 less interdependence.  The principle of component programming applies
-to team management as well as to software design.
-\index{S!Structured programming!component@vs. component programming|)}
+to team management as well as to software design.%
+\index{S!Structured programming!component@vs. component programming|)}%
 \index{S!Structured programming!(modularity)|)}
-
-\index{F!\Forth{}!lexicon|(}
+%
+\index{F!\Forth{}!lexicon|(}%
 \index{L!Lexicons|(}
 We'll call the set of words which describe a component a ``lexicon.''
 (One meaning of lexicon is ``a set of words pertaining to a particular
@@ -942,7 +940,7 @@ code in the most efficient and reliable way.
 
 By the way, \Forth{} itself doesn't support components. It doesn't need
 to. Components are the product of the program designer's decomposition.
-(\Forth{} does have ``screens.''
+(\Forth{} does have ``screens.''%
 \index{S!Screens}
 however---small units of mass storage for saving source code. A
 component can usually be written in one or two screens of \Forth{}.)
@@ -953,13 +951,13 @@ does \emph{not} bury its supporting components, as is often the case
 with layered approaches to design. Instead, each lexicon is free to
 use all of the commands beneath it. The robot-movement command relies
 on the root language, with its variables, constants, stack operators,
-math operators, and so on, as heavily as any other component.
+math operators, and so on, as heavily as any other component.%%
 \index{F!\Forth{}!component programming|)}\index{C!Component programming|)}
 
 An important result of this approach is that the entire application
 employs a single syntax, which makes it easy to learn and maintain.
 This is why I use the term ``lexicon'' and not ``language.''
-Languages have unique syntaxes.
+Languages have unique syntaxes.%%
 \index{L!Lexicons|)}\index{F!\Forth{}!lexicon|)}
 
 This availability of commands also makes the process of testing and
@@ -995,8 +993,8 @@ understanding of the problem, in which you can elegantly describe its
 solution.
 
 
-\section{Hide From Whom?}
-\index{F!\Forth{}!information-hiding|(}
+\section{Hide From Whom?}%
+\index{F!\Forth{}!information-hiding|(}%
 \index{I!Information-hiding|(}
 Because modern mainstream languages give a slightly different meaning
 to the phrase ``information-hiding,'' we should clarify. From what, or
@@ -1019,15 +1017,15 @@ each component.
 control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to \Forth{} has been implemented, in only three lines
-of code, by\person{ Dewey Val Shorre} \cite{shorre71}.)
-\index{I!Information-hiding|)}
+of code, by\person{ Dewey Val Shorre} \cite{shorre71}.)%
+\index{I!Information-hiding|)}%
 \index{F!\Forth{}!information-hiding|)}
 
 
-\section{Hiding the Construction of Data Structures}
+\section{Hiding the Construction of Data Structures}%
 \index{D!Data structures:!hiding construction of|(}
 We've noted two inventions of \Forth{} that make possible the methodology
-we've described---implicit calls and implicit data passing
+we've described---implicit calls and implicit data passing%
 \index{D!Data passing, implicit}. A third
 feature allows the data structures within a component to be described
 in terms of previously-defined components. This feature is direct
@@ -1116,8 +1114,8 @@ colon definition) within the component.
 structures to be defined in terms of lower level components. Only
 \Forth{}, which eliminates the CALLs from procedures, which allows
 addresses and data to be implicitly passed via the stack, and which
-provides direct access to memory locations with @ and !, can offer
-this level of information-hiding.
+provides direct access to memory locations with \forth{@} and
+\forth{!}, can offer this level of information-hiding.
 
 \Forth{} pays little attention to whether something is a data structure
 or an algorithm. This indifference allows us programmers incredible
@@ -1143,12 +1141,12 @@ GREEN APPLES ?
 \Forth{} words can also serve as adverbs and prepositions. There's little
 value in trying to determine what part of speech a particular word is,
 since \Forth{} doesn't care anyway. We need only enjoy the ease of
-describing an application in natural terms.
+describing an application in natural terms.%
 \index{D!Data structures:!hiding construction of|)}
 
 
-\section{But Is It a High-Level Language?}
-\index{F!\Forth{}!high-level language issue|(}
+\section{But Is It a High-Level Language?}%
+\index{F!\Forth{}!high-level language issue|(}%
 \index{H!High-level languages:!\Forth{} as|(}
 In our brief technical overview, we noted that traditional high-level
 languages broke away from assembly-language by eliminating not only
@@ -1165,7 +1163,7 @@ Before we answer, let's explore the advantages of the \Forth{} approach.
 
 % the 1984 original didn't have the inteview bar here
 \begin{interview}
-Here's what \person{Charles Moore},
+Here's what \person{Charles Moore},%
 \index{M!Moore, Charles}
 the inventor of \Forth{}, has to say:
 
@@ -1190,7 +1188,7 @@ execution is the tremendous simplification of the compiler and
 interpreter.  This simplification improves performance in several
 ways, as we'll see in a later section.
 
-From the standpoint of programming methodology, the advantage to the
+From the standpoint of programming methodology, the advantage to the%
 \index{F!\Forth{}!advantages of}
 \Forth{} approach is that \emph{new} words and \emph{new} syntaxes can
 easily be added. \Forth{} cannot be said to be ``looking'' for words---it
@@ -1225,7 +1223,7 @@ procedure library in the laboratory \cite{bern83}: ``The computer, not
 the user, dominates the experiment.'' But with \Forth{}, he writes, ``the
 computer actually encourages scientists to modify, repair, and improve
 the software, to experiment with and characterize their equipment.
-Initiative becomes once more the prerogative of the researcher.''
+Initiative becomes once more the prerogative of the researcher.''%
 \index{B!Bernstein, Mark|)}
 
 \wepsfigp{img1-030}{Two solutions to the problem of security.}
@@ -1253,15 +1251,15 @@ language try to out think you?
 So is \Forth{} a high-level language? On the question of syntax checking,
 it strikes out. On the question of abstraction and power, it seems to
 be of \emph{infinite} level---supporting everything from bit
-manipulation at an output port to business applications.
-\index{H!High-level languages:!\Forth{} as|)}
+manipulation at an output port to business applications.%
+\index{H!High-level languages:!\Forth{} as|)}%
 \index{F!\Forth{}!high-level language issue|)}
 
 You decide. (\Forth{} doesn't care.)
 
 
 \section{The Language of Design}
-
+%
 \index{F!\Forth{}!as design language|(}
 \Forth{} is a design language. To the student of traditional computer
 science, this statement is self-contradictory. ``One doesn't design
@@ -1282,7 +1280,7 @@ your application, then successively change and refine it until you
 reach your goal.
 
 Another factor that makes designing in code possible is that \Forth{},
-like some of the newer languages, eliminates the ``batch-compile''
+like some of the newer languages, eliminates the ``batch-compile''%
 \index{B!Batch-compile development sequence!elimination of}
 development sequence (edit-compile-test-edit-compile-test). Because
 the feedback is instantaneous, the medium becomes a partner in the
@@ -1299,18 +1297,18 @@ languages do not readily accommodate change.
 Unfortunately, human foresight is limited even under the best
 conditions.  Too much planning becomes counterproductive.
 
-Of course \Forth{} doesn't eliminate planning. It allows prototyping.
+Of course \Forth{} doesn't eliminate planning. It allows prototyping.%
 \index{P!Prototyping}
 Constructing a prototype is a more refined way to plan, just as
 breadboarding is in electronic design.
 
 As we'll see in the next chapter, experimentation proves more reliable
-in arriving at the truth than the guesswork of planning.
+in arriving at the truth than the guesswork of planning.%
 \index{F!\Forth{}!as design language|)}
 
 
-\section{The Language of Performance}
-\index{F!\Forth{}!performance of|(}
+\section{The Language of Performance}%
+\index{F!\Forth{}!performance of|(}%
 \index{P!Performance|(}
 Although performance is not the main topic of this book, the newcomer
 to \Forth{} should be reassured that its advantages aren't purely
@@ -1318,8 +1316,8 @@ philosophical.  Overall, \Forth{} outdoes all other high-level languages
 in speed, capability and compactness.
 
 
-\subsection{Speed}
-\index{F!\Forth{}!speed of|(}
+\subsection{Speed}%
+\index{F!\Forth{}!speed of|(}%
 \index{S!Speed|(}
 Although \Forth{} is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC.
@@ -1337,9 +1335,9 @@ words, depending on the processor.
 But in large applications, \Forth{} comes very close to the speed of
 assembler. Here are three reasons:
 
-First and foremost, \Forth{} is simple. \Forth{}'s use of a data stack
-\index{D!Data stacks}
-\index{F!\Forth{}!data handling|see{Data stacks, Data structures}}
+First and foremost, \Forth{} is simple. \Forth{}'s use of a data stack%
+\index{D!Data stacks}%
+\index{F!\Forth{}!data handling|see{Data stacks, Data structures}}%
 \index{D!data handling|see{Data stacks, Data structures}}
 greatly reduces the performance cost of passing arguments from word to
 word. In most languages, passing arguments between modules is one of
@@ -1364,16 +1362,16 @@ before settling on the one best suited for their needs. Because \Forth{}
 encourages change, it can also be called the language of optimization.
 
 \Forth{} doesn't guarantee fast applications. It does give the programmer
-a creative environment in which to design fast applications.
-\index{F!\Forth{}!speed of|)}
+a creative environment in which to design fast applications.%
+\index{F!\Forth{}!speed of|)}%
 \index{S!Speed|)}
 
 \subsection{Capability}
 \Forth{}\index{C!Capability}\index{F!\Forth{}!capability of}
-can do anything any other language can do---usually easier.
+can do anything any other language can do---usually easier.%
 \index{F!\Forth{}!advantages of}
 
-At the low end, nearly all \Forth{} systems include assemblers
+At the low end, nearly all \Forth{} systems include assemblers%
 \index{A!Assemblers}. These
 support control-structure operators for writing conditionals and loops
 using structured programming techniques. They usually allow you to
@@ -1388,10 +1386,10 @@ RT-11, CP/M, or MS-DOS---or, for those who prefer it, \Forth{} can be
 written as a self-sufficient operating system including its own
 terminal drivers and disk drivers.
 
-With a \Forth{} cross-compiler
+With a \Forth{} cross-compiler%
 \index{C!Cross-compilers} or
-target compiler,
-\index{C!Compilers}
+target compiler,%
+\index{C!Compilers}%
 \index{T!Target compilers}
 you can use \Forth{} to recreate new \Forth{} systems, for the same computer
 or for different computers. Since \Forth{} is written in \Forth{}, you have
@@ -1400,7 +1398,7 @@ according to the needs of your application. Or you can transport
 streamlined versions of applications over to embedded systems. 
 
 
-\subsection{Size}
+\subsection{Size}%
 \index{F!\Forth{}!size of|(}
 There are two considerations here: the size of the root \Forth{} system,
 and the size of compiled \Forth{} applications.
@@ -1408,7 +1406,7 @@ and the size of compiled \Forth{} applications.
 The \Forth{} nucleus is very flexible. In an embedded application, the
 part of \Forth{} you need to run your application can fit in as little
 as 1K. In a full development environment, a multitasked \Forth{} system
-including interpreter, compiler, assembler,
+including interpreter, compiler, assembler,%
 \index{A!Assemblers}
 editor, operating system, and all other support utilities averages
 16K. This leaves plenty of room for applications. (And some \Forth{}s on
@@ -1422,14 +1420,14 @@ matter how powerful, uses only two bytes.
 
 One of the most exciting new territories for \Forth{} is the production
 of \Forth{} chips such as the
-Rockwell R65F11 \Forth{}-based microprocessor
+Rockwell R65F11 \Forth{}-based microprocessor%
 \index{R!Rockwell R65F11 \Forth{}-based microprocessor}
 \cite{dumse}. The chip includes not only hardware features but also
 the run-time portions of the \Forth{} language and operating system for
 dedicated applications. Only \Forth{}'s architecture and compactness make
-\Forth{}-based micros possible.
-\index{F!\Forth{}!size of|)}
-\index{F!\Forth{}!performance of|)}
+\Forth{}-based micros possible.%
+\index{F!\Forth{}!size of|)}%
+\index{F!\Forth{}!performance of|)}%
 \index{P!Performance|)}
 
 
@@ -1457,7 +1455,7 @@ better maintainable code.
 
 \Forth{} may not be the ultimate language. But I believe the ultimate
 language, if such a thing is possible, will more closely resemble
-\Forth{} than any other contemporary language.
+\Forth{} than any other contemporary language.%
 \index{F!\Forth{}|)}
 
 

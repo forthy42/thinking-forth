@@ -374,12 +374,22 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \stepcounter{sectionlr}}
 \def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
 
+%% original Thinking Forth placement
+%\let\sectionlr\raggedlr
+%\let\subsectionlr\raggedright
+%\let\subsubsectionlr\raggedright
+%% more consistent:
+\let\sectionlr\raggedlr
+\let\subsectionlr\raggedlr
+\let\subsubsectionlr\raggedlr
+%%
+
 \def\section#1{\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
-    minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\protect\raggedlr #1\kern-.66in}}
+    minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\sectionlr #1\kern-.66in}}
 \def\subsection#1{\@startsection{subsection}{2}{0in}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
+    minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\subsectionlr #1\kern0in}}
 \def\subsubsection#1{\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
+    minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\subsubsectionlr #1\kern0in}}
 
 %% indentation
 
