@@ -11,6 +11,7 @@ SOURCES = thinking-forth.tex \
 	epilog.tex appendixa.tex appendixb.tex appendixc.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
+	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
 	fig7-7.tex fig7-8.tex fig7-9.tex
 
 PNGSOURCES = \
@@ -30,15 +31,14 @@ PNGSOURCES = \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
 	no-scrambled.png
 
-PDFGEN = fig7-7.pdf fig7-8.pdf fig7-9.pdf
-EPSGEN = fig7-7.eps fig7-8.eps fig7-9.eps
-
 all:	pspdf ps
 
-pspdf thinking-forth.pdf : thinking-forth.ps
+pspdf:	thinking-forth.pdf
+
+thinking-forth.pdf : thinking-forth.ps
 	ps2pdf thinking-forth.ps thinking-forth.pdf
 
-pdf : $(SOURCES) $(PDFGEN) $(PNGSOURCES:.png=.pdf)
+pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
 
@@ -51,11 +51,11 @@ dvi thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
-fig%.pdf fig%.eps:	fig%.tex
-	./tex2pdf $<
-
-inl%.pdf inl%.eps:	inl%.tex
-	./tex2pdf $<
+#fig%.pdf fig%.eps:	fig%.tex
+#	./tex2pdf $<
+#
+#inl%.pdf inl%.eps:	inl%.tex
+#	./tex2pdf $<
 
 img%.pdf:	img%.eps
 	./eps2pdf $<

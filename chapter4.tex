@@ -1498,7 +1498,16 @@ the next row below. It's as if the table should really be written:
 %!! some circles and lines in it. I have no clue how
 %!! to render this. See pg 128.
 \bigskip
-\includegraphics{inl4-1}
+{\sf\begin{tabular}{rlll}
+          & \it ONERs & \it FIVERs & \it TENERs \\
+     ones & \circlenode[linecolor=white]{I2}{\boxto{}I}  &  V & \circlenode{X1}{\boxto{}X} \\
+     tens & \circlenode{X2}{\boxto{}X}  &  L & \circlenode{C1}{\boxto{}C} \\
+ hundreds & \circlenode{C2}{\boxto{}C}  &  D & \circlenode{M1}{\boxto{}M} \\
+thousands & \circlenode{M2}{\boxto{}M}  & \\
+\end{tabular}
+\ncline{X1}{X2}
+\ncline{C1}{C2}
+\ncline{M1}{M2}}
 \bigskip
 
 \noindent But that seems redundant. Can we avoid it? Perhaps if we try

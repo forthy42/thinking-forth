@@ -80,6 +80,20 @@
 \label{img-#1}
 \end{figure*}
 }
+\newcommand{\wtexfigt}[2]{
+\begin{figure*}[tttt]
+\caption{#2}
+\include{#1}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wtexfigb}[2]{
+\begin{figure*}[bbbb]
+\caption{#2}
+\include{#1}
+\labelfig{#1}
+\end{figure*}
+}
 
 \newcommand{\poorbf}[1]{%
 \kern-.25pt\hbox to 0.25pt{#1\hss}%
@@ -98,7 +112,7 @@
 
 \renewcommand\topfraction{.95}
 \renewcommand\bottomfraction{.5}
-%\renewcommand\floatpagefraction{0.5}
+%\renewcommand\floatpagefraction{.05}
 
 \newenvironment{tip}{\list{}{
 \parsep\z@ \@plus\p@\small}%
