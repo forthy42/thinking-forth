@@ -15,7 +15,7 @@ SOURCES = thinking-forth.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
 	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
-	fig7-7.tex fig7-8.tex fig7-9.tex \
+	fig7-7.tex fig7-8.tex fig7-9.tex backpage.tex cover.tex \
 	autoscale eps2pdf
 
 ALL_SOURCES = $(SOURCES) Makefile
@@ -53,7 +53,9 @@ TOGETHER = 20 # how many pages you bind together - divide by 4
 PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
 PSLET = sed -e 's/%%BoundingBox:.*/%%PageSize: letter\n%%Orientation: Landscape/'
 
-all:	index pspdf ps
+all:	index pspdf ps cover
+
+cover:	cover.pdf
 
 dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)
@@ -87,8 +89,8 @@ bookletter : thinking-forth.ps
 	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,14.5cm)' | \
 	$(PSA4) >$@
 
-thinking-forth.pdf : thinking-forth.ps
-	ps2pdf thinking-forth.ps thinking-forth.pdf
+%.pdf : %.ps
+	ps2pdf $< $@
 
 pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 	pdflatex thinking-forth.tex
@@ -96,12 +98,15 @@ pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 
 ps :	thinking-forth.ps
 
-thinking-forth.ps : thinking-forth.dvi
+%.ps	: %.dvi
 	dvips $< -o $@
 
 dvi thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
+
+cover.dvi:	cover.tex
+	latex cover.tex
 
 thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
