@@ -28,19 +28,28 @@ approaches have worked out better than others. Here is a development
 cycle that represents an ``average'' of the most successful approaches
 used in software projects:
 
+% Never mind I figured it out - thanks for looking.
 \begin{description}
-\item[Analysis]
-1. Discover the Requirements and Constraints \\
-2. Build a Conceptual Model of the Solution \\
-3. Estimate Cost/Schedule/Performance
-\item[Engineering] 
-4. Preliminary Design \\
-5. Detailed Design \\
-6. Implementation
-\item[Usage]
-7. Optimization \\
-8. Validation and Debugging \\
-9. Maintenance
+\item[Analysis] \hfill
+    \begin{enumerate}
+    \item Discover the Requirements and Constraints
+    \item Build a Conceptual Model of the Solution
+    \item Estimate Cost/Schedule/Performance
+    \end{enumerate}
+\item[Engineering] \hfill
+    \begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Preliminary Design
+    \item Detailed Design
+    \item Implementation
+    \end{enumerate}
+\item[Usage] \hfill
+    \begin{enumerate}
+    \setcounter{enumi}{6}
+    \item Optimization
+    \item Validation and Debugging
+    \item Maintenance
+    \end{enumerate}
 \end{description}
 
 \noindent In this book we'll treat the first six stages of the cycle,
