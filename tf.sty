@@ -9,6 +9,8 @@
 % section and subsection header style
 % caption style
 
+\makeatletter
+
 \setcounter{secnumdepth}{0}
 \newcommand{\fixme}[1]{{\tiny$\triangleright$\marginpar{\tiny$\triangleleft$!!#1}}}
 
@@ -31,9 +33,20 @@
 \end{figure*}
 }
 
-\newenvironment{tip}{\begin{framed}{\Large\textsf{TIP}}\\[2ex]}{\vspace{0.2ex}\end{framed}}
+\newenvironment{tip}{\list{}{
+\hbox{\hbox to\leftmargin{}{\advance\linewidth-1\leftmargin\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}}\nopagebreak
+\vspace{1ex}{\Large TIP} \nopagebreak}%
+  \nopagebreak\item\relax}
+{\vspace{1ex}
+\par\kern-1ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
+\vspace{.5ex}\endlist}
 
-\newenvironment{tfquot}{\begin{quotation}\small}{\end{quotation}}
+\newenvironment{tfquot}
+               {\list{}{\listparindent 1.5em%
+                        \itemindent    \listparindent
+                        \parsep        \z@ \@plus\p@\small}%
+                \item\relax}
+               {\endlist}
 
 
 %\pointto{box}
@@ -58,13 +71,80 @@
 \newcommand{\chapternum}[1]{}
 
 \newcounter{screen}
-\DefineVerbatimEnvironment{Screen}{LVerbatim}{frame=single,framesep=3pt,%
+\DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
 label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
 labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
-samepage=true,xleftmargin=2em,xrightmargin=4em}
+samepage=true,xleftmargin=0em,xrightmargin=0em}
 
 \lstloadaspects{labels}
 \lstset{language=Forth,basicstyle=\ttfamily,keywordstyle=\bfseries,%
 basewidth=0.5em,frame=tlbr,frameround=tttt,%
 %fancyvrb=true% set this to true if you want fancyvrb use
 }
+
+%% chapter/section/subsection styles
+
+\newcommand\HUGE{\@setfontsize\HUGE{60}{60}}
+
+\def\@makechapterhead#1{{\HUGE\sffamily\slshape\bfseries
+  \vbox{\hrule \@height 2pt
+    \vspace*{1ex}\hbox to \textwidth{\wordchapter}\vspace*{1ex}
+    \hrule \@height 2pt}
+  \vspace*{100pt}
+  \hbox{\hbox to .1\linewidth{}
+  \vbox{\hsize.8\linewidth
+    \parindent\z@\hyphenpenalty 10000\raggedright
+  #1}}
+  \vspace*{1em plus 1fill}
+  \pagebreak}}
+
+\def\ps@headings{\let\@mkboth\markboth
+  \def\@oddhead{}
+  \def\@evenhead{}
+  \def\@evenfoot{\hss\vbox{\hsize\textwidth
+      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to 50pt{\sf\bfseries\thepage\hss}}%
+        \vrule height0pt depth3.2pt width 0pt%
+        {\kern-25pt\small\sf\leftmark}\hfil}}}
+  \def\@oddfoot{\hss\vbox{\hsize\textwidth
+      \hbox to \textwidth{%
+        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\leftmark}\kern-25pt}%
+        \hbox to 0pt{\hbox to 50pt{\hss\sf\bfseries\thepage}\hss}}}}
+  \def\chaptermark##1{\markboth{##1}{##1}}%
+  \def\sectionmark##1{\markright{##1}}%
+  \def\subsectionmark##1{\markright{##1}}%
+}
+
+\ps@headings
+\def\ps@plain{\ps@empty}
+
+\def\wordchapter{\ifcase\c@chapter\or ONE\or TWO\or THREE\or FOUR\or
+FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
+
+\renewcommand\appendix{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\wordchapter{\appendixname\hss\@Alph\c@chapter}}
+
+\def\section#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{section}{1}{-50pt}{2.5ex plus 1ex 
+    minus .2ex}{2ex plus .2ex}{\noindent\ifodd\count\z@\raggedleft\else\raggedright\fi \Large\sf\slshape\bfseries}{#1\kern-50pt}}
+\def\subsection#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{subsection}{2}{-50pt}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\noindent\ifodd\count\z@\raggedleft \else\raggedright\fi\large\sf\slshape\bfseries}{#1\kern-50pt}}
+\def\subsubsection#1{\vskip 65pt\goodbreak\vspace{-65pt}\@startsection{subsubsection}{3}{-50pt}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\noindent\ifodd\count\z@\raggedleft \else\raggedright\fi\sf\slshape\bfseries}{#1\kern-50pt}}
+
+\parindent 2.5em
+
+%% caption style
+
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\bf #1:} {\it #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1: #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+\makeatother
