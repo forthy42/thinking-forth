@@ -42,6 +42,8 @@
 \newdimen\twidth
 \newdimen\evenmargin
 \newdimen\oddmargin
+\newdimen\lborder
+\lborder0pt
 \oldpwidth\paperwidth
 \twidth\textwidth
 \oddmargin1in
@@ -58,35 +60,52 @@
 \pheight\paperheight
 \advance\pheight2\cborder
 
+\ifsplitcover
+\pwidth\paperwidth
+\advance\pwidth2\cborder
+\lborder\cborder
+\cborder0pt
+\geometry{verbose,tmargin=0pt,paperwidth=\pwidth,paperheight=\pheight,%
+bmargin=0pt,lmargin=0pt,rmargin=0pt,headheight=0pt,headsep=0pt,%
+footskip=0pt}%
+\else
 \geometry{verbose,paperwidth=\pwidth,paperheight=\pheight,tmargin=0pt,%
 bmargin=0pt,lmargin=0pt,rmargin=0pt,headheight=0pt,headsep=0pt,%
-footskip=0pt}
+footskip=0pt}%
+\fi
 
 % for pdflatex
 \ifpdf
-\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}%
 \else
-\DeclareGraphicsExtensions{.eps}
+\DeclareGraphicsExtensions{.eps}%
 \fi
 
 \makeatletter
+\advance\pheight-2\lborder
 \advance\pheight-2\cborder
 \parindent0pt
-\begin{document}
-\pagestyle{empty}
-\centerline{\psframebox*[fillcolor=black,framesep=\cborder]{\noindent
-\hbox{\white
+\begin{document}%
+\pagestyle{empty}%
+\ifsplitcover
+\else
+\psframebox*[fillcolor=black,framesep=\cborder]{\noindent\white
+\fi
+\psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \begin{minipage}{\oldpwidth}%
 \advance\leftskip\oddmargin
 \vbox to\pheight{\vspace{0.5in}%
 \begin{minipage}{\twidth}%
 \parindent2.5em\sf
-\input{backpage}
-\end{minipage}
+\input{backpage}%
+\end{minipage}%
 \vss
 \psframebox*[fillcolor=white,framesep=.125in]{\includegraphics{isbn}}
 \vspace*{0.5in}}
-\end{minipage}%
+\end{minipage}}%
+\ifsplitcover\eject
+\else
+\psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \llap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
 \llap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
 \begin{minipage}{\spine}
@@ -107,7 +126,9 @@ footskip=0pt}
 }\vss}}
 \end{minipage}%
 \rlap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
-\rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
+\rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}}%
+\fi
+\psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \begin{minipage}{\oldpwidth}%
 \vbox to\pheight{\vspace{0.5in}%
     \fontfamily{phv}\selectfont
@@ -135,7 +156,9 @@ footskip=0pt}
 \person{Charles H. Moore}, and other \Forth{} thinkers
   \end{minipage}}%
 \vspace{0.5in}}%
-\end{minipage}}}}%
-
+\end{minipage}}%
+\ifsplitcover
+\else
+}\fi
 
 \end{document}

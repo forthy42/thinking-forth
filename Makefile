@@ -78,6 +78,12 @@ all:	index pspdf cover
 
 cover:	cover.pdf
 
+#cover jpegs
+cover-jpeg:	cover.ps
+	convert -density 300x300 cover.ps cover.jpg
+	-mv cover.jpg.0 back.jpg
+	-mv cover.jpg.1 front.jpg
+
 dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)
 	$(CP) $(ALL_SOURCES) $(PNGSOURCES:.png=.eps) thinking-forth-$(VERSION)
