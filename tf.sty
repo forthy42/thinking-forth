@@ -161,16 +161,28 @@
 
 %% TIP environment
 
-\newenvironment{tip}{\list{}{
-\parsep\z@ \@plus\p@\small}%
-\vspace{-1.5ex}\item\relax\leavevmode\samepage%
-\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}%
-\nopagebreak\\[.75ex]\nopagebreak%
-{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}%
-{\nopagebreak\par\nopagebreak\kern-.25ex%
-\hbox{\hbox to\leftmargin{}%
-\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\vspace*{-1ex}}
-\endlist\goodbreak}
+\newenvironment{tip}{
+\ifhmode\unskip\unskip \par\bigskip\else\bigskip\fi
+\advance\linewidth-2.5em
+\noindent\hbox to 2.5em{\hss}\begin{minipage}{\linewidth}
+\blackline{1.5ex}
+TIP\\[1ex]\small
+}{\par\normalsize\vspace{1.5ex}\blackline{0pt}
+\end{minipage}\\[\bigskipamount]
+\advance\linewidth2.5em
+}
+
+%\newenvironment{tip}{\list{}{
+%\parsep\z@ \@plus\p@\small}%
+%\samepage\setlength{\@topsep}{2pt}%
+%\hbox{\hbox to\leftmargin{}%
+%\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}%
+%\vspace{1ex}
+%\item\relax{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}%
+%{\endlist\nopagebreak\kern-\baselineskip%
+%\hbox{\hbox to\leftmargin{}%
+%\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\medskip}
+%\goodbreak}
 
 %% quotation environment for TF
 
