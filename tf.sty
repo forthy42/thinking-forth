@@ -211,16 +211,16 @@ TIP\\[1ex]\small
                {\endlist}
 
 \newenvironment{interview}
-               {\ifhmode\unskip\unskip\par\medskip\else\bigskip\fi
+               {\ifhmode\unskip\unskip\par\medskip\else\medskip\fi
 		 \list{}{\listparindent 0pt%
                         \itemindent    0pt
                         \leftmargin    0pt
 			\topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\goodbreak\blackline{\medskipamount}\nopagebreak
+		\smallbreak\blackline{\medskipamount}\nopagebreak
                 \item\relax}
-               {\nopagebreak\blackline{0pt}\medskip
-		 \goodbreak\endlist}
+               {\par\nopagebreak\blackline{0pt}\medskip
+		\smallbreak\endlist}
 
 
 %\pointto{box}
