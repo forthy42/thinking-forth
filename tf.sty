@@ -27,6 +27,15 @@
 
 \makeatletter
 
+%% options
+
+\newif\ifeightyfour
+\eightyfourfalse
+
+\DeclareOption{1984}{\eightyfourtrue}
+\ExecuteOptions{}
+\ProcessOptions
+
 %% only chapters have section numbers
 
 \setcounter{secnumdepth}{0}
@@ -236,20 +245,19 @@ TIP\\[1ex]\small
 %set in a roman font; if you change \forth to do this, make sure that > and
 %< get the correct glyphs
 %\forth{words} %used within text paragraphs
+%\code text was originally also set in roman font
 %1984 edition uses fat romand for Forth words
-%\newcommand{\forth}[1]{\textbf{#1}}
+\ifeightyfour
+\newcommand{\forth}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\textbf{#1}}
+\else
 %1994 edition uses teletype for Forth words
 \newcommand{\forth}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\fi
 
 {\catcode`\|0\catcode`\\12%
 |gdef|bs{\}}
-
-%\code text was originally also set in roman font
-%\code{text}
-%1984 edition uses fat romand for code words
-%\newcommand{\code}[1]{\textbf{#1}}
-%1994 edition uses teletype for code words
-\newcommand{\code}[1]{\texttt{#1}}
 
 \newcommand{\chapternum}[1]{}
 
@@ -373,15 +381,23 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \ifodd\c@@sectionlrpage\raggedleft\else\raggedright\fi
 \stepcounter{sectionlr}}
 \def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
+\def\raggedr{\noindent
+\expandafter\setlrcounter{%
+\expandafter\pagerefpp{s@ctionlr-\arabic{sectionlr}}}%
+\raggedright
+\stepcounter{sectionlr}}
 
 %% original Thinking Forth placement
-%\let\sectionlr\raggedlr
-%\let\subsectionlr\raggedright
-%\let\subsubsectionlr\raggedright
+\ifeightyfour
+\let\sectionlr\raggedlr
+\let\subsectionlr\raggedr
+\let\subsubsectionlr\raggedr
+\else
 %% more consistent:
 \let\sectionlr\raggedlr
 \let\subsectionlr\raggedlr
 \let\subsubsectionlr\raggedlr
+\fi
 %%
 
 \def\section#1{\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
@@ -531,9 +547,12 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 
 %% Forth ``logo''
 %1984 edition spells ``FORTH''
-%\def\Forth{FORTH}
+\ifeightyfour
+\def\Forth{FORTH}
+\else
 %1994 edition spells ``Forth''
 \def\Forth{Forth}
+\fi
 
 %% Names are often typeset in small caps
 
