@@ -587,8 +587,8 @@ for equality against a number on the stack. In the instance of
 efficient to use the integer to calculate an offset and directly jump to
 the right code.
 
-In the case of our Tiny Editor, later in this chapter, we have not but
-two dimensions of possibilities. The case statement doesn't match that
+In the case of our Tiny Editor, later in this chapter, we have not one, but
+two, dimensions of possibilities. The case statement doesn't match that
 problem either.
 
 Personally, I consider the case statement an elegant solution to a
@@ -786,7 +786,7 @@ is equivalent to the simpler statement
 \begin{Code}
 ( ? )  n AND
 \end{Code}
-Again, the secret is that ``false'' is represented by $-1$ (all ones) in
+Again, the secret is that ``true'' is represented by $-1$ (all ones) in
 '83 \Forth{} systems. \forthb{AND}ing ``$n$'' with the flag will either
 produce ``$n$'' (all bits intact) or ``$0$'' (all bits cleared).
 
@@ -1218,7 +1218,7 @@ Structured Exits.'')%
 \index{T!Two-dimensional decision table|)}%
 \program{editor5}
 
-\section{Decision Tables for Speed}
+\subsection{Decision Tables for Speed}
 
 We've stated that if you can calculate a value instead of looking it up in a
 table, you should do so. The exception is where the requirements for
@@ -1229,7 +1229,7 @@ Here is an example that computes powers of two to 8-bit precision:
 \begin{Code}
 CREATE TWOS
    1 C,  2 C,  4 C,  8 C,  16 C,  32 C,
-: 2**  ( n -- 2 to the n)
+: 2**  ( n -- 2-to-the-n)
    TWOS +  C@ ;
 \end{Code}
 Instead of computing the answer by multiplying two times itself ``$n$''
@@ -1442,7 +1442,7 @@ out a control structure using this technique:
 \Forth{} allows us to alter the control flow by directly manipulating the
 return stack. (If in doubt, see \emph{Starting \Forth{}}, Chapter Nine.)
 Indiscreet application of this trick can lead to unstructured code with nasty
-side effect. But the disciplined use of the structured exit can actually
+side effects. But the disciplined use of the structured exit can actually
 simplify code, and thereby improve readability and maintainability.
 
 \begin{interview}
@@ -1538,7 +1538,7 @@ We can introduce the word \forth{LEAP} (see \App{C}), which will work
 like \forthb{EXIT} (it will simulate a semicolon). Now we can write:
 
 \begin{Code}
-: 'FUNCTION  ( key -- adr of match )
+: 'FUNCTION  ( key -- adr-of-match )
    'NOMATCH FUNCTIONS DO  DUP  I @ =  IF  DROP I LEAP
    THEN  /KEY +LOOP  DROP  'NOMATCH ;
 \end{Code}
@@ -1876,7 +1876,8 @@ Dimensions} II/3, p. 37.
 \section{For Further Thinking}
 
 \ifeightyfour\begin{enumerate}
-\item\fi You have the word \forth{CHOOSE} which takes an argument ``$n$''
+\item
+You have the word \forth{CHOOSE} which takes an argument ``$n$''
 and returns a random number between 0 and $n-1$. The result is always
 positive or zero.  You can use \forth{CHOOSE} to produce a flag; the
 phrase
@@ -1886,7 +1887,12 @@ phrase
 produces a random flag of zero or one (false or true).
 
 %%!!! this is not the second question, there is no question above
-\ifeightyfour\item\fi
+\item
 Write a phrase to choose a number at random between 0 and 19 (inclusive)
 \emph{or} between $-20$ and 0.
-\ifeightyfour\end{enumerate}\fi
+\end{enumerate}\else
+%% replacement problem
+Define the word \forth{DIRECTION}, which returns either 1,
+$-1$, or 0, depending on whether the input argument is non-zero
+positive, negative, or zero, respectively.
+\fi

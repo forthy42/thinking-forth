@@ -45,23 +45,23 @@ or to allocate growing downward:
 \ifeightyfour\begin{enumerate}
 \item\fi Our solution is as follows:
 \begin{Code}
-\ CARDS               Shuffle                6-20-83
+\ CARDS Shuffle                              6-20-83
 52 CONSTANT #CARDS
-CREATE DECK  #CARDS ALLOT   \   one card per byte
-: INIT-DECK
-   #CARDS 0 DO  I  DECK I + C!  LOOP ;
+CREATE DECK  #CARDS ALLOT   \ one card per byte
+: CARD ( i -- adr) DECK + ;
+: INIT-DECK  #CARDS 0 DO  I  I CARD  C!  LOOP ;
 INIT-DECK
 : 'CSWAP  ( a1 a2 -- )  \  swap bytes at a1 and a2
    2DUP C@  SWAP C@  ROT C!  SWAP C! ;
 : SHUFFLE   \  shuffle deck of cards
-   #CARDS 0 DO  DECK I +  DECK  #CARDS CHOOSE +
-      'CSWAP  LOOP ;
+   #CARDS 0 DO  I CARD  #CARDS CHOOSE CARD  'CSWAP
+   LOOP ;
 \end{Code}
 \ifeightyfour\end{enumerate}\fi
 
 \section{\Chap{8}}
 \ifeightyfour\begin{enumerate}
-\item\fi This will work:
+\item This will work:
 \begin{Code}
 20 CHOOSE  2 CHOOSE  IF NEGATE THEN
 \end{Code}
@@ -69,7 +69,11 @@ But this is simpler:
 \begin{Code}
 40 CHOOSE  20 -
 \end{Code}
-\ifeightyfour\end{enumerate}\fi
+\end{enumerate}\else
+\begin{Code}
+: DIRECTION  ( n|-n|0 -- 1|-1|0)  DUP  IF  0< 1 OR  THEN ;
+\end{Code}
+\fi
 
 %% Note: The question was random number between 0 and 19, and -20 and 0.
 %% The first solution gives between 0 and 19, or -19 and 0.

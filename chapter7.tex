@@ -171,7 +171,7 @@ we have four elements on the stack.
 At this point, the first resort is usually the return stack:
 
 \begin{Code}
-BLK @  DUP >R  + 1+  SWAP R> + +
+BLK @  DUP >R  + 1+  SWAP R> +
 \end{Code}
 (See ``The Stylish Return Stack,'' coming up next.) Here we've \forthb{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
@@ -478,7 +478,7 @@ conditions.
 \item In factoring definitions, watch out that one part doesn't contain
 one return stack operator, and the other its counterpart.
 \item If used inside a \forthb{DO }\forthb{LOOP}, return stack operators
-must by symmetrical within the loop, and \forthb{I} is no longer valid in
+must be symmetrical within the loop, and \forthb{I} is no longer valid in
 code bounded by \forthb{>R} and \forthb{R>}.
 \end{enumerate}
 \end{tip}

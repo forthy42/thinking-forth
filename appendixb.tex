@@ -274,28 +274,28 @@ VARIABLE MARKER
 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
 : UNDO   ['] NOTHING  [COMPILE] ' ! ;
 
-( 238 )
+
 ( The code in this screen is in the public domain.)
 
 \end{Screen}
 \vfill
 \begin{Screen}
 ( TODDLER: Example of DOER/MAKE                      12/01/83 )
-DOER WHY?
+DOER ANSWER
 : RECITAL
   CR ." Your daddy is standing on the table.  Ask him 'WHY?' "
-   MAKE WHY? ." To change the light bulb."
+  MAKE ANSWER  ." To change the light bulb."
   BEGIN
-  MAKE WHY?  ." Because it's burned out."
-  MAKE WHY?  ." Because it was old."
-  MAKE WHY?  ." Because we put it in there a long time ago."
-  MAKE WHY?  ." Because it was dark!"
-  MAKE WHY?  ." Because it was night time!!"
-  MAKE WHY?  ." Stop saying WHY?"
-  MAKE WHY?  ." Because it's driving me crazy."
-  MAKE WHY?  ." Just let me change this light bulb!"
-  F UNTIL ;
-: WHY?   CR  WHY?  QUIT ;
+  MAKE ANSWER  ." Because it's burned out."
+  MAKE ANSWER  ." Because it was old."
+  MAKE ANSWER  ." Because we put it in there a long time ago."
+  MAKE ANSWER  ." Because it was dark!"
+  MAKE ANSWER  ." Because it was night time!!"
+  MAKE ANSWER  ." Stop saying WHY?"
+  MAKE ANSWER  ." Because it's driving me crazy."
+  MAKE ANSWER  ." Just let me change this light bulb!"
+  FALSE UNTIL ;
+: WHY?   CR  ANSWER  QUIT ;
 \end{Screen}
 \index{D!DOER/MAKE|)}
 \vfill

@@ -437,7 +437,7 @@ don't recommend it.%
 \index{L!Listing organization|)}
 
 %Page 143 in first edition.
-\section{An Alternative to Screens: Source in Named Files}%
+\subsection{An Alternative to Screens: Source in Named Files}%
 \index{N!Named files, storing source code in|(}
 
 \index{F!File-based system|(}%
@@ -657,7 +657,7 @@ for the continuing screens are indented.%
 
 \begin{tip}
 Begin all definitions at the left edge of the screen, and define only
-one word per lines.
+one word per line.
 \end{tip}
 %! There should be no page breaks between the text and code
 \noindent \emph{Bad:}
@@ -1277,7 +1277,7 @@ On the other hand, a word's purpose can often be described in terms of
 its stack-effect comment.  You rarely need both a stack comment and a
 purpose comment.  For instance:
 \begin{Code}
-: SPACES  ( #)
+: SPACES  ( #)   ... ;
 \end{Code}
 %Page 157 in first edition.
 or
@@ -1343,7 +1343,7 @@ comment its run-time behavior separately, following the word
 \end{tip}
 For instance,
 \begin{Code}
-: CONSTANT  ( n )
+: CONSTANT  ( n ) CREATE ,
    DOES>  ( -- n)  @ ;
 \end{Code}
 The stack-effect comment for the run-time (child's) behavior

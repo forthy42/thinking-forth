@@ -759,9 +759,9 @@ these words. It merely recognizes certain words as ``immediate'' and
 executes them, letting them do their own work. (See \emph{Starting
 \Forth{}}, Chapter Eleven, ``How to Control the Colon Compiler.'')
 
-The compiler doesn't even ``look for'' semicolon to know when to
-stop compiling. Instead it executes semicolon, allowing it to do the work
-of ending the definition and shutting off the compiler.
+The compiler doesn't even ``look for'' semicolon to know when to stop
+compiling. Instead it \emph{executes} semicolon, allowing it to do the
+work of ending the definition and shutting off the compiler.
 
 There are two tremendous advantages to this approach. First, the
 compiler is so simple it can be written in a few lines of code. Second,
@@ -1172,7 +1172,7 @@ we'll get a 7 and a 3 on the stack (the three---being the quotient---is on
 top.)
 
 But these observations raise a question: What about below ten, where there
-is no decimal digit? Is this a special case? Well, if we consider that
+is no ten's place? Is this a special case? Well, if we consider that
 each ``X'' represents ten, then the absence of ``X'' represents zero.  So
 it's \emph{not} a special case. Our algorithm works, even for numbers less
 than ten.
@@ -1598,8 +1598,8 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
             ( thousands)  ASCII M  C,
 \end{Code}
 Note: This use of \forthb{ASCII} requires that \forthb{ASCII} be
-``\forthb{STATE}-dependent'' (see \App{C}). If you don't have \forthb{ASCII},
-or if it is not state-dependent, use:
+``\forthb{STATE}-dependent'' (see \App{C}). If the word \forthb{ASCII}
+is not defined in your system, or if it is not state-dependent, use:
 
 \begin{Code}
 CREATE ROMANS  73 C,  86 C,  88 C,  76 C,
@@ -1632,7 +1632,7 @@ Now we can find our way to any ``arm position'' by adding the contents of
 \forth{ROMANS}:
 
 \begin{Code}
-: COLUMN  ( -- adr of column)  ROMANS  COLUMN# @  + ;
+: COLUMN  ( -- adr-of-column)  ROMANS  COLUMN# @  + ;
 \end{Code}
 Let's see if we can implement one of the words to display a symbol. We'll
 start with \forth{ONER}.
@@ -1732,13 +1732,13 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
                  ( tens)  ASCII X  C,   ASCII L  C,
              ( hundreds)  ASCII C  C,   ASCII D  C,
             ( thousands)  ASCII M  C,
-VARIABLE COLUMN#  ( current offset)
+VARIABLE COLUMN#  ( current_offset)
 : ONES       O COLUMN# ! ;
 : TENS       2 COLUMN# ! ;
 : HUNDREDS   4 COLUMN# ! ;
 : THOUSANDS  6 COLUMN# ! ;
 
-: COLUMN ( -- address of column)  ROMANS  COLUMN# @  + ;
+: COLUMN ( -- address-of-column)  ROMANS  COLUMN# @  + ;
 
 \end{Screen}
 
@@ -1749,9 +1749,9 @@ VARIABLE COLUMN#  ( current offset)
 : FIVER   1 .SYMBOL ;
 : TENER   2 .SYMBOL ;
 
-: ONERS  ( # of oners -- )
+: ONERS  ( #-of-oners -- )
    ?DUP  IF  O DO  ONER  LOOP  THEN ;
-: ALMOST  ( quotient of 5 / -- )
+: ALMOST  ( quotient-of-5/ -- )
    ONER  IF  TENER  ELSE  FIVER  THEN ;
 : DIGIT  ( digit -- )
    5 /MOD  OVER  4 = IF  ALMOST  DROP  ELSE  IF FIVER THEN

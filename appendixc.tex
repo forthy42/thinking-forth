@@ -68,13 +68,18 @@ can be defined as:
 (\Forth{}'s control words such as \forth{IF} and \forth{UNTIL} interpret
 zero as ``false'' and any non-zero value as ``true.''  Before \Forth{}
 '83, the convention was to indicate ``true'' with the value $1$.  Starting
-with \Forth{} '83, however, ``true'' is indicated with hex \code{FF},
+with \Forth{} '83, however, ``true'' is indicated with hex \code{FFFF},
 which is the signed number $-1$ (all bits set).
 
 \forthb{WITHIN}\index{W!WITHIN} can be defined in high level like this:
 \begin{Code}
 : WITHIN  ( n lo hi+1 -- ?)
      >R  1- OVER <  SWAP R>  < AND ;
+\end{Code}
+or
+\begin{Code}
+: WITHIN ( n lo hi+1 -- ?)
+   OVER -  >R - R> U< ;
 \end{Code}
 
 \section{From \Chap{8}}
