@@ -34,7 +34,31 @@ convert -units PixelsPerInch -density 600x600 -rotate 0.06 \
         -crop 2820x3110+590+916 -colors 2 ch1_030.pnm img1-030.png
 convert -units PixelsPerInch -density 600x600 -rotate -0.75 \
         -crop 2840x3120+630+910 -colors 2 ch1_033.pnm img1-033.png
-# CHAPTER 2 missing
+# CHAPTER 2 done
+convert -units PixelsPerInch -density 600x600 -rotate -0.65 \
+        -crop 2364x1200+651+3578 -colors 2 ch2_039.pnm fig2-1.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2361x1194+1093+3633 -colors 2 ch2_048.pnm fig2-2.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2423x1974+1118+2737 -colors 2 ch2_050.pnm fig2-3.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.4 \
+        -crop 2444x1970+614+352 -colors 2 ch2_055.pnm fig2-4.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.7 \
+        -crop 2411x1169+650+3 580 -colors 2 ch2_055.pnm fig2-5.png
+convert -units PixelsPerInch -density 600x600 -rotate 0.15 \
+        -crop 2384x1170+1038+3728 -colors 2 ch2_056.pnm fig2-6.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2379x1506+652+3336 -colors 2 ch2_057.pnm fig2-7.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2380x1264+1017+3502 -colors 2 ch2_058.pnm fig2-8.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.4 \
+        -crop 2855x3130+625+879 -colors 2 ch2_047.pnm img2-047.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2374x2600+863+1076 -colors 2 ch2_060.pnm img2-060.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.4 \
+        -crop 2920x2108+548+1462 -colors 2 ch2_063.pnm img2-063.png
+convert -units PixelsPerInch -density 600x600 -rotate -0.1 \
+        -crop 2829x3694+565+568 -colors 2 ch2_066.pnm img2-066.png
 # CHAPTER 3 done
 # CHAPTER 4 done
 # CHAPTER 5 done
