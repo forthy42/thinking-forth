@@ -232,7 +232,7 @@
 \item\relax
 \stepcounter{tipc}%
 \setbox\@tempboxa\hbox\bgroup\begin{minipage}{\linewidth}
-TIP\iftipno{} \tipno\fi\\[1ex]\small
+{\iftip{\sc Tip}\small\else TIP\fi\iftipno{} \tipno\fi}\\[1ex]\small
 }{\par
 \end{minipage}\egroup%
 \leavevmode\label{tip-\thechapter.\arabic{tipc}}%
