@@ -1004,16 +1004,20 @@ number of alternating states.
 When the application requires handling a group of conditions
 simultaneously, use a state table, not separate variables.
 \end{tip}
-\wepsfiga{fig7-2}{A collection of related variables.}
-
-\begin{verbatim}
+\begin{figure*}
+\labelfig{fig7-2}
+\caption{A collection of related variables.}
+\begin{center}
+\begin{Verbatim}
 VARIABLE TOP
 VARIABLE BOTTOM
 VARIABLE LEFT
 VARIABLE RIGHT
 VARIABLE INSIDE
 VARIABLE OUT
-\end{verbatim}
+\end{Verbatim}
+\end{center}
+\end{figure*}
 
 The simple case requires saving and restoring a state. Suppose we initially
 have six variables representing the state of a particular component, as
