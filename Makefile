@@ -1,6 +1,7 @@
 # Makefile for Thinking Forth
 
 SOURCES = thinking-forth.tex \
+	preface.tex \
 	chapter1.tex \
 	chapter2.tex \
 	chapter3.tex \
@@ -13,10 +14,11 @@ SOURCES = thinking-forth.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
 	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
-	fig7-7.tex fig7-8.tex fig7-9.tex
+	fig7-7.tex fig7-8.tex fig7-9.tex \
+	Makefile autoscale eps2pdf
 
 PNGSOURCES = \
-	fig1-1.png fig1-2.png fig1-3.png fig1-4.png fig1-5.png fig1-6.png \
+	fig1-1.png fig1-2.png fig1-3.png fig1-5.png \
 	fig1-7.png fig1-8.png fig1-9.png fig1-10.png \
 	fig2-1.png fig2-2.png fig2-3.png fig2-4.png fig2-5.png fig2-6.png \
 	fig2-7.png fig2-8.png \
@@ -26,7 +28,8 @@ PNGSOURCES = \
 	fig4-7.png fig4-8.png \
 	fig5-1.png fig5-2.png \
 	fig7-1.png fig7-3.png fig7-5.png \
-	fig8-6.png img1-004.png img1-010.png img1-013.png img1-028.png \
+	fig8-6.png \
+	img1-004.png img1-010.png img1-013.png img1-028.png \
 	img1-030.png img1-033.png \
 	img2-047.png img2-060.png img2-063.png img2-066.png \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
@@ -36,9 +39,21 @@ PNGSOURCES = \
 WIDTH = 6.8125
 HEIGHT = 9.125
 
-TOGETHER = 20 # how many pags you bind together
+VERSION = 0.1
+CP = cp
+TAR = tar jcf
+MD = mkdir
+RD = rm -rf
 
-all:	pspdf ps
+TOGETHER = 20 # how many pages you bind together - divide by 4
+
+all:	index pspdf ps
+
+dist:	$(SOURCES) $(PNGSOURCES:.png=.eps)
+	$(MD) thinking-forth-$(VERSION)
+	$(CP) $(SOURCES) $(PNGSOURCES:.png=.eps) thinking-forth-$(VERSION)
+	$(TAR) thinking-forth-$(VERSION).tar.bz2  thinking-forth-$(VERSION)
+	$(RD) thinking-forth-$(VERSION)
 
 pspdf:	thinking-forth.pdf
 
@@ -97,19 +112,19 @@ fig%.pdf:	fig%.eps
 
 AUTOTRACE = autotrace --despeckle-level 8 --error-threshold 4
 
-fig%.eps:	fig%.png
-	$(AUTOTRACE) $< >$@
-	./autoscale $@
+#fig%.eps:	fig%.png
+#	$(AUTOTRACE) $< >$@
+#	./autoscale $@
 
-img%.eps:	img%.png
-	$(AUTOTRACE) $< >$@
-	./autoscale $@
+#img%.eps:	img%.png
+#	$(AUTOTRACE) $< >$@
+#	./autoscale $@
 
-no-scramble.eps:	no-scramble.png
-	$(AUTOTRACE) $< >$@
-	./autoscale $@
+#no-scrambled.eps:	no-scrambled.png
+#	$(AUTOTRACE) $< >$@
+#	./autoscale $@
 
-no-scramble.pdf:	no-scramble.eps
+no-scrambled.pdf:	no-scrambled.eps
 	./eps2pdf $<
 
 view : thinking-forth.dvi
