@@ -23,9 +23,9 @@
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 
 %\wepsfig{label}{caption}
-\newcommand{\wepsfig}[2]{\begin{figure}\caption{#2}\labelfig{#1}eps file missing\end{figure}}
+\newcommand{\wepsfig}[2]{\begin{figure}[hhhh]\caption{#2}\labelfig{#1}eps file missing\end{figure}}
 \newcommand{\wepsfiga}[2]{
-\begin{figure*}
+\begin{figure*}[hhhh]
 \caption{#2}
 \vspace{1ex}
 \centerline{\epsffile{#1.eps}}\vspace{1ex}
@@ -84,7 +84,7 @@ basewidth=0.5em,frame=tlbr,frameround=tttt,%
 
 %% chapter/section/subsection styles
 
-\newcommand\HUGE{\@setfontsize\HUGE{60}{60}}
+\newcommand\HUGE{\@setfontsize\HUGE{50}{50}}
 
 \def\@makechapterhead#1{{\HUGE\sffamily\slshape\bfseries
   \vbox{\hrule \@height 2pt
@@ -96,7 +96,9 @@ basewidth=0.5em,frame=tlbr,frameround=tttt,%
     \parindent\z@\hyphenpenalty 10000\raggedright
   #1}}
   \vspace*{1em plus 1fill}
-  \pagebreak}}
+  \pagebreak
+  \vspace*{1.7in}\hrule\vspace{10pt}
+}}
 
 \def\ps@headings{\let\@mkboth\markboth
   \def\@oddhead{}
@@ -128,11 +130,11 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 \def\raggedlr{\noindent\ifodd\c@page\raggedleft \else\raggedright\fi}
 
 \def\section#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
-    minus .2ex}{2ex plus .2ex}{\Large\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
+    minus .2ex}{2ex plus .2ex}{\Large\sf\slshape\bfseries}[#1]{\protect\raggedlr #1\kern-.66in}}
 \def\subsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsection}{2}{-.66in}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\large\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
+    minus .2ex}{1.5ex \relax}{\large\sf\slshape\bfseries}[#1]{\protect\raggedlr #1\kern-.66in}}
 \def\subsubsection#1{\vspace*{50pt}\goodbreak\vspace{-50pt}\@startsection{subsubsection}{3}{-.66in}{2ex plus 1ex
-    minus .2ex}{1.5ex \relax}{\sf\slshape\bfseries}{\protect\raggedlr #1\kern-.66in}}
+    minus .2ex}{1.5ex \relax}{\sf\slshape\bfseries}[#1]{\protect\raggedlr #1\kern-.66in}}
 
 \parindent 2.5em
 
