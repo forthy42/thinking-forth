@@ -70,7 +70,7 @@ booka4 : thinking-forth.ps
 bookletter : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
 	psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | \
-	psnup -2 -pletter | \
+	psnup -c -2 -pletter | \
 	sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
 
