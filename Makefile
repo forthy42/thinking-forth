@@ -79,6 +79,7 @@ CP = cp
 TAR = tar jcf
 MD = mkdir
 RD = rm -rf
+PS2PDF = ps2pdf -dPDFSETTINGS=/printer
 
 TOGETHER = 20 # how many pages you bind together - divide by 4
 PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
@@ -108,21 +109,21 @@ dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 pspdf:	thinking-forth.pdf
 
 thinking-forth-book.pdf: thinking-forth-book.ps
-	ps2pdf $< $@
+	$(PS2PDF) $< $@
 
 booka4 : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
 	psnup -c -2 -w$(WIDTH) -h$(HEIGHT) | \
 	psresize -W$(WIDTH) -H$(HEIGHT) -w210mm -h297mm | \
 	$(PSA4) >tf-a4.ps
-	ps2pdf tf-a4.ps tf-a4.pdf
+	$(PS2PDF) tf-a4.ps tf-a4.pdf
 
 bookletter : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
 	psnup -2 -w$(WIDTH) -h$(HEIGHT) | \
 	psresize -W$(WIDTH) -H$(HEIGHT) -w8.5in -h11in | \
 	$(PSLET) >tf-letter.ps
-	ps2pdf tf-letter.ps tf-letter.pdf
+	$(PS2PDF) tf-letter.ps tf-letter.pdf
 
 #two pages on one A4/Letter page, for printing with Laser printer and
 #using an A4/Letter binding machine (print with long-edge
@@ -139,7 +140,7 @@ tfoptions.tex:	Makefile
 	echo "\def\printing{$(PRINTING)}" >>$@
 
 %.pdf : %.ps
-	ps2pdf $< $@
+	$(PS2PDF) $< $@
 
 pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 	pdflatex thinking-forth.tex
@@ -158,7 +159,7 @@ thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 
 cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex \
-	rodin_thinker.eps
+	rodin_thinker.eps leobrodie.eps
 	latex cover.tex
 
 # get bookland.py from http://www.cgpp.com/bookland/
