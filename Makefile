@@ -63,6 +63,7 @@ LANG = american
 # 6x9 for 6" x 9" format (standard US book format)
 # 17x22 for 17cm x 22cm format (one of the standard metric formats)
 # 17x24 for 17cm x 24cm format (one of the standard metric formats)
+# splitcover: if you only choose front and back, and the spine is done for you
 
 VERSION = 0.2
 CP = cp
@@ -82,7 +83,8 @@ cover:	cover.pdf
 cover-jpeg:	cover.ps
 	convert -density 300x300 cover.ps cover.jpg
 	-mv cover.jpg.0 back.jpg
-	-mv cover.jpg.1 front.jpg
+	-mv cover.jpg.1 spine.jpg
+	-mv cover.jpg.2 front.jpg
 
 dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)

@@ -103,8 +103,7 @@ footskip=0pt}%
 \psframebox*[fillcolor=white,framesep=.125in]{\includegraphics{isbn}}
 \vspace*{0.5in}}
 \end{minipage}}%
-\ifsplitcover\eject
-\else
+\ifsplitcover\eject\fi
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \llap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
 \llap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
@@ -127,7 +126,7 @@ footskip=0pt}%
 \end{minipage}%
 \rlap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
 \rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}}%
-\fi
+\ifsplitcover\eject\fi
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \begin{minipage}{\oldpwidth}%
 \vbox to\pheight{\vspace{0.5in}%
