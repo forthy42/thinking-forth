@@ -143,8 +143,8 @@ cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex \
 isbn.eps:
 	bookland.py $(ISBN) $(PRICE) >$@
 
-pagecount.tex:	thinking-forth.ps
-	grep %%Pages: $< | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' >$@
+pagecount.tex:	tfoptions.tex
+	grep %%Pages: thinking-forth.ps | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' >$@
 
 thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
