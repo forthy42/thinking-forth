@@ -6,19 +6,23 @@
 %% Chapter: Four - Detailed Design/Problem Solving
 
 %!! horizontal line
-FOUR
+%FOUR
 %!! horizontal line
 
-\chapter{Detailed Design/Problem Solving}
+\chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}
 
+\begin{tfquot}
 \emph{Trivial:} I can see how to do this. I just don't know how long it
-will take.
+will take.\\
 \emph{Non-trivial:} I haven't a \emph{clue} how to do this!
 
 %!! right-justify paragraph
----\emph{Operating philosophy developed at the Laboratory
-Automation and Instrumentation Design Group,
-Chemistry Dept., Virginia Polytechnic Institute and State University}
+\begin{raggedleft}
+---\emph{Operating philosophy developed at the Laboratory\\
+Automation and Instrumentation Design Group,\\
+Chemistry Dept., Virginia Polytechnic Institute and State University}\\
+\end{raggedleft}
+\end{tfquot}
 
 Once you've decided upon the components in your application, your next
 step is to design those components. In this chapter we'll apply
@@ -49,13 +53,11 @@ It} [1]. Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
 The following series of tips summarize several techniques recommended by
 the science of problem solving:
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Determine your goal.
+\end{tip}
 %!! horizontal line
-
 Know what you're trying to accomplish. As we saw in Chapter Two, this
 step can be detailed further:
 
@@ -67,13 +69,11 @@ definition, this means writing the stack-effect comment.
 Determine the rules; review all the facts that you know. In Chapter
 Two we described the rates for computing the cost of a phone call along
 with the rules for applying the rates.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Picture the problem as a whole.
+\end{tip}
 %!! horizontal line
-
 In the \emph{analysis} phase we separated the problem into its parts, to
 clarify our understanding of each piece. We are now entering the
 \emph{synthesis} phase. We must visualize the problem as a whole.
@@ -90,80 +90,72 @@ Now hold that mental image, the way you might hold your breath.
 One of two things will happen:
 
 You may see the solution in a flash of insight. Great! Exhale a sigh
-of relief and proceed directly to implementation. Or ..., the problem is
+of relief and proceed directly to implementation. Or\dots{}, the problem is
 too complex or too unfamiliar to be solved so easily. In this case, you'll
 have to turn your attention to analogies and partial solutions. As you do
 so, it's important that you have already concentrated on the problem's
 requirements all at once, engraving these requirements on your mental
 retina.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Develop a plan.
+\end{tip}
 %!! horizontal line
-
 If the solution didn't come at a glance, the next step is to determine the
 approach that you will take to solve it. Set a course for action and avoid
 the trap of fumbling about aimlessly.
 
 The following tips suggest several approaches you might consider.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Think of an analogous problem.
+\end{tip}
 %!! horizontal line
-
 Does this problem sound familiar? Have you written a definition like it
 before? Figure out what parts of the problem are familiar, and in what
 ways this problem might differ. Try to remember how you solved it
 before, or how you solved something like it.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Work forward.
+\end{tip}
 %!! horizontal line
-
 The normal, obvious way to attack a problem is by begining with the
 known, and proceeding to the unknown. In deciding which horse to bet
 on, you'd begin with their recent histories, their current health, and so on,
 apply weights to these various factors and arrive at a favorite.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Work backward.
+\end{tip}
 %!! horizontal line
-
 More complicated problems present many possible ways to go with the
 incoming data. How do you know which route will take you closer to the
 solution? You don't. This class of problem is best solved by working
-backward (Figure 4-1).
+backward (\Fig{fig4-1}).
 
-\bf{Figure 4-1.} \emph{A problem that is easier to solve backward than
+\wepsfiga{fig4-1}{A problem that is easier to solve backward than
 forward.}
 
 %!! include Figure 4-1 here
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 Believe.
+\end{tip}
 %!! horizontal line
 
 Belief is a necessary ingredient for successfully working backward. We'll
 illustrate with a famous mathematical problem. Suppose we have two
 containers. The containers have no graduation marks, but one holds nine
 gallons and the other holds four gallons. Our task is to measure out exactly
+six gallons of water from the nearby stream in one of the containers
+(\Fig{fig4-2}).
 
-\bf{Figure 4-2.} \emph{Two containers.}
+\wepsfigt{fig4-2}{Two containers.}
 
 %!! include Figure 4-2 here
 
-six gallons of water from the nearby stream in one of the containers
-(Figure 4-2).
 
 Try to solve this on your own before reading further.
 
@@ -182,17 +174,18 @@ of water, and it's sitting in the large container (it won't fit in the
 small one!). Now, how did we get it there? What was the state of our
 containers one step previously?
 
-There are only two possibilities (Figure 4-3):
-
+There are only two possibilities (\Fig{fig4-3}):
 %!! there's certainly some better way to do ordered lists in TeX
-1. The four-gallon container was full, and we just added it to the large
+\begin{enumerate}
+\item The four-gallon container was full, and we just added it to the large
    container. This implies that we already had two gallons in the large
    container.
 %!! line break?
-   Or ...
-2. The nine gallon container was full, and we just poured off three gallons
-   into the small container.
 
+   Or\dots{}
+\item The nine gallon container was full, and we just poured off three gallons
+   into the small container.
+\end{enumerate}
 Which choice? Let's make a guess. The first choice requires a two-gallon
 measurement, the second requires a three-gallon measurement. In our initial
 playing around, we never saw a unit like two. But we did see a difference
@@ -207,26 +200,28 @@ How can we pour off three gallons into the small container? If there
 had already been one gallon in the small container! Suddenly we're over
 the hump. The simple question now is, how do we get one gallon in the
 small container? We must have started with a full nine-gallon container,
+poured off four gallons twice, leaving one gallon. Then we transferred the
+one gallon to the small container.
 
-\bf{Figure 4-3.} \emph{Achieving the end result.}
+\wepsfigt{fig4-3}{Achieving the end result.}
 
 %!! include Figure 4-3 here
 
-poured off four gallons twice, leaving one gallon. Then we transferred the
-one gallon to the small container.
+%!! include cartoon of page 103 here
+
+\wepsfigp{img4-103}{Intent on a complicated problem.}
+
 
 Our final step should be to check our logic by running the problem
 forwards again.
 
 Here's another benefit of working backward: If the problem is unsolvable,
 working backward helps you quickly prove that it has no solution.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Recognize the auxiliary problem.
+\end{tip}
 %!! horizontal line
-
 Before we've solved a problem, we have only a hazy notion of what
 steps---or even how many steps---may be required. As we become more
 familiar with the problem, we begin to recognize that our problem
@@ -237,10 +232,6 @@ In the problem we just solved, we recognized two subproblems: filling
 the small container with one gallon and then filling the large container
 with six gallons.
 
-%!! include cartoon of page 103 here
-
-\emph{Intent on a complicated problem.}
-
 Recognizing these smaller problems, sometimes called ``auxiliary
 problems,'' is an important problem-solving technique. By identifying
 the subproblem, we can assume it has a straightforward solution.
@@ -248,50 +239,46 @@ Without stopping to determine what that solution might be, we forge
 ahead with our main problem.
 
 (FORTH is ideally suited to this technique, as we'll see.)
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Step back from the problem.
+\end{tip}
 %!! horizontal line
-
 It's easy to get so emotionally attached to one particular solution that we
 forget to keep an open mind.
 
 The literature of problem solving often employs the example of the
 nine dots. It stumped me, so I'll pass it along. We have nine dots arranged
-as shown in Figure 4-4. The object is to draw straight lines that
+as shown in \Fig{fig4-4}. The object is to draw straight lines that
 touch or pass through all nine dots, without lifting the pen off the paper.
 The constraint is that you must touch all nine dots with only four lines.
 
-\bf{Figure 4-4.} \emph{The nine dots problem.}
+\wepsfiga{fig4-4}{The nine dots problem.}
 
 %!! include Figure 4-4 here
 
 You can sit a good while and do no better than the almost-right
-Figure 4-5. If you concentrate really hard, you may eventually conclude
+\Fig{fig4-5}. If you concentrate really hard, you may eventually conclude
 that the problem is a trick---there's no solution.
 
-\bf{Figure 4-5.} \emph{Not quite right.}
+\wepsfiga{fig4-5}{Not quite right.}
 
 %!! include Figure 4-5 here
 
 But if you sit back and ask yourself,
-
 %!! indent paragraph
+\begin{tfquot}
 ``Am I cheating myself out a useful tack by being narrow-minded? Am I
 assuming any constraints not specified in the problem? What constraints
 might they be?''
-
+\end{tfquot}
 then you might think of extending some of the lines beyond the perimeter
 of the nine dots.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Use whole-brain thinking.
+\end{tip}
 %!! horizontal line
-
 When a problem has you stumped and you seem to be getting nowhere,
 relax, stop worrying about it, perhaps even forget about it for a while.
 
@@ -310,30 +297,30 @@ Leslie Hart [2] explains the difficulty of solving a large problem by
 means of logic:
 
 %!! begin indented paragraph
+\begin{tfquot}
 A huge load is placed on that one small function of the brain that can be
 brought into the attention zone for a period. The feat is possible, like the
-circus act, but it seems more sensible to ... use the full resources of our
-glorious neocortex ... the multibillion-neuron capacity of the brain.
+circus act, but it seems more sensible to\dots{} use the full resources of our
+glorious neocortex\dots{} the multibillion-neuron capacity of the brain.
 
-... The work aspect lies in providing the brain with raw input, as in
+\dots{} The work aspect lies in providing the brain with raw input, as in
 observing, reading, collecting data, and reviewing what others have achieved.
 Once in, [subconscious] procedures take over, simultaneously, automatically,
 outside of the attention zone.
 
-... It seems apparent ... that a search is going on during the interval,
+\dots{} It seems apparent\dots{} that a search is going on during the interval,
 though not necessarily continuously, much as in a large computer. I would
 hazard the guess that the search ramifies, starts and stops, reaches dead
 ends and begins afresh, and eventually assembles an answer that is
 evaluated and then popped into conscious attention---often in astonishingly
 full-blown detail.
+\end{tfquot}
 %!! end indented paragraph
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Evaluate your solution. Look for other solutions.
+\end{tip}
 %!! horizontal line
-
 You may have found one way of skinning the cat. There may be other
 ways, and some of them may be better.
 
@@ -341,16 +328,17 @@ Don't invest too much effort in your first solution without asking
 yourself for a second opinion.
 
 %!! include cartoon of page 106 here
-
-``I'm not just sleeping. I'm using my neocortex.''
+\wepsfigp{img4-106}{``I'm not just sleeping. I'm using my neocortex.''}
 
 \section{Interview with a Software Inventor}
 
 %!! horizontal line
+\blackline{2ex}
 Donald A. Burgess, owner and president of Scientek Instrumentation,
 Inc.:
 
 %!! begin indented paragraph
+\begin{tfquot}
 I have a few techniques I've found useful over the years in designing
 anything, to keep myself flexible. My first rule is, ``Nothing is impossible.''
 My second rule is, ``Don't forget, the object is to make a buck.''
@@ -402,10 +390,12 @@ go. At those times I have to get away from the keyboard.
 FORTH lets you play. That's fine, chances are you'll get some ideas. As
 long as you keep yourself from playing as a habit. Your head is a whole lot
 better than the computer for inventing things.
+\end{tfquot}
+\blackline{1ex}
 %!! end indented paragraph
 %!! horizontal line
 
-\section{Detailed Design}
+{\othersidetrue\section{Detailed Design}}
 
 We're now at the point in the development cycle at which we've decided
 we need a component (or a particular word). The component will consist
@@ -414,29 +404,27 @@ be used by other components and some of which (the internal words) will
 be only used within this component.
 
 Create as many words as necessary to obey the following tip:
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Each definition should perform a simple, well-defined task.
+\end{tip}
 %!! horizontal line
-
 Here are the steps generally involved in designing a component:
-
 %!! there's certainly some better way to do ordered lists in TeX
-1. Based on the required functions, decide on the names and syntax for the
+\begin{enumerate}
+\item Based on the required functions, decide on the names and syntax for the
    external definitions (define the interfaces).
-2. Refine the conceptual model by describing the algorithm(s) and data
+\item Refine the conceptual model by describing the algorithm(s) and data
    structure(s).
-3. Recognize auxiliary definitions.
-4. Determine what auxiliary definitions and techniques are already available.
-5. Describe the algorithm with pseudocode,
-6. Implement it by working backwards from existing definitions to the inputs,
-7. Implement any missing auxiliary definitions.
-8. If the lexicon contains many names with strong elements in common,
+\item Recognize auxiliary definitions.
+\item Determine what auxiliary definitions and techniques are already available.
+\item Describe the algorithm with pseudocode,
+\item Implement it by working backwards from existing definitions to the inputs,
+\item Implement any missing auxiliary definitions.
+\item If the lexicon contains many names with strong elements in common,
    design and code the commonalities as internal definitions, then implement
    the external definitions.
-
+\end{enumerate}
 We'll discuss the first two steps in depth. Then we'll engage in an
 extended example of designing a lexicon.
 
@@ -445,14 +433,12 @@ extended example of designing a lexicon.
 At this point in the development cycle you must decide how the words in
 your new lexicon will be used in context. In doing so, keep in mind how
 the lexicon will be used by subsequent components.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 In designing a component, the goal is to create a lexicon that will make your
 later code readable and easy to maintain.
+\end{tip}
 %!! horizontal line
-
 Each component should be designed with components that use it in mind.
 You must design the syntax of the lexicon so that the words make sense
 when they appear in context. Hiding interrelated information within the
@@ -463,16 +449,15 @@ yourself from writing a lot of unnecessary code by choosing a syntax that
 FORTH can support without any special effort on your part.
 
 Here are some elementary rules of FORTH's natural syntax:
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Let numbers precede names.
+\end{tip}
 %!! horizontal line
-
+%!! include cartoon of page 110 here
 Words that require a numeric argument will naturally expect to find that
 number on the stack. Syntactically speaking, then, the number should
-precede the name. For instance, the syntax of the word \bf{SPACES}, which
+precede the name. For instance, the syntax of the word \textbf{SPACES}, which
 emits ``n'' number of spaces, is
 
 \begin{verbatim}
@@ -480,7 +465,7 @@ emits ``n'' number of spaces, is
 \end{verbatim}
 
 Sometimes this rule violates the order that our ear is accustomed to
-hearing. For instance, the FORTH word \bf{+} expects to be preceded by both
+hearing. For instance, the FORTH word \textbf{+} expects to be preceded by both
 arguments, as in
 
 \begin{verbatim}
@@ -489,19 +474,17 @@ arguments, as in
 
 This ordering, in which values precede operators, is called ``postfix.''
 FORTH, in its magnanimity, won't \emph{insist} upon postfix notation.
-You could redefine \bf{+} to expect one number in the input stream, like this:
+You could redefine \textbf{+} to expect one number in the input stream, like this:
 
 \begin{verbatim}
 3 + 4
 \end{verbatim}
 
 by defining it so:
-
 \begin{verbatim}
 : +   BL WORD  NUMBER DROP  + ;
 \end{verbatim}
-
-(where \bf{WORD} is 79/83 Standard, returning an address, and \bf{NUMBER}
+(where \textbf{WORD} is 79/83 Standard, returning an address, and \textbf{NUMBER}
 returns a double-length value as in the 83 Standard Uncontrolled
 Reference Words).
 
@@ -511,40 +494,33 @@ major advantages.
 
 Frequently, ``noun'' type words pass their addresses (or any type of
 pointer) as a stack argument to ``verb'' type words. The FORTH-like syntax of
-
+\begin{quote}
 %!! sans-serif
-``noun'' ``verb''
-
+{\sf ``noun'' ``verb''}
+\end{quote}
+\wepsfigxx{img4-110}
 will generally prove easiest to implement because of the stack.
 In some cases this word order sounds unnatural. For instance, suppose
 we have a file named INVENTORY. One thing we can do with that
 file is SHOW it; that is, format the information in pretty columns. If
 
-%!! include cartoon of page 110 here
-
 INVENTORY passes a pointer to SHOW, which acts upon it, the syntax
 becomes
-
 \begin{verbatim}
 INVENTORY SHOW
 \end{verbatim}
-
 If your spec demands the English word-order, FORTH offers ways to
 achieve it. But most involve new levels of complexity. Sometimes the
 best thing to do is to choose a better name. How about
-
 \begin{verbatim}
 INVENTORY REPORT
 \end{verbatim}
-
 (We've made the ``pointer'' an adjective, and the ``actor'' a noun.)
 
 If the requirements insist on the syntax
-
 \begin{verbatim}
 SHOW INVENTORY
 \end{verbatim}
-
 we have several options. SHOW might set a flag and INVENTORY
 would act according to the flag. Such an approach has certain disadvantages,
 especially that INVENTORY must be ``smart'' enough to
@@ -558,78 +534,65 @@ chapter.
 Or, the recommended approach, SHOW might set an ``execution
 variable'' that INVENTORY will then execute. (We'll discuss vectored
 execution in Chapter Seven.)
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Let text follow names.
+\end{tip}
 %!! horizontal line
-
 If the FORTH interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
 reason, an undefined string must be preceded by a defined word.
 
-An example is \bf{."} (dot-quote), which precedes the text it will later
-print. Another example is \bf{CREATE} (as well as all defining words), which
+An example is \textbf{."} (dot-quote), which precedes the text it will later
+print. Another example is \textbf{CREATE} (as well as all defining words), which
 precedes the name that is, at the moment, still undefined.
 
 The rule also applies to defined words that you want to refer to, but
-not execute in the usual way. An example is \bf{FORGET}, as in
+not execute in the usual way. An example is \textbf{FORGET}, as in
 
 \begin{verbatim}
 FORGET TASK
 \end{verbatim}
 
-Syntactically, \bf{FORGET} must precede TASK so that TASK doesn't
+Syntactically, \textbf{FORGET} must precede TASK so that TASK doesn't
 execute.
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Let definitions consume their arguments.
+\end{tip}
 %!! horizontal line
-
 This syntax rule is more a convention of good FORTH programming
 than a preference of FORTH.
 
 Suppose you're writing the word LAUNCH, which requires the
 number of a launch pad and fires the appropriate rocket. You want the
 definition to look roughly like this:
-
 \begin{verbatim}
 : LAUNCH  ( pad#)  LOAD  AIM  FIRE ;
 \end{verbatim}
-
 Each of the three internal definitions will require the same argument, the
-launch pad number. You'll need two \bf{DUP}s somewhere. The question is
+launch pad number. You'll need two \textbf{DUP}s somewhere. The question is
 where? If you put them inside LOAD and AIM, then you can keep them
 out of LAUNCH, as in the definition above. If you leave them out of
 LOAD and AIM, you'll have to define:
-
 \begin{verbatim}
 : LAUNCH  ( pad#)  DUP LOAD  DUP AIM  FIRE ;
 \end{verbatim}
-
 By convention, the latter version is preferable, because LOAD and AIM
 are cleaner. They do what you expect them to do. Should you have to
 define READY, you can do it so:
-
 \begin{verbatim}
 : READY  ( pad#)  DUP LOAD  AIM ;
 \end{verbatim}
-
 and not
-
 \begin{verbatim}
 : READY  ( pad#)  LOAD  AIM  DROP ;
 \end{verbatim}
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Use zero-relative numbering.
+\end{tip}
 %!! horizontal line
-
 By habit we humans number things starting with one: ``first, second,
 third,'' etc. Mathematical models, on the other hand, work more naturally
 when starting with zero. Since computers are numeric processors, software
@@ -637,19 +600,23 @@ becomes easier to write when we use zero-relative numbering.
 
 To illustrate, suppose we have a table of eight-byte records. The
 first record occupies the first eight bytes of the table. To compute its
-starting address, we add ``O'' to TABLE. To compute the starting address
+starting address, we add ``0'' to TABLE. To compute the starting address
 of the ``second'' record, we add ``8'' to TABLE.
 
-\bf{Figure 4-6.} \emph{A table of 8-byte records.}
+\wepsfiga{fig4-6}{A table of 8-byte records.}
 
 %!! include Figure 4-6 here
 
 It's easy to derive a formula to achieve these results:
-
 %!! should be two columns, right-hand side sans-serif
-first record starts at:    0 x 8 =  0
-second record starts at:   1 x 8 =  8
-third record starts at:    2 x 8 = 16
+
+\bigskip
+\begin{tabular}{@{}l@{ }l@{}r}
+\sf first record starts at:  &  $\mathsf{0 \times 8} = {}$ & \sf 0  \\
+\sf second record starts at: &  $\mathsf{1 \times 8} = {}$ & \sf 8  \\
+\sf third record starts at:  &  $\mathsf{2 \times 8} = {}$ & \sf 16 \\
+\end{tabular}
+\bigskip
 
 We can easily write a word which converts a record\# into the address
 where that record begins:
@@ -666,47 +633,38 @@ If your requirements demand that numbering start at one, that's
 fine. Use zero-relative numbering throughout your design and then, only
 in the ``user lexicons'' (the set of words that the end-user will use)
 include the conversion from zero-to one-relative numbering:
-
 \begin{verbatim}
 : ITEM  ( n -- adr)  1- RECORD ;
 \end{verbatim}
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Let addresses precede counts.
+\end{tip}
 %!! horizontal line
-
 Again, this is a convention, not a requirement of FORTH, but such conventions
 are essential for readable code. You'll find examples of this rule
-in the words \bf{TYPE}, \bf{ERASE}, and \bf{BLANK}.
-
+in the words \textbf{TYPE}, \textbf{ERASE}, and \textbf{BLANK}.
 %!! horizontal line
-TIP
+\begin{tip}
 Let sources precede destinations.
+\end{tip}
 %!! horizontal line
-
 Another convention for readability. For instance, in some systems, the
 phrase
-
 \begin{verbatim}
 22 37 COPY
 \end{verbatim}
-
 copies Screen 22 to Screen 37. The syntax of CMOVE incorporates both
 this convention and the previous convention:
-
 %!! does \bf work inside verbatim blocks?
 \begin{verbatim}
-source destination count \bf{CMOVE}
+source destination count CMOVE
 \end{verbatim}
-
 %!! horizontal line
-TIP
-
+\begin{tip}
 Avoid expectations (in the input stream).
+\end{tip}
 %!! horizontal line
-
 Generally try to avoid creating words that presume there will be other
 words in the input stream.
 
@@ -724,42 +682,36 @@ that when executed it always returns 1.
 And then define LIGHT such that it looks for the next word in the input
 stream, executes it, and ``ors'' it with 8 (the logic of this will become
 apparent when we visit this example again, later in the book):
-
 \begin{verbatim}
 : LIGHT  ( precedes a color)  ( -- color value)
      ' EXECUTE  8 OR ;
 \end{verbatim}
-
 (in fig-FORTH:
-
 \begin{verbatim}
 : LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;)
 \end{verbatim}
 %!! The closing paren at the end of this code is a bit misleading.
 %!! At least a leading space and a different font should be used.
-
 (For novices: The apostrophe in the definition of LIGHT is a FORTH
 word called ``tick.'' Tick is a dictionary-search word; it takes a name and
 looks it up in the dictionary, returning the address where the definition
 resides. Used in this definition, it will find the address of the word
 following LIGHT---for instance, BLUE---and pass this address to the word
-\bf{EXECUTE}, which will execute BLUE, pushing a one onto the stack.
+\textbf{EXECUTE}, which will execute BLUE, pushing a one onto the stack.
 Having ``sucked up'' the operation of BLUE, LIGHT now ``or''s an 8 into
 the 1, producing a 9.)
 
 This definition will work when invoked in the input stream, but special
 handling is required if we want to let LIGHT be invoked within a
 colon definition, as in:
-
 \begin{verbatim}
 : EDITING   LIGHT BLUE BORDER ;
 \end{verbatim}
-
-Even in the input stream, the use of EXECUTE here will cause a crash if
-LIGHT is accidentally followed by something other than a defined word.
-The preferred technique, if you're forced to use this particular syntax,
-is to have LIGHT set a flag, and have BLUE determine whether that
-flag was set, as we'll see later on.
+Even in the input stream, the use of EXECUTE here will cause
+a crash if LIGHT is accidentally followed by something other than a
+defined word.  The preferred technique, if you're forced to use this
+particular syntax, is to have LIGHT set a flag, and have BLUE
+determine whether that flag was set, as we'll see later on.
 
 There will be times when looking ahead in the input stream is desirable,
 even necessary. (The proposed TO solution is often implemented
@@ -769,30 +721,35 @@ But generally, avoid expectations. You're setting yourself up for
 disappointment.
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 Let commands perform themselves.
+\end{tip}
 %!! horizontal line
 
 This rule is a corollary to ``Avoid expectations.'' It's one of
 FORTH's philosophical quirks to let words do their own work. Witness
 the FORTH compiler (the function that compiles colon definitions),
-carcicatured in Figure 4-7. It has very few rules:
+carcicatured in \Fig{fig4-7}. It has very few rules:
 
-\bf{Figure 4-7.} \emph{The traditional compiler vs. the FORTH compiler.}
+\wepsfiga{fig4-7}{The traditional compiler vs. the FORTH compiler.}
 
 %!! include Figure 4-7 here
 
 %!! this paragraph should be an indented, unordered list
+\begin{tfquot}
 Scan for the next word in the input stream and look it up in the dictionary.
+
 If it's an ordinary word, \emph{compile} its address.
+
 If it's an ``immediate'' word, \emph{execute} it.
+
 If it's not a defined word, try to convert it to a number and compile it as a
 literal.
-If it's not a number, abort with an error message.
 
-Nothing is mentioned about compiling-words such as \bf{IF}, \bf{ELSE},
-\bf{THEN}, etc. The colon compiler doesn't know about these words. It merely
+If it's not a number, abort with an error message.
+\end{tfquot}
+Nothing is mentioned about compiling-words such as \textbf{IF}, \textbf{ELSE},
+\textbf{THEN}, etc. The colon compiler doesn't know about these words. It merely
 recognizes certain words as ``immediate'' and executes them, letting
 them do their own work. (See \emph{Starting FORTH}, Chapter Eleven, ``How to
 Control the Colon Compiler.'')
@@ -813,11 +770,10 @@ adhere to this same rule.
 The following tip is perhaps the most important in this chapter:
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 Don't write your own interpreter/compiler when you can use FORTH's.
+\end{tip}
 %!! horizontal line
-
 One class of applications answers a need for a special purpose
 language---a self-contained set of commands for doing one particular
 thing. An example is a machine-code assembler. Here you have a large
@@ -836,7 +792,8 @@ There are many more examples of the special purpose language,
 each specific to individual applications. For instance:
 
 %!! begin ordered list
-1. If you're building an Adventure-type game, you'd want to write a language
+\begin{enumerate}
+\item If you're building an Adventure-type game, you'd want to write a language
 that lets you create and describe monsters and rooms, etc. You might
 create a defining word called ROOM to be used like this:
 
@@ -858,24 +815,27 @@ etc.
 The commands of this game-building language can simply be FORTH
 WORDS, with FORTH as the interpreter.
 
-2. If you're working with Programmable Array Logic (PAL) devices, you'd
+\item If you're working with Programmable Array Logic (PAL) devices, you'd
 like a form of notation that lets you describe the behavior of the output pins
 in logical terms, based on the states of the input pins. A PAL programmer
 was written with wonderful simplicity in FORTH by Michael Stolowitz [4].
 
-3. If you must create a series of user menus to drive your application, you
+\item If you must create a series of user menus to drive your application, you
 might want to first develop a menu-compiling language. The words of this
 new language allow an application programmer to quickly program the
 needed menus---while hiding information about how to draw borders, move
 the cursor, etc.
-
+\end{enumerate}
 All of these examples can be coded in FORTH as lexicons, using the normal
 FORTH interpreter, without having to write a special-purpose interpreter
 or compiler.
 
+\bigskip
 %!! horizontal line
+\blackline{2ex}
 Moore:
 
+\begin{tfquot}
 A simple solution is one that does not obscure the problem with irrelevancies.
 It's conceivable that something about the problem requires a unique
 interpreter. But every time you see a unique interpreter, it implies that
@@ -890,6 +850,8 @@ I think that programmers like to write interpreters. They like to do these
 elaborate difficult things. But there comes a time when the world is going
 to have to quit programming keypads and converting numbers to binary,
 and start solving problems.
+\end{tfquot}
+\blackline{1ex}
 %!! horizontal line
 
 \section{Algorithms and Data Structures}
@@ -906,31 +868,31 @@ is named for the ninth century Persian mathematician al-Khowarizimi.)
 
 An algorithm lies halfway between the imprecise directives of
 human speech, such as ``Please sort these letters chronologically,'' and the
-precise directives of computer language, such as ``BEGIN 2DUP < IF ...''
+precise directives of computer language, such as ``BEGIN 2DUP < IF \dots{}''
 etc. The algorithm for sorting letters chronologically might be this:
-
 %!! there's certainly some better way to do ordered lists in TeX
-1. Take an unsorted letter and note its date.
-2. Find the correspondence folder for that month and year.
-3. Flip through the letters in the folder, starting from the front, until
+\begin{enumerate}
+\item Take an unsorted letter and note its date.
+\item Find the correspondence folder for that month and year.
+\item Flip through the letters in the folder, starting from the front, until
    you find the first letter dated later than your current letter.
-4. Insert your current letter just in front of the letter dated later.
+\item Insert your current letter just in front of the letter dated later.
    (If the folder is empty, just insert the letter.)
-
+\end{enumerate}
 There may be several possible algorithms for the same job. The algorithm
 given above would work fine for folders containing ten or fewer letters,
 but for folders with a hundred letters, you'd probably resort to a more
 efficient algorithm, such as this:
-
-1. (same)
-2. (same)
-3. If the date falls within the first half of the month, open the folder a
+\begin{enumerate}
+\item (same)
+\item (same)
+\item If the date falls within the first half of the month, open the folder a
    third of the way in. If the letter you find there is dated later than your
    current letter, search forward until you find a letter dated the same or
    before your current letter. Insert your letter at that point. If the letter
-   you find is dated earlier than your current letter, search backward ...
-
-... You get the point. This second algorithm is more complicated than
+   you find is dated earlier than your current letter, search backward\dots{}
+\end{enumerate}
+\dots{} You get the point. This second algorithm is more complicated than
 the first. But in execution it will require fewer steps on the average
 (because you don't have to search clear from the beginning of the folder
 every time) and therefore can be performed faster.
@@ -952,9 +914,14 @@ approach.
 Suppose we must write code to fulfill this specification:
 
 %!! sans-serif
-if the input argument is 1, the output is 10
-if the input argument is 2, the output is 12
-if the input argument is 3, the output is 14
+\medskip
+{\sf if the input argument is 1, the output is 10}
+
+{\sf if the input argument is 2, the output is 12}
+
+{\sf if the input argument is 3, the output is 14}
+
+\medskip
 
 There are three approaches we could take:
 
@@ -979,7 +946,6 @@ CREATE TABLE  10 C,  12 C,  14 C,
          2 OF 12 ENDOF
          3 OF 14 ENDOF  ENDCASE
 \end{verbatim}
-
 In this problem, calculation is simplest. Assuming it is also adequate
 (speed is not critical), calculation is best.
 
@@ -994,10 +960,14 @@ In Chapter Two we introduced the telephone rate problem. In that
 problem the rates appeared to be arbitrary, so we designed a data
 structure:
 
+\bigskip
 %!! this shoulde be a table; see pg 119
-                 \emph{Full Rate}     \emph{Lower Rate}     \emph{Lowest Rate}
-First Min.           .30                  .22                   .12
-Add'1 Mins.          .12                  .10                   .06
+\begin{tabular}{lccc}
+          & \emph{Full Rate} & \emph{Lower Rate} & \emph{Lowest Rate} \\ \hline
+First Min.  &       .30        &        .22        &          .12 \\ \hline
+Add'1 Mins. &       .12        &        .10        &          .06 \\ \hline
+\end{tabular}
+\bigskip
 
 Using a data structure was simpler than trying to invent a formula by
 which these values could be calculated. And the formula might prove
@@ -1007,11 +977,13 @@ In Chapter Three we designed a keystroke interpreter for our Tiny
 Editor using a decision table:
 
 %!! this shoulde be a table; see pg 119
-\emph{Key}           \emph{Not-Inserting}    \emph{Inserting}
-\texttt{Cntrl-D}       \texttt{DELETE}           \texttt{INSERT-OFF}
-\texttt{Cntrl-I}       \texttt{INSERT-ON}        \texttt{INSERT-OFF}
-\texttt{backspace}     \texttt{BACKWARD}         \texttt{INSERT<}
-etc.
+\begin{tabular}{lll}
+\emph{Key}         & \emph{Not-Inserting} & \emph{Inserting} \\
+\texttt{Cntrl-D}   & \texttt{DELETE}      & \texttt{INSERT-OFF} \\
+\texttt{Cntrl-I}   & \texttt{INSERT-ON}   & \texttt{INSERT-OFF} \\
+\texttt{backspace} & \texttt{BACKWARD}    & \texttt{INSERT<} \\
+etc. & &
+\end{tabular}
 
 We could have achieved this same result with logic:
 
@@ -1025,7 +997,6 @@ CASE
       INSERT<      ELSE BACKWARD   THEN   ENDDF
 ENDCASE
 \end{verbatim}
-
 but the logic is more confusing. And the use of logic to express such a
 multi-condition algorithm gets even more convoluted when a table was
 not used in the original design.
@@ -1036,17 +1007,18 @@ table. Chapter Eight is devoted to the issue of minimizing the use of logic
 in your programs.
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 In choosing which approach to apply towards solving a problem, give
 preference in the following order:
 
 %!! there's certainly some better way to do ordered lists in TeX
-1. calculation (except when speed counts)
-2. data structures
-3. logic
+\begin{enumerate}
+\item calculation (except when speed counts)
+\item data structures
+\item logic
+\end{enumerate}
+\end{tip}
 %!! horizontal line
-
 Of course, one nice feature of modular languages such as FORTH is that
 the actual implementation of a component---whether it uses calculation,
 data structures, or logic---doesn't have to be visible to the rest of the
@@ -1086,24 +1058,26 @@ an algorithm.
 So, let's look at the first ten Roman numerals:
 
 %!! paragraph should be sans-serif + indented
-\begin{verbatim}
-I
-II
-III
-IV
-V
-VI
-VII
-VIll
-IX
-X
-\end{verbatim}
+\bigskip
+{\sf\begin{tabular}{r}
+I \\
+II \\
+III \\
+IV \\
+V \\
+VI \\
+VII \\
+VIll \\
+IX \\
+X \\
+\end{tabular}}
+\bigskip
 
-We make a few observations. First, there's the idea of a tally, where we
-represent a number by making that many marks (3 = III). On the other
-hand, special symbols are used to represent groups (5 = V). In fact, it
-seems we can't have more than three I's in a row before we use a larger
-symbol.
+\noindent We make a few observations. First, there's the idea of a
+tally, where we represent a number by making that many marks (3 =
+III). On the other hand, special symbols are used to represent groups
+(5 = V). In fact, it seems we can't have more than three I's in a row
+before we use a larger symbol.
 
 Second, there's a symmetry around five. There's a symbol for five
 (V), and a symbol for ten (X). The pattern I, II, III repeats in the second
@@ -1111,7 +1085,7 @@ half, but with a preceding V.
 
 One-less-than-five is written IV, and one-less-than-ten is written IX.
 It seems that putting an ``I'' in front of a larger-value symbol is like
-saying ``one-less-than...''
+saying ``one-less-than\dots{}''
 
 These are vague, hazy observations. But that's alright. We don't
 have the whole picture yet.
@@ -1119,21 +1093,22 @@ have the whole picture yet.
 Let's study what happens above ten:
 
 %!! paragraph should be sans-serif + indented
-\begin{verbatim}
-XI
-XII
-XIII
-XIV
-XV
-XVI
-XVII
-XVIII
-XIX
-XX
-\end{verbatim}
+\bigskip
+{\sf\begin{tabular}{r}
+XI \\
+XII \\
+XIII \\
+XIV \\
+XV \\
+XVI \\
+XVII \\
+XVIII \\
+XIX \\
+XX \\
+\end{tabular}}
 
-This is exactly the pattern as before, with an extra ``X'' in front. So
-there's a repeating cycle of ten, as well.
+\noindent This is exactly the pattern as before, with an extra ``X''
+in front. So there's a repeating cycle of ten, as well.
 
 If we look at the twenties, they're the same, with two ``X''s; the
 thirties with three ``X''s. In fact, the number of ``X'' is the same as the
@@ -1144,21 +1119,24 @@ number into decimal digits, and treat each digit separately. For instance,
 37 can be written as
 
 %!! sans-serif + indented
-XXX (thirty)
+\begin{quote}
+{\sf XXX (thirty)}
+\end{quote}
 
-followed by
+\noindent followed by
 
 %!! sans-serif + indented
-VII (seven)
+\begin{quote}
+{\sf VII (seven)}
+\end{quote}
 
-It may be premature, but we can already see a method by which FORTH
-will let us decompose a number into decimal digits---with modulo divison
-by ten. For instance, if we say
+\noindent It may be premature, but we can already see a method by
+which FORTH will let us decompose a number into decimal digits---with
+modulo divison by ten. For instance, if we say
 
 \begin{verbatim}
 37 10 /MOD
 \end{verbatim}
-
 we'll get a 7 and a 3 on the stack (the three---being the quotient---is on
 top.)
 
@@ -1174,14 +1152,16 @@ cycles of ten. We notice that forty is ``XL.'' This is analogous to 4 being
 ``ten-less-than-fifty.'' Similarly,
 
 %!! paragraph should be sans-serif + indented
-\begin{verbatim}
-   L  (50)    is analogous to      V  (5)
-  LX  (60)           "            VI  (6)
- LXX  (70)           "           VII  (7)
-LXXX  (80)           "          VIII  (8)
-  XC  (90)           "            IX  (9)
-   C (100)           "             X (10)
-\end{verbatim}
+\bigskip
+{\sf\begin{tabular}{rrcrr}
+   L &  (50) &   is analogous to &     V & (5) \\
+  LX &  (60) &          "        &    VI & (6) \\
+ LXX &  (70) &          "        &   VII & (7) \\
+LXXX &  (80) &          "        &  VIII & (8) \\
+  XC &  (90) &          "        &    IX & (9) \\
+   C & (100) &          "        &     X & (10) \\
+\end{tabular}}
+\bigskip
 
 Apparently the same patterns apply for any decimal digit---only the
 symbols themselves change. Anyway, it's clear now that we're dealing with
@@ -1191,22 +1171,25 @@ If pressed to do so, we could even build a model for a system to display
 Roman numerals from 1 to 99, using a combination of algorithm and
 data structure.
 
-\subsection{Data Structure}
+{\othersidetrue\subsection{Data Structure}}
 
 %!! see table on pg 123
-\begin{verbatim}
-Ones' Table      Tens' Table
- 0                0
- 1        I       1       X
- 2       II       2      XX
- 3      III       3     XXX
- 4       IV       4      XL
- 5        V       5       L
- 6       VI       6      LX
- 7      VII       7     LXX
- 8     VIII       8    LXXX
- 9       IX       9      XC
-\end{verbatim}
+\bigskip
+\begin{tabular}{crccr}
+\multicolumn{2}{c}{\underline{\emph{Ones' Table}}} &
+\hbox to 3em{\hss} & \multicolumn{2}{c}{\underline{\emph{Tens' Table}}} \\
+ 0 &          & &     0 & \\
+ 1 &       I  & &     1 &      X \\
+ 2 &      II  & &     2 &     XX \\
+ 3 &     III  & &     3 &    XXX \\
+ 4 &      IV  & &     4 &     XL \\
+ 5 &       V  & &     5 &      L \\
+ 6 &      VI  & &     6 &     LX \\
+ 7 &     VII  & &     7 &    LXX \\
+ 8 &    VIII  & &     8 &   LXXX \\
+ 9 &      IX  & &     9 &     XC \\
+\end{tabular}
+\bigskip
 
 \subsection{Algorithm}
 
@@ -1220,8 +1203,9 @@ For example, if the number is 72, the quotient is 7, the remainder is
 column corresponds to ``II,'' so print that. The result:
 
 %!! sans-serif + indented
-LXXII
-
+\begin{quote}
+{\sf LXXII}
+\end{quote}
 We've just constructed a model that works for numbers from one to 99.
 Any higher number would require a hundreds' table as well, along with
 an initial division by 100.
@@ -1239,12 +1223,14 @@ only the elementary set of symbols. Our data structure should contain
 only this much information:
 
 %!! sans-serif + indented
-\begin{verbatim}
-I   V
-X   L
-C   D
-M
-\end{verbatim}
+\bigskip
+{\sf\begin{tabular}{c@{\hspace{1em}}c}
+I & V \\
+X & L \\
+C & D \\
+M & \\
+\end{tabular}}
+\bigskip
 
 In listing the symbols, we've also \emph{organized} them in a way that seems
 right. The symbols in the left column are all multiples of ten; the symbols
@@ -1268,8 +1254,9 @@ out the actual symbols from the \emph{kind} of symbols.) For instance, we can
 state the following preliminary algorithm:
 
 %!! indent paragraph
+\begin{tfquot}
 For any digit, print as many ONERS as necessary to add up to the value.
-
+\end{tfquot}
 Thus, for 300 we get ``CCC,'' for 20 we get ``XX'' for one we get ``I.'' And
 for 321 we get ``CCCXXI.''
 
@@ -1277,29 +1264,32 @@ This algorithm works until the digit is 4. Now we'll have to expand
 our algorithm to cover this exception:
 
 %!! indent paragraph
+\begin{tfquot}
 Print as many ONERS as necessary to add up to the value, but if the digit
 is 4, print a ONER then a FIVER.
 %!! vertical half space
 Hence, 40 is ``XL''; 4 is ``IV.''
-
+\end{tfquot}
 This new rule works until the digit is 5. As we noticed before, digits of
 five and above begin with a FIVER symbol. So we expand our rule again:
 
 %!! indent paragraph
+\begin{tfquot}
 If the digit is 5 or more, begin with a FIVER and subtract five from the
 value; otherwise do nothing. Then print as many ONERS as necessary to
 add up to the value. But if the digit is 4, print only a ONER and a FIVER.
-
+\end{tfquot}
 This rule works until the digit is 9. In this case, we must print a ONER
 preceding a---what? A ONER from the next higher decimal place (the
 next row below). Let's call this a TENER. Our complete model, then is:
 
 %!! indent paragraph
+\begin{tfquot}
 If the digit is 5 or more, begin with a FIVER and subtract five from the
 value; otherwise do nothing. Then, print as many ONERS as necessary to
 add up to the value. But if the digit is 4, print only a ONER and a FIVER,
 or if it's 9, print only a ONER and a TENER.
-
+\end{tfquot}
 We now have an English-language version of our algorithm. But we still
 have some steps to go before we can run it on our computer.
 
@@ -1307,20 +1297,20 @@ In particular, we have to be more specific about the exceptions. We
 can't just say,
 
 %!! indent paragraph
+\begin{tfquot}
 Do a, b, and c. \emph{But} in such and such a case, do something different.
-
+\end{tfquot}
 because the computer will do a, b, and c before it knows any better.
 
 Instead, we have to check whether the exceptions apply \emph{before} we
 do anything else.
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 In devising an algorithm, consider exceptions last. In writing code, handle
 exceptions first.
+\end{tip}
 %!! horizontal line
-
 This tells us something about the general structure of our digit-producing
 word. It will have to begin with a test for the 4/9 exceptions. In
 either of those cases, it will respond accordingly. If neither exception
@@ -1338,9 +1328,9 @@ find it helpful to capture the structure in a diagram, or in code as we've
 done here.
 
 In FORTH we try to minimize our dependence on logic. But in this
-case we need the conditional \bf{IF} because we have an exception we need to
+case we need the conditional \textbf{IF} because we have an exception we need to
 eliminate. Still, we've minimized the complexity of the control structure
-by limiting the number of \bf{IF THEN}s in this definition to one.
+by limiting the number of \textbf{IF THEN}s in this definition to one.
 
 Yes, we still have to distinguish between the 4-case and the 9-case,
 but we've deferred that structural dimension to lower-level
@@ -1357,21 +1347,20 @@ merely to test for each exception, as in this version:
 \end{verbatim}
 
 because the normal case is never excluded. (There's no way to put an
-\bf{ELSE} just before the normal case, because \bf{ELSE} must appear between
-\bf{IF} and \bf{THEN}.)
+\textbf{ELSE} just before the normal case, because \textbf{ELSE} must appear between
+\textbf{IF} and \textbf{THEN}.)
 
 If we insist on handling the 4-exception and the 9-exception
 separately, we could arrange for each exception to pass an additional
 flag, indicating that the exception occurred. If either of these flags is
 true, then we can exclude the normal case:
 
-%!! warning: \bf{} in verbatim block
+%!! warning: \textbf{} in verbatim block
 \begin{verbatim}
-: DIGIT  ( n )  4-CASE? \bf{DUP} IF  ONER FIVER  THEN
-                9-CASE? \bf{DUP} IF  ONER TENER  THEN
-                \bf{OR  NOT IF} normal case \bf{THEN} ;
+: DIGIT  ( n )  4-CASE? DUP IF  ONER FIVER  THEN
+                9-CASE? DUP IF  ONER TENER  THEN
+                OR  NOT IF normal case THEN ;
 \end{verbatim}
-
 But this approach needlessly complicates the definition by adding new
 control structures. We'll leave it like it was.
 
@@ -1385,7 +1374,6 @@ A direct translation of these rules into FORTH would look like this:
 \begin{verbatim}
 ( n)  DUP  4 > IF  FIVER 5 -  THEN  ONERS
 \end{verbatim}
-
 This is technically correct, but if we're familiar with the technique of
 modulo divison, we'll see this as a natural situation for modulo division
 by 5. If we divide the number by five, the quotient will be zero (false)
@@ -1394,9 +1382,8 @@ when the number is less than five, and one (true) when it's between 5 and
 FIVER:
 
 \begin{verbatim}
-( n )  5 / IF FIVER THEN ...
+( n )  5 / IF FIVER THEN \dots{}
 \end{verbatim}
-
 The quotient/flag becomes the argument to IF.
 
 Furthermore, the remainder of modulo 5 division is always a
@@ -1404,28 +1391,26 @@ number between 0 and 4, which means that (except for our exception) we
 can use the remainder directly as the argument to ONERS. We revise our
 phrase to
 
-%!! warning: \bf{} in verbatim block
+%!! warning: \textbf{} in verbatim block
 \begin{verbatim}
-( n )  5 \bf{/MOD} IF FIVER THEN  \bf{ONERS}
+( n )  5 /MOD IF FIVER THEN  ONERS
 \end{verbatim}
-
 Getting back to that exception, we now see that we can test for both 4
 and 9 with a single test---namely, if the remainder is 4. This suggests that
-we can do our 5 \bf{/MOD} first, then test for the exception. Something like
+we can do our 5 \textbf{/MOD} first, then test for the exception. Something like
 this:
 
-%!! warning: \bf{} in verbatim block
+%!! warning: \textbf{} in verbatim block
 \begin{verbatim}
 : DIGIT  ( n )
-     5 /MOD  \bf{OVER 4 =  IF  special case  ELSE}
+     5 /MOD  OVER 4 =  IF  special case  ELSE
      IF FIVER THEN  ONERS  THEN ;
 \end{verbatim}
-
-(Notice that we \bf{OVER}ed the remainder so that we could compare it with
+(Notice that we \textbf{OVER}ed the remainder so that we could compare it with
 4 without consuming it.)
 
-So it turns out we \emph{do} have a doubly-nested \bf{IF THEN} construct
-after all. But it seems justified because the \bf{IF THEN} is handling the
+So it turns out we \emph{do} have a doubly-nested \textbf{IF THEN} construct
+after all. But it seems justified because the \textbf{IF THEN} is handling the
 special case. The other is such a short phrase, ``IF FIVER THEN'', it's
 hardly worth making into a separate definition. You could though. (But we
 won't.)
@@ -1446,7 +1431,6 @@ the same trick and use the quotient as a boolean flag. We'll write:
 : ALMOST  ( quotient )
      IF  ONER TENER  ELSE  ONER FIVER  THEN ;
 \end{verbatim}
-
 In retrospect, we notice that we're printing a ONER either way. We can
 simplify the definition to:
 
@@ -1454,29 +1438,26 @@ simplify the definition to:
 : ALMOST  ( quotient )
      ONER  IF TENER ELSE FIVER THEN ;
 \end{verbatim}
-
 We've assumed that we have a quotient on the stack to use. Let's go back
 to our definition of DIGIT and make sure that we do, in fact:
 
-%!! warning: \bf{} in verbatim block
+%!! warning: \textbf{} in verbatim block
 \begin{verbatim}
 : DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  \bf{ALMOST}  ELSE
+     5 /MOD  OVER 4 =  IF  ALMOST  ELSE
      IF FIVER THEN  ONERS  THEN ;
 \end{verbatim}
-
 It turns out that we have not only a quotient, but a remainder
 underneath as well. We're keeping both on the stack in the event we
-execute the \bf{ELSE} clause. The word \bf{ALMOST}, however, only needs the
-quotient. So, for symmetry, we must \bf{DROP} the remainder like this:
+execute the \textbf{ELSE} clause. The word \textbf{ALMOST}, however, only needs the
+quotient. So, for symmetry, we must \textbf{DROP} the remainder like this:
 
-%!! warning: \bf{} in verbatim block
+%!! warning: \textbf{} in verbatim block
 \begin{verbatim}
 : DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  ALMOST  \bf{DROP}  ELSE
+     5 /MOD  OVER 4 =  IF  ALMOST  DROP  ELSE
      IF FIVER THEN  ONERS  THEN ;
 \end{verbatim}
-
 There we have the complete, coded definition for producing a single digit
 of a Roman numeral. If we were desperate to try it out before writing the
 needed auxiliary definitions, we could very quickly define a lexicon of
@@ -1492,7 +1473,6 @@ words to print one group of symbols, say the ONES row:
 : ONERS  ( # of oners -- )
      ?DUP IF 0 DO  ONER  LOOP  THEN ;
 \end{verbatim}
-
 before loading our definitions of ALMOST and DIGIT.
 
 But we're not that desperate. No, we're anxious to move on to the
@@ -1502,13 +1482,15 @@ symbols depend on which decimal digit we're formatting.
 Let's go back to the symbol table we drew earlier:
 
 %!! sans-serif + indented, heading in italics
-\begin{verbatim}
-           ONERs FIVERs
-     ones  I     V
-     tens  X     L
- hundreds  C     D
-thousands  M
-\end{verbatim}
+\bigskip{\sf
+\begin{tabular}{rll}
+          & \it ONERs & \it FIVERs \\
+     ones & I  &  V \\
+     tens & X  &  L \\
+ hundreds & C  &  D \\
+thousands & M  & \\
+\end{tabular}}
+\bigskip
 
 We've observed that we also need a ``TENER''---which is the ONER in
 the next row below. It's as if the table should really be written:
@@ -1516,17 +1498,35 @@ the next row below. It's as if the table should really be written:
 %!! Here comes above table again, but this time with
 %!! some circles and lines in it. I have no clue how
 %!! to render this. See pg 128.
+\bigskip
+\includegraphics{inl4-1}
+\bigskip
 
-Now we can imagine that each column name (``ones,'' ``tens,'' etc.) points
-to the ONER of that column. From there we can also get each column's
-FIVER by reaching down one slot below the current ONER, and the
-TENER by reaching down two slots.
+\noindent But that seems redundant. Can we avoid it? Perhaps if we try
+a different model, perhaps a linear table, like this:
+
+\bigskip
+{\sf\begin{tabular}{rl}
+ones      & I \\
+          & V \\
+tens      & X \\
+          & L \\
+hundreds  & C \\
+          & D \\
+thousands & M \\
+\end{tabular}}
+\bigskip
+
+\noindent Now we can imagine that each column name (``ones,''
+``tens,'' etc.) points to the ONER of that column. From there we can
+also get each column's FIVER by reaching down one slot below the
+current ONER, and the TENER by reaching down two slots.
 
 It's like building an arm with three hands. We can attach it to the
-ONES column, as in Figure 4-8 a, or we can attach it to the tens' column,
-as in Figure 4-8 b, or to any power of ten.
+ONES column, as in \Fig{fig4-8}a, or we can attach it to the tens' column,
+as in \Fig{fig4-8}b, or to any power of ten.
 
-\bf{Figure 4-8.} \emph{A mechanical representation: accessing the data
+\wepsfiga{fig4-8}{A mechanical representation: accessing the data
 structure.}
 
 %!! include Figure 4-8 here
@@ -1540,12 +1540,11 @@ Beginners who are learning to think in this right-brain way might
 find the following tip helpful:
 
 %!! horizontal line
-TIP
-
+\begin{tip}
 If you have trouble thinking about a conceptual model, visualize it---or
 draw it---as a mechanical device.
+\end{tip}
 %!! horizontal line
-
 Our table is simply an array of characters. Since a character requires only
 a byte, let's make each ``slot'' one byte. We'll call the table ROMANS:
 
@@ -1555,9 +1554,8 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
              ( hundreds)  ASCII C  C,   ASCII D  C,
             ( thousands)  ASCII M  C,
 \end{verbatim}
-
-Note: This use of \bf{ASCII} requires that \bf{ASCII} be
-``\bf{STATE}-dependent'' (see Appendix C). If you don't have \bf{ASCII},
+Note: This use of \textbf{ASCII} requires that \textbf{ASCII} be
+``\textbf{STATE}-dependent'' (see Appendix C). If you don't have \textbf{ASCII},
 or if it is not state-dependent, use:
 
 \begin{verbatim}
@@ -1587,31 +1585,27 @@ VARIABLE COLUMN#  ( current offset)
 : HUNDREDS    4 COLUMN# ! ;
 : THOUSANDS   6 COLUMN# ! ;
 \end{verbatim}
-
 Now we can find our way to any ``arm position'' by adding the contents of
 COLUMN\# to the beginning address of the table, given by ROMANS:
 
 \begin{verbatim}
 : COLUMN  ( -- adr of column)  ROMANS  COLUMN# @  + ;
 \end{verbatim}
-
 Let's see if we can implement one of the words to display a symbol. We'll
 start with ONER.
 
-The thing we want to do in ONER is \bf{EMIT} a character.
+The thing we want to do in ONER is \textbf{EMIT} a character.
 
 \begin{verbatim}
 : ONER                   EMIT ;
 \end{verbatim}
-
-Working backward, \bf{EMIT} requires the ASCII character on the stack.
-How do we get it there? With \bf{C@}.
+Working backward, \textbf{EMIT} requires the ASCII character on the stack.
+How do we get it there? With \textbf{C@}.
 
 \begin{verbatim}
 : ONER                C@ EMIT ;
 \end{verbatim}
-
-\bf{C@} requires the \emph{address} of the slot that contains the symbol we
+\textbf{C@} requires the \emph{address} of the slot that contains the symbol we
 want. How do we get that address?
 
 The ONER is the first ``hand'' on the movable arm---the position
@@ -1621,20 +1615,17 @@ the address returned by COLUMN:
 \begin{verbatim}
 : ONER   COLUMN       C@ EMIT ;
 \end{verbatim}
-
 Now let's write FIVER. It computes the same slot address, then adds
 one to get the next slot, before fetching the symbol and emitting it:
 
 \begin{verbatim}
 : FIVER  COLUMN 1+    C@ EMIT ;
 \end{verbatim}
-
 And TENER is:
 
 \begin{verbatim}
 : TENER  COLUMN 2+    C@ EMIT ;
 \end{verbatim}
-
 These three definitions are redundant. Since the only difference between
 them is the incidental offset, we can factor the incidental offset out from
 the rest of the definitions:
@@ -1642,7 +1633,6 @@ the rest of the definitions:
 \begin{verbatim}
 : .SYMBOL  ( offset)  COLUMN +  C@ EMIT ;
 \end{verbatim}
-
 Now we can define:
 
 \begin{verbatim}
@@ -1650,7 +1640,6 @@ Now we can define:
 : FIVER   1 .SYMBOL ;
 : TENER   2 .SYMBOL ;
 \end{verbatim}
-
 All that remains for us to do now is to decompose our complete decimal
 number into a series of decimal digits. Based on the observations we've
 already made, this should be easy. Figure 4-9 shows our completed
@@ -1676,60 +1665,68 @@ We might redefine ROMAN as follows:
 \end{verbatim}
 
 %!! horizontal line
-Moore:
+\blackline{2ex}
+\noindent Moore:
 
+\begin{tfquot}
 There's a definite sense of rightness when you've done it right. It may be
 that feeling that distinguishes FORTH from other languages, where you
 never feel you've really done well. In FORTH, it's the ``Aha!'' reaction. You
 want to run off and tell somebody.
 
 Of course, nobody will appreciate it like you do.
+\end{tfquot}
+\blackline{1ex}
 %!! horizontal line
 
-\bf{Figure 4-9.} \emph{Roman numerals, solved.}
+\begin{figure*}[pppp]
+\caption{Roman numerals, solved.}
+\vspace{1ex}
+\setcounter{screen}{20}
+\begin{Screen}
+\ Roman numerals                                      8/18/83
+CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
+                 ( tens)  ASCII X  C,   ASCII L  C,
+             ( hundreds)  ASCII C  C,   ASCII D  C,
+            ( thousands)  ASCII M  C,
+VARIABLE COLUMN#  ( current offset)
+: ONES       O COLUMN# ! ;
+: TENS       2 COLUMN# ! ;
+: HUNDREDS   4 COLUMN# ! ;
+: THOUSANDS  6 COLUMN# ! ;
 
-\begin{verbatim}
-Screen # 20
- O \ Roman numerals                                      8/18/83
- 1 CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
- 2                  ( tens)  ASCII X  C,   ASCII L  C,
- 3              ( hundreds)  ASCII C  C,   ASCII D  C,
- 4             ( thousands)  ASCII M  C,
- 5 VARIABLE COLUMN#  ( current offset)
- 6 : ONES       O COLUMN# ! ;
- 7 : TENS       2 COLUMN# ! ;
- 8 : HUNDREDS   4 COLUMN# ! ;
- 9 : THOUSANDS  6 COLUMN# ! ;
-10
-11 : COLUMN ( -- address of column)  ROMANS  COLUMN# @  + ;
-12
+: COLUMN ( -- address of column)  ROMANS  COLUMN# @  + ;
 
+\end{Screen}
 
-Screen # 21
- O \ Roman numerals cont'd                               8/18/83
- 1 : .SYMBOL  ( offset -- )  COLUMN +  C@ EMIT ;
- 2 : ONER    O .SYMBOL ;
- 3 : FIVER   1 .SYMBOL ;
- 4 : TENER   2 .SYMBOL ;
- 5
- 6 : ONERS  ( # of oners -- )
- 7    ?DUP  IF  O DO  ONER  LOOP  THEN ;
- 9 : ALMOST  ( quotient of 5 / -- )
- 9    ONER  IF  TENER  ELSE  FIVER  THEN ;
-10 : DIGIT  ( digit -- )
-11    5 /MOD  OVER  4 = IF  ALMOST  DROP  ELSE  IF FIVER THEN
-12    ONERS THEN ;
-13
+\begin{Screen}
+\ Roman numerals cont'd                               8/18/83
+: .SYMBOL  ( offset -- )  COLUMN +  C@ EMIT ;
+: ONER    O .SYMBOL ;
+: FIVER   1 .SYMBOL ;
+: TENER   2 .SYMBOL ;
 
+: ONERS  ( # of oners -- )
+   ?DUP  IF  O DO  ONER  LOOP  THEN ;
+: ALMOST  ( quotient of 5 / -- )
+   ONER  IF  TENER  ELSE  FIVER  THEN ;
+: DIGIT  ( digit -- )
+   5 /MOD  OVER  4 = IF  ALMOST  DROP  ELSE  IF FIVER THEN
+   ONERS THEN ;
 
-Screen # 22
- O \ Roman numerals cont'd                             8/18/83
- 1 : ROMAN  ( number --)  1000 /MOD  THOUSANDS DIGIT
- 2                         100 /MOD   HUNDREDS DIGIT
- 3                          10 /MOD       TENS DIGIT
- 4                                        ONES DIGIT  ;
- 5
-\end{verbatim}
+\end{Screen}
+
+\begin{Screen}
+\ Roman numerals cont'd                             8/18/83
+: ROMAN  ( number --)  1000 /MOD  THOUSANDS DIGIT
+                        100 /MOD   HUNDREDS DIGIT
+                         10 /MOD       TENS DIGIT
+                                       ONES DIGIT  ;
+
+\end{Screen}
+\vspace{1ex}
+\label{fig-fig4-9}
+\end{figure*}
 
 \section{Summary}
 
@@ -1744,15 +1741,17 @@ of the book will discuss style and programming techniques.
 \section{References}
 
 %!! the ordered list thing again
-1. G. Polya, \emph{How To Solve It: A New Aspect of Mathematical Method},
+\begin{enumerate}
+\item G. Polya, \emph{How To Solve It: A New Aspect of Mathematical Method},
    (Princeton, New Jersey, Princeton University Press).
 %!! (C) should be a nicer copyright sign
-2. Leslie A. Hart, \emph{How the Brain Works}, (C) 1975 by Leslie A. Hart,
+\item Leslie A. Hart, \emph{How the Brain Works}, \copyright{} 1975 by Leslie A. Hart,
    (New York, Basic Books, Inc., 1975).
-3. Evan Rosen, ``High Speed, Low Memory Consumption Structures,'' 1982
+\item Evan Rosen, ``High Speed, Low Memory Consumption Structures,'' 1982
    \emph{FORML Conference Proceedings}, p. 191.
-4. Michael Stolowitz, ``A Compiler for Programmable Logic in FORTH,'' 1982
+\item Michael Stolowitz, ``A Compiler for Programmable Logic in FORTH,'' 1982
    \emph{FORML Conference Proceedings}, p. 257.
+\end{enumerate}
 
 \section{For Further Thinking}
 

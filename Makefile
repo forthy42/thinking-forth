@@ -24,6 +24,9 @@ dvi thinking-forth.dvi : $(SOURCES)
 fig%.pdf fig%.eps:	fig%.tex
 	./tex2pdf $<
 
+inl%.pdf inl%.eps:	inl%.tex
+	./tex2pdf $<
+
 img%.pdf:	img%.eps
 	./eps2pdf $<
 

@@ -23,7 +23,8 @@
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 
 %\wepsfig{label}{caption}
-\newcommand{\wepsfig}[2]{\begin{figure}[hhhh]\caption{#2}\labelfig{#1}eps file missing\end{figure}}
+\newcommand{\wepsfig}[2]{\begin{figure}[hhhh]
+\caption{#2}\labelfig{#1}eps file missing\end{figure}}
 \newcommand{\wepsfiga}[2]{
 \begin{figure*}[hhhh]
 \caption{#2}
@@ -40,24 +41,59 @@
 \label{fig-#1}
 \end{figure*}
 }
-\newcommand{\wepsfigx}[1]{
-\begin{figure*}[tttt]
+\newcommand{\wepsfigpp}[2]{
+\begin{figure*}[pppp]
+\caption{#2}
 \vspace{1ex}
 \centerline{\includegraphics{#1}}\vspace{1ex}
 \label{fig-#1}
 \end{figure*}
 }
+\newcommand{\wepsfigb}[2]{
+\begin{figure*}[bbbb]
+\caption{#2}
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
+\newcommand{\wepsfigx}[1]{
+\begin{figure*}[pppp]
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
+\newcommand{\wepsfigxx}[1]{
+\begin{figure*}[pppp]
+\vspace{20ex}
+\centerline{\includegraphics{#1}}\vspace{20ex}
+\label{fig-#1}
+\end{figure*}
+}
+\newcommand{\wepsfigp}[2]{
+\begin{figure*}[pppp]
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\emph{#2}}
+\vspace{1ex}
+\label{fig-#1}
+\end{figure*}
+}
+
+\newcommand{\blackline}[1]{\hrule height 1pt\vspace{#1}}
+%\renewcommand\floatpagefraction{0}
 
 \newenvironment{tip}{\list{}{
 \parsep\z@ \@plus\p@\small}%
-\item\relax\leavevmode\samepage\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\nopagebreak\\[0.75ex]\nopagebreak{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}
-{\nopagebreak\par\nopagebreak\kern-.25ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
-\endlist}
+\vspace{-1.5ex}\item\relax\leavevmode\samepage\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\nopagebreak\\[.75ex]\nopagebreak{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}
+{\nopagebreak\par\nopagebreak\kern-.25ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\vspace*{-1ex}}
+\endlist\goodbreak}
 
 \newenvironment{tfquot}
-               {\list{}{\listparindent 1.5em%
+               {\list{}{\listparindent 0em%
                         \itemindent    \listparindent
-                        \parsep        \z@ \@plus\p@\small}%
+                        \parsep        1ex \@plus\p@\small}%
                 \item\relax}
                {\endlist}
 
@@ -68,6 +104,7 @@
 
 %\fwbox{text} %like fbox, but does not create a wider box
 \newcommand{\fwbox}[1]{\framebox[\width]{#1}}
+\def\boxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2\hss}}
 
 
 %!! in the '94 edition (and probably the original) inline Forth words are
@@ -100,7 +137,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 \newcommand\HUGE{\@setfontsize\HUGE{40}{50}}
 
 \def\@makechapterhead#1{{\HUGE\sffamily\bfseries\slshape
-  \vbox{\hrule \@height 2pt
+  \vbox{\advance\textwidth1em\hrule \@height 2pt
     \vspace*{1ex}\hbox to \textwidth{\wordchapter}\vspace*{1ex}
     \hrule \@height 2pt}
   \vspace*{100pt}
@@ -110,7 +147,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
   #1}}
   \vspace*{1em plus 1fill}
   \pagebreak
-  \vspace*{1.7in}\hrule\@height 1pt\vspace{10pt}
+  \vspace*{1.7in}\blackline{10pt}
 }}
 
 \def\ps@headings{\let\@mkboth\markboth
@@ -138,9 +175,13 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 \renewcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
+  \gdef\thechapter{\@Alph\c@chapter}%
   \gdef\wordchapter{\appendixname\hss\@Alph\c@chapter}}
 
-\def\raggedlr{\noindent\ifodd\c@page\raggedleft \else\raggedright\fi}
+\newif\ifotherside
+\othersidefalse
+\def\raggedlr{\noindent\ifodd\c@page\ifotherside\raggedright\else\raggedleft\fi
+\else\ifotherside\raggedleft\else\raggedright\fi\fi}
 
 \def\section@ditionalsp@ce{0pt}
 \def\section#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
