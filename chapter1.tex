@@ -342,8 +342,8 @@ of control structure on each level before proceeding to the next lower
 level.
 
 
-\othersidetrue\subsection{Structured Design}
-\othersidefalse
+\subsection{Structured Design}
+
 By the middle of late '70s, the computing industry had tried all the
 concepts we've described, and it was still unhappy. The cost of maintaining
 software---keeping it functional in the face of change---accounted
@@ -449,8 +449,7 @@ As we said, conventional languages that support subroutines include
 elaborate methods of passing arguments from one module to another.
 
 
-\othersidetrue\subsection{Hierarchical Input-Process-Output Designing}
-\othersidefalse
+\subsection{Hierarchical Input-Process-Output Designing}
 A third precept of structured design concerns the design process.
 Designers are advised to use a top-down approach, but to pay less
 attention initially to control structures. {}``Decision designing''
@@ -826,7 +825,8 @@ do is write your own language in FORTH (lexicons) to model your understanding
 of the problem, in which you can elegantly describe its solution.
 
 
-\section{Hide From Whom?}
+\othersidetrue\section{Hide From Whom?}
+\othersidefalse
 Because modern mainstream languages give a slightly different meaning
 to the phrase {}``information-hiding,'' we should clarify. From
 what, or whom are we hiding information?
@@ -982,9 +982,10 @@ of the FORTH approach.
 
 \wepsfigp{img1-028}{Two points of view.}
 
+\bigskip\blackline{2ex}
 Here's what Charles Moore, the inventor of FORTH, has to say:
 
-\begin{quote}
+\begin{tfquot}
 You define each word so that the computer knows what it means. The
 way it knows is that it executes some code as a consequence of being
 invoked. The computer takes an action on every word. It doesn't store
@@ -998,7 +999,8 @@ means.
 The connection between words that have meaning to you and words that
 have meaning to the computer is a profound one. The computer becomes
 the vehicle for communication between human being and concept.
-\end{quote}
+\end{tfquot}
+\blackline{1ex}
 One advantage of the correspondence between source code and machine
 execution is the tremendous simplification of the compiler and interpreter.
 This simplification improves performance in several ways, as we'll
@@ -1112,7 +1114,8 @@ As we'll see in the next chapter, experimentation proves more reliable
 in arriving at the truth than the guesswork of planning.
 
 
-\section{The Language of Performance}
+\othersidetrue\section{The Language of Performance}
+\othersidefalse
 Although performance is not the main topic of this book, the newcomer
 to FORTH should be reassured that its advantages aren't purely philosophical.
 Overall, FORTH outdoes all other high-level languages in speed, capability
@@ -1212,8 +1215,7 @@ applications. Only FORTH's architecture and compactness make FORTH-based
 micros possible.
 
 
-\othersidetrue\section{Summary}
-\othersidefalse
+\section{Summary}
 FORTH has often been characterized as offbeat, totally unlike any
 other popular language in structure or in philosophy, On the contrary,
 FORTH incorporates many principles now boasted by the most contemporary
