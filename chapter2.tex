@@ -18,7 +18,7 @@ Nevertheless \dots{}
 
 \section{The Nine Phases of the Programming Cycle}
 
-As we've seen, FORTH integrates aspects of design with aspects of
+As we've seen, \Forth{} integrates aspects of design with aspects of
 implementation and maintenance. As a result, the notion of a ``typical
 development cycle'' makes as much sense as a ``typical noise.''
 
@@ -52,13 +52,13 @@ used in software projects:
 In this book we'll treat the first six stages of the cycle,
 focusing on analysis, design, and implementation.
 
-In a FORTH project the phases occur on several levels. Looking at a
+In a \Forth{} project the phases occur on several levels. Looking at a
 project from the widest perspective, each of these steps could take a
 month or more.  One step follows the next, like seasons.
 
 %Page 039 in first edition
 
-But FORTH programmers also apply these same phases toward
+But \Forth{} programmers also apply these same phases toward
 defining each word. The cycle then repeats on the order of minutes.
 
 Developing an application with this rapid repetition of the
@@ -85,7 +85,7 @@ Harris then applies the scientific method to the software development
 cycle, illustrated in \Fig{fig2-1}:
 
 \wepsfiga{fig2-1}{The iterative approach to the
-software development cycle, from ``The FORTH Philosophy,''
+software development cycle, from ``The \Forth{} Philosophy,''
 by Kim Harris, \emph{Dr. Dobb's Journal.}}
 
 \begin{enumerate}
@@ -99,7 +99,7 @@ the available resources.
 Mr. Harris adds:
 
 \begin{tfquot}
-Software development in FORTH seeks first to find the simplest solution
+Software development in \Forth{} seeks first to find the simplest solution
 to a given problem. This is done by implementing selected parts of the
 problem separately and by ignoring as many constraints as possible. Then one
 or a few constraints are imposed and the program is modified.
@@ -127,15 +127,15 @@ Exactly what degree is appropriate?
 
 \begin{interview} % need 1 blank line before blackline, like tip
 %\bigskip\blackline{2ex}
-\noindent More than one FORTH programmer has expressed high regard for Dave
+\noindent More than one \Forth{} programmer has expressed high regard for Dave
 Johnson's meticulous approach to planning. Johnson is supervisor at
 Moore Products Co. in Springhouse, Pennsylvania. The firm specializes
 in industrial instrumentation and process control applications. Dave has
-been using FORTH since 1978.
+been using \Forth{} since 1978.
 
 He describes his approach:
 \begin{tfquot}
-Compared with many others that use FORTH, I suppose we take a more
+Compared with many others that use \Forth{}, I suppose we take a more
 formal approach. I learned this the hard way, though. My lack of discipline
 in the early years has come back to haunt me.
 
@@ -148,8 +148,8 @@ turned over to our department. At that point we work through a design,
 and come up with the design specification.
 
 Up to this point our approach is no different from programming in any
-language. But with FORTH, we go about designing somewhat differently.
-With FORTH you don't have to work 95\% through your design before you
+language. But with \Forth{}, we go about designing somewhat differently.
+With \Forth{} you don't have to work 95\% through your design before you
 can start coding, but rather 60\% before you can get into the iterative
 process.
 
@@ -167,7 +167,7 @@ another month.
 This is the typical cycle. One project took almost two years, but six
 or seven months is reasonable.
 
-When we started with FORTH five years ago, it wasn't like that. When I
+When we started with \Forth{} five years ago, it wasn't like that. When I
 received a functional specification, I just started coding. I used a
 cross between top-down and bottom-up, generally defining a structure,
 and as I needed it, some of the lower level, and then returning with
@@ -176,13 +176,13 @@ more structure.
 The reason for that approach was the tremendous pressure to show
 something to management. We wound up never writing down what we were
 doing. Three years later we would go back and try to modify the code,
-without any documentation. FORTH became a disadvantage because it
+without any documentation. \Forth{} became a disadvantage because it
 allowed us to go in too early. It was fun to make the lights flash and
 disk drives hum. But we didn't go through the nitty-gritty design
 work. As I said, our ``free spirits'' have come back to haunt us.
 
 Now for the new programmers, we have an established requirement: a
-thorough design spec that defines in detail all the high-level FORTH
+thorough design spec that defines in detail all the high-level \Forth{}
 words---the tasks that your project is going to do. No more reading a
 few pages of the functional specification, answering that, reading a
 few more, answering that, etc.
@@ -345,9 +345,9 @@ definition was a two-way street. In some cases they got things they
 didn't know they could do on such a small computer, such as applying
 digital filters and signal processing to the data.
 
-One of the things about FORTH that makes this approach possible is
+One of the things about \Forth{} that makes this approach possible is
 that primitives are easily testable. It takes some experience with
-FORTH to learn how to take advantage of this. Guys from traditional
+\Forth{} to learn how to take advantage of this. Guys from traditional
 environments want to write ten pages of code at their desk, then sit
 down to type it in and expect it to work.
 
@@ -384,7 +384,7 @@ to experience.
 Division, Oswego, New York:
 
 \begin{tfquot}
-One of the key advantages I find in FORTH is that it allows
+One of the key advantages I find in \Forth{} is that it allows
 me to very quickly prototype an application without all the bells and
 whistles, and often with significant limitations, but enough to wring
 out the ``human interface'' by hands-on trial runs.
@@ -393,25 +393,25 @@ When I build such a prototype, I do so with the firm constraint that I
 will use not a single line of code from the prototype in the final
 program. This enforced ``do-over'' almost always results in far
 simpler and more elegant final programs, even when those programs are
-written in something other than FORTH.
+written in something other than \Forth{}.
 \end{tfquot}
 %\blackline{2ex}
 \end{interview}
 
-\noindent Our conclusions? In the FORTH environment planning is necessary. But
+\noindent Our conclusions? In the \Forth{} environment planning is necessary. But
 it should be kept short. Testing and prototyping are the best ways to
 discover what is really needed.
 
 A word of caution to project managers: If you're supervising any
-experienced FORTH programmers, you won't have to worry about them
+experienced \Forth{} programmers, you won't have to worry about them
 spending too much time on planning. Thus the following tip has two
 versions:
 
 \begin{tip}
-For newcomers to FORTH (with ``traditional'' backgrounds):
+For newcomers to \Forth{} (with ``traditional'' backgrounds):
 Keep the analysis phase to a minimum.
 
-For FORTH addicts (without a ``traditional'' background):
+For \Forth{} addicts (without a ``traditional'' background):
 Hold off on coding as long as you can possibly stand it.
 \end{tip}
 %Page 045 in first edition
@@ -512,9 +512,9 @@ A conceptual model is not quite a design, however. A design begins to
 describe how the system \emph{really} works. In design, the image of a
 step ladder would begin to emerge.
 
-FORTH blurs the distinction a little, because all definitions are
+\Forth{} blurs the distinction a little, because all definitions are
 written in conceptual terms, using the lexicons of lower level
-components. In fact, later in this chapter we'll use FORTH
+components. In fact, later in this chapter we'll use \Forth{}
 ``pseudocode'' to describe conceptual model solutions.
 
 Nevertheless, it's useful to make the distinction. A conceptual model
@@ -676,13 +676,13 @@ the philosophy of hiding information as we discussed in the last chapter.
 Third, they focus your attention on the interfaces to the system and
 between modules.
 
-FORTH programmers, however, rarely use DFDs except for the customer's
-benefit. FORTH encourages you to think in terms of the conceptual
-model, and FORTH's implicit use of a data stack makes the passing of
+\Forth{} programmers, however, rarely use DFDs except for the customer's
+benefit. \Forth{} encourages you to think in terms of the conceptual
+model, and \Forth{}'s implicit use of a data stack makes the passing of
 data among modules so simple it can usually be taken for granted.
-This is because FORTH, used properly, approaches a functional language.
+This is because \Forth{}, used properly, approaches a functional language.
 
-For anyone with a few days' familiarity with FORTH, simple definitions
+For anyone with a few days' familiarity with \Forth{}, simple definitions
 convey at least as much meaning as the diagrams:
 
 \begin{Code}
@@ -692,7 +692,7 @@ convey at least as much meaning as the diagrams:
 : P.O.   BOOKKEEPING COPY   RECEIVING COPY
    VENDOR MAIL-COPY ;
 \end{Code}
-This is FORTH pseudocode. No effort has been made to determine what
+This is \Forth{} pseudocode. No effort has been made to determine what
 values are actually passed on the stack, because that is an
 implementation detail. The stack comment for \forth{REQUEST} is used
 only to indicate the two items of data needed to initiate the process.
@@ -711,24 +711,24 @@ be defined only at the outer-most level.)
 
 \begin{interview}
 %\bigskip\blackline{2ex}
-Johnson of Moore Products Co. has a few words on FORTH pseudocode:
+Johnson of Moore Products Co. has a few words on \Forth{} pseudocode:
 
 \begin{tfquot}
 IBM uses a rigorously documented PDL (program design language). We use
-a PDL here as well, although we call it FDL, for FORTH design
+a PDL here as well, although we call it FDL, for \Forth{} design
 language. It's probably worthwhile having all those standards, but
-once you're familiar with FORTH, FORTH itself can be a design
+once you're familiar with \Forth{}, \Forth{} itself can be a design
 language. You just have to leave out the so-called ``noise'' words:
 \forth{C@}, \forth{DUP}, \forth{OVER}, etc., and show only the basic
-flow. Most FORTH people probably do that informally. We do it purposefully.
+flow. Most \Forth{} people probably do that informally. We do it purposefully.
 \end{tfquot}
 %Page 052 in first edition
 During one of our interviews I asked Moore\index{M!Moore, Charles|(} if he used
 diagrams of any sort to plan out the conceptual model, or did he code
-straight into FORTH? His reply:
+straight into \Forth{}? His reply:
 
 \begin{tfquot}
-The conceptual model \emph{is} FORTH. Over the years I've learned to think that way.
+The conceptual model \emph{is} \Forth{}. Over the years I've learned to think that way.
 \end{tfquot}
 Can everyone learn to think that way?
 
@@ -806,7 +806,7 @@ Factor the fruit. (Don't confuse apples with oranges.)
 These prose statements are still difficult to read, however. System
 analysts use several techniques to simplify these statements:
 structured English, decision trees, and decision tables. Let's study
-each of these techniques and evaluate their usefulness in the FORTH
+each of these techniques and evaluate their usefulness in the \Forth{}
 environment.
 
 \subsection{Structured English}
@@ -922,7 +922,7 @@ decision table not only reads well to the client but actually benefits
 the implementor in several ways:
 
 \begin{description}
-\item[Transferability to actual code.] This is particularly true in FORTH,
+\item[Transferability to actual code.] This is particularly true in \Forth{},
 where decision tables are easy to implement in a form very similar to the
 drawing.
 
@@ -970,7 +970,7 @@ the table.  What happens if we split this table into two tables, as in
 
 Now we're getting the answer through a combination of table look-up
 and calculation. The formula for the per-minute charge can be
-expressed as a pseudoFORTH definition:
+expressed as a pseudo\Forth{} definition:
 
 \begin{Code}
 : PER-MINUTE-CHARGE ( -- per-minute-charge)
@@ -1053,7 +1053,7 @@ We've expressed the rules to this particular problem through a
 combination of simple tables and logical calculations.
 
 (Some final notes on this example: We've written something very close
-to a running FORTH application. But it is only pseudocode. We've
+to a running \Forth{} application. But it is only pseudocode. We've
 avoided stack manipulations by assuming that values will somehow be on
 the stack where the comments indicate. Also, we've used hyphenated
 names because they might be more readable for the customer. Short
@@ -1254,8 +1254,8 @@ or ``Would you mind if I took off this page and replaced it with this
 expression?'' They get annoyed. They want you to do what they told you
 to do.
 
-LaFarr Stuart took this attitude when he redesigned FORTH \cite{stuart80}. He
-didn't like the input buffer, so he implemented FORTH without it, and
+LaFarr Stuart took this attitude when he redesigned \Forth{} \cite{stuart80}. He
+didn't like the input buffer, so he implemented \Forth{} without it, and
 discovered he didn't really need an input buffer.
 
 If you can improve the problem, it's a great situation to get into.
@@ -1301,7 +1301,7 @@ To simplify, take advantage of what's available.
 
 \begin{interview}
 %\bigskip\blackline{2ex}
-Michael LaManna, a FORTH programmer in Long Island, New York,
+Michael LaManna, a \Forth{} programmer in Long Island, New York,
 comments:
 
 \begin{tfquot}
@@ -1429,7 +1429,7 @@ should be easy to do.
 In documenting the requirements specification, remember that specs are
 like snowmen. They may be frozen now, but they shift, slip, and melt
 away when the heat is on. Whether you choose data-flow diagrams or
-straight FORTH pseudocode, prepare yourself for the great thaw by
+straight \Forth{} pseudocode, prepare yourself for the great thaw by
 remembering to apply the concepts of limited redundancy.
 
 Show the documented conceptual model to the customer. When the
@@ -1437,7 +1437,7 @@ customer is finally satisfied, you're ready for the next big step: the
 design!
 
 \begin{references}{9}
-\bibitem{harris81} Kim Harris, ``The FORTH Philosophy,''
+\bibitem{harris81} Kim Harris, ``The \Forth{} Philosophy,''
   \emph{Dr. Dobb's Journal,} Vol. 6, Iss. 9, No. 59 (Sept. 81),
   pp. 6-11.
 \bibitem{weinberg80} Victor Weinberg, \emph{Structured Analysis,}

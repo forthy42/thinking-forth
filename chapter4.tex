@@ -26,15 +26,15 @@ Chemistry Dept., Virginia Polytechnic Institute and State University}
 
 Once you've decided upon the components in your application, your next
 step is to design those components. In this chapter we'll apply
-problem-solving techniques to the detailed design of a FORTH application.
+problem-solving techniques to the detailed design of a \Forth{} application.
 This is the time for pure invention, the part that many of us find the most
 fun. There's a special satisfaction in going to the mat with a non-trivial
 problem and coming out the victor.
 
 In English it's difficult to separate an idea from the words used to
-express the idea. In writing a FORTH application it's difficult to
+express the idea. In writing a \Forth{} application it's difficult to
 separate the detailed design phase from implementation, because we tend
-to design in FORTH. For this reason, we'll get a bit ahead of ourselves in
+to design in \Forth{}. For this reason, we'll get a bit ahead of ourselves in
 this chapter by not only presenting a problem but also designing a solution
 to it, right on through to the coded implementation.
 
@@ -239,7 +239,7 @@ the subproblem, we can assume it has a straightforward solution.
 Without stopping to determine what that solution might be, we forge
 ahead with our main problem.
 
-(FORTH is ideally suited to this technique, as we'll see.)
+(\Forth{} is ideally suited to this technique, as we'll see.)
 %!! horizontal line
 \begin{tip}
 Step back from the problem.
@@ -365,14 +365,14 @@ The best thing is to start drawing pictures. I draw little men. That keeps
 it from looking like ``data'' and interfering with my thinking process. The
 human mind works exceptionally well with analogies. Putting things in
 context keeps you from getting stuck within the confines of any language,
-even FORTH.
+even \Forth{}.
 
 When I want to focus my concentration, I draw on little pieces of paper.
 When I want to think in broad strokes, to capture the overall flow, I draw
 on great big pieces of paper. These are some of the crazy tricks I use to keep
 from getting stagnant.
 
-When I program in FORTH, I spend a day just dreaming, kicking around
+When I program in \Forth{}, I spend a day just dreaming, kicking around
 ideas. Usually before I start typing, I sketch it out in general terms. No
 code, just talk. Notes to myself.
 
@@ -383,12 +383,12 @@ words. Then I realize that's a lousy way to do it. Maybe I split my top word
 into two and transfer one of them to an earlier block so I can use it earlier.
 I run the hardware if I have it; otherwise I simulate it.
 
-FORTH requires self-discipline. You have to stop diddling with the
-keyboard. FORTH is so willing to do what I tell it to, I'll tell it to do all
+\Forth{} requires self-discipline. You have to stop diddling with the
+keyboard. \Forth{} is so willing to do what I tell it to, I'll tell it to do all
 kinds of ridiculous things that have nothing to do with where I'm trying to
 go. At those times I have to get away from the keyboard.
 
-FORTH lets you play. That's fine, chances are you'll get some ideas. As
+\Forth{} lets you play. That's fine, chances are you'll get some ideas. As
 long as you keep yourself from playing as a habit. Your head is a whole lot
 better than the computer for inventing things.
 \end{tfquot}
@@ -429,7 +429,7 @@ Here are the steps generally involved in designing a component:
 We'll discuss the first two steps in depth. Then we'll engage in an
 extended example of designing a lexicon.
 
-\section{FORTH Syntax}
+\section{\Forth{} Syntax}
 
 At this point in the development cycle you must decide how the words in
 your new lexicon will be used in context. In doing so, keep in mind how
@@ -444,12 +444,12 @@ Each component should be designed with components that use it in mind.
 You must design the syntax of the lexicon so that the words make sense
 when they appear in context. Hiding interrelated information within the
 component will ensure maintainability, as we've seen.
-At the same time, observe FORTH's own syntax. Rather than insisting
+At the same time, observe \Forth{}'s own syntax. Rather than insisting
 on a certain syntax because it seems familiar, you may save
 yourself from writing a lot of unnecessary code by choosing a syntax that
-FORTH can support without any special effort on your part.
+\Forth{} can support without any special effort on your part.
 
-Here are some elementary rules of FORTH's natural syntax:
+Here are some elementary rules of \Forth{}'s natural syntax:
 %!! horizontal line
 \begin{tip}
 Let numbers precede names.
@@ -466,7 +466,7 @@ emits ``n'' number of spaces, is
 \end{Code}
 
 Sometimes this rule violates the order that our ear is accustomed to
-hearing. For instance, the FORTH word \textbf{+} expects to be preceded by both
+hearing. For instance, the \Forth{} word \textbf{+} expects to be preceded by both
 arguments, as in
 
 \begin{Code}
@@ -474,7 +474,7 @@ arguments, as in
 \end{Code}
 
 This ordering, in which values precede operators, is called ``postfix.''
-FORTH, in its magnanimity, won't \emph{insist} upon postfix notation.
+\Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
 You could redefine \textbf{+} to expect one number in the input stream, like this:
 
 \begin{Code}
@@ -490,11 +490,11 @@ returns a double-length value as in the 83 Standard Uncontrolled
 Reference Words).
 
 Fine. But you wouldn't be able to use this definition inside other
-colon definitions or pass it arguments, thereby defeating one of FORTH's
+colon definitions or pass it arguments, thereby defeating one of \Forth{}'s
 major advantages.
 
 Frequently, ``noun'' type words pass their addresses (or any type of
-pointer) as a stack argument to ``verb'' type words. The FORTH-like syntax of
+pointer) as a stack argument to ``verb'' type words. The \Forth{}-like syntax of
 \begin{quote}
 %!! sans-serif
 {\sf ``noun'' ``verb''}
@@ -511,7 +511,7 @@ becomes
 INVENTORY SHOW
 \end{Code}
 If your spec demands the English word-order,\index{W!Words:!ordering}
-FORTH offers ways to
+\Forth{} offers ways to
 achieve it. But most involve new levels of complexity. Sometimes the
 best thing to do is to choose a better name. How about
 \begin{Code}
@@ -541,7 +541,7 @@ execution in \Chap{7}.)
 Let text follow names.
 \end{tip}
 %!! horizontal line
-If the FORTH interpreter finds a string of text that is neither a number
+If the \Forth{} interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
 reason, an undefined string must be preceded by a defined word.
 
@@ -563,8 +563,8 @@ execute.
 Let definitions consume their arguments.
 \end{tip}
 %!! horizontal line
-This syntax rule is more a convention of good FORTH programming
-than a preference of FORTH.
+This syntax rule is more a convention of good \Forth{} programming
+than a preference of \Forth{}.
 
 Suppose you're writing the word LAUNCH, which requires the
 number of a launch pad and fires the appropriate rocket. You want the
@@ -645,7 +645,7 @@ include the conversion from zero-to one-relative numbering:
 Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
 \end{tip}
 %!! horizontal line
-Again, this is a convention, not a requirement of FORTH, but such conventions
+Again, this is a convention, not a requirement of \Forth{}, but such conventions
 are essential for readable code. You'll find examples of this rule
 in the words \textbf{TYPE}, \textbf{ERASE}, and \textbf{BLANK}.
 %!! horizontal line
@@ -676,7 +676,7 @@ Suppose your color computer represents blue with the value 1, and
 light-blue with 9. You want to define two words: BLUE will return 1;
 LIGHT may precede BLUE to produce 9.
 
-In FORTH, it would be possible to define BLUE as a constant, so
+In \Forth{}, it would be possible to define BLUE as a constant, so
 that when executed it always returns 1.
 
 \begin{Code}
@@ -690,13 +690,13 @@ apparent when we visit this example again, later in the book):
 : LIGHT  ( precedes a color)  ( -- color value)
      ' EXECUTE  8 OR ;
 \end{Code}
-(in fig-FORTH:
+(in fig-\Forth{}:
 \begin{Code}
 : LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;)
 \end{Code}
 %!! The closing paren at the end of this code is a bit misleading.
 %!! At least a leading space and a different font should be used.
-(For novices: The apostrophe in the definition of LIGHT is a FORTH
+(For novices: The apostrophe in the definition of LIGHT is a \Forth{}
 word called ``tick.'' Tick is a dictionary-search word; it takes a name and
 looks it up in the dictionary, returning the address where the definition
 resides. Used in this definition, it will find the address of the word
@@ -731,11 +731,11 @@ Let commands perform themselves.
 %!! horizontal line
 
 This rule is a corollary to ``Avoid expectations.'' It's one of
-FORTH's philosophical quirks to let words do their own work. Witness
-the FORTH compiler (the function that compiles colon definitions),
+\Forth{}'s philosophical quirks to let words do their own work. Witness
+the \Forth{} compiler (the function that compiles colon definitions),
 carcicatured in \Fig{fig4-7}. It has very few rules:
 
-\wepsfigt{fig4-7}{The traditional compiler vs. the FORTH compiler.}
+\wepsfigt{fig4-7}{The traditional compiler vs. the \Forth{} compiler.}
 
 %!! include Figure 4-7 here
 
@@ -755,7 +755,7 @@ If it's not a number, abort with an error message.
 Nothing is mentioned about compiling-words such as \textbf{IF}, \textbf{ELSE},
 \textbf{THEN}, etc. The colon compiler doesn't know about these words. It merely
 recognizes certain words as ``immediate'' and executes them, letting
-them do their own work. (See \emph{Starting FORTH}, Chapter Eleven, ``How to
+them do their own work. (See \emph{Starting \Forth{}}, Chapter Eleven, ``How to
 Control the Colon Compiler.'')
 
 The compiler doesn't even ``look for'' semicolon to know when to
@@ -765,32 +765,32 @@ of ending the definition and shutting off the compiler.
 There are two tremendous advantages to this approach. First, the
 compiler is so simple it can be written in a few lines of code. Second,
 there's no limit on the number of compiling words you can add at any
-time, simply by making them immediate. Thus, even FORTH's colon
+time, simply by making them immediate. Thus, even \Forth{}'s colon
 compiler is extensible!
 
-FORTH's text interpreter and FORTH's address interpreter also
+\Forth{}'s text interpreter and \Forth{}'s address interpreter also
 adhere to this same rule.
 
 The following tip is perhaps the most important in this chapter:
 
 %!! horizontal line
 \begin{tip}
-Don't write your own interpreter/compiler when you can use FORTH's.
+Don't write your own interpreter/compiler when you can use \Forth{}'s.
 \end{tip}
 %!! horizontal line
 One class of applications answers a need for a special purpose
 language---a self-contained set of commands for doing one particular
 thing. An example is a machine-code assembler. Here you have a large
 group of commands, the mnemonics, with which you can describe the
-instructions you want assembled. Here again, FORTH takes a radical
+instructions you want assembled. Here again, \Forth{} takes a radical
 departure from mainstream philosophy.
 
 Traditional assemblers\index{A!Assemblers} are special-purpose
 interpreters---that is,
 they are complicated programs that scan the assembly-language listing
 looking for recognized mnemonics such as ADD, SUB, JMP, etc., and
-assemble machine instructions correspondingly. The FORTH assembler,
-however, is merely a lexicon of FORTH words that themselves assemble
+assemble machine instructions correspondingly. The \Forth{} assembler,
+however, is merely a lexicon of \Forth{} words that themselves assemble
 machine instructions.
 
 There are many more examples of the special purpose language,
@@ -817,13 +817,13 @@ etc.
 \end{Code}
 %!! 'etc.' should not be part of the code, should it?
 
-The commands of this game-building language can simply be FORTH
-WORDS, with FORTH as the interpreter.
+The commands of this game-building language can simply be \Forth{}
+WORDS, with \Forth{} as the interpreter.
 
 \item If you're working with Programmable Array Logic (PAL) devices, you'd
 like a form of notation that lets you describe the behavior of the output pins
 in logical terms, based on the states of the input pins. A PAL programmer
-was written with wonderful simplicity in FORTH by Michael Stolowitz \cite{stolowitz82}.
+was written with wonderful simplicity in \Forth{} by Michael Stolowitz \cite{stolowitz82}.
 
 \item If you must create a series of user menus to drive your application, you
 might want to first develop a menu-compiling language. The words of this
@@ -831,8 +831,8 @@ new language allow an application programmer to quickly program the
 needed menus---while hiding information about how to draw borders, move
 the cursor, etc.
 \end{enumerate}
-All of these examples can be coded in FORTH as lexicons, using the normal
-FORTH interpreter, without having to write a special-purpose interpreter
+All of these examples can be coded in \Forth{} as lexicons, using the normal
+\Forth{} interpreter, without having to write a special-purpose interpreter
 or compiler.
 
 \bigskip
@@ -1024,7 +1024,7 @@ preference in the following order:
 \end{enumerate}
 \end{tip}
 %!! horizontal line
-Of course, one nice feature of modular languages such as FORTH is that
+Of course, one nice feature of modular languages such as \Forth{} is that
 the actual implementation of a component---whether it uses calculation,
 data structures, or logic---doesn't have to be visible to the rest of the
 application.
@@ -1112,6 +1112,7 @@ XIX \\
 XX \\
 \end{tabular}}
 
+\bigskip
 \noindent This is exactly the pattern as before, with an extra ``X''
 in front. So there's a repeating cycle of ten, as well.
 
@@ -1136,7 +1137,7 @@ number into decimal digits, and treat each digit separately. For instance,
 \end{quote}
 
 \noindent It may be premature, but we can already see a method by
-which FORTH will let us decompose a number into decimal digits---with
+which \Forth{} will let us decompose a number into decimal digits---with
 modulo divison by ten. For instance, if we say
 
 \begin{Code}
@@ -1328,13 +1329,13 @@ applies, it will follow the ``normal'' algorithm. Using pseudocode, then:
    ELSE  normal case  THEN ;
 \end{Code}
 
-An experienced FORTH programmer would not actually write out this
+An experienced \Forth{} programmer would not actually write out this
 pseudocode, but would more likely form a mental image of the structure
 for eliminating the special cases. A less experienced programmer might
 find it helpful to capture the structure in a diagram, or in code as we've
 done here.
 
-In FORTH we try to minimize our dependence on logic. But in this
+In \Forth{} we try to minimize our dependence on logic. But in this
 case we need the conditional \textbf{IF} because we have an exception we need to
 eliminate. Still, we've minimized the complexity of the control structure
 by limiting the number of \textbf{IF THEN}s in this definition to one.
@@ -1376,7 +1377,7 @@ We stated, ``If the digit is 5 or more, begin with a FIVER and subtract
 five from the value; otherwise do nothing. Then, print as many
 ONERS as necessary to add up to the value.''
 
-A direct translation of these rules into FORTH would look like this:
+A direct translation of these rules into \Forth{} would look like this:
 
 \begin{Code}
 ( n)  DUP  4 > IF  FIVER 5 -  THEN  ONERS
@@ -1547,7 +1548,7 @@ structure.}
 
 %!! include Figure 4-8 here
 
-An experienced FORTH programmer is not likely to imagine arms,
+An experienced \Forth{} programmer is not likely to imagine arms,
 hands, or things like that. But there must be a strong mental image---the
 stuff of right-brain thinking---before there's any attempt to construct the
 model with code.
@@ -1687,8 +1688,8 @@ Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 There's a definite sense of rightness when you've done it right. It may be
-that feeling that distinguishes FORTH from other languages, where you
-never feel you've really done well. In FORTH, it's the ``Aha!'' reaction. You
+that feeling that distinguishes \Forth{} from other languages, where you
+never feel you've really done well. In \Forth{}, it's the ``Aha!'' reaction. You
 want to run off and tell somebody.
 
 Of course, nobody will appreciate it like you do.
@@ -1751,7 +1752,7 @@ VARIABLE COLUMN#  ( current offset)
 In this chapter we've learned to develop a single component, starting
 first with deciding on its syntax, then proceeding with determining its
 algorithm(s)\index{A!Algorithms} and data structure(s), and concluding with an implementation
-in FORTH.
+in \Forth{}.
 
 With this chapter we complete our discussion of design. The remainder
 of the book will discuss style and programming techniques.
@@ -1783,7 +1784,7 @@ may appear twice in the array.
 You may assume you have a random-number generator called
 CHOOSE. It's stack argument is ``n''; it produces a random number
 between zero and n-1 inclusive. (See the Handy Hint, Chapter Ten,
-\emph{Starting FORTH}.)
+\emph{Starting \Forth{}}.)
 
 Can you design the card-shuffling algorithm so that it avoids the
 time-consuming burden of checking some undetermined number of slots

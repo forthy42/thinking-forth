@@ -20,7 +20,7 @@ In this chapter we'll continue our study of the implementations phase, this time
 
 Decomposition and factoring are chips off the same block. Both involve dividing and organizing. Decomposition occurs during preliminary design; factoring occurs during detailed design and implementation.
 
-Since every colon definition reflects decisions of factoring, an understanding of good factoring technique is perhaps the most important skill for a FORTH programmer.
+Since every colon definition reflects decisions of factoring, an understanding of good factoring technique is perhaps the most important skill for a \Forth{} programmer.
 
 What is factoring? Factoring means organizing code into usedful fragments. To make a fragment useful, you ofen must separate reusable parts from non-reusable parts. The reusable parts become new definitions.
 
@@ -36,7 +36,7 @@ If a module seems almost, but not quite, useful form a second place in the syste
 The ``useful subfunction'' of course becomes the newly factored definition.What about the part that ``isn't quite useful''? That depends on what it is.
 
 \subsection{{Factoring Out Data}}
-The simpleest thing to factor out is data thanks to FORTH's data stack. For instance, to compute two-thirds of 1,000, we write
+The simpleest thing to factor out is data thanks to \Forth{}'s data stack. For instance, to compute two-thirds of 1,000, we write
 
 \begin{Code}
 1000 2 3 */
@@ -237,7 +237,7 @@ Here's an improved rendition. The similar variable names have been factored into
 
 \noindent That's all the code we need.
 
-Even in the most innocent cases, a little data structure can eliminate extra names. By convention FORTH handles text in ``counted strings'' (i.e., with the count in the first byte). Any word that returns the ``address of a string'' actually returns this beginning address, where the count is. not only does use of this two-element data structure eliminate the need for separate names for string and count, it also makes it easier to move a string in memory, because you can copy the string \emph{and} the count
+Even in the most innocent cases, a little data structure can eliminate extra names. By convention \Forth{} handles text in ``counted strings'' (i.e., with the count in the first byte). Any word that returns the ``address of a string'' actually returns this beginning address, where the count is. not only does use of this two-element data structure eliminate the need for separate names for string and count, it also makes it easier to move a string in memory, because you can copy the string \emph{and} the count
 with a single \textbf{CMOVE}.
 
 When you start finding the same awkwardness here and there, you can combine things and make the awkwardness go away.
@@ -273,12 +273,12 @@ Examine the structure of this code (without worrying about its purpose--you'll s
 \end{Code}
 
 \noindent 
-(Defining words are explained in \emph{Starting FORTH}, Chapter Eleven).
+(Defining words are explained in \emph{Starting \Forth{}}, Chapter Eleven).
 
 By using a defining word, we save memory because each compiled colon
 defintion needs the address of \textbf{EXIT} to conclude the
 defintion.(In defining eight words, the use of a defining word saves
-14 bytes on a 16-bit FORTH.) Also, in a colon defintion each reference
+14 bytes on a 16-bit \Forth{}.) Also, in a colon defintion each reference
 to a nemeric leiteral requires the compilation of \textbf{LIT} (or
 \textbf{literal}), another 2 bytes per definition. (If 1 and 2 are
 predefined constants, this costs another 10 bytes---24 total.)
@@ -288,7 +288,7 @@ In terms of readability, the defining word makes it absolutely clear that all th
 The greatest strength of defining words, however, arises when a series of defintinos share the same \emph{compile-time} behavior. This topic is the subject of a later section, ``Compile-Time Factoring.''
 
 \section{Factoring Criteria}
-Armed with an understanding of factoring techniques, let's now discuss several of the criteria for factoring FORTH definitions. They include:
+Armed with an understanding of factoring techniques, let's now discuss several of the criteria for factoring \Forth{} definitions. They include:
 
 \begin{enumerate}
 \item Limiting the size of definitions
@@ -304,7 +304,7 @@ Keep definitions short.
 
 \begin{interview}
 We asked Moore,\index{M!Moore, Charles|(}
-``How long should a FORTH definition be?''
+``How long should a \Forth{} definition be?''
 
 \begin{tfquot}
 A word should be a line long. That's the target.
@@ -321,18 +321,18 @@ Psychological tests have shown that the human mind can only focus its conscious 
 
 Even if out subconscious mind knows each part of an application inside out, our narrow-viewed conscious mind can only correlate seven elements of it at once. Beyond that, our grasp wavers. Short definitions match our mental capabilities.
 
-Something that many FORTH programmers to write overly long definitions is the knowledge that headers take space in the dictionary. The coarser the factoring, the fewer the names, and the less memory that will be wasted.
+Something that many \Forth{} programmers to write overly long definitions is the knowledge that headers take space in the dictionary. The coarser the factoring, the fewer the names, and the less memory that will be wasted.
 
 It's true that more memory will be used, but it's hard to say that anything that helps you test, debug and interact with your code is a ``waste.'' If your application is large, try using a default width of three, with the ability to switch to a full-length name to avoid a specific collision. (``Width'' refers to a limit on the number of characters stored in the name field of each dictionary header.)
 
-If the application is still too big, switch to a FORTH with multiple dictionaries on a machine with extended memory, or better yet, a 32-bit FORTH on a machine with 32-bit addressing.
+If the application is still too big, switch to a \Forth{} with multiple dictionaries on a machine with extended memory, or better yet, a 32-bit \Forth{} on a machine with 32-bit addressing.
 
-A related fear is that over-factoring will decrease performance due to the overhead of FORTH's inner interpreter. Again, it's true that there is some penalty for each level of nesting. But ordinarily the penalty for extra nesting due to proper factoring will not be noticeable. If you timings are that tight, the real solution is to translate something into assembler.
+A related fear is that over-factoring will decrease performance due to the overhead of \Forth{}'s inner interpreter. Again, it's true that there is some penalty for each level of nesting. But ordinarily the penalty for extra nesting due to proper factoring will not be noticeable. If you timings are that tight, the real solution is to translate something into assembler.
 
 \begin{tip}
 Factor at the point where you feel unsure about your code (where complexity approaches the conscious limit).
 \end{tip}
-Don't let your ego take over with an ``I can lick this!'' attitude. FORTH code should never feel uncomfortably complex. Factor!
+Don't let your ego take over with an ``I can lick this!'' attitude. \Forth{} code should never feel uncomfortably complex. Factor!
 
 \begin{interview}
 Moore:\index{M!Moore, Charles|(}
@@ -433,7 +433,7 @@ Moore:\index{M!Moore, Charles|(}
 If you have a concept that you can't assign a single name to , not a hyphenated name, but a name, it's not a well-formed concept. The ability to assign a name is a necessart part of decomposition. Certainly you get more confidence in the idea.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-Compare this view with the criteria for decomposing a module espoused by structured design in Chaper One. According to that method, a module should exhibit ``functional binding,'' Which can be verified by describing its function in a single, non-compound, \emph{sentence}. FORTH's ``atom,'' a textit{name}, is an order of magnitude more refined.
+Compare this view with the criteria for decomposing a module espoused by structured design in Chaper One. According to that method, a module should exhibit ``functional binding,'' Which can be verified by describing its function in a single, non-compound, \emph{sentence}. \Forth{}'s ``atom,'' a textit{name}, is an order of magnitude more refined.
 
 \begin{tip}
 Factor definitions to hide details that may change.
@@ -449,7 +449,7 @@ Here's a very short definition that does little except hide information:
 
 %% >BODY will not display properly.
 \noindent
-This defintion allows you to convert an acf (address of code field) to an apf (address of parameter field) without depending on the actual structure of a dictionary definition. If you were to use @+ instead of the word \textbf{>BODY}, you would lose transportability if you ever converted to a FORTH system in which the heads were separated from the bodies. (This is one of a set of words suggested by Kim harris, and included as an Experimental Proposal in the FORTH-83 Standard \cite{harris83}.)
+This defintion allows you to convert an acf (address of code field) to an apf (address of parameter field) without depending on the actual structure of a dictionary definition. If you were to use @+ instead of the word \textbf{>BODY}, you would lose transportability if you ever converted to a \Forth{} system in which the heads were separated from the bodies. (This is one of a set of words suggested by Kim harris, and included as an Experimental Proposal in the \Forth{}-83 Standard \cite{harris83}.)
 
 Here's a group of definitions that might be used in writing an editor:
 
@@ -458,7 +458,7 @@ Here's a group of definitions that might be used in writing an editor:
 : CURSOR  ( -- a)  R# ;
 : AT  ( -- a)  FRAME  CURSOR @ + ;
 \end{Code}
-These three defintions can form the basis for all calculations of addresses necessary for moving text around. Use of these three defintions completely separates your editiong algorithms from a reliance on FORTH blocks.
+These three defintions can form the basis for all calculations of addresses necessary for moving text around. Use of these three defintions completely separates your editiong algorithms from a reliance on \Forth{} blocks.
 
 What good is that? Ifyou should decide, during development, to create an editing buffer to protect the user from making errors that destroy a block, you merely have to redifine two of these words, perhaps like this:
 
@@ -482,22 +482,22 @@ Here's an example. The word defined below, pronounced ``people-to-paths,'' compu
 This produces:
 
 %% I don't know how to underline these.
-\begin{Code}
-2 PEOPLE = 1 PATHS
-3 PEOPLE = 3 PATHS
-5 PEOPLE = 10 PATHS
-10 PEOPLE = 45 PATHS
+\begin{Code}[commandchars=\&\{\}]
+2 PEOPLE&underline{ = 1 PATHS}
+3 PEOPLE&underline{ = 3 PATHS}
+5 PEOPLE&underline{ = 10 PATHS}
+10 PEOPLE&underline{ = 45 PATHS}
 \end{Code}
 Even if you think you're going to perform a particular calculation conly once, to display it in a certain way, believe me, you're wrong. You will have to come back later an factor out the calculation part. Perhaps you'll need to display the information in a right-justified column, or perhaps you'll want to record the results in a data base--you never know. But you'll always have to factor it, so you might as well do it right the first time. (The few times you might get away with it aren't worth the trouble.)
 
-The word . (dot) is a prime example. Dot is great 99\% of the time, but occasionally it does too much. Here's what it does, in fact (in FORTH--83):
+The word . (dot) is a prime example. Dot is great 99\% of the time, but occasionally it does too much. Here's what it does, in fact (in \Forth{}--83):
 
 \begin{Code}
 : .   ( n )  DUP ABS 0 <# #S  ROT SIGN  #> TYPE SPACE ;
 \end{Code}
 But suppose you want to convert a numver on the stack into an ASCII string and store it in a buffer for typing later. Dot converts it, but also types it. Or suppose you want to format playing cards in the form 10C (for ``ten of clubs''). You can't use dot to display the 10 because it prints a final space.
 
-Here's a better factoring found in some FORTH systems:
+Here's a better factoring found in some \Forth{} systems:
 
 \begin{Code}
 : (.)  (n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
@@ -529,13 +529,14 @@ Simplify the command interface by reducing the number of commands.
 \end{tip}
 It may seem paradoxical, but good factoring can often yield \emph{fewer} names. In Chapter 5 we saw how six simple names (LEFT, RIGHT, MOTOR, SOLENOID, ON, and OFF) could do the work of eight badly-factored, hypenated names.
 
-As another example, I found two definitions circulating in one department in which FORTH had recently introduced. Their purposet was purely instructional, to remind the programmer which vocabulary was CURRENT, and which was CONTEXT:
+As another example, I found two definitions circulating in one department in which \Forth{} had recently introduced. Their purposet was purely instructional, to remind the programmer which vocabulary was CURRENT, and which was CONTEXT:
 
 \begin{Code}
 : .CONTEXT   CONTEXT @  8 -  NFA  ID. ;
 : .CURRENT   CURRENT @  8 -  NFA  ID. ;
 \end{Code}
-If you typed
+\goodbreak
+\noindent If you typed
 
 \begin{Code}
 .CONTEXT
@@ -543,9 +544,9 @@ If you typed
 the system would respond
 
 
-%% Could not underline FORTH
-\begin{Code}
-.CONTEXT FORTH
+%% Could not underline \Forth{}
+\begin{Code}[commandchars=\&\{\}]
+.CONTEXT&underline{ FORTH}
 \end{Code}
 (They worked--at least on the system used there--by backing up to the name field of the vocabulary definition, and displaying it.)
 
@@ -570,21 +571,20 @@ Applying the principles of good naming, I suggested:
 allowing the syntax
 
 %% Could not underline.
-\begin{Code}
-CONTEXT IS ASSEMBLER ok
+\begin{Code}[commandchars=\&\{\}]
+CONTEXT IS&underline{ ASSEMBLER ok}
 \end{Code}
 or
 
 %% Could not underline.
-\begin{Code}
-CURRENT IS FORTH ok
+\begin{Code}[commandchars=\&\{\}]
+CURRENT IS&underline{ FORTH ok}
 \end{Code}
 The initial clue was repetition of code, but the final result came from attempting to simplify the command interface.
 
 Here's another example. The IBM PC has four modes four displaying text only:
 
-\bigskip
-
+\begin{quote}\sf
 40 column monochrome
 
 40 column color
@@ -592,11 +592,8 @@ Here's another example. The IBM PC has four modes four displaying text only:
 80 column monochrome
 
 80 column color
-
-\bigskip
-
-\noindent
-The word MODE is available in the FORTH system I use. MODE takes an argument between 0 and 3 and changes the mode accordingly. Of course, the phrase 0 MODE or 1 MODE doesn't help me remember which mode is which.
+\end{quote}
+The word MODE is available in the \Forth{} system I use. MODE takes an argument between 0 and 3 and changes the mode accordingly. Of course, the phrase 0 MODE or 1 MODE doesn't help me remember which mode is which.
 
 Since I need to switch between these modes in doing presentations, I need to have a convenient set of words to effect the change. These words must also set a variable that contains the current number of columns--40 or 80.
 
@@ -689,6 +686,7 @@ LIGHT BLUE
 \end{Code}
 will return a ``9.'' (The adjective LIGHT sets flag which is used by the hues, then cleared.)
 
+\goodbreak
 If necessary for readability, we still might want to define:
 
 \begin{Code}
@@ -731,29 +729,31 @@ I call these phrases ``cliches.'' They stick together as meaningful functions. Y
 \noindent
 In the last section we looked at many techniques for organizing code and data to reduce redundance.
 
-We can also apply limited redundance during compilation, by letting FORTH do some of out dirty work.
+We can also apply limited redundance during compilation, by letting \Forth{} do some of out dirty work.
 
 \begin{tip}
 For maximum maintainability, limit redundancy even at compile time.
 \end{tip}
 Suppose in our application we must draw nine boxes as shown in \Fig{fig6-1}.
 
-\begin{figure*}[tttt]
+\begin{figure*}[hhhh]
 \caption{What we're supposed to display}
 \labelfig{fig6-1}
 \begin{center}
-\begin{BVerbatim}
+\begin{BVerbatim}[baselinestretch=0.7]
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
 
+
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
 ********     ********     ********
+
 
 ********     ********     ********
 ********     ********     ********
@@ -778,16 +778,12 @@ Naturally we can define:
 
 %% I changed "We want" to "we want"
 Now, to define the left margin, we might compute it mentally, We want to senter all these boxes on a screen 80 columns wide. To center something, we subtract its width from 80 and divide by two to determine the left margin. To figure the total width of all the boxes, we add
+\begin{eqnarray}
+8 + 4 + 8 + 4 + 8 = 32\nonumber
+\end{eqnarray}
+(three widths and two avenues). $(80-31) / 2 = 24$.
 
-\medskip
-
-$8 + 4 + 8 + 4 + 8 = 32$
-
-\medskip
-
-\noindent
-(three widths and two avenues). (80-31) / 2 = 24.
-
+\goodbreak
 So we could, crudely, define:
 
 \begin{Code}
@@ -797,7 +793,7 @@ and use the same approach for TOPMARGIN.
 
 But what if we should later redesign the pattern, so that the width changed, or perhaps the gap between the boxes? We'd have to recompute the left margin ourselves.
 
-In the FORTH environment, we can use the full power of FORTH even when we're compiling. Why not let FORTH do the figuring?
+In the \Forth{} environment, we can use the full power of \Forth{} even when we're compiling. Why not let \Forth{} do the figuring?
 
 \begin{Code}
 WIDE 3 *  AVE 2 *  +  80 SWAP -  2/ CONSTANT LEFTMARGIN
@@ -805,7 +801,7 @@ HIGH 3 *  STREET 2 * +  24 SWAP -  2/ CONSTANT TOPMARGIN
 \end{Code}
 
 \begin{tip}
-If a constant's value depends on the value of an earlir constant, use FORTH to calculate the value of
+If a constant's value depends on the value of an earlir constant, use \Forth{} to calculate the value of
 
 the second.
 \end{tip}
@@ -820,7 +816,7 @@ Notice the line immediately following the list of points:
 HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{Code}
 %% I don't know how to offset the Figure 6-2.
-\begin{figure*}[tttt]
+\begin{figure*}[bbbb]
 \caption{Another example of limiting compile-time redundancy.}
 \labelfig{fig6-2}
 \begin{center}
@@ -838,7 +834,7 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{figure*}
 The phrase ``HERE POINTS -'' computes the number of x--y coordinates in the table: this value becomes the constant \#POINTS, used as the limit in DRAW's \textbf{DO LOOP}.
 
-This construct lets you add or suvtract points from the table withour worrying about the number of points there are. FORTH computes this for you.
+This construct lets you add or suvtract points from the table withour worrying about the number of points there are. \Forth{} computes this for you.
 
 \subsection{{Compile-Time Factoring through Defining Words}}
 \index{W!Words:!defining|see{Defining words}}
@@ -965,7 +961,7 @@ Making changes one at a time ensures that when it stops working, you know why.
 \begin{tip}
 Don't try to anticipate ways to factor too early.
 \end{tip}
-Some people wonder why most FORTH systems don't include the defintion word ARRAY. This rule is the reason.
+Some people wonder why most \Forth{} systems don't include the defintion word ARRAY. This rule is the reason.
 
 \begin{interview}
 Moore:\index{M!Moore, Charles|(}
@@ -1007,8 +1003,8 @@ The more complex the problem, the less likely it will be that you'll
 find a universally applicable data structure. The number of instances
 in which a truly complex data structure has found universal use is
 very small. One example of a successful complex data structure is the
-FORTH dictionary. Very firm structure, great versatility. It's used
-everywhere in FORTH. But that's rare.
+\Forth{} dictionary. Very firm structure, great versatility. It's used
+everywhere in \Forth{}. But that's rare.
 
 If you choose to define the word ARRAY, you've done a decompostion
 step. You've factored out the concept of an array from all the words
@@ -1024,7 +1020,7 @@ Today, make it work. Tomorrow, optimize it.
 \end{tip}
 
 \begin{interview}
-Again Moore.\index{M!Moore, Charles|(} On the day of this interview, Moore had been completing work on the design of a board-level FORTH computer, using commercially available ICs. As part of his toolkit for designing the board, he created a simulator in FORTH, to test the board's logic:
+Again Moore.\index{M!Moore, Charles|(} On the day of this interview, Moore had been completing work on the design of a board-level \Forth{} computer, using commercially available ICs. As part of his toolkit for designing the board, he created a simulator in \Forth{}, to test the board's logic:
 
 \begin{tfquot}
 This morning I realized I've been mixing the descriptions of the chips with the placement of the chips on the board. This perfectly convenient for my purposes at the moment, but when I come up with another board that I want to use the same chips for, I have arranged things very badly.

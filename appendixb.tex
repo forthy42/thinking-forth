@@ -15,7 +15,7 @@ dependent, I've included several different implementations at the end of
 this appendix in the hope that one of them will work for you.  If no, and if
 this section doesn't give you enough information to get them running,
 you probably have an unusual system.  Please don't ask me for help; ask
-your FORTH vendor.
+your \Forth{} vendor.
 
 Here's how it works.  {\bf DOER} is a defining word that creates an entry
 with one cell in its parameter field. That cell contains the vector address,
@@ -23,7 +23,7 @@ and is initialized to point to a no-op word called {\bf NOTHING}.
 
 Children of {\bf DOER} will execute that {\bf DOES> } code of {\bf DOER}, which
 does only two things:  fetch the vector address and place it on the return
-stack.  That's all.  FORTH execution then continues with this address on
+stack.  That's all.  \Forth{} execution then continues with this address on
 the return stack, which will cause the vectored function to be performed.
 It's like saying (in '83-Standard)
 \begin{verbatim}
@@ -53,11 +53,11 @@ Now suppose we define:
 \end{verbatim}
 that is, we define a word that can vector JOE to do a carriage return.
 
-Here's a picture of the compiled definition of TEST:  \\
+Here's a picture of the compiled definition of TEST:
 %! This is supposed to be the cell diagram on p. 277, but I just 
 %! couldn't figure out how to do it.
 
-{\sf
+{\sf\samepage
 \begin{tabbing}
 XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= \kill
 	\> adr of \>	\> adr of \> adr of \> adr of \\
@@ -170,6 +170,7 @@ then enter
 followed by return, as many times as you like (you'll get a different
 reason each time).
 
+\vfill
 \setcounter{screen}{21}
 \begin{Screen}
 ( DOER/MAKE   Shadow screen                      LPB 12/05/83 )

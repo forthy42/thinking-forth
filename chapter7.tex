@@ -12,13 +12,13 @@
 \chapter{Handling~Data: Stacks~and~States}\Chapmark{7}
 
 %!! horizontal line
-FORTH handles data in one of two ways: either on the stack or in data
+\Forth{} handles data in one of two ways: either on the stack or in data
 structures. When to use which approach and how to manage both the
 stack and data structures are the topics of this chapter.
 
 \section{The Stylish Stack}
 
-The simplest way for FORTH words to pass arguments to each other is
+The simplest way for \Forth{} words to pass arguments to each other is
 via the stack. The process is ``simple'' because all the work of pushing
 and popping values to and from the stack is implicit.
 
@@ -38,8 +38,8 @@ doesn't have to be referred to explicitly.
 
 One important result of this approach: Arguments are unnamed. They
 reside on the stack, not in named variables. This effect is one of the
-reasons for FORTH's elegance. At the same time it's one of the reasons
-badly written FORTH code can be unreadable. Let's explore this
+reasons for \Forth{}'s elegance. At the same time it's one of the reasons
+badly written \Forth{} code can be unreadable. Let's explore this
 paradox.
 
 The invention of the stack is analogous to that of pronouns in
@@ -57,7 +57,7 @@ The informality of the ``it'' construct makes English more readable
 passing of arguments makes code more readable. We emphasize the
 \emph{processes}, not the \emph{passing of arguments} to the processes.
 
-Our analogy to pronouns suggests why bad FORTH can be so unreadable.
+Our analogy to pronouns suggests why bad \Forth{} can be so unreadable.
 The spoken language gets confusing when too many things are
 referred to with pronouns.
 
@@ -82,13 +82,13 @@ solution is to redesign the passage:
 \begin{tfquot}
 Remove the wrapping and open the present. Throw away the box.
 \end{tfquot}
-So in FORTH we have analogous observations:
+So in \Forth{} we have analogous observations:
 
 \begin{tip}
 Simplify code by using the stack. But don't stack too deeply within any
 single definition. Redesign, or, as a last resort, use a named variable.
 \end{tip}
-Some newcomers to FORTH view the stack the way a gymnast views a
+Some newcomers to \Forth{} view the stack the way a gymnast views a
 trampoline: as a fun place to bounce around on. But the stack is meant for
 data-passing, not acrobatics.
 
@@ -299,10 +299,10 @@ headers and all, solely for use within this one routine.
 
 (If you're target compiling an application that will not require
 headers in the dictionary, the only loss will be the 8 bytes in RAM for the
-variables. In FORTH systems of the future, headers may be separated
+variables. In \Forth{} systems of the future, headers may be separated
 into other pages of memory anyway; again the loss will be only 8 bytes.)
 Let me repeat: This example represents a worst-case situation, and
-occurs rarely in most FORTH applications. If words are well-factored,
+occurs rarely in most \Forth{} applications. If words are well-factored,
 then each word is designed to do very little. Words that do little generally
 require few arguments.
 
@@ -441,7 +441,7 @@ offers the simplest solution to certain gnarly stack jams. Witness the
 definition of \textbf{CMOVE>} in the previous section.
 
 If you decide to use the return stack for this purpose, remember
-that you are using a component of FORTH for a purpose other than that
+that you are using a component of \Forth{} for a purpose other than that
 intended. (See the section called ``Sharing Components,'' later in this
 chapter.)
 
@@ -507,9 +507,9 @@ chance that part of our code will refer to it before another part has had a
 chance to set it.
 
 A more serious problem with variables is that they are not ``reentrant.''
-On a multi-tasked FORTH system, each task which requires
-local variables must have its own copies. FORTH's \textbf{USER} variables
-serve this purpose. (See \emph{Starting FORTH}, Chapter Nine, ``FORTH
+On a multi-tasked \Forth{} system, each task which requires
+local variables must have its own copies. \Forth{}'s \textbf{USER} variables
+serve this purpose. (See \emph{Starting \Forth{}}, Chapter Nine, ``\Forth{}
 Geography.'')
 
 Even within a single task, a definition that refers to a variable is
@@ -556,9 +556,9 @@ to pass arguments via the stack rather than pulling them out of variables.
 \begin{interview}
 Kogge:
 \begin{tfquot}
-Most of the modularity of FORTH comes from designing and treating
-FORTH words as ``functions'' in the mathematical sense. In my experience
-a FORTH programmer usually tries quite hard to avoid defining any but
+Most of the modularity of \Forth{} comes from designing and treating
+\Forth{} words as ``functions'' in the mathematical sense. In my experience
+a \Forth{} programmer usually tries quite hard to avoid defining any but
 the most essential global variables (I have a friend who has the sign ``Help
 stamp out variables'' above his desk), and tries to write words with what is
 called ``referential transparency,'' i.e., given the same stack inputs a word
@@ -589,7 +589,7 @@ function.
 
 Programmers unaccustomed to a language in which data can be
 passed implicitly don't always utilize the stack as fully as they should.
-Michael Ham suggests the reason may be that beginning FORTH users
+Michael Ham suggests the reason may be that beginning \Forth{} users
 don't trust the stack \cite{ham83}. He admits to initially feeling safer about storing
 values into variables than leaving them on the stack. ``No telling \emph{what}
 might happen with all that thrashing about on the stack,'' he felt.
@@ -610,8 +610,8 @@ variable. As we've seen in an earlier chapter, a set of global variables that
 collectively describe a common interface between several lexicons is
 called an ``interface lexicon.''
 
-FORTH makes no distinction between local and global variables.
-But FORTH programmers do.
+\Forth{} makes no distinction between local and global variables.
+But \Forth{} programmers do.
 
 %!! horizontal line
 \begin{interview}
@@ -655,7 +655,7 @@ problems this can create, and some of the things we can do about them.
 
 \textbf{BASE}\index{B!BASE} is a variable that indicates the current
 number radix for all numeric input and output. The following words are
-commonly found in FORTH systems:
+commonly found in \Forth{} systems:
 
 \begin{Code}
 : DECIMAL   10 BASE ! ;
@@ -814,7 +814,7 @@ HERE CONSTANT STACK>
 \end{Code}
 The word PUSH takes a value from off of your data stack and ``pushes''
 it onto this new stack. POP is the opposite, ``popping'' a value from off
-the new stack, and onto FORTH's data stack.
+the new stack, and onto \Forth{}'s data stack.
 
 In a real application you might want to change the names PUSH
 and POP to better match their conceptual purposes.
@@ -834,7 +834,7 @@ one, provided:
 Otherwise you need an additional component or level of complexity.
 \end{tip}
 We've seen a simple example of this principle with the return stack. The
-return stack is a component of the FORTH system designed to hold
+return stack is a component of the \Forth{} system designed to hold
 return addresses, and thereby serve as an indication of where you've been
 and where you're going. To use the return stack as a holder for temporary
 values is possible, and in many cases desirable. Problems occur when one
@@ -1130,7 +1130,7 @@ variables, we can also save functions, because functions can be referred to
 by address.
 
 The traditional techniques for implementing vectored execution are
-described in \emph{Starting FORTH}, Chapter Nine. In this section we'll
+described in \emph{Starting \Forth{}}, Chapter Nine. In this section we'll
 discuss a new syntax which I invented and which I think can be used in many
 circumstances more elegantly than the traditional methods.
 
@@ -1175,7 +1175,7 @@ RIGHTWING SLOGAN
 \end{Code}
 will display another.
 
-The ``MAKE'' code can be any FORTH code, as much or as long as
+The ``MAKE'' code can be any \Forth{} code, as much or as long as
 you want; just remember to conclude it with semicolon. The semicolon at
 the end of LEFTWING serves for both LEFTWING and for the bit of
 code after MAKE. When MAKE redirects execution of the \textbf{DOER} word,
@@ -1291,8 +1291,8 @@ Suppose we're writing an adventure game. When the player first arrives at
 a particular room, the game will display a detailed description. If the player
 returns to the same room later, the game will show a shorter message.
 
+\goodbreak
 We write:
-
 \begin{Code}
 DOER ANNOUNCE
 : LONG MAKE ANNOUNCE

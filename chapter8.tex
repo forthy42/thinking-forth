@@ -11,8 +11,8 @@
 
 \chapter{Minimizing Control~Structures}\Chapmark{8}
 
-Control structures aren't as important in FORTH as they are in other
-languages. FORTH programmers tend to write very complex applications
+Control structures aren't as important in \Forth{} as they are in other
+languages. \Forth{} programmers tend to write very complex applications
 in terms of short words, without much emphasis on \textbf{IF THEN}
 constructs.
 
@@ -122,7 +122,7 @@ for invoking the next test.
 \begin{figure*}[tp]
 \verbfig{fig8-1}{The structured approach.}
 \begin{center}
-\small\begin{BVerbatim}[commandchars=\&\{\}]
+\small\begin{BVerbatim}[commandchars=\&\{\},baselinestretch=0.85]
 &underline{AUTOMATIC-TELLER}
 
 IF card is valid DO
@@ -159,7 +159,7 @@ END
 \end{BVerbatim}
 \end{center}
 \end{figure*}
-The third version comes closest to the promise of FORTH. The
+The third version comes closest to the promise of \Forth{}. The
 highest level word expresses exactly what's happening conceptually,
 showing only the main path. Each of the subordinate words has its own
 error exit, not cluttering the reading of the main word. One test does not
@@ -174,13 +174,13 @@ become dependent on hardware. Details of the interface to the keypad
 may be hidden within the keypad lexicon, READ-BUTTON and
 BUTTON.)
 
-Of course, FORTH will allow you to take any of the three approachs.
+Of course, \Forth{} will allow you to take any of the three approachs.
 Which do you prefer?
 
 \begin{figure*}[tp]
 \verbfig{fig8-2}{Nesting conditionals within named procedures.}
 \small\begin{center}
-\begin{BVerbatim}[commandchars=\&\{\}]
+\begin{BVerbatim}[commandchars=\&\{\},baselinestretch=0.85]
 &underline{AUTOMATIC-TELLER}
 
 PROCEDURE READ-CARD
@@ -229,10 +229,10 @@ situations.
 \begin{tip}
 Give each function its own definition.
 \end{tip}
-\begin{figure*}[tp]
+\begin{figure*}[tttp]
 \verbfig{fig8-3}{Refactoring and/or eliminating conditionals.}
 \begin{center}
-\small\begin{BVerbatim}[commandchars=\&\{\}]
+\small\begin{BVerbatim}[commandchars=\&\{\},baselinestretch=0.85]
 &underline{AUTOMATIC-TELLER}
 
 : RUN
@@ -276,11 +276,11 @@ Give each function its own definition.
 \end{center}
 \end{figure*}
 
-By using the FORTH dictionary properly, we're not actually eliminating
+By using the \Forth{} dictionary properly, we're not actually eliminating
 conditionals; we're merely factoring them out from our application code.
 
-The FORTH dictionary is a giant string case statement. The match and
-execute functions are hidden within the FORTH system.
+The \Forth{} dictionary is a giant string case statement. The match and
+execute functions are hidden within the \Forth{} system.
 
 \begin{interview}
 Moore:\index{M!Moore, Charles|(}
@@ -301,13 +301,13 @@ name:
 \dots{} One word for each situation. The dictionary is making the decision.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-This notion pervades FORTH itself. To add a pair of single-length
+This notion pervades \Forth{} itself. To add a pair of single-length
 numbers we use the command \textbf{+}. To add a pair of double-length numbers
 we use the command \textbf{D+}. A less efficient, more complex approach would
 be a single command that somehow ``knows'' which type of numbers are
 being added.
 
-FORTH is efficient because all these words---\textbf{FROM} and \textbf{BILL} and
+\Forth{} is efficient because all these words---\textbf{FROM} and \textbf{BILL} and
 \textbf{+} and \textbf{D+}---can be implemented without any need for testing and
 branching.
 
@@ -320,7 +320,7 @@ instead, has the same behavior all the time (``referentially transparent'').
 
 A dumb word is unambiguous, and therefore, more trustworthy.
 
-A few common FORTH words have been the source of controversy
+A few common \Forth{} words have been the source of controversy
 recently over this issue. One such word is \textbf{."} which prints a string.
 In its simplest form, it's allowed only inside a colon definition:
 
@@ -342,13 +342,13 @@ primitives; in the second case it would \textbf{TYPE} it.
 
 \textbf{."} became two completely different words housed together in one
 definition with an \textbf{IF ELSE THEN} structure. The flag that indicates
-whether FORTH is compiling or interpreting is called \textbf{STATE}. Since the
+whether \Forth{} is compiling or interpreting is called \textbf{STATE}. Since the
 \textbf{."} depends on \textbf{STATE}, it is said to be ``\textbf{STATE}-dependent,''
 literally.
 
 The command \emph{appeared} to behave the same inside and outside a
 colon definition. This duplicity proved useful in afternoon introductions
-to FORTH, but the serious student soon learned there's more to it than
+to \Forth{}, but the serious student soon learned there's more to it than
 that.
 
 Suppose a student wants to write a new word called \textbf{B."} (for
@@ -390,7 +390,7 @@ in this new standard we're using the dictionary to make a decision by
 having two separate words.
 
 The word \textbf{'} (tick) has a similar history. It was \textbf{STATE}-dependent in
-fig-FORTH, and is now dumb in the '83 Standard. Tick shares with
+fig-\Forth{}, and is now dumb in the '83 Standard. Tick shares with
 dot-quote the characteristic that a programmer might want to reuse either of
 these words in a higher-level definition and have them behave in the same
 way they do normally.
@@ -554,7 +554,7 @@ or in execution speed. In fact, the case statement compiles much the
 same code as the nested \textbf{IF THEN} statements. A case statement is a
 good example of compile-time factoring.
 
-Should all FORTH systems include such a case statement? That's
+Should all \Forth{} systems include such a case statement? That's
 a matter of controversy. The problem is twofold. First, the instances in
 which a case statement is actually needed are rare---rare enough to
 question its value. If there are only a few cases, a nested\textbf{IF ELSE THEN}
@@ -588,10 +588,10 @@ Many times conditionals are used to get out of loops. That particular use
 can be avoided by having loops with multiple exit points.
 
 This is a live topic, because of the multiple \textbf{WHILE} construct which is in
-polyFORTH but hasn't percolated up to FORTH '83. It's a simple way of
+poly\Forth{} but hasn't percolated up to \Forth{} '83. It's a simple way of
 defining multiple \textbf{WHILE}s in the same \textbf{REPEAT}.
 
-Also Dean Sanderson [of FORTH, Inc.] has invented a new construct that
+Also Dean Sanderson [of \Forth{}, Inc.] has invented a new construct that
 introduces two exit points to a \textbf{DO LOOP}. Given that construction you'll
 have fewer tests. Very often I leave a truth value on the stack, and if I'm
 leaving a loop early, I change the truth value to remind myself that I left
@@ -611,7 +611,7 @@ Indeed, this is a live topic. As of this writing it's too early to make any
 specific proposals for new loop constructs. Check your system's
 documentation to see what it offers in the way of exotic looping structures.
 Or, depending on the needs of your application, consider adding
-your own conditional constructs. It's not that hard in FORTH.
+your own conditional constructs. It's not that hard in \Forth{}.
 
 I'm not even sure whether this use of multiple exits doesn't violate
 the doctrine of structured programming. In a \textbf{BEGIN WHILE REPEAT}
@@ -633,7 +633,7 @@ Exits.'')
 \begin{tip}
 Favor counts over terminators.
 \end{tip}
-FORTH handles strings by saving the length of the string in the first
+\Forth{} handles strings by saving the length of the string in the first
 byte. This makes it easier to type, move, or do practically anything with
 the string. With the address and count on the stack, the definition of
 \textbf{TYPE} can be coded:
@@ -677,7 +677,7 @@ If you have a link field, you have to fetch it anyway. You might as
 well test for zero. You don't need to keep a counter of how many records
 there are. If you decrement a counter to decide whether to terminate,
 you're making more work for yourself. (This is the technique used to
-implement FORTH's dictionary as a linked list.)
+implement \Forth{}'s dictionary as a linked list.)
 
 \subsubsection{Calculating Results}
 
@@ -695,7 +695,7 @@ Use booleans as hybrid values.
 This is a fascinating corollary to the previous tip, ``Don't decide,
 calculate.'' The idea is that booleans, which the computer represents as
 numbers, can efficiently be used to effect numeric decisions. Here's one
-example, found in many FORTH systems:
+example, found in many \Forth{} systems:
 
 \begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
@@ -746,7 +746,7 @@ is equivalent to the simpler statement
 ( ? )  n AND
 \end{Code}
 Again, the secret is that ``false'' is represented by -1 (all ones) in '83
-FORTH systems. \textbf{AND}ing ``n'' with the flag will either produce ``n'' (all
+\Forth{} systems. \textbf{AND}ing ``n'' with the flag will either produce ``n'' (all
 bits intact) or ``O'' (all bits cleared).
 
 To restate with an example:
@@ -940,7 +940,7 @@ Applying techniques of factoring, we simplify this to:
 10  4 ROAD #LANES?
 \end{Code}
 Another example of the one-dimensional data table is the ``superstring''
-(emph{Starting FORTH}, Chapter Ten).
+(emph{Starting \Forth{}}, Chapter Ten).
 
 \subsubsection{Two-Dimensional Data Table}
 In \Chap{2} we presented a phone-rate problem. \Fig{fig8-4} gives one
@@ -1047,7 +1047,7 @@ of the routine we want to perform. A simple
 \end{Code}
 will perform the routine (or \textbf{@EXECUTE} if you have it).
 
-In fig-FORTH, change the definition of \textbf{IS} to:
+In fig-\Forth{}, change the definition of \textbf{IS} to:
 
 \begin{Code}
 : IS   [COMPILE] '  CFA , ;
@@ -1093,7 +1093,7 @@ VARIABLE MATCHED
 : GO   FALSE ESCAPE? !  BEGIN  KEY ACTION  ESCAPE? @ UNTIL ;
 \end{Screen}
 \end{figure*}
-In 79-Standard FORTHs, use:
+In 79-Standard \Forth{}s, use:
 \begin{Code}
 : IS   [COMPILE] '  , ;
 \end{Code}
@@ -1342,8 +1342,8 @@ out a control structure using this technique:
 : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{Code}
-FORTH allows us to alter the control flow by directly manipulating the
-return stack. (If in doubt, see \emph{Starting FORTH}, Chapter Nine.)
+\Forth{} allows us to alter the control flow by directly manipulating the
+return stack. (If in doubt, see \emph{Starting \Forth{}}, Chapter Nine.)
 Indiscreet application of this trick can lead to unstructured code with nasty
 side effect. But the disciplined use of the structured exit can actually
 simplify code, and thereby improve readability and maintainability.
@@ -1365,7 +1365,7 @@ whether an error occurred. That's an inconvenience.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 The ``abort route'' circumvents the normal paths of control flow under
-special conditions. FORTH provides this capability with the words
+special conditions. \Forth{} provides this capability with the words
 \textbf{ABORT"} and \textbf{QUIT}.
 
 The ``structured exit'' extends the concept by allowing the immediate
@@ -1735,7 +1735,7 @@ programming leads to overly-complicated, difficult-to-maintain, and
 inefficient code. In this chapter we've discussed several ways to minimize,
 optimize or eliminate unnecessary conditional structures.
 
-As a final note, FORTH's downplaying of conditionals is not shared
+As a final note, \Forth{}'s downplaying of conditionals is not shared
 by most contemporary languages. In fact, the Japanese are basing their
 fifth-generation computer project on a language called PROLOG---for
 PROgramming in LOGic---in which one programs entirely in logic. It will
@@ -1749,7 +1749,7 @@ and practical considerations of implementing robust, efficient, readable
 software.
 
 We have not discussed optimization, validation, debugging, documenting,
-project management, FORTH development tools, assembler
+project management, \Forth{} development tools, assembler
 definitions, uses and abuses of recursion, developing multiprogrammed
 applications, or target compilation.
 

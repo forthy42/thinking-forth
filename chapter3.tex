@@ -10,7 +10,7 @@ Assuming you have some idea of what your program should accomplish,
 it's time to begin the design. The first stage, preliminary design, focuses
 on shrinking your mountainous problem into manageable molehills.
 
-In this chapter we'll discuss two ways to decompose your FORTH
+In this chapter we'll discuss two ways to decompose your \Forth{}
 application.
 
 \section{Decomposition by Component}
@@ -76,7 +76,7 @@ potentially conflict with another module's schedule.
 
 How can you know, in designing a component, what commands the
 using components will need? Admittedly, this is something of a ``chicken
-vs. egg'' problem. But FORTH programmers handle it the same way
+vs. egg'' problem. But \Forth{} programmers handle it the same way
 chickens and eggs do: iteratively.
 
 If the component is well-designed, completeness doesn't matter. In
@@ -94,9 +94,9 @@ program would access the communication chip by simply invoking the
 register. This makes the entire application needlessly dependent on that
 particular chip---very risky.
 
-Instead, FORTH programmers would write a component to control the I/O
+Instead, \Forth{} programmers would write a component to control the I/O
 chip. These commands would have logical names and a convenient
-interface (usually FORTH's stack) to allow usage by the rest of the
+interface (usually \Forth{}'s stack) to allow usage by the rest of the
 application.
 
 For any iteration of your product's design, you would implement only
@@ -571,7 +571,7 @@ In computer science terminology, interfacing between modules has two
 aspects. First, there's the way other modules invoke the module; this is
 the control interface. Second, there's the way other modules pass and
 receive data to and from the module; this is the data interface.
-Because of FORTH's dictionary structure, control is not an issue.
+Because of \Forth{}'s dictionary structure, control is not an issue.
 Definitions are invoked by being named. In this section, when we use the
 term ``interface'' we're referring to data.
 
@@ -632,7 +632,7 @@ The interface consists of two buffers, a variable that indicates the current
 number of valid characters, and finally a ``knowledge'' of what all those
 attribute patterns mean.
 
-In FORTH I've defined these elements together in a single screen.
+In \Forth{} I've defined these elements together in a single screen.
 The buffers are defined with \forth{CREATE}, the count is an ordinary
 \forth{VARIABLE}, and the attribute patterns are defined as \forth{CONSTANTs},
 such as:
@@ -718,7 +718,7 @@ value to degrees before presenting it to the rest of the application.
 We've been discussing one way to do decomposition: according to
 components. The second way is according to sequential complexity.
 
-One of FORTH's rules is that a word must already have been defined to
+One of \Forth{}'s rules is that a word must already have been defined to
 be invoked or referred to. Usually the sequence in which words are
 defined parallels the order of increasing capabilities which the words
 must possess. This sequence leads to a natural organization of the
@@ -777,7 +777,7 @@ to) any of various routines that have been defined after the root
 function itself. In our example, only the \emph{name} of the routine
 \forth{?HOLDOVER} need be created early; its definition can be given later.
 
-\Chap{7} treats the subject of vectoring in FORTH.
+\Chap{7} treats the subject of vectoring in \Forth{}.
 
 \section{The Limits of Level Thinking}
 
@@ -854,7 +854,7 @@ would appear on the screen.
 Designing by components makes where you start less important. You
 could start with the key interpreter, for instance. Its goal is to
 receive keystrokes and convert them to numbers, passing these numbers
-to an internally invoked word. If you substitute the FORTH word
+to an internally invoked word. If you substitute the \Forth{} word
 \forth{.} (``dot,'' which prints a number from the stack), then we can
 implement the key interpreter, test it, and debug it without using
 routines that have anything to do with drawing squares.
@@ -967,7 +967,7 @@ It's not that anything's wrong with the concept of a bit-switch
 function interface between components, when it's necessary. The
 problem here is that this video component was incompletely
 designed. On the other hand, if the system had been fully
-integrated-operating system and drivers written in FORTH---the video
+integrated-operating system and drivers written in \Forth{}---the video
 component would not \emph{have} to be designed to suit all needs. An
 application programmer could either rewrite the driver or write an
 extension to the driver using available tools from the video lexicon.
@@ -998,7 +998,7 @@ The distance of these structures from actual machine code is
 irrelevant. The code written to toggle bits in an output port should,
 in theory, look no more intimidating than the code to format a report.
 
-Even machine code should be readable. A true FORTH-based
+Even machine code should be readable. A true \Forth{}-based
 engine would enjoy a syntax and dictionary identical and continuous
 with the ``high-level'' dictionary we know today.
 
@@ -1061,7 +1061,7 @@ DECIMAL
 
 \item This problem is an exercise in information hiding.
 \end{enumerate}
-Let's suppose we have a region of memory outside of the FORTH
+Let's suppose we have a region of memory outside of the \Forth{}
 dictionary which we want to allocate for data structures (for whatever
 reason). The region of memory begins at HEX address 0000. We want to
 define a series of arrays which will reside in that memory.
@@ -1111,7 +1111,7 @@ THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
 THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
 THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
 \end{Code}
-(An advanced FORTH programmer would probably combine these operations
+(An advanced \Forth{} programmer would probably combine these operations
 into a single defining word, but that whole topic is not germane to
 what I'm leading up to.)
 

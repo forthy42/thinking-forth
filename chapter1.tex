@@ -5,13 +5,13 @@
 
 %Page 001-037 in first edition
 
-\chapter{The~Philosophy of~FORTH}\Chapmark{1}
+\chapter{The~Philosophy of~\Forth{}}\Chapmark{1}
 
-FORTH is a language and an operating system. But that's not all; It's
+\Forth{} is a language and an operating system. But that's not all; It's
 also the embodiment of a philosophy. The philosophy is not generally
-described as something apart from FORTH. It did not precede FORTH, nor
-is it described anywhere apart from discussions of FORTH, nor does it
-even have a name other than ``FORTH.''
+described as something apart from \Forth{}. It did not precede \Forth{}, nor
+is it described anywhere apart from discussions of \Forth{}, nor does it
+even have a name other than ``\Forth{}.''
 
 What is this philosophy? How can you apply it to solve your software
 problems?
@@ -19,7 +19,7 @@ problems?
 Before we can answer these questions, let's take 100 steps backwards
 and examine some of the major philosophies advanced by computer
 scientists over the years. After tracing the trajectory of these
-advances, we'll compare---and contrast---FORTH with these
+advances, we'll compare---and contrast---\Forth{} with these
 state-of-the-art programming principles.
 
 
@@ -591,7 +591,7 @@ change in plan won't have so disastrous an effect.
 
 
 \subsection{Information-Hiding }
-\index{F!FORTH!information-hiding|(}
+\index{F!\Forth{}!information-hiding|(}
 \index{I!Information-hiding|(}
 \index{S!Structured programming!information-hiding|(}
 In a paper \cite{parnas72} published back in 1972, Dr. David L. Parnas
@@ -670,7 +670,7 @@ extended to algorithms and data structures.  In fact, hiding
 information---not decision-structure or calling-hierarchy---should be
 the primary basis for design!
 \index{I!Information-hiding|)}
-\index{F!FORTH!information-hiding|)}
+\index{F!\Forth{}!information-hiding|)}
 \index{S!Software elegance, history of|)}
 \index{S!Structured programming!information-hiding|)}
 
@@ -724,46 +724,46 @@ change can readily accommodate change.
 \index{S!Structured programming!new view of|)}
 
 
-\section{Looking Back, and FORTH}
-\index{F!FORTH|(}
-In this section we'll review the fundamental features of FORTH and
+\section{Looking Back, and \Forth{}}
+\index{F!\Forth{}|(}
+In this section we'll review the fundamental features of \Forth{} and
 relate them to what we've seen about traditional methodologies. Here's
-an example of FORTH code;
+an example of \Forth{} code;
 
 \begin{Code}
 : BREAKFAST
    HURRIED?  IF  CEREAL  ELSE  EGGS  THEN CLEAN ;
 \end{Code}
 This is structurally identical to the procedure \forth{MAKE-BREAKFAST} on
-page \pageref{make-breakfast}. (If you're new to FORTH, refer to
+page \pageref{make-breakfast}. (If you're new to \Forth{}, refer to
 \Chap{A} for an explanation.)  The words \forth{HURRIED?},
 \forth{CEREAL}, \forth{EGGS}, and \forth{CLEAN} are (most likely) also
 defined. as colon definitions.
 
-Up to a point, FORTH exhibits all the traits we've studied: mnemonic
+Up to a point, \Forth{} exhibits all the traits we've studied: mnemonic
 value, abstraction, power, structured control operators, strong
 functional binding, limited coupling, and modularity. But regarding
-modularity, we encounter what may be FORTH's most significant
+modularity, we encounter what may be \Forth{}'s most significant
 breakthrough:
 
 \begin{tfquot}
-The smallest atom of a FORTH program is not a module or a subroutine
+The smallest atom of a \Forth{} program is not a module or a subroutine
 or a procedure, but a ``word.''
 \end{tfquot}
 Furthermore, there are no subroutines, main programs, utilities, or
 executives, each of which must be invoked differently.
-\emph{Everything} in FORTH is a word.
+\emph{Everything} in \Forth{} is a word.
 
 Before we explore the significance of a word-based environment, let's
-first study two FORTH inventions that make it possible.
+first study two \Forth{} inventions that make it possible.
 
 
 \subsection{Implicit Calls}
 \index{C!Calls, implicit|(}
-\index{F!FORTH!implicit calls|(}
+\index{F!\Forth{}!implicit calls|(}
 \index{I!Implicit calls|(}
 First, calls are implicit. You don't have to say \forth{CALL CEREAL},
-you simply say \forth{CEREAL}. In FORTH, the definition of
+you simply say \forth{CEREAL}. In \Forth{}, the definition of
 \forth{CEREAL} ``knows'' what kind of word it is and what procedure to
 use to invoke itself.
 
@@ -771,21 +771,21 @@ Thus variables and constants, system functions, utilities, as well
 as any user-defined commands or data structures can all be ``called''
 simply by name.
 \index{C!Calls, implicit|)}
-\index{F!FORTH!implicit calls|)}
+\index{F!\Forth{}!implicit calls|)}
 \index{I!Implicit calls|)}
 
 
 \subsection{Implicit Data Passing}
-\index{F!FORTH!implicit data passing|(}
+\index{F!\Forth{}!implicit data passing|(}
 \index{I!Implicit data passing|(}
 Second, data passing is implicit
 \index{D!Data passing, implicit}.
-The mechanism that produces this effect is FORTH's data stack
+The mechanism that produces this effect is \Forth{}'s data stack
 \index{D!Data stacks}.
-FORTH automatically pushes numbers onto the stack; words that require
+\Forth{} automatically pushes numbers onto the stack; words that require
 numbers as input automatically pop them off the stack; words that
 produce numbers as output automatically push them onto the stack. The
-words \forth{PUSH} and \forth{POP} do not exist in high-level FORTH.
+words \forth{PUSH} and \forth{POP} do not exist in high-level \Forth{}.
 
 Thus we can write:
 \begin{Code}
@@ -795,18 +795,18 @@ Thus we can write:
 confident that \forth{GETC} will get ``C'', and leave it on the stack.
 \forth{TRANSFORM-TO-D} will pick up ``C'' from the stack, transform
 it, and leave ``D'' on the stack. Finally, \forth{PUT-D} will pick up
-``D'' on the stack and write it. FORTH eliminates the act of passing
+``D'' on the stack and write it. \Forth{} eliminates the act of passing
 data from our code, leaving us to concentrate on the functional steps
 of the data's transformation.
 
-Because FORTH uses a stack for passing data, words can nest within
+Because \Forth{} uses a stack for passing data, words can nest within
 words. Any word can put numbers on the stack and take them off without
 upsetting the f1ow of data between words at a higher level (provided,
 of course, that the word doesn't consume or leave any unexpected
 values).  Thus the stack supports structured, modular programming
 while providing a simple mechanism for passing local arguments.
 
-FORTH eliminates from our programs the details of \emph{how} words are
+\Forth{} eliminates from our programs the details of \emph{how} words are
 invoked and \emph{how} data are passed. What's left? Only the words
 that describe our problem.
 
@@ -814,10 +814,10 @@ Having words, we can fully exploit the recommendations of Parnas---
 \index{P!Parnas, David}
 to decompose problems according to things that may change, and have
 each ``module'' consist of many small functions, as many as are needed
-to hide information about that module. In FORTH we can write as many
+to hide information about that module. In \Forth{} we can write as many
 words as we need to do that, no matter how simple each of them may be.
 
-A line from a typical FORTH application might read:
+A line from a typical \Forth{} application might read:
 \begin{Code}
 20 ROTATE LEFT TURRET
 \end{Code}
@@ -825,17 +825,17 @@ Few other languages would encourage you to concoct a subroutine called
 \forth{LEFT}, merely as a modifier, or a subroutine called
 \forth{TURRET}, merely to name part of the hardware.
 
-Since a FORTH word is easier to invoke than a subroutine (simply by
-being named, not by being called), a FORTH program is likely to be
+Since a \Forth{} word is easier to invoke than a subroutine (simply by
+being named, not by being called), a \Forth{} program is likely to be
 decomposed into more words than a conventional program would be into
 subroutines.
 \index{I!Implicit data passing|)}
-\index{F!FORTH!implicit data passing|)}
+\index{F!\Forth{}!implicit data passing|)}
 
 
 \section{Component Programming}
 \index{C!Component programming|(}
-\index{F!FORTH!component programming|(}
+\index{F!\Forth{}!component programming|(}
 Having a larger set of simpler words makes it easy to use a technique
 we'll call ``component programming.'' To explain, let's first
 reexamine these collections we have vaguely described as ``things that
@@ -895,7 +895,7 @@ to team management as well as to software design.
 \index{S!Structured programming!vs. component programming|)}
 \index{S!Structured programming!(modularity)|)}
 
-\index{F!FORTH!lexicon|(}
+\index{F!\Forth{}!lexicon|(}
 \index{L!Lexicons|(}
 We'll call the set of words which describe a component a ``lexicon.''
 (One meaning of lexicon is ``a set of words pertaining to a particular
@@ -922,7 +922,7 @@ The ``what'' of one component becomes the ``how'' of a higher component.
 
 \wepsfigt{fig1-9}{The entire application consists of components.}
 
-Written in FORTH, an entire application consists of nothing but
+Written in \Forth{}, an entire application consists of nothing but
 components.  \Fig{fig1-9} show show a robotics application might be
 decomposed.
 
@@ -930,12 +930,12 @@ You could even say that each lexicon is a special-purpose compiler,
 written solely for the purpose of supporting higher-level application
 code in the most efficient and reliable way.
 
-By the way, FORTH itself doesn't support components. It doesn't need
+By the way, \Forth{} itself doesn't support components. It doesn't need
 to. Components are the product of the program designer's decomposition.
-(FORTH does have ``screens.''
+(\Forth{} does have ``screens.''
 \index{S!Screens}
 however---small units of mass storage for saving source code. A
-component can usually be written in one or two screens of FORTH.)
+component can usually be written in one or two screens of \Forth{}.)
 
 It's important to understand that a lexicon can be used by any and
 all of the components at higher levels. Each successive component
@@ -944,16 +944,16 @@ with layered approaches to design. Instead, each lexicon is free to
 use all of the commands beneath it. The robot-movement command relies
 on the root language, with its variables, constants, stack operators,
 math operators, and so on, as heavily as any other component.
-\index{F!FORTH!component programming|)}\index{C!Component programming|)}
+\index{F!\Forth{}!component programming|)}\index{C!Component programming|)}
 
 An important result of this approach is that the entire application
 employs a single syntax, which makes it easy to learn and maintain.
 This is why I use the term ``lexicon'' and not ``language.''
 Languages have unique syntaxes.
-\index{L!Lexicons|)}\index{F!FORTH!lexicon|)}
+\index{L!Lexicons|)}\index{F!\Forth{}!lexicon|)}
 
 This availability of commands also makes the process of testing and
-debugging a whole lot easier. Because FORTH is interactive, the
+debugging a whole lot easier. Because \Forth{} is interactive, the
 programmer can type and test the primitive commands, such as
 \begin{Code}
 RIGHT SHOULDER 20 PIVOT
@@ -964,29 +964,29 @@ from the ``outside'' as easily as the more powerful ones like
 LIFT COFFEE-POT
 \end{Code}
 At the same time, the programmer can (if he or she wants) deliberately
-seal any commands, including FORTH itself, from being accessed by the
+seal any commands, including \Forth{} itself, from being accessed by the
 end user, once the application is complete.
 
-Now FORTH's methodology becomes clear. FORTH programming consists of
+Now \Forth{}'s methodology becomes clear. \Forth{} programming consists of
 extending the root language toward the application, providing new
 commands that can be used to describe the problem at hand.
 
 Programming languages designed especially for particular applications
 such as robotics, inventory control, statistics, etc., are known as
-``application-oriented languages.'' FORTH is a programming environment
+``application-oriented languages.'' \Forth{} is a programming environment
 for \emph{creating} app\-li\-ca\-tion-oriented languages. (That last
-sentence may be the most succinct description of FORTH that you'll
+sentence may be the most succinct description of \Forth{} that you'll
 find.)
 
-In fact, you shouldn't write any serious application in FORTH; as a
+In fact, you shouldn't write any serious application in \Forth{}; as a
 language it's simply not powerful enough. What you \emph{should} do is
-write your own language in FORTH (lexicons) to model your
+write your own language in \Forth{} (lexicons) to model your
 understanding of the problem, in which you can elegantly describe its
 solution.
 
 
 \section{Hide From Whom?}
-\index{F!FORTH!information-hiding|(}
+\index{F!\Forth{}!information-hiding|(}
 \index{I!Information-hiding|(}
 Because modern mainstream languages give a slightly different meaning
 to the phrase ``information-hiding,'' we should clarify. From what, or
@@ -1005,18 +1005,18 @@ information, as we mean it, is simply to minimize the effects of a
 possible design-change by localizing things that might change within
 each component.
 
-FORTH programmers generally prefer to keep the program under their own
+\Forth{} programmers generally prefer to keep the program under their own
 control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
-Modula-type modules to FORTH has been implemented, in only three lines
+Modula-type modules to \Forth{} has been implemented, in only three lines
 of code, by Dewey Val Shorre \cite{shorre71}.)
 \index{I!Information-hiding|)}
-\index{F!FORTH!information-hiding|)}
+\index{F!\Forth{}!information-hiding|)}
 
 
 \section{Hiding the Construction of Data Structures}
 \index{D!Data structures:!hiding construction of|(}
-We've noted two inventions of FORTH that make possible the methodology
+We've noted two inventions of \Forth{} that make possible the methodology
 we've described---implicit calls and implicit data passing
 \index{D!Data passing, implicit}. A third
 feature allows the data structures within a component to be described
@@ -1048,7 +1048,7 @@ kept. The tally can be thought of as a ``thing,'' while the words that
 set the tally, read the tally, or increment the tally can be
 considered as ``actions.''
 
-FORTH conveniently separates ``things'' from ``actions'' by allowing
+\Forth{} conveniently separates ``things'' from ``actions'' by allowing
 addresses of data structures to be passed on the stack and providing
 the ``fetch'' and ``store'' commands.
 
@@ -1097,19 +1097,19 @@ and
 \end{Code}
 Look again at what we did. We changed the definition of \forth{APPLES}
 from that of a variable to a colon definition, without affecting its
-usage.  FORTH allows us to hide the details of how \forth{APPLES} is
+usage.  \Forth{} allows us to hide the details of how \forth{APPLES} is
 defined from the code that uses it. What appears to be ``thing'' (a
 variable) to the original code is actually defined as an ``action'' (a
 colon definition) within the component.
 
-FORTH encourages the use of abstract data types by allowing data
+\Forth{} encourages the use of abstract data types by allowing data
 structures to be defined in terms of lower level components. Only
-FORTH, which eliminates the CALLs from procedures, which allows
+\Forth{}, which eliminates the CALLs from procedures, which allows
 addresses and data to be implicitly passed via the stack, and which
 provides direct access to memory locations with @ and !, can offer
 this level of information-hiding.
 
-FORTH pays little attention to whether something is a data structure
+\Forth{} pays little attention to whether something is a data structure
 or an algorithm. This indifference allows us programmers incredible
 freedom in creating the parts of speech we need to describe our
 applications.
@@ -1130,26 +1130,26 @@ is different from
 \begin{Code}
 GREEN APPLES ?
 \end{Code}
-FORTH words can also serve as adverbs and prepositions. There's little
+\Forth{} words can also serve as adverbs and prepositions. There's little
 value in trying to determine what part of speech a particular word is,
-since FORTH doesn't care anyway. We need only enjoy the ease of
+since \Forth{} doesn't care anyway. We need only enjoy the ease of
 describing an application in natural terms.
 \index{D!Data structures:!hiding construction of|)}
 
 
 \section{But Is It a High-Level Language?}
-\index{F!FORTH!high-level language issue|(}
-\index{H!High-level languages:!FORTH as|(}
+\index{F!\Forth{}!high-level language issue|(}
+\index{H!High-level languages:!\Forth{} as|(}
 In our brief technical overview, we noted that traditional high-level
 languages broke away from assembly-language by eliminating not only
 the \emph{one-for-one} correspondence between commands and machine
-operations, but also the \emph{linear} correspondence. Clearly FORTH
+operations, but also the \emph{linear} correspondence. Clearly \Forth{}
 lays claim to the first difference; but regarding the second, the
 order of words that you use in a definition is the order in which
 those commands are compiled.
 
-Does this disqualify FORTH from the ranks of high-level languages?
-Before we answer, let's explore the advantages of the FORTH approach.
+Does this disqualify \Forth{} from the ranks of high-level languages?
+Before we answer, let's explore the advantages of the \Forth{} approach.
 
 \wepsfigp{img1-028}{Two points of view.}
 
@@ -1157,7 +1157,7 @@ Before we answer, let's explore the advantages of the FORTH approach.
 \begin{interview}
 Here's what Charles Moore,
 \index{M!Moore, Charles}
-the inventor of FORTH, has to say:
+the inventor of \Forth{}, has to say:
 
 \begin{tfquot}
 You define each word so that the computer knows what it means. The way
@@ -1181,15 +1181,15 @@ interpreter.  This simplification improves performance in several
 ways, as we'll see in a later section.
 
 From the standpoint of programming methodology, the advantage to the
-\index{F!FORTH!advantages of}
-FORTH approach is that \emph{new} words and \emph{new} syntaxes can
-easily be added. FORTH cannot be said to be ``looking'' for words---it
-finds words and executes them. If you add new words FORTH will find
+\index{F!\Forth{}!advantages of}
+\Forth{} approach is that \emph{new} words and \emph{new} syntaxes can
+easily be added. \Forth{} cannot be said to be ``looking'' for words---it
+finds words and executes them. If you add new words \Forth{} will find
 and execute them as well. There's no difference between existing words
 and words that you add.
 
 What's more, this ``extensibility'' applies to all types of words, not
-just action-type functions. For instance, FORTH allows you to add new
+just action-type functions. For instance, \Forth{} allows you to add new
 \emph{compiling} words---like \forth{IF} and \forth{THEN} that provide
 structured control flow. You can easily add a case statement or a
 multiple-exit loop if you need them, or, just as importantly, take
@@ -1202,7 +1202,7 @@ language exists as determined by its manufacturer; you can't extend
 its knowledge.
 
 Laboratory researchers cite flexibility and extensibility as among
-FORTH's most important benefits in their environment. Lexicons can be
+\Forth{}'s most important benefits in their environment. Lexicons can be
 developed to hide information about the variety of test equipment
 attached to the computer. Once this work has been done by a more
 experienced programmer, the researchers are free to use their
@@ -1212,7 +1212,7 @@ experimentation. As new equipment appears, new lexicons are added.
 Mark Bernstein \index{B!Bernstein, Mark|(}
 has described the problem of using an off-the-shelf special-purpose
 procedure library in the laboratory \cite{bern83}: ``The computer, not
-the user, dominates the experiment.'' But with FORTH, he writes, ``the
+the user, dominates the experiment.'' But with \Forth{}, he writes, ``the
 computer actually encourages scientists to modify, repair, and improve
 the software, to experiment with and characterize their equipment.
 Initiative becomes once more the prerogative of the researcher.''
@@ -1220,16 +1220,16 @@ Initiative becomes once more the prerogative of the researcher.''
 
 \wepsfigp{img1-030}{Two solutions to the problem of security.}
 
-For those purists who believe FORTH isn't fit to be called a
-high-level language, FORTH makes matters even worse. While strong
+For those purists who believe \Forth{} isn't fit to be called a
+high-level language, \Forth{} makes matters even worse. While strong
 syntax checking and data typing are becoming one of the major thrusts
-of contemporary programming languages, FORTH does almost no syntax
+of contemporary programming languages, \Forth{} does almost no syntax
 checking at all.  In order to provide the kind of freedom and
 flexibility we have described, it cannot tell you that you meant to
 type \forth{RED APPLES} instead of \forth{APPLES RED}. You have just
 invented syntax!
 
-Yet FORTH more than makes up for its omission by letting you compile
+Yet \Forth{} more than makes up for its omission by letting you compile
 each definition, one at a time, with turnaround on the order of
 seconds.  You discover your mistake soon enough when the definition
 doesn't work. In addition, you can add appropriate syntax checking in
@@ -1240,25 +1240,25 @@ painter will be the judge of that. The chef's skillet and the
 composer's piano remain simple and yielding. Why let a programming
 language try to out think you?
 
-So is FORTH a high-level language? On the question of syntax checking,
+So is \Forth{} a high-level language? On the question of syntax checking,
 it strikes out. On the question of abstraction and power, it seems to
 be of \emph{infinite} level---supporting everything from bit
 manipulation at an output port to business applications.
-\index{H!High-level languages:!FORTH as|)}
-\index{F!FORTH!high-level language issue|)}
+\index{H!High-level languages:!\Forth{} as|)}
+\index{F!\Forth{}!high-level language issue|)}
 
-You decide. (FORTH doesn't care.)
+You decide. (\Forth{} doesn't care.)
 
 
 \section{The Language of Design}
 
-\index{F!FORTH!as design language|(}
-FORTH is a design language. To the student of traditional computer
+\index{F!\Forth{}!as design language|(}
+\Forth{} is a design language. To the student of traditional computer
 science, this statement is self-contradictory. ``One doesn't design
 with a language, one implements with a language.  Design precedes
 implementation.''
 
-Experienced FORTH programmers disagree. In FORTH you can write
+Experienced \Forth{} programmers disagree. In \Forth{} you can write
 abstract, design-level code and still be able to test it at any time
 by taking advantage of decomposition into lexicons. A component can
 easily be rewritten, as development proceeds, underneath any
@@ -1271,7 +1271,7 @@ Using this philosophy you can write a simple by testable version of
 your application, then successively change and refine it until you
 reach your goal.
 
-Another factor that makes designing in code possible is that FORTH,
+Another factor that makes designing in code possible is that \Forth{},
 like some of the newer languages, eliminates the ``batch-compile''
 \index{B!Batch-compile development sequence!elimination of}
 development sequence (edit-compile-test-edit-compile-test). Because
@@ -1280,7 +1280,7 @@ creative process. The programmer using a batch-compiler language can
 seldom achieve the productive state of mind that artists achieve when
 the creative current flows unhindered.
 
-For these reasons, FORTH programmers spend less time planning than
+For these reasons, \Forth{} programmers spend less time planning than
 their classical counterparts, who feel righteous about planning. To
 them, not planning seems reckless and irresponsible. Traditional
 environments force programmers to plan because traditional programming
@@ -1289,33 +1289,33 @@ languages do not readily accommodate change.
 Unfortunately, human foresight is limited even under the best
 conditions.  Too much planning becomes counterproductive.
 
-Of course FORTH doesn't eliminate planning. It allows prototyping.
+Of course \Forth{} doesn't eliminate planning. It allows prototyping.
 \index{P!Prototyping}
 Constructing a prototype is a more refined way to plan, just as
 breadboarding is in electronic design.
 
 As we'll see in the next chapter, experimentation proves more reliable
 in arriving at the truth than the guesswork of planning.
-\index{F!FORTH!as design language|)}
+\index{F!\Forth{}!as design language|)}
 
 
 \section{The Language of Performance}
-\index{F!FORTH!performance of|(}
+\index{F!\Forth{}!performance of|(}
 \index{P!Performance|(}
 Although performance is not the main topic of this book, the newcomer
-to FORTH should be reassured that its advantages aren't purely
-philosophical.  Overall, FORTH outdoes all other high-level languages
+to \Forth{} should be reassured that its advantages aren't purely
+philosophical.  Overall, \Forth{} outdoes all other high-level languages
 in speed, capability and compactness.
 
 
 \subsection{Speed}
-\index{F!FORTH!speed of|(}
+\index{F!\Forth{}!speed of|(}
 \index{S!Speed|(}
-Although FORTH is an interpretive language, it executes compiled code.
+Although \Forth{} is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC
 \index{B!BASIC}.
 
-FORTH is optimized for the execution of words by means of a technique
+\Forth{} is optimized for the execution of words by means of a technique
 known as ``threaded code'' \cite{bell72}, \cite{dewar},
 \cite{kogge82}. The penalty for modularizing into very small pieces of
 code is relatively slight.
@@ -1325,132 +1325,131 @@ interpreter (which interprets the list of addresses that comprise each
 colon definition) may consume up to 50\% of the run time of primitive
 words, depending on the processor.
 
-But in large applications, FORTH comes very close to the speed of
+But in large applications, \Forth{} comes very close to the speed of
 assembler. Here are three reasons:
 
-First and foremost, FORTH is simple. FORTH's use of a data stack
+First and foremost, \Forth{} is simple. \Forth{}'s use of a data stack
 \index{D!Data stacks}
-\index{F!FORTH!data handling|see{Data stacks, Data structures}}
+\index{F!\Forth{}!data handling|see{Data stacks, Data structures}}
 \index{D!data handling|see{Data stacks, Data structures}}
 greatly reduces the performance cost of passing arguments from word to
 word. In most languages, passing arguments between modules is one of
 the main reasons that the use of subroutines inhibits performance.
 
-Second, FORTH allows you to define words either in high-level or in
+Second, \Forth{} allows you to define words either in high-level or in
 machine language. Either way, no special calling sequence is needed.
 You can write a new definition in high level and, having verified that
 it is correct, rewrite it in assembler without changing any of the
 code that uses it. In a typical application, perhaps 20\% of the code
 will be running 80\% of the time. Only the most often used,
-time-critical routines need to be machine coded. The FORTH system
+time-critical routines need to be machine coded. The \Forth{} system
 itself is largely implemented in machine-code definitions, so you'll
 have few application words that need to be coded in assembler.
 
 \wepsfigp{img1-033}{The best top-down designs of mice and young men.}
 
-Third, FORTH applications tend to be better designed than those
-written entirely in assembler. FORTH programmers take advantage of the
+Third, \Forth{} applications tend to be better designed than those
+written entirely in assembler. \Forth{} programmers take advantage of the
 language's prototyping capabilities and try out several algorithms
-before settling on the one best suited for their needs. Because FORTH
+before settling on the one best suited for their needs. Because \Forth{}
 encourages change, it can also be called the language of optimization.
 
-FORTH doesn't guarantee fast applications. It does give the programmer
+\Forth{} doesn't guarantee fast applications. It does give the programmer
 a creative environment in which to design fast applications.
-\index{F!FORTH!speed of|)}
+\index{F!\Forth{}!speed of|)}
 \index{S!Speed|)}
 
 \subsection{Capability}
-FORTH\index{C!Capability}
-FORTH\index{F!FORTH!capability of}
+\Forth{}\index{C!Capability}\index{F!\Forth{}!capability of}
 can do anything any other language can do---usually easier.
-\index{F!FORTH!advantages of}
+\index{F!\Forth{}!advantages of}
 
-At the low end, nearly all FORTH systems include assemblers
+At the low end, nearly all \Forth{} systems include assemblers
 \index{A!Assemblers}. These
 support control-structure operators for writing conditionals and loops
 using structured programming techniques. They usually allow you to
 write interrupts---you can even write interrupt code in high level if
 desired.
 
-Some FORTH systems are multitasked, allowing you to add as many
+Some \Forth{} systems are multitasked, allowing you to add as many
 foreground or background tasks as you want.
 
-FORTH can be written to run on top of any operating system such as
-RT-11, CP/M, or MS-DOS---or, for those who prefer it, FORTH can be
+\Forth{} can be written to run on top of any operating system such as
+RT-11, CP/M, or MS-DOS---or, for those who prefer it, \Forth{} can be
 written as a self-sufficient operating system including its own
 terminal drivers and disk drivers.
 
-With a FORTH cross-compiler
+With a \Forth{} cross-compiler
 \index{C!Cross-compilers} or
 target compiler,
 \index{C!Compilers}
 \index{T!Target compilers}
-you can use FORTH to recreate new FORTH systems, for the same computer
-or for different computers. Since FORTH is written in FORTH, you have
+you can use \Forth{} to recreate new \Forth{} systems, for the same computer
+or for different computers. Since \Forth{} is written in \Forth{}, you have
 the otherwise unthinkable opportunity to rewrite the operating system
 according to the needs of your application. Or you can transport
 streamlined versions of applications over to embedded systems. 
 
 
 \subsection{Size}
-\index{F!FORTH!size of|(}
-There are two considerations here: the size of the root FORTH system,
-and the size of compiled FORTH applications.
+\index{F!\Forth{}!size of|(}
+There are two considerations here: the size of the root \Forth{} system,
+and the size of compiled \Forth{} applications.
 
-The FORTH nucleus is very flexible. In an embedded application, the
-part of FORTH you need to run your application can fit in as little
-as 1K. In a full development environment, a multitasked FORTH system
+The \Forth{} nucleus is very flexible. In an embedded application, the
+part of \Forth{} you need to run your application can fit in as little
+as 1K. In a full development environment, a multitasked \Forth{} system
 including interpreter, compiler, assembler,
 \index{A!Assemblers}
 editor, operating system, and all other support utilities averages
-16K. This leaves plenty of room for applications. (And some FORTHs on
+16K. This leaves plenty of room for applications. (And some \Forth{}s on
 the newer processors handle 32-bit addressing, allowing unimaginably
 large programs.)
 
-Similarly, FORTH compiled applications tend to be very small---usually
+Similarly, \Forth{} compiled applications tend to be very small---usually
 smaller than equivalent assembly language programs. The reason, again,
 is threaded code. Each reference to a previously defined word, no
 matter how powerful, uses only two bytes.
 
-One of the most exciting new territories for FORTH is the production
-of FORTH chips such as the
-Rockwell R65F11 FORTH-based microprocessor
-\index{R!Rockwell R65F11 FORTH-based microprocessor}
+One of the most exciting new territories for \Forth{} is the production
+of \Forth{} chips such as the
+Rockwell R65F11 \Forth{}-based microprocessor
+\index{R!Rockwell R65F11 \Forth{}-based microprocessor}
 \cite{dumse}. The chip includes not only hardware features but also
-the run-time portions of the FORTH language and operating system for
-dedicated applications. Only FORTH's architecture and compactness make
-FORTH-based micros possible.
-\index{F!FORTH!size of|)}
-\index{F!FORTH!performance of|)}
+the run-time portions of the \Forth{} language and operating system for
+dedicated applications. Only \Forth{}'s architecture and compactness make
+\Forth{}-based micros possible.
+\index{F!\Forth{}!size of|)}
+\index{F!\Forth{}!performance of|)}
 \index{P!Performance|)}
 
 
 \section{Summary}
-FORTH has often been characterized as offbeat, totally unlike any
+\Forth{} has often been characterized as offbeat, totally unlike any
 other popular language in structure or in philosophy, On the contrary,
-FORTH incorporates many principles now boasted by the most
+\Forth{} incorporates many principles now boasted by the most
 contemporary languages. Structured design, modularity, and
 information-hiding are among the buzzwords of the day.
 
-Some newer languages approach even closer to the spirit of FORTH.  The
+Some newer languages approach even closer to the spirit of \Forth{}.  The
 language C, for instance, lets the programmer define new functions
-either in C or in assembly language, as does FORTH. And as with FORTH,
+either in C or in assembly language, as does \Forth{}. And as with \Forth{},
 most of C is defined in terms of functions.
 
-But FORTH extends the concepts of modularity and information-hiding
-further than any other contemporary language. FORTH even hides the
+But \Forth{} extends the concepts of modularity and information-hiding
+further than any other contemporary language. \Forth{} even hides the
 manner in which words are invoked and the way local arguments are
 passed.
 
 The resulting code becomes a concentrated interplay of words, the
-purest expression of abstract thought. As a result, FORTH programmers
+purest expression of abstract thought. As a result, \Forth{} programmers
 tend to be more productive and to write tighter, more efficient, and
 better maintainable code.
 
-FORTH may not be the ultimate language. But I believe the ultimate
+\Forth{} may not be the ultimate language. But I believe the ultimate
 language, if such a thing is possible, will more closely resemble
-FORTH than any other contemporary language.
-\index{F!FORTH|)}
+\Forth{} than any other contemporary language.
+\index{F!\Forth{}|)}
 
 
 \begin{references}{99}

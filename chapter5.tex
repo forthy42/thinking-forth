@@ -5,15 +5,15 @@
 %% Chapter: Implementation: Elements of FORTH Style
 
 \chapter{Implementation:
-Elements~of FORTH~Style}\Chapmark{5}
+Elements~of \Forth{}~Style}\Chapmark{5}
 
-Badly written FORTH has been accused of looking like ``code that went
-through a trash compactor.'' It's true, FORTH affords more freedom in
+Badly written \Forth{} has been accused of looking like ``code that went
+through a trash compactor.'' It's true, \Forth{} affords more freedom in
 the way we write applications.  But that freedom also gives us a chance to
 write exquisitely readable and easily maintainable code, provided we consciously
-employ the elements of good FORTH style.
+employ the elements of good \Forth{} style.
 
-In this chapter we'll delve into FORTH coding convention
+In this chapter we'll delve into \Forth{} coding convention
 including:
 %!!<ENUMERATION>
 \begin{tfquot}
@@ -36,7 +36,7 @@ the preferences.  In other words:
 \end{Code}
 I'd especially like to thank Kim Harris, who proposed many of the conventions
 described in this chapter, for his continuing efforts at unifying
-divergent views on good FORTH style.
+divergent views on good \Forth{} style.
 
 \section{Listing Organization}
 
@@ -81,9 +81,9 @@ We discussed the art of decomposition extensively in \Chap{3}.
 Composition is the putting together of pieces to create a whole.  Good
 composition requires as much artistry as good decomposition.
 
-One of FORTH's present conventions is that source code resides in
+One of \Forth{}'s present conventions is that source code resides in
 ``screens,'' which are 1K units of mass storage.  (The term ``screen'' refers
-to a block used specifically for source code.) It's possible in FORTH to
+to a block used specifically for source code.) It's possible in \Forth{} to
 chain every screen of code to the next, linking the entire listing together
 linearly like a lengthy parchment scroll.  This is not a useful approach.
 Instead:
@@ -95,7 +95,7 @@ Structure your application listing like a book: hierarchically.
 An application may consist of:
 %!!<ENUMERATION>
 \begin{description}
-\item[Screens:] the smallest unit of FORTH source
+\item[Screens:] the smallest unit of \Forth{} source
 \item[Lexicons:] one to three screens, enough to implement a component
 \item[Chapters:] a series of related lexicons, and
 \item[Load screens:] analogous to a table of contents, a screen that loads the
@@ -151,7 +151,7 @@ the chapter.  We'll study some formats for chapter-load screens shortly.
 The primary benefit of this hierarchical scheme is that you can load
 any section, or any screen by itself, without having to load the entire application.
 Modularity of the source code is one of the reasons for
-FORTH's quick turnaround time for editing, loading, and testing
+\Forth{}'s quick turnaround time for editing, loading, and testing
 (necessary for the iterative approach).  Like pages of a book, each screen
 can be accessed individually and quickly.  It's a ``random access'' approach
 to source-code maintenance.
@@ -180,8 +180,8 @@ and what gets ignored.  They are:
 \item[\(\backslash\){}S] also called EXIT
 \end{description}
 %!!</ENUMERATION>
-$\backslash${} is pronounced ``skip-line.'' It causes the FORTH interpreter to ignore
-everything to the right of it on the same line.  (Since $\backslash${} is a FORTH word, it
+$\backslash${} is pronounced ``skip-line.'' It causes the \Forth{} interpreter to ignore
+everything to the right of it on the same line.  (Since $\backslash${} is a \Forth{} word, it
 must be followed by a space.) It does not require a delimiter.
 
 In \Fig{fig5-1}, you see $\backslash${} used in two ways: to begin the screen-comment
@@ -196,13 +196,13 @@ without causing problems in encountering either right parenthesis:
 \ : NUTATE (x y z )
 \ SWAP ROT (NUTATE);
 \end{Code}
-$\backslash${}S is pronounced ``skip-screen.'' It causes the FORTH interpreter to stop
+$\backslash${}S is pronounced ``skip-screen.'' It causes the \Forth{} interpreter to stop
 interpreting the screen entirely, as though there were nothing else in the
 screen beyond $\backslash${}S.
 
-In many FORTH systems, this function is the same as EXIT, which
+In many \Forth{} systems, this function is the same as EXIT, which
 is the run-time routine for semicolon.  In these systems the use of EXIT is
-acceptable.  Some FORTH systems, however, require for internal reasons
+acceptable.  Some \Forth{} systems, however, require for internal reasons
 a different routine for the ``skip-screen'' function.
 
 Definitions for $\backslash${} and $\backslash${}S can be found in \Chap{C}.
@@ -253,7 +253,7 @@ screen numbers in the chapter- or section-load screens.
 \end{tip}
 There are two ways to implement relative loading.  The most common is
 to define:
-%!!<FORTHCODE>
+%!!<\Forth{}CODE>
 \begin{Code}
 : +LOAD  ( offset -- )  BLK @ +  LOAD;
 \end{Code}
@@ -294,7 +294,7 @@ the chapter.  Following that will come the lexicons, loaded in ``uses''
 order.  The final lines of the chapter-load screen normally invoke any
 needed initialization commands.
 
-Some of the more style-conscious FORTHwrights begin each
+Some of the more style-conscious \Forth{}wrights begin each
 chapter with a ``preamble'' that discusses in general terms the theory of
 operation for the components described in the chapter.  \Fig{fig5-3} is a
 sample preamble screen which demonstrates the format required at
@@ -349,7 +349,7 @@ listings.  My listings are organized in a fairly sloppy way, not at
 all hierarchically in the sense of primitives first.
 
 I use LOCATE {[}also known as VIEW; see the Handy Hint in Starting
-FORTH, Chapter Nine{]}.  As a result, the listing is much less carefully
+\Forth{}, Chapter Nine{]}.  As a result, the listing is much less carefully
 organized because I have LOCATE to find things for me.  I never look
 at listings.
 \end{tfquot}\index{M!Moore, Charles|)}
@@ -405,7 +405,7 @@ don't recommend it.
 %Page 143 in first edition.
 \section{An Alternative to Screens: Source in Named Files}
 
-Some FORTH practitioners advocate storing source code in variable-length,
+Some \Forth{} practitioners advocate storing source code in variable-length,
 named text files, deliberately emulating the approach used by
 traditional compilers and editors.  This approach may become more and
 more common, but its usefulness is still controversial.
@@ -423,7 +423,7 @@ worse: a 20K definition.
 
 Perhaps a nice compromise would be a file-based system that allows
 nested loading, and encourages the use of very small named files.  Most
-likely, though, the more experienced FORTH programmers would not
+likely, though, the more experienced \Forth{} programmers would not
 use named files longer than 5K to 10K.  So what's the benefit?
 
 Some might answer that rhetorical question: ``It's easier to remember
@@ -474,13 +474,13 @@ the nature of the work.
 
 \Fig{fig5-4} shows a typical department's partitioning scheme.
 
-In many FORTH shops it's considered desirable to begin sections of
+In many \Forth{} shops it's considered desirable to begin sections of
 code on screen numbers that are evenly divisible by three.  Major divisions
 on a disk should be made on boundaries evenly divisible by thirty.
 
-The reason? By convention, FORTH screens are printed three to a
+The reason? By convention, \Forth{} screens are printed three to a
 page, with the top screen always evenly divisible by three.  Such a page is
-called a ``triad''; most FORTH systems include the word TRIAD to
+called a ``triad''; most \Forth{} systems include the word TRIAD to
 produce it, given as an argument the number of any of the three screens
 in the triad.  For instance, if you type
 \begin{Code}
@@ -502,7 +502,7 @@ thirty.
 \end{tip}
 
 \subsection{Electives}
-Vendors of FORTH systems have a problem.  If they want to include
+Vendors of \Forth{} systems have a problem.  If they want to include
 every command that the customer might expect-words to control
 graphics, printers, and other niceties-they often find that the system
 has swollen to more than half the memory capacity of the computer, leaving
@@ -516,7 +516,7 @@ actually needed.
 
 These user-loadable routines are called ``electives.'' Double-length
 arithmetic, date and time support, CASE statements and the DOER/
-MAKE construct (described later) are some of the features that FORTH
+MAKE construct (described later) are some of the features that \Forth{}
 systems should offer as electives.
 
 \section{Screen Layout}
@@ -542,7 +542,7 @@ the programmer's initials (three characters to the left of the date); e.g.:
 \begin{Code}
 ( Chapter name          Screen Name -- pg #       JPJ 06/10/83)
 \end{Code}
-Some FORTH editors will enter the stamp for you at the press of a key.
+Some \Forth{} editors will enter the stamp for you at the press of a key.
 A common form for representing dates is
 \begin{Code}
 mm-dd-yy
@@ -586,7 +586,7 @@ Begin all definitions at the left edge of the screen, and define only one word
 per lines.
 \end{tip}
 \emph{Bad:}
-%!!<FORTHCODE>
+%!!<\Forth{}CODE>
 \begin{Code}
 : ARRIVING ." HELLO" ;  : DEPARTING ." GOODBYE" ;
 \end{Code}
@@ -595,7 +595,7 @@ per lines.
 : ARRIVING  ." HELLO" ;
 : DEPARTING ." GOODBYE" ;
 \end{Code}
-%!!</FORTHCODE>
+%!!</\Forth{}CODE>
 
 This rule makes it easier to find a definition in the listing.  (When definitions
 continue for more than one line, the subsequent lines should always
@@ -706,7 +706,7 @@ There's no penalty for leaving space in source screens except disk
 memory, which is cheap.
 
 For those who like their conventions in black and white, \ref{tab-5-1} is
-a list of guidelines.  (But remember, FORTH's interpreter couldn't care
+a list of guidelines.  (But remember, \Forth{}'s interpreter couldn't care
 less about spacing or indentation.)
 %!!<TABLE>
 \begin{table}
@@ -794,7 +794,7 @@ in a data structure.  For instance, a text buffer might contain a
 count in the first byte, and 63 free bytes for text.
 
 An \emph{input-stream comment} indicates what strings the word expects
-to see in the input stream.  For example, the FORTH word FORGET
+to see in the input stream.  For example, the \Forth{} word FORGET
 scans for the name of a dictionary entry in the input stream.
 
 A \emph{purpose comment} describes, in as few words possible, what the
@@ -806,7 +806,7 @@ going on, usually line-by-line.  Narrative comments are used only in the
 ``vertical format,'' which we'll describe in a later section.
 
 Comments are usually typed in lower-case letters to distinguish
-them from source code.  (Most FORTH words are spelled with upper-case
+them from source code.  (Most \Forth{} words are spelled with upper-case
 letters, but lower-case spellings are sometimes used in special cases.)
 
 In the following sections we'll summarize the standardized formats
@@ -865,7 +865,7 @@ may be consumed by a definition, and another picture of any items
 \emph{returned} by the definition.  The ``before'' picture comes first, followed by
 two hyphens, then the ``after'' picture.
 
-For instance, the stack effect for FORTH's addition operator, + is
+For instance, the stack effect for \Forth{}'s addition operator, + is
 \begin{Code}
 n n -- sum
 \end{Code}
@@ -933,7 +933,7 @@ definitions that consume nothing and return arguments.
 Abbreviations used in stack notation should be consistent.  \ref{tab-5-2} lists
 most of the commonly used abbreviations.  (This table reappears in \Chap{E}.)
 The terms ``single-length,'' ``double-length,'' etc. refer to
-the size of a ``cell'' in the particular FORTH system.  (If the system uses a
+the size of a ``cell'' in the particular \Forth{} system.  (If the system uses a
 16-bit cell, ``n'' represents a 16-bit number; if the system uses a 32-bit
 cell, ``n'' represents a 32-bit number.)
 
@@ -1032,11 +1032,11 @@ or listed vertically:
 
 A ``data-structure comment'' depicts the elements in a data structure.
 For example, here's the definition of an insert buffer called |INSERT :
-%!!<FORTHCODE>
+%!!<\Forth{}CODE>
 \begin{Code}
 CREATE |INSERT  64 ALLOT  \  { 1# | 63text }
 \end{Code}
-%!!<FORTHCODE>
+%!!<\Forth{}CODE>
 The ``faces'' (curly-brackets) begin and end the structure comment; the
 bars separate the various elements in the structure; the numbers represent
 bytes per element.  In the comment above, the first byte contains the
@@ -1285,7 +1285,7 @@ behavior, which is usually the \emph{syntax for using} the word.  The second com
 describes what the word \emph{actually does} in compiling (which is of less
 importance to the user).
 Other examples:
-%!!<FORTHCODE>
+%!!<\Forth{}CODE>
 : ABORT"  ( ? -- )
 \ Compile:    text"   ( -- )
 
@@ -1347,7 +1347,7 @@ upset.  As Johnson of Moore Products Co. says: ``When maintaining code
 you are usually interested in just one small section, and the more information
 written there the better your chances for a speedy fix.''
 
-Here are several pertinent rules required of the FORTH programmers
+Here are several pertinent rules required of the \Forth{} programmers
 at Moore Products Co. (I'm paraphrasing):
 %!!<ENUMERATION>
 \begin{enumerate}
@@ -1388,14 +1388,14 @@ usually requires many paragraphs, not a single phrase.  Such descriptions
 properly belong in auxiliary documentation or in the chapter preamble.
 
 Despite these cautions, many companies find the vertical format
-necessary.  Certainly a team that is newly exposed to FORTH should
+necessary.  Certainly a team that is newly exposed to \Forth{} should
 adopt it, as should any very large team.
 
 What about the horizontal format? Perhaps it's an issue of art vs.
 practicality, but I feel compelled to defend the horizontal format as equally
 valid and in some ways superior.
 
-If FORTH code is really well-written, there should be nothing ambiguous
+If \Forth{} code is really well-written, there should be nothing ambiguous
 about it.  This means that:
 %!!<ENUMERATION>
 \begin{itemize}
@@ -1407,11 +1407,11 @@ about it.  This means that:
 ``The Stylish Stack'' in \Chap{7}).
 \end{itemize}
 %!!</ENUMERATION>
-FORTH is simply not like other languages, in which line-by-line
+\Forth{} is simply not like other languages, in which line-by-line
 commenting is one of the few things you can do to make programs more
 readable.
 
-Skillfully written FORTH code is like poetry, containing precise
+Skillfully written \Forth{} code is like poetry, containing precise
 meaning that both programmer and machine can easily read.  Your goal
 should be to write code that does not need commenting, even if you
 choose to comment it.  Design your application so that the code, not the
@@ -1466,7 +1466,7 @@ definitions which invoke it.  The name, too, should hide the details of the
 procedure, and instead should describe the outward appearance or net
 effect.
 
-For instance, the FORTH word ALLOT simply increments the dictionary
+For instance, the \Forth{} word ALLOT simply increments the dictionary
 pointer (called DP or H in most systems).  But the name ALLOT
 is better than D P +! because the user is thinking of reserving space, not
 incrementing a pointer.
@@ -1493,8 +1493,8 @@ difference between lightning and the lightning bug (Mark Twain).
 Suit the action to the word, the word to the action (Shakespeare, Hamlet,
 Act III).
 %!!</SMALLPRINT>
-Henry Laxen, a FORTH consultant and author, suggests that the most
-important FORTH development tool is a good thesaurus \cite{laxen}.
+Henry Laxen, a \Forth{} consultant and author, suggests that the most
+important \Forth{} development tool is a good thesaurus \cite{laxen}.
 
 Sometimes you'll think of an adequate word for a definition, but it
 doesn't feel quite right.  It may be months later before you realize
@@ -1504,7 +1504,7 @@ are one-less-than the next symbol's value.  My first choice was
 4-0R-9.  That's awkward, but it was much later that I thought of
 ALMOST.
 
-Most fig-FORTH systems include the word VLIST, which lists the
+Most fig-\Forth{} systems include the word VLIST, which lists the
 names of all the words in the current vocabulary.  After many years someone
 realized that a nicer name is WORDS.  Not only does WORDS sound
 more pleasant by itself, it also works nicely with vocabulary names.  For
@@ -1549,7 +1549,7 @@ SAY HELLO
 %!!<INDENT3LEVELS>
 SAY is the perfect choice for vectoring HELLO into an
 execution variable.  (When I first wrote this example
-for Starting FORTH, I called it VERSION.  Moore\index{M!Moore, Charles|(}
+for Starting \Forth{}, I called it VERSION.  Moore\index{M!Moore, Charles|(}
 reviewed the manuscript and suggested SAY, which is
 clearly much better.)
 %!!</INDENT3LEVELS>
@@ -1585,13 +1585,13 @@ returns the address of the ``fifth'' element of the array.
 \begin{tip}
 Spell names in full.
 \end{tip}
-I once saw some FORTH code published in a magazine in which the
+I once saw some \Forth{} code published in a magazine in which the
 author seemed hell-bent on purging all vowels from his names, inventing
 such eyesores as DSPL-BFR for ``display buffer.'' Other writers seem to
 think that three characters magically says it all, coining LEN for
 ``length.'' Such practices reflect thinking from a bygone age.
 
-FORTH words should be fully spelled out.  Feel proud to type every
+\Forth{} words should be fully spelled out.  Feel proud to type every
 letter of INITIALIZE or TERMINAL or BUFFER.  These are the words
 you mean.
 %Page 166 in first edition.
@@ -1607,7 +1607,7 @@ the difficulty.
 Still, there are exceptions.  Here ate a few:
 %!!<ENUMERATION>
 \begin{enumerate}
-\item Words that you use extremely frequently in code. FORTH employs a handful
+\item Words that you use extremely frequently in code. \Forth{} employs a handful
 of commands that get used over and over, but have little or no intrinsic
 meaning:
 \begin{Code}
@@ -1625,7 +1625,7 @@ and there's no other term.)
 \item Words that a terminal operator might use frequently to control an operation.
 These words should be spelled as single letters, as are line editor
 commands.
-\item Words in which familiar usage implies that they be abbreviated.  FORTH
+\item Words in which familiar usage implies that they be abbreviated.  \Forth{}
 assembler mnemonics are typically patterned after the manufacturer's suggested
 mnemonics, which are abbreviations (such as JMP and MOV).
 \end{enumerate}
@@ -1654,7 +1654,7 @@ Hyphenated names may be a sign of bad factoring.
 Moore:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
-There are diverging programming styles in the FORTH community.  One
+There are diverging programming styles in the \Forth{} community.  One
 uses hyphenated words that express in English what the word is doing.
 You string these big long words together and you get something that is
 quite readable.
@@ -1712,14 +1712,14 @@ We'll amplify on these ideas in the next chapter on ``Factoring.''
 \section{Naming Standards: The Science}
 
 \begin{tip}
-Learn and adopt FORTH's naming conventions.
+Learn and adopt \Forth{}'s naming conventions.
 \end{tip}
-In the quest for short, yet meaningful names, FORTH programmers
+In the quest for short, yet meaningful names, \Forth{} programmers
 have adopted certain naming conventions.  \Chap{E} includes a list of
 the most useful conventions developed over the years.
 
 An example of the power of naming conventions is the use of ``dot''
-to mean ``print'' or ``display.'' FORTH itself uses
+to mean ``print'' or ``display.'' \Forth{} itself uses
 \begin{Code}
 .  D.  U.R
 \end{Code}
@@ -1770,16 +1770,16 @@ names.
 \end{tip}
 For example, write 0ADD, not ADD.
 
-By the way, don't expect your FORTH system to necessarily conform
+By the way, don't expect your \Forth{} system to necessarily conform
 to the above conventions.  The conventions are meant to be used in
 new applications.
 
-FORTH was created and refined over many years by people who
+\Forth{} was created and refined over many years by people who
 used it as a means to an end.  At that time, it was neither reasonable nor
 possible to impose naming standards on a tool that was still growing and
 evolving.
 
-Had FORTH been designed by committee, we would not love it so.
+Had \Forth{} been designed by committee, we would not love it so.
 
 \section{More Tips for Readability}
 
@@ -1815,7 +1815,7 @@ to clear it.
 (I once used T and F, but the words are needed so rarely I now heed
 the injunction against abbreviations.)
 
-As part of your application (not necessarily part of your FORTH
+As part of your application (not necessarily part of your \Forth{}
 system), you can take this idea a step further and define:
 \begin{Code}
 : ON   ( a) TRUE SWAP ! ;
