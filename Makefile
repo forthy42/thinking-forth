@@ -64,8 +64,8 @@ PRICE = 90000
 # or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
 # pages rounded up to 4, last page empty.
 
-PRINTING = insert your printer here
-OPTIONS = 2004,tip,tipno,leo,isbn,preliminary
+PRINTING = "Punchy Printing"
+OPTIONS = 2004,tip,tipno,leo,isbn
 LANG = american
 LINKCOLOR = blue
 # for a printed version, use
@@ -76,7 +76,7 @@ LINKCOLOR = blue
 # 17x24 for 17cm x 24cm format (one of the standard metric formats)
 # splitcover: if you only choose front and back, and the spine is done for you
 
-VERSION = 0.9
+VERSION = 1.0
 CP = cp
 TAR = tar jcf
 MD = mkdir
