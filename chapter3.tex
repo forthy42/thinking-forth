@@ -141,7 +141,7 @@ chance that it will change, you're better off hiding it behind a name:
 : +RECORD /RECORD RECORD# +! ;
 : -RECORD /RECORD NEGATE RECORD# +! ;
 \end{Code}
-(The name \forth{/RECORD}, by convention, means ``bytes per record.'')
+(The name \forth{/RECORD}, by convention, means ``\/bytes per record.'')
 
 \section{Example: A Tiny Editor}\program{editor1}
 
@@ -1133,7 +1133,7 @@ VARIABLE >RAM
 C000 >RAM !
 \end{Code}
 Now we can define each array like this:
-x\begin{Code}
+\begin{Code}
 >RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
 >RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
 >RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
