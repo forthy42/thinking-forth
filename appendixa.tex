@@ -9,13 +9,14 @@
 of~\Forth{}
 (For~Newcomers)}
 \section{The Dictionary}\index{D!Dictionary:!defined|(}%
-\Forth{}\index{F!\Forth{}!overview of|(} is expressed in words (and numbers) and is separated by spaces:
+\Forth{}\index{F!forth@\Forth{}!overview of|(} is expressed in words (and numbers) and is separated by spaces:
 \begin{Code}
 HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
 \end{Code}
 Such commands may be typed directly from the keyboard, or edited onto 
 mass storage then ``\forthb{LOAD}''ed.
 
+\index{D!Defining words:!procedure|(}
 All words, whether included with the system or user-defined,
 exist in the ``dictionary,'' a linked list.  A ``defining word,'' is used to add
 new names to the dictionary.  One defining word is \forthb{:} (pronounced
@@ -36,6 +37,7 @@ define a command in terms of machine instructions for the native processor.
 Words defined with \forthb{CODE} are indistinguishable to the user from 
 words defined with colon.  \forthb{CODE} definitions are needed only for the most
 time-critical portions of an applications, if at all.
+\index{D!Defining words:!procedure|)}
 \section{Data Structures}%
 \index{D!Data structures:!operators}%
 Still another defining word is \forthb{CONSTANT},\index{C!CONSTANT} which
@@ -76,6 +78,7 @@ create any time of data structure needed for the application.%
 \index{D!Dictionary:!defined|)}%
 
 \section{The Stack}
+\index{D!Data stacks!defined|(}
 In \Forth{}, variables and arrays are used for saving values that may be
 required by many other routines and/or at unpredictable times.  They are {\em not}
 used for the local passing of data between the definitions.  For this, \Forth{}
@@ -108,7 +111,7 @@ the value placed on the stack is removed before the defintion of
 numbers of its own on the stack prior to calling \forth{GRID}.  These
 will remain on the stack, unharmed, until \forth{GRID} has been
 executed and the calling definition continues.
-% original ``and calling definition continues.
+\index{D!Data stacks!defined|)}
 
 \section{Control Structures}
 \Forth{} provides all the control structures%
@@ -150,4 +153,4 @@ and
 \section{For the Whole Story}
 For a complete instroduction to the \Forth{} command set, read {\em Starting
 \Forth{}}, published by Prentice-Hall.%
-\index{F!\Forth{}!overview of|)}%
+\index{F!forth@\Forth{}!overview of|)}%

@@ -4,10 +4,10 @@
 %%
 %% Chapter: Implementation: Elements of FORTH Style
 
-\chapter{Implementation:
+\chapter{Implementation: Elements~of \Forth{}~Style}\Chapmark{5}
 \index{I!Implementation|(}%
+\index{I!Implementation!factoring|see{Factoring}}%
 \index{P!Programming cycle:!implementation|see{Implementation}}
-Elements~of \Forth{}~Style}\Chapmark{5}
 
 Badly written \Forth{} has been accused of looking like ``code that
 went through a trash compactor.'' It's true, \Forth{} affords more
@@ -39,6 +39,7 @@ continuing efforts at unifying divergent views on good \Forth{} style.
 
 \section{Listing Organization}
 \index{L!Listing organization|(}
+\index{I!Implementation!listing organization|(}
 
 A well-organized book has clearly defined chapters, with clearly defined
 sections, and a table of contents to help you see the organization at a
@@ -180,7 +181,7 @@ and what gets ignored.  They are:
 
 \begin{description}
 \item[\emph{\forth{\bs}}]~
-\item[\emph{\forth{\bs S}}] also called \forth{EXIT}
+\item[\emph{\forth{\bs S}}] also called \forth{EXIT}\index{E!EXIT}
 \end{description}
 \forth{\bs} is pronounced ``skip-line.'' It causes the
 \Forth{} interpreter to ignore everything to the right of it on the
@@ -204,11 +205,11 @@ encountering either right parenthesis:
 interpreter to stop interpreting the screen entirely, as though there
 were nothing else in the screen beyond \forth{\bs S}.
 
-In many \Forth{} systems, this function is the same as \forth{EXIT},
-which is the run-time routine for semicolon.  In these systems the use
-of \forth{EXIT} is acceptable.  Some \Forth{} systems, however,
-require for internal reasons a different routine for the
-``skip-screen'' function.
+In many \Forth{} systems, this function is the same as
+\forth{EXIT},\index{E!EXIT} which is the run-time routine for
+semicolon.  In these systems the use of \forth{EXIT} is acceptable.
+Some \Forth{} systems, however, require for internal reasons a
+different routine for the ``skip-screen'' function.
 
 Definitions for \forth{\bs} and \forth{\bs S} can be found in \App{C}.
 \index{L!Load screens!application|)}
@@ -433,7 +434,7 @@ don't recommend it.
 \section{An Alternative to Screens: Source in Named Files}
 \index{N!Named files, storing source code in|(}
 
-\index{F!Files based system|(}
+\index{F!File-based system|(}
 Some \Forth{} practitioners advocate storing source code in
 variable-length, named text files, deliberately emulating the approach
 used by traditional compilers and editors.  This approach may become
@@ -454,7 +455,7 @@ Perhaps a nice compromise would be a file-based system that allows
 nested loading, and encourages the use of very small named files.
 Most likely, though, the more experienced \Forth{} programmers would
 not use named files longer than 5K to 10K.  So what's the benefit?
-\index{F!Files based system|)}
+\index{F!File-based system|)}
 
 Some might answer that rhetorical question: ``It's easier to remember
 names than numbers.'' If that's so, then predefine those block numbers
@@ -556,9 +557,11 @@ arithmetic, date and time support, \forth{CASE} statements and the
 \forth{DOER}/\hy \forth{MAKE} construct (described later) are some of
 the features that \Forth{} systems should offer as electives.
 \index{E!Electives|)}
+\index{I!Implementation!listing organization|)}
 
 \section{Screen Layout}
 \index{S!Screens!layout|(}
+\index{I!Implementation!screen layout|(}
 
 In this section we'll discuss the layout of each source screen.
 
@@ -795,6 +798,7 @@ A comment that begins with \forth{\bs} may continue right to the end
 of the line.  Also, a comment that begins with ( may have its
 delimiting right parenthesis in the last column.
 
+\index{I!Indentation|(}
 Here are some common errors of spacing and indentation:
 
 \goodbreak\bigskip\noindent
@@ -830,9 +834,12 @@ I've yet to see a useful set of formal rules.\\
 Simply strive for readability.
 \index{S!Spacing|)}
 \index{S!Screens!layout|)}
+\index{I!Implementation!screen layout|)}
+\index{I!Indentation|)}
 
 \section{Comment Conventions}
 \index{C!Comment conventions|(}
+\index{I!Implementation!comment conventions|(}
 
 Appropriate commenting is essential.  There are five types of comments:
 stack-effect comments, data-structure comments, input-stream comments,
@@ -881,7 +888,7 @@ on the stack must include a stack-effect comment.
 the stack.  Forms of stack notation include ``stack pictures,''
 ``stack effects,'' and ``stack-effect comments.''
 \index{S!Stack notation|)}
-\index{P!Purpose comments}
+\index{P!Purpose comment}
 
 \subsection{Stack Picture}
 \index{S!Stack picture|(}
@@ -1230,7 +1237,7 @@ The input-stream comment is only appropriate for input being scanned-for.
 \index{I!Input-stream comment|)}
 
 \subsection{Purpose Comments}
-\index{P!Purpose comments|(}
+\index{P!Purpose comment|(}
 
 \begin{tip}
 Every definition should bear a purpose comment unless:
@@ -1296,10 +1303,10 @@ If necessary, you can put the purpose comment on a second line:
    \ scan for string delimt'd by "c"; leave at a
    ...  ;
 \end{Code}
-\index{P!Purpose comments|)}
+\index{P!Purpose comment|)}
 
 \subsection{Comments for Defining Words}
-\index{D!Defining Words!comments for|(}
+\index{D!Defining words:!comments for|(}
 The definition of a defining word involves two behaviors:
 
 \begin{itemize}
@@ -1351,7 +1358,7 @@ exists a run-time behavior, and it may be commented:
 : VARIABLE   (  name  ( -- )  CREATE  2 ALLOT ;
    \ does>   ( -- adr )
 \end{Code}
-\index{D!Defining Words!comments for|)}
+\index{D!Defining words:!comments for|)}
 
 \subsection{Comments for Compiling Words}
 As with defining words, most compiling words involve two behaviors:
@@ -1397,6 +1404,7 @@ fastidious about it) require three comments.  For instance:
 \App{E} includes two screens showing good commenting style.
 \index{C!Comment conventions|)}
 \index{C!Compiling words, comments for|)}
+\index{I!Implementation!comment conventions|)}
 
 \section{Vertical Format vs.\ Horizontal Format}
 \index{V!Vertical format vs. horizontal format|(}
@@ -1544,6 +1552,7 @@ Otherwise, consider the vertical format.
 \index{I!Implementation!vertical format vs. horizontal format|)}
 
 \section{Choosing Names: The Art}
+\index{I!Implementation!choosing names|(}
 \index{N!Names:!choosing|(}
 
 \begin{tfquot}
@@ -1586,7 +1595,7 @@ byte and working \emph{backward}.  In the new name, the forwardness of
 the ``what'' supersedes the backwardness of the ``how.''
 
 \begin{tip}
-Find the most expressive word.
+Find the most expressive word.\index{E!Expressive words}
 \end{tip}
 %Page 164 in first edition.
 
@@ -1630,6 +1639,7 @@ ASSEMBLER WORDS
 \end{Code}
 On the other hand, \person{Moore}\index{M!Moore, Charles} points out
 that inappropriate names can become a simple technique for encryption.
+\index{E!Encryption}
 If you need to provide security when you're forced to distribute
 source, you can make your code very unreadable by deliberately
 choosing misleading names.  Of course, maintenance becomes impossible.
@@ -1653,7 +1663,7 @@ SHUTTER OPEN
 SAY HELLO
   SAY is the perfect choice for vectoring HELLO into an
   execution variable.  (When I first wrote this example
-  for Starting &Forth{}, I called it VERSION. &person{Moore}&index{M!Moore, Charles|(}
+  for Starting &Forth{}, I called it VERSION. &person{Moore}
   reviewed the manuscript and suggested SAY, which is
   clearly much better.)&medskip
 I'M HARRY
@@ -1661,6 +1671,7 @@ I'M HARRY
   LOGIN HARRY or SESSION HARRY, as often seen.
 \end{Code}
 
+\index{M!Moore, Charles|(}
 \begin{interview}
 The choice of \forth{I'M} is another invention of \person{Moore}, who
 says:
@@ -1902,6 +1913,7 @@ and evolving.
 
 Had \Forth{} been designed by committee, we would not love it so.
 \index{N!Naming conventions|)}
+\index{I!Implementation!choosing names|)}
 
 \section{More Tips for Readability}
 

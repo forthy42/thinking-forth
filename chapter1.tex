@@ -184,8 +184,7 @@ old-fashioned flow charts less than useful.%
 
 \subsection{Modularity}%
 \index{S!Structured programming!(modularity)|(}%
-\index{S!Software elegance,
-   history of!structured programming|see{Structured programming}}%
+\index{S!Software elegance, history of!structured programming|see{Structured programming}}%
 \index{S!Structured programming!characteristics of|(}%
 \index{M!Modularity|see{Structured programming}}
 A significant advance arose with the invention of ``Structured
@@ -589,7 +588,7 @@ change in plan won't have so disastrous an effect.%
 
 
 \subsection{Information-Hiding }%
-\index{F!\Forth{}!information-hiding|(}%
+\index{F!forth@\Forth{}!information-hiding|(}%
 \index{I!Information-hiding|(}%
 \index{S!Structured programming!information-hiding|(}
 In a paper \cite{parnas72} published back in 1972, Dr. \person{David L. Parnas}%
@@ -668,7 +667,7 @@ extended to algorithms and data structures.  In fact, hiding
 information---not decision-structure or calling-hierarchy---should be
 the primary basis for design!%
 \index{I!Information-hiding|)}%
-\index{F!\Forth{}!information-hiding|)}%
+\index{F!forth@\Forth{}!information-hiding|)}%
 \index{S!Software elegance, history of|)}%
 \index{S!Structured programming!information-hiding|)}
 
@@ -681,12 +680,12 @@ the primary basis for design!%
 %% special case: uses second level without outer level
 \begin{tfquot}
 %%!!!this is to avoid an error
-\makeatletter\@newlistfalse\makeatother
+%% \makeatletter\@newlistfalse\makeatother
 %%!!!
-\begin{enumerate}
+\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
 \item possible (though currently unplanned) reuse, and
 \item possible (though unplanned) change.
-\end{enumerate}
+\end{list}
 \end{tfquot}
 This new view of a ``module'' is different than the traditional
 view. This ``module'' is a collection of routines, usually very
@@ -732,7 +731,7 @@ change can readily accommodate change.%
 
 
 \section{Looking Back, and \Forth{}}%
-\index{F!\Forth{}|(}
+\index{F!forth@\Forth{}|(}
 In this section we'll review the fundamental features of \Forth{} and
 relate them to what we've seen about traditional methodologies.
 
@@ -767,7 +766,7 @@ first study two \Forth{} inventions that make it possible.
 
 \subsection{Implicit Calls}%
 \index{C!Calls, implicit|(}%
-\index{F!\Forth{}!implicit calls|(}%
+\index{F!forth@\Forth{}!implicit calls|(}%
 \index{I!Implicit calls|(}
 First, calls are implicit. You don't have to say \forth{CALL CEREAL},
 you simply say \forth{CEREAL}. In \Forth{}, the definition of
@@ -778,12 +777,12 @@ Thus variables and constants, system functions, utilities, as well
 as any user-defined commands or data structures can all be ``called''
 simply by name.%
 \index{C!Calls, implicit|)}%
-\index{F!\Forth{}!implicit calls|)}%
+\index{F!forth@\Forth{}!implicit calls|)}%
 \index{I!Implicit calls|)}
 
 
 \subsection{Implicit Data Passing}%
-\index{F!\Forth{}!implicit data passing|(}%
+\index{F!forth@\Forth{}!implicit data passing|(}%
 \index{I!Implicit data passing|(}
 Second, data passing is implicit%
 \index{D!Data passing, implicit}.
@@ -837,12 +836,12 @@ being named, not by being called), a \Forth{} program is likely to be
 decomposed into more words than a conventional program would be into
 subroutines.%
 \index{I!Implicit data passing|)}%
-\index{F!\Forth{}!implicit data passing|)}
+\index{F!forth@\Forth{}!implicit data passing|)}
 
 
 \section{Component Programming}%
 \index{C!Component programming|(}%
-\index{F!\Forth{}!component programming|(}
+\index{F!forth@\Forth{}!component programming|(}
 Having a larger set of simpler words makes it easy to use a technique
 we'll call ``component programming.'' To explain, let's first
 reexamine these collections we have vaguely described as ``things that
@@ -902,7 +901,7 @@ to team management as well as to software design.%
 \index{S!Structured programming!component@vs. component programming|)}%
 \index{S!Structured programming!(modularity)|)}
 %
-\index{F!\Forth{}!lexicon|(}%
+\index{F!forth@\Forth{}!lexicon|(}%
 \index{L!Lexicons|(}
 We'll call the set of words which describe a component a ``lexicon.''
 (One meaning of lexicon is ``a set of words pertaining to a particular
@@ -951,13 +950,13 @@ with layered approaches to design. Instead, each lexicon is free to
 use all of the commands beneath it. The robot-movement command relies
 on the root language, with its variables, constants, stack operators,
 math operators, and so on, as heavily as any other component.%%
-\index{F!\Forth{}!component programming|)}\index{C!Component programming|)}
+\index{F!forth@\Forth{}!component programming|)}\index{C!Component programming|)}
 
 An important result of this approach is that the entire application
 employs a single syntax, which makes it easy to learn and maintain.
 This is why I use the term ``lexicon'' and not ``language.''
 Languages have unique syntaxes.%%
-\index{L!Lexicons|)}\index{F!\Forth{}!lexicon|)}
+\index{L!Lexicons|)}\index{F!forth@\Forth{}!lexicon|)}
 
 This availability of commands also makes the process of testing and
 debugging a whole lot easier. Because \Forth{} is interactive, the
@@ -993,7 +992,7 @@ solution.
 
 
 \section{Hide From Whom?}%
-\index{F!\Forth{}!information-hiding|(}%
+\index{F!forth@\Forth{}!information-hiding|(}%
 \index{I!Information-hiding|(}
 Because modern mainstream languages give a slightly different meaning
 to the phrase ``information-hiding,'' we should clarify. From what, or
@@ -1018,7 +1017,7 @@ structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to \Forth{} has been implemented, in only three lines
 of code, by \person{Dewey Val Shorre} \cite{shorre71}.)%
 \index{I!Information-hiding|)}%
-\index{F!\Forth{}!information-hiding|)}
+\index{F!forth@\Forth{}!information-hiding|)}
 
 
 \section{Hiding the Construction of Data Structures}%
@@ -1145,8 +1144,8 @@ describing an application in natural terms.%
 
 
 \section{But Is It a High-Level Language?}%
-\index{F!\Forth{}!high-level language issue|(}%
-\index{H!High-level languages:!\Forth{} as|(}
+\index{F!forth@\Forth{}!high-level language issue|(}%
+\index{H!High-level languages:!forth@\Forth{} as|(}
 In our brief technical overview, we noted that traditional high-level
 languages broke away from assembly-language by eliminating not only
 the \emph{one-for-one} correspondence between commands and machine
@@ -1188,7 +1187,7 @@ interpreter.  This simplification improves performance in several
 ways, as we'll see in a later section.
 
 From the standpoint of programming methodology, the advantage to the%
-\index{F!\Forth{}!advantages of}
+\index{F!forth@\Forth{}!advantages of}
 \Forth{} approach is that \emph{new} words and \emph{new} syntaxes can
 easily be added. \Forth{} cannot be said to be ``looking'' for words---it
 finds words and executes them. If you add new words \Forth{} will find
@@ -1251,15 +1250,15 @@ So is \Forth{} a high-level language? On the question of syntax checking,
 it strikes out. On the question of abstraction and power, it seems to
 be of \emph{infinite} level---supporting everything from bit
 manipulation at an output port to business applications.%
-\index{H!High-level languages:!\Forth{} as|)}%
-\index{F!\Forth{}!high-level language issue|)}
+\index{H!High-level languages:!forth@\Forth{} as|)}%
+\index{F!forth@\Forth{}!high-level language issue|)}
 
 You decide. (\Forth{} doesn't care.)
 
 
 \section{The Language of Design}
 %
-\index{F!\Forth{}!as design language|(}
+\index{F!forth@\Forth{}!as design language|(}
 \Forth{} is a design language. To the student of traditional computer
 science, this statement is self-contradictory. ``One doesn't design
 with a language, one implements with a language.  Design precedes
@@ -1303,11 +1302,11 @@ breadboarding is in electronic design.
 
 As we'll see in the next chapter, experimentation proves more reliable
 in arriving at the truth than the guesswork of planning.%
-\index{F!\Forth{}!as design language|)}
+\index{F!forth@\Forth{}!as design language|)}
 
 
 \section{The Language of Performance}%
-\index{F!\Forth{}!performance of|(}%
+\index{F!forth@\Forth{}!performance of|(}%
 \index{P!Performance|(}
 Although performance is not the main topic of this book, the newcomer
 to \Forth{} should be reassured that its advantages aren't purely
@@ -1316,7 +1315,7 @@ in speed, capability and compactness.
 
 
 \subsection{Speed}%
-\index{F!\Forth{}!speed of|(}%
+\index{F!forth@\Forth{}!speed of|(}%
 \index{S!Speed|(}
 Although \Forth{} is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC.
@@ -1336,8 +1335,8 @@ assembler. Here are three reasons:
 
 First and foremost, \Forth{} is simple. \Forth{}'s use of a data stack%
 \index{D!Data stacks}%
-\index{F!\Forth{}!data handling|see{Data stacks, Data structures}}%
-\index{D!data handling|see{Data stacks, Data structures}}
+\index{F!forth@\Forth{}!data handling|see{Data stacks, Data structures}}%
+\index{D!Data handling|see{Data stacks, Data structures}}
 greatly reduces the performance cost of passing arguments from word to
 word. In most languages, passing arguments between modules is one of
 the main reasons that the use of subroutines inhibits performance.
@@ -1362,13 +1361,13 @@ encourages change, it can also be called the language of optimization.
 
 \Forth{} doesn't guarantee fast applications. It does give the programmer
 a creative environment in which to design fast applications.%
-\index{F!\Forth{}!speed of|)}%
+\index{F!forth@\Forth{}!speed of|)}%
 \index{S!Speed|)}
 
 \subsection{Capability}
-\Forth{}\index{C!Capability}\index{F!\Forth{}!capability of}
+\Forth{}\index{C!Capability}\index{F!forth@\Forth{}!capability of}
 can do anything any other language can do---usually easier.%
-\index{F!\Forth{}!advantages of}
+\index{F!forth@\Forth{}!advantages of}
 
 At the low end, nearly all \Forth{} systems include assemblers%
 \index{A!Assemblers}. These
@@ -1398,7 +1397,7 @@ streamlined versions of applications over to embedded systems.
 
 
 \subsection{Size}%
-\index{F!\Forth{}!size of|(}
+\index{F!forth@\Forth{}!size of|(}
 There are two considerations here: the size of the root \Forth{} system,
 and the size of compiled \Forth{} applications.
 
@@ -1425,8 +1424,8 @@ Rockwell R65F11 \Forth{}-based microprocessor%
 the run-time portions of the \Forth{} language and operating system for
 dedicated applications. Only \Forth{}'s architecture and compactness make
 \Forth{}-based micros possible.%
-\index{F!\Forth{}!size of|)}%
-\index{F!\Forth{}!performance of|)}%
+\index{F!forth@\Forth{}!size of|)}%
+\index{F!forth@\Forth{}!performance of|)}%
 \index{P!Performance|)}
 
 
@@ -1455,7 +1454,7 @@ better maintainable code.
 \Forth{} may not be the ultimate language. But I believe the ultimate
 language, if such a thing is possible, will more closely resemble
 \Forth{} than any other contemporary language.%
-\index{F!\Forth{}|)}
+\index{F!forth@\Forth{}|)}
 
 
 \begin{references}{99}

@@ -16,7 +16,8 @@ software development cycle is a fool.
 
 Nevertheless \dots{}
 
-\section{The Nine Phases of the Programming Cycle}
+\section{The Nine Phases of the Programming Cycle}%
+\index{D!Development cycle|see{Programming Cycle}}
 
 As we've seen, \Forth{} integrates aspects of design with aspects of
 implementation and maintenance. As a result, the notion of a ``typical
@@ -205,18 +206,20 @@ we did.
 I should mention that during the design phase there is some amount of
 coding done to test out certain ideas. But this code may not be part
 of the finished product. The idea is to map out your design.
-\end{tfquot}
-\end{interview}%
+\end{tfquot}%
 \index{J!Johnson, Dave|)}
-\person{Johnson} advises us to complete the design specification before starting
-to code, with the exception of needed preliminary tests. The next
-interview backs up this point, and adds some additional reasons.%
-\index{T!Teleska,John|(}
+\end{interview}
+\person{Johnson} advises us to complete the design specification
+before starting to code, with the exception of needed preliminary
+tests. The next interview backs up this point, and adds some
+additional reasons.%
 \begin{interview}
-\noindent \person{John Teleska} has been an independent software consultant
-since 1976, specializing in custom applications for academic research
-environments.  He enjoys providing research tools ``right at the edge
-of what technology is able to do.'' \person{Teleska} works in Rochester, New York:
+\index{T!Teleska, John|(}
+\noindent \person{John Teleska} has been an independent software
+consultant since 1976, specializing in custom applications for
+academic research environments.  He enjoys providing research tools
+``right at the edge of what technology is able to do.''
+\person{Teleska} works in Rochester, New York:
 
 \begin{tfquot}
 I see the software development process as having two phases. The first is
@@ -258,8 +261,8 @@ I think there are consultants who bow to client pressure and limit the
 time they spend on specs, for fear of losing the job. But in these
 situations nobody ends up happy.
 \end{tfquot}
+\index{T!Teleska, John|)}
 \end{interview}%
-\index{T!Teleska,John|)}
 We'll return to the \person{Teleska} interview momentarily.%
 \index{P!Planning:!value of|)}%
 \index{P!Programming cycle:!value of planning|)}
@@ -271,8 +274,8 @@ We'll return to the \person{Teleska} interview momentarily.%
 Experience has taught us to map out where we're going before we begin
 coding. But planning has certain limitations. The following interviews
 give different perspectives to the value of planning.%
-\index{T!Teleska,John|(}
 \begin{interview}
+\index{T!Teleska, John|(}
 \noindent Despite \person{Teleska}'s preference for a well-planned project, he
 suggests that the choice between a top-down and bottom-up approach may
 depend on the situation:
@@ -298,8 +301,8 @@ I think if the application elicits this sense of being lost, I proceed
 bottom-up. If the application is in familiar territory then I'll
 probably use a more traditional by-the-book approach.
 \end{tfquot}
-\end{interview}%
-\index{T!Teleska,John|)}
+\index{T!Teleska, John|)}
+\end{interview}
 
 %Page 043 in first edition
 
@@ -599,8 +602,8 @@ and documenting the conceptual model:
 First, and most importantly, the conceptual model should describe the
 system's interfaces.\index{I!Interface definition}
 \end{tip}%
-\index{T!Teleska,John|)}
 \begin{interview}
+\index{T!Teleska, John|(}
 \person{Teleska}:
 
 \begin{tfquot}
@@ -645,9 +648,9 @@ to my client. I show them as many diagrams as I can to clarify my
 understanding.  I don't generally use these once it comes to
 implementation. The prose must be complete, even without reference to
 the diagrams.
-\end{tfquot}
+\end{tfquot}%
+\index{T!Teleska, John|)}
 \end{interview}%
-\index{T!Teleska,John|)}%
 \index{E!Error handling|(}
 \begin{tip}
 Decide on error- and exception-handling early as part of defining the
@@ -1017,8 +1020,9 @@ try to simplify the problem.
 \begin{tip}
 You don't understand a problem until you can simplify it.
 \end{tip}
-If the goal of analysis is not only understanding, but simplification, then
-perhaps we've got more work to do.
+
+\noindent If the goal of analysis is not only understanding, but
+simplification, then perhaps we've got more work to do.
 
 Our revised decision table (\Fig{fig2-6}) shows that the per-mile
 charge depends only on whether the rate is full, lower, or lowest. In
@@ -1347,9 +1351,9 @@ Yet another way to simplify a problem is this:
 \begin{tip}
 To simplify, keep the user out of trouble.
 \end{tip}
-Suppose you're designing part of a word processor that displays a
-directory of stored documents on the screen, one per line. You plan
-that the
+\noindent Suppose you're designing part of a word processor that
+displays a directory of stored documents on the screen, one per line.
+You plan that the
 %Page 065 in first edition
 user can move the cursor next to the name of any document, then type a
 one-letter command indicating the chosen action: ``p'' for print,
