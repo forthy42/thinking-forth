@@ -81,7 +81,7 @@ CP = cp
 TAR = tar jcf
 MD = mkdir
 RD = rm -rf
-PS2PDF = ps2pdf -dPDFSETTINGS=/printer -dEmbedAllFonts=true
+PS2PDF = ps2pdf13 -dPDFSETTINGS=/printer -dEmbedAllFonts=true
 
 TOGETHER = 20 # how many pages you bind together - divide by 4
 PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
