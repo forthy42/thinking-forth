@@ -240,7 +240,7 @@ Here's an improved rendition. The similar variable names have been factored into
 \noindent That's all the code we need.
 
 Even in the most innocent cases, a little data structure can eliminate extra names. By convention FORTH handles text in ``counted strings'' (i.e., with the count in the first byte). Any word that returns the ``address of a string'' actually returns this beginning address, where the count is. not only does use of this two-element data structure eliminate the need for separate names for string and count, it also makes it easier to move a string in memory, because you can copy the string \emph{and} the count
-with a single \textbf{COMVE}.
+with a single \textbf{CMOVE}.
 
 When you start finding the same awkwardness here and there, you can combine things and make the awkwardness go away.
 
@@ -277,7 +277,13 @@ Examine the structure of this code (without worrying about its purpose--you'll s
 \noindent 
 (Defining words are explained in \emph{Starting FORTH}, Chapter Eleven).
 
-By using a defining word, we save memory because each compiled colon defintion needs the address of \textbf{EXIT} to conclude the defintion.(In defining eight words, the use of a defining word saves 14 bytes on a 16-bit FORTH.) Also, in a colon defintion each reference to a nemeric leiteral requires the compilation of \textbf{LIT} (or \textbf{literal}), another2 bytes per definition. (If 1 and 2 are predefined constants, this costs another 10 bytes--24 toatl.)
+By using a defining word, we save memory because each compiled colon
+defintion needs the address of \textbf{EXIT} to conclude the
+defintion.(In defining eight words, the use of a defining word saves
+14 bytes on a 16-bit FORTH.) Also, in a colon defintion each reference
+to a nemeric leiteral requires the compilation of \textbf{LIT} (or
+\textbf{literal}), another 2 bytes per definition. (If 1 and 2 are
+predefined constants, this costs another 10 bytes---24 total.)
 
 In terms of readability, the defining word makes it absolutely clear that all the colors it defines belong to the same family of words.
 
@@ -740,8 +746,8 @@ For maximum maintainability, limit redundancy even at compile time.
 Suppose in our application we must draw nine boxes as shown in \Fig{fig6-1}.
 
 \begin{figure*}[tttt]
-\labelfig{fig6-1}
 \caption{What we're supposed to display}
+\labelfig{fig6-1}
 \begin{center}
 \begin{BVerbatim}
 ********     ********     ********
@@ -822,8 +828,8 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{Code}
 %% I don't know how to offset the Figure 6-2.
 \begin{figure*}[tttt]
-\labelfig{fig6-2}
 \caption{Another example of limiting compile-time redundancy.}
+\labelfig{fig6-2}
 \begin{center}
 \begin{BVerbatim}
 : P  ( x y -- )  C, C, ;

@@ -119,10 +119,10 @@ supposedly ``highest'' level procedure is burdened with eliminating the
 worst-case, most trivial kind of event. And each test becomes responsible
 for invoking the next test.
 
-\begin{figure*}[pppp]
+\begin{figure*}[tp]
 \verbfig{fig8-1}{The structured approach.}
 \begin{center}
-\begin{BVerbatim}[commandchars=\&\{\}]
+\small\begin{BVerbatim}[commandchars=\&\{\}]
 &underline{AUTOMATIC-TELLER}
 
 IF card is valid DO
@@ -177,9 +177,9 @@ BUTTON.)
 Of course, FORTH will allow you to take any of the three approachs.
 Which do you prefer?
 
-\begin{figure*}[pppp]
+\begin{figure*}[tp]
 \verbfig{fig8-2}{Nesting conditionals within named procedures.}
-\begin{center}
+\small\begin{center}
 \begin{BVerbatim}[commandchars=\&\{\}]
 &underline{AUTOMATIC-TELLER}
 
@@ -216,8 +216,8 @@ PROCEDURE DEPOSIT
 \end{center}
 \end{figure*}
 
-\section{How to Eliminate Control Structures}
-
+\othersidetrue\section{How to Eliminate Control Structures}
+\othersidefalse
 In this section we'll study numerous techniques for simplifying or
 avoiding conditionals. Most of them will produce code that is more
 readable, more maintainable, and more efficient. Some of the techniques
@@ -230,10 +230,10 @@ situations.
 \begin{tip}
 Give each function its own definition.
 \end{tip}
-\begin{figure*}[pppp]
+\begin{figure*}[tp]
 \verbfig{fig8-3}{Refactoring and/or eliminating conditionals.}
 \begin{center}
-\begin{BVerbatim}[commandchars=\&\{\}]
+\small\begin{BVerbatim}[commandchars=\&\{\}]
 &underline{AUTOMATIC-TELLER}
 
 : RUN
@@ -403,8 +403,7 @@ behave as they do interpretively.
 \textbf{ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
 (See Appendix C.)
 
-\othersidetrue\subsection{Nesting and Combining Conditionals}
-\othersidefalse
+\subsection{Nesting and Combining Conditionals}
 \begin{tip}
 Don't test for something that has already been excluded.
 \end{tip}
@@ -513,8 +512,7 @@ We have to get up to answer the phone anyway.
 The repetition of UP GET is ugly---not nearly as readible as the
 solution using \textbf{OR}---but in some cases desirable.
 
-\othersidetrue\subsection{Choosing Control Structures}
-\othersidefalse
+\subsection{Choosing Control Structures}
 \begin{tip}
 The most elegant code is that which most closely matches the problem.
 Choose the control structure that most closely matches the control-flow
@@ -580,8 +578,8 @@ more aptly described in a decision table.
 A case statement ought to be part of the application when useful,
 but not part of the system.
 
-\subsubsection{Looping Structures}
-
+\othersidetrue\subsubsection{Looping Structures}
+\othersidefalse
 The right looping structure can eliminate extra conditionals.
 
 \bigskip\blackline{2ex}
@@ -942,8 +940,7 @@ Applying techniques of factoring, we simplify this to:
 Another example of the one-dimensional data table is the ``superstring''
 (emph{Starting FORTH}, Chapter Ten).
 
-\othersidetrue\subsubsection{Two-Dimensional Data Table}
-\othersidefalse
+\subsubsection{Two-Dimensional Data Table}
 In Chapter Two we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
@@ -1168,8 +1165,8 @@ But if you have to interpolate, you have to calculate a function anyway.
 You're probably better off calculating a slightly more complicated function
 and avoiding the table lookup.
 \end{tfquot}\blackline{1ex}
-\subsection{Redesigning}
-
+\othersidetrue\subsection{Redesigning}
+\othersidefalse
 \begin{tip}
 One change at the bottom can save ten decisions at the top.
 \end{tip}

@@ -303,9 +303,9 @@ sample preamble screen which demonstrates the format required at
 Moore Products Co.
 
 %!!<Figure>
-\begin{figure*}
-\labelfig{fig5-3}
+\begin{figure*}[tttt]
 \caption{Moore Products Co.'s format for chapter preambles.}
+\labelfig{fig5-3}
 \begin{Screen}
 CHAPTER 5  -  ORIGIN/DESTINATION - MULTILOOP BIT ROUTINES
 
@@ -319,9 +319,6 @@ ABSTRACT - File control types E M T Q and R can all
            Data Survey Satellite.  These routines allow
            the operator to determine whether the control
            originated from a Regional Satellite or not.
-
-
-
 
 \end{Screen}
 
@@ -338,9 +335,6 @@ CHAPTER NOTES - Whether or not a point originates from
                  Section - 3.2.7.5.4.1.2.10
 
 HISTORY  -
-
-
-
 
 \end{Screen}
 \end{figure*}
@@ -453,8 +447,8 @@ need good tools, including editor commands that move lines of source
 from one screen to another, and words that slide a series of screens forward
 or back within the listing.
 
-\subsection{Disk Partitioning}
-
+\othersidetrue\subsection{Disk Partitioning}
+\othersidefalse
 The final aspect of the well-organized listing involves standardizing an
 arrangement for what goes where on the disk.  These standards must be
 set by each shop, or department, or individual programmer, depending on
@@ -462,8 +456,8 @@ the nature of the work.
 %Page 144 in first edition.
 %!!<Figure>
 \begin{figure*}
-\labelfig{fig5-4}
 \caption{Example of a disk-partitioning scheme within one department.}
+\labelfig{fig5-4}
 
 \begin{description}
 \item[Screen 0] is the title screen, showing the name of the
@@ -508,8 +502,8 @@ Begin applications or chapters on screen numbers evenly divisible by
 thirty.
 \end{tip}
 
-\subsection{Electives}
-
+\othersidetrue\subsection{Electives}
+\othersidefalse
 Vendors of FORTH systems have a problem.  If they want to include
 every command that the customer might expect-words to control
 graphics, printers, and other niceties-they often find that the system
@@ -610,8 +604,8 @@ continue for more than one line, the subsequent lines should always
 be indented.)
 %!!<Figure>
 \begin{figure*}
-\labelfig{fig5-5}
 \caption{The output of INDEX showing indented comment lines.}
+\labelfig{fig5-5}
 \begin{Code}
  90 \ Graphics         Chapter load     JPJ 06/10/83
  91    \ Dot-drawing primitives         JPJ 06/10/83
@@ -716,8 +710,8 @@ a list of guidelines.  (But remember, FORTH's interpreter couldn't care
 less about spacing or indentation.)
 %!!<TABLE>
 \begin{table}
-\label{tab-5-1}
 \caption{Indentation and spacing guidelines}
+\label{tab-5-1}
 
 1 space between the colon and the name\\
 2 spaces between the name and the comment\footnotemark[1]\\
@@ -735,20 +729,24 @@ definitions
 
 %% Note: AH: Again type writer style footnotes.
 \end{table}
-\footnotetext[1]{An often-seen alternative calls for 1 space between the name and comment and 3
-between the comment and the definition.  A more liberal technique uses 3 spaces
-before and after the comment.  Whatever you choose, be consistent.}
 %!!</TABLE>
 %Page 149 in first edition.
 
 The last position of each line should be blank except for:
 %!!<ENUMERATION>
-a) quoted strings that continue onto the next line, or
-b) the end of a comment.
+\begin{enumerate}
+\item[(a)] quoted strings that continue onto the next line, or
+\item[(b)] the end of a comment.
+\end{enumerate}
 %!!</ENUMERATION>
 A comment that begins with $\backslash$ may continue right to the end of the line.
 Also, a comment that begins with ( may have its delimiting right parenthesis
 in the last column.
+
+\footnotetext[1]{An often-seen alternative calls for 1 space between
+the name and comment and 3 between the comment and the definition.  A
+more liberal technique uses 3 spaces before and after the comment.
+Whatever you choose, be consistent.}
 
 Here are some common errors of spacing and indentation:
 
@@ -781,8 +779,7 @@ DARKEN   NEVER AGAIN;
 Phrasing is a subjective art; I've yet to see a useful set of formal rules.
 Simply strive for readability.
 
-{\othersidetrue\section{Comment Conventions}}
-
+\section{Comment Conventions}
 Appropriate commenting is essential.  There are five types of comments:
 stack-effect comments, data-structure comments, input-stream comments,
 purpose comments and narrative comments.
@@ -950,11 +947,12 @@ are three versions of the same stack comment for the word -TEXT:
 \end{Code}
 %Page 153 in first edition.
 %!!<TABLE>
-\begin{table}
-\label{tab-5-2}
+\begin{table}[tttt]
 \caption{Stack-comment abbreviations.}
-\bigskip
-\centerline{\begin{tabular}{ll}
+\label{tab-5-2}
+\vspace{1ex}
+\blackline{1ex}
+\begin{tabular}{@{\hspace{2.5em}}ll}
 n             &  single-length signed number \\
 d             &  double-length signed number \\
 u             &  single-length unsigned number \\
@@ -977,12 +975,14 @@ lo hi         &  lower-limit upper-limit (inclusive, \\
 i             &  index \\
 m             &  mask \\
 x             &  don't care (data structure notation) \\
-\end{tabular}}
+\end{tabular}
 \bigskip
 
 An ``offset'' is a difference expressed in absolute units, such as bytes.
 
 An ``index'' is a difference expressed in logical units, such as elements or records.
+\vspace{0ex}
+\blackline{0ex}
 \end{table}
 %!!</TABLE>
 The equal sign after the symbols ``t'' and ``f'' equates the flag outcome
@@ -990,8 +990,8 @@ with its meaning.  The result-side of the second version would be read
 ``true means no match.''
 
 
-\subsection{Notation of Variable Possibilities}
-
+\othersidetrue\subsection{Notation of Variable Possibilities}
+\othersidefalse
 Some definitions yield a different stack effect under different circumstances.
 
 If the number of items on the stack remains the same under all conditions,
@@ -1091,18 +1091,22 @@ The input-stream comment indicates what words and/or strings are
 presumed to be in the input stream.  \ref{tab-5-3} lists the designations used
 for input stream arguments.
 %!!<TABLE>
-\begin{table*}
-\label{tab-5-3}
+\begin{table*}[hhhh]
 \caption{Input-stream comment designations.}
-\bigskip
-\centerline{\begin{tabular}{ll}
+\label{tab-5-3}
+\vspace{1ex}\blackline{1ex}
+\centerline{\begin{tabular}{@{\hspace{2.5em}}ll}
 c     &  single character, blank-delimited \\
 name  &  sequence of characters, blank delimited \\
-text  &  sequence of characters, delimited by non-blank\footnotemark[2] \\
+text  &  sequence of characters, delimited by non-blank \\
 \end{tabular}}
+
+\medskip
+Follow ``text'' with the actual delimiter required; e.g.: text" or text)
+
+\vspace{1ex}\blackline{0ex}
 \end{table*}
 
-\footnotetext[2]{Follow ``text'' with the actual delimiter required; e.g.: text" or text)}
 %!!</TABLE>
 %% Note: AH : typewriter style footnote with *
 %% Note: AH : text" and text) are literal examples, and should be slanted or such.
@@ -1295,8 +1299,8 @@ require three comments.  For instance:
 \end{Code}
 Appendix E includes two screens showing good commenting style.
 
-\section{Vertical Format vs.\ Horizontal Format}
-
+\othersidetrue\section{Vertical Format vs.\ Horizontal Format}
+\othersidefalse
 The purpose of commenting is to allow a reader of your code to easily
 determine what's going on.  But how much commenting is necessary? To
 determine the level of commenting appropriate for your circumstances,
@@ -1841,8 +1845,8 @@ stack item.  It could be implemented in high level as:
 \begin{Code}
 : UNDER+ (a b c -- a+c b) ROT + SWAP !
 \end{Code}
-{\othersidetrue\section{Summary}}
 
+\section{Summary}
 Maintainability requires readability.  In this chapter we've enumerated
 various ways to make a source listing more readable.  We've assumed a
 %Page 171 in first edition.
@@ -1854,8 +1858,8 @@ all documentation apart from the listing itself.  We won't discuss
 auxiliary documentation further in this volume, but it remains an integral
 part of the software development process.
 
-\section{References}
-
+\othersidetrue\section{References}
+\othersidefalse
 \begin{enumerate}
 \item Gregory Stevenson, ``Documentation Priorities,'' 1981 FORML Conference
 Proceedings, p. 401.

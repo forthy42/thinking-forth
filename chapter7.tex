@@ -117,7 +117,6 @@ subsection). We've decided that our loop body will be
 \begin{Code}
 ...  DO  I LOAD  LOOP ;
 \end{Code}
-
 that is, we'll put \textbf{LOAD} in a loop, then arrange for the index and limit
 to correspond to the absolute screens being loaded.
 
@@ -126,7 +125,6 @@ On the stack initially we have:
 \begin{Code}
 lo hi
 \end{Code}
-
 where ``lo'' and ``hi'' are the \emph{offsets} from \textbf{BLK}.
 
 We need to permute them for \textbf{DO}, like this:
@@ -134,7 +132,6 @@ We need to permute them for \textbf{DO}, like this:
 \begin{Code}
 hi+1+blk lo+blk
 \end{Code}
-
 Our biggest problem is adding the value of \textbf{BLK} to both offsets.
 
 We've already taken a wrong turn but we don't know it yet. So let's
@@ -157,7 +154,6 @@ hi+blk+1 lo blk
                +
 hi+blk+1 lo+blk
 \end{Code}
-
 We made it, but what a mess!
 
 If we're gluttons for punishment, we might make two more stabs at
@@ -166,13 +162,11 @@ it arriving at:
 \begin{Code}
 BLK @  DUP ROT + 1+  ROT ROT +
 \end{Code}
-
 and
 
 \begin{Code}
 BLK @  ROT OVER +  ROT ROT + 1+  SWAP
 \end{Code}
-
 All three sequences do the same thing, but the code seems to be getting
 blurrier, not better.
 
@@ -186,7 +180,6 @@ At this point, the first resort is usually the return stack:
 \begin{Code}
 BLK @  DUP >R  + 1+  SWAP R> + +
 \end{Code}
-
 (See ``The Stylish Return Stack,'' coming up next.) Here we've \textbf{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
 ``hi.''
@@ -199,7 +192,6 @@ have one already: \textbf{BLK}. So we try:
 \begin{Code}
 BLK @  + 1+  SWAP BLK @ +
 \end{Code}
-
 Now it's more readable, but it's still rather long, and redundant too.
 \textbf{BLK @ +} appears twice.
 
@@ -210,13 +202,11 @@ We look back at the source for +LOAD just defined:
 \begin{Code}
 : +LOAD  ( offset -- )  BLK @ +  LOAD ;
 \end{Code}
-
 This word, +LOAD, should be doing the work. All we have to write is:
 
 \begin{Code}
 : +THRU  ( lo hi )  1+ SWAP  DO  I +LOAD  LOOP ;
 \end{Code}
-
 We haven't created a more efficient version here, because the work of
 \textbf{BLK @ +} will be done on every pass of the loop. But we have created a
 cleaner, conceptually simpler, and more readable piece of code. In this
@@ -239,7 +229,6 @@ in this order:
 \begin{Code}
 ( x1 y1 x2 y2)
 \end{Code}
-
 where x1,y1 represent the x,y coordinates for the one end-point, and
 x2,y2 represent the opposite end-point.
 
@@ -249,7 +238,6 @@ takes four arguments in this order:
 \begin{Code}
 ( x1 y1 x2 y2)
 \end{Code}
-
 where x1 y1 represent the x,y coordinates for the upper left-hand corner
 of the box, and x2 y2 represent the lower right-hand corner coordinates.
 Not only do you have four elements on the stack, they each have to
@@ -270,7 +258,6 @@ VARIABLE RIGHT       ( x     "       right side)
    RIGHT @ BOTTOM @  LEFT @ BOTTOM @  LINE
    LEFT @ BOTTOM @  LEFT @ TOP @  LINE ;
 \end{Code}
-
 What we've done is create four named variables, one for each coordinate.
 The first thing [BOX] does is fill these variables with the arguments from
 the stack. Then the four lines are drawn, referencing the variables.
@@ -338,7 +325,6 @@ user:
 \begin{Code}
 10 10 ORIGIN! 30 30 BOX
 \end{Code}
-
 where ORIGIN! sets a two-element pointer to the ``origin,'' the place
 where the box will start (the upper left-hand corner). Then ``30 30 BOX''
 draws a box 30 units high and 30 units wide, relative to the origin.
@@ -373,13 +359,11 @@ write
 \begin{Code}
 4 PICK @
 \end{Code}
-
 to fetch its contents. But you must write
 
 \begin{Code}
 ( n) 5 PICK !
 \end{Code}
-
 because with ``n'' on the stack, the address is now in the fifth position.
 Code like this is hard to read and harder to modify.
 
@@ -415,13 +399,11 @@ For example:
 \begin{Code}
 : COUNT  ( a -- a+1 # )  DUP C@  SWAP 1+  SWAP ;
 \end{Code}
-
 (where you first get the count) is more efficiently written:
 
 \begin{Code}
 : COUNT  ( a -- a+1 # )  DUP 1+  SWAP C@ ;
 \end{Code}
-
 (where you first compute the address).
 
 \begin{tip}
@@ -435,7 +417,6 @@ the stack interface might be designed:
 \begin{Code}
 ( -- error-code f | -- t)
 \end{Code}
-
 If the flag is true, the operation was successful. If the flag is false, it was
 unsuccessful and there's another value on the stack to indicate the nature
 of the error.
@@ -446,7 +427,6 @@ to look like this:
 \begin{Code}
 ( -- error-code | O=no-error)
 \end{Code}
-
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
 any values for the error codes except zero.
@@ -488,7 +468,6 @@ they aren't. For instance:
 \begin{Code}
 ... BEGIN ... >R ... WHILE ... R> ... REPEAT
 \end{Code}
-
 If this construction is used in the outer loop of your application,
 everything will run fine until you exit (perhaps hours later) when you'll
 suddenly blow up. The problem? The last time through the loop, the
@@ -550,7 +529,6 @@ relative address from our current cursor position
 \begin{Code}
 its-position CURSOR @  SWAP -
 \end{Code}
-
 to determine the distance between them.
 
 Our word's stack effect is:
@@ -558,7 +536,6 @@ Our word's stack effect is:
 \begin{Code}
 ( -- distance-to-previous-cr/lf)
 \end{Code}
-
 But in later coding we find we need a similar word to compute the
 distance from an arbitrary character---\emph{not} the current cursor
 position---to the first previous line-feed character. We end up factoring
@@ -568,7 +545,6 @@ argument on the stack, resulting in:
 \begin{Code}
 ( starting-position -- distance-to-previous-cr/lf)
 \end{Code}
-
 By factoring-out the reference to the variable, we made the definition
 more useful.
 
@@ -686,7 +662,6 @@ FORTH systems:
 : DECIMAL   10 BASE ! ;
 : HEX   16 BASE ! ;
 \end{Code}
-
 Suppose we've written a word that displays a ``dump'' of memory. Ordinarily,
 we work in decimal mode, but we want the dump in hexadecimal. So we write:
 
@@ -694,7 +669,6 @@ we work in decimal mode, but we want the dump in hexadecimal. So we write:
 : DUMP  ( a # )
    HEX   ...   ( code for the dump) ... DECIMAL ;
 \end{Code}
-
 This works---most of the time. But there's a presumption that we want to
 come back to decimal mode. What if it had been working in hexadecimal,
 and wants to come back to hexadecimal? Before we change the base to
@@ -708,7 +682,6 @@ while we format the dump. The return stack is one place to do this:
 : DUMP  ( a # )
    BASE @ >R  HEX   ( code for dump)  R> BASE ! ;
 \end{Code}
-
 If things get too messy, we may have to define a temporary variable:
 
 \begin{Code}
@@ -717,7 +690,6 @@ VARIABLE OLD-BASE
    BASE @  OLD-BASE !  HEX ( code for dump )
    OLD-BASE @  BASE ! ;
 \end{Code}
-
 How quickly things get complicated.
 
 In this situation, if both the current and the old version of a variable
@@ -728,21 +700,18 @@ same situation comes up more than once, apply a technique of factoring:
 : BURY  ( a)  DUP 2+  2 CMOVE ;
 : EXHUME  ( a)  DUP 2+  SWAP 2 CMOVE ;
 \end{Code}
-
 Then instead of defining two variables, such as CONDITION and
 OLD-CONDITION, define one double-length variable:
 
 \begin{Code}
 2VARIABLE CONDITION
 \end{Code}
-
 Use BURY and EXHUME to save and restore the original value:
 
 \begin{Code}
 : DIDDLE    CONDITION BURY  17 CONDITION !  ( diddle )
    CONDITION EXHUME ;
 \end{Code}
-
 BURY saves the ``old'' version of condition at CONDITION 2+.
 
 You still have to be careful. Going back to our \textbf{DUMP} example, suppose
@@ -807,7 +776,6 @@ suppose we have written:
 : SHORT   9 #HOLES ! ;
 : GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
 \end{Code}
-
 The current GAME is either LONG or SHORT.
 
 Later we decide we need a word to play \emph{any} number of holes. So we
@@ -816,7 +784,6 @@ invoke GAME making sure not to clobber the current value of \#HOLES:
 \begin{Code}
 : HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
 \end{Code}
-
 Because we needed HOLES after we'd defined GAME, it seemed to be of
 greater complexity; we built HOLES around GAME. But in fact---perhaps
 you see it already---rethinking is in order:
@@ -825,7 +792,6 @@ you see it already---rethinking is in order:
 : HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
 : GAME   #HOLES @ HOLES ;
 \end{Code}
-
 We can build GAME around HOLES and avoid all this saving/restoring
 nonsense.
 
@@ -847,7 +813,6 @@ HERE CONSTANT STACK>
 : PUSH  ( n)   2 STACK +!  STACK @  DUP  STACK> = ?BAD  ! ;
 : POP  ( -- n)  STACK @ @  -2 STACK +!  STACK @ STACK < ?BAD ;
 \end{Code}
-
 The word PUSH takes a value from off of your data stack and ``pushes''
 it onto this new stack. POP is the opposite, ``popping'' a value from off
 the new stack, and onto FORTH's data stack.
@@ -931,7 +896,6 @@ VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
 VARIABLE 'TOC?  ( t=setting-table-of-contents)
 : DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
 \end{Code}
-
 DISPLAY checks that we're not setting the table of contents and invokes
 <DISPLAY>, which in turn checks that we're not looking ahead
 and invokes [DISPLAY].
@@ -952,7 +916,6 @@ both tests within a single word:
 \begin{Code}
 : DISPLAY   'LOOKAHEAD? @  'TOC @ OR  NOT IF [DISPLAY] THEN ;
 \end{Code}
-
 But in this particular case, yet another approach can simplify the whole
 mess. We can use a single variable not as a flag, but as a counter.
 
@@ -964,7 +927,6 @@ VARIABLE 'INVISIBLE?  ( t=invisible)
 : INVISIBLE   1 'INVISIBLE? +! ;
 : VISIBLE    -1 'INVISIBLE? +! ;
 \end{Code}
-
 The lookahead code begins by invoking INVISIBLE which bumps the
 counter up one. Non-zero is ``true,'' so DISPLAY will not do the output.
 After the lookahead, the code invokes VISIBLE which decrements the
@@ -989,7 +951,6 @@ clips the counter:
 \begin{Code}
 : VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
 \end{Code}
-
 \section{The State Table}
 
 A single variable can express a single condition, either a flag, a value, or
@@ -1004,9 +965,9 @@ number of alternating states.
 When the application requires handling a group of conditions
 simultaneously, use a state table, not separate variables.
 \end{tip}
-\begin{figure*}
-\labelfig{fig7-2}
+\begin{figure*}[hhhh]
 \caption{A collection of related variables.}
+\labelfig{fig7-2}
 \begin{center}
 \begin{BVerbatim}
 VARIABLE TOP
@@ -1032,7 +993,6 @@ can take place, and later restore all of them. We could define:
 : !STATE ( top bottom left right inside out -- )
    OUT !  INSIDE !  RIGHT !  LEFT !  BOTTOM !  TOP ! ;
 \end{Code}
-
 thereby saving all the values on the stack until it's time to restore them.
 Or, we might define alternate variables for each of the variables above, in
 which to save each value separately.
@@ -1050,8 +1010,8 @@ SAVED.
 We've implemented this approach with the code in \Fig{fig7-4}.
 
 \begin{figure*}[tttt]
-\labelfig{fig7-4}
 \caption{Implementation of save/restorable state table.}
+\labelfig{fig7-4}
 \begin{center}
 \begin{BVerbatim}
 O CONSTANT POINTERS  \ address of state table PATCHED LATER
@@ -1116,10 +1076,11 @@ table.
 
 The code in \Fig{fig7-6} implements this alternating states
 mechanism. The words WORKING and PRETENDING change the
+pointer appropriately. For instance:
 
 \begin{figure*}
-\labelfig{fig7-6}
 \caption{Implementation of alternating-states mechanism.}
+\labelfig{fig7-6}
 \begin{center}
 \begin{BVerbatim}
 VARIABLE 'POINTERS  \ pointer to state table
@@ -1141,7 +1102,6 @@ CREATE PSEUDO  /POINTERS ALLOT  \ temporary state table
 \end{BVerbatim}
 \end{center}
 \end{figure*}
-pointer appropriately. For instance:
 
 \begin{Code}[commandchars=&\{\}]
 WORKING
@@ -1155,7 +1115,6 @@ TOP &underline{? 10}
 PRETENDING
 TOP &underline{? 20}
 \end{Code}
-
 The major difference with this latter approach is that names go through
 an extra level of indirection (POINTERS has been changed from a
 constant to a colon definition). The field names can be made to point to
@@ -1185,7 +1144,6 @@ with the defining word \textbf{DOER}, as in
 \begin{Code}
 DOER PLATFORM
 \end{Code}
-
 Initially, the new word PLATFORM does nothing. Then you can write
 words that change what PLATFORM does by using the word MAKE:
 
@@ -1193,7 +1151,6 @@ words that change what PLATFORM does by using the word MAKE:
 : LEFTWING   MAKE PLATFORM  ." proponent " ;
 : RIGHTWING  MAKE PLATFORM  ." opponent " ;
 \end{Code}
-
 When you invoke LEFTWING, the phrase MAKE PLATFORM changes
 what PLATFORM will do. Now if you type PLATFORM, you'll see:
 
@@ -1201,7 +1158,6 @@ what PLATFORM will do. Now if you type PLATFORM, you'll see:
 LEFTWING ok
 PLATFORM &underline{proponent ok}
 \end{Code}
-
 RIGHTWING will make PLATFORM display ``opponent.'' You can use
 PLATFORM within another definition:
 
@@ -1209,19 +1165,16 @@ PLATFORM within another definition:
 : SLOGAN   ." Our candidate is a longstanding " PLATFORM
    ." of heavy taxation for business. " ;
 \end{Code}
-
 The statement
 
 \begin{Code}
 LEFTWING SLOGAN
 \end{Code}
-
 will display one campaign statement, while
 
 \begin{Code}
 RIGHTWING SLOGAN
 \end{Code}
-
 will display another.
 
 The ``MAKE'' code can be any FORTH code, as much or as long as
@@ -1239,8 +1192,8 @@ If you want to \emph{continue} execution, you can use the word \textbf{;AND} in
 place of semicolon. \textbf{;AND} terminates the code that the \textbf{DOER} word
 
 \wepsfigt{fig7-7}{DOER and MAKE.}
-\wepsfigpp{fig7-8}{Multiple MAKEs in parallel using ;AND.}
-\wepsfigpp{fig7-9}{Multiple MAKEs in series.}
+\wepsfigt{fig7-8}{Multiple MAKEs in parallel using ;AND.}
+\wepsfigt{fig7-9}{Multiple MAKEs in series.}
 
 %!! include \Fig{fig7-7 here
 
@@ -1278,7 +1231,6 @@ contents of a specified region of memory.
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{@ 6} U.R  &poorbf{2 +LOOP}  DROP ;
 \end{Code}
-
 The problem arises when you write a definition called CDUMP, designed to
 format the output according to bytes, not cells:
 
@@ -1288,7 +1240,6 @@ format the output according to bytes, not cells:
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{C@  4} U.R  &poorbf{LOOP} DROP ;
 \end{Code}
-
 %!! include \Fig{fig7-9 here
 
 The code within these two definitions is identical except for the fragments
@@ -1309,7 +1260,6 @@ DOER .UNIT ( a -- increment)  \ display byte or cell
 : DUMP   ( a #)  MAKE .UNIT &poorbf{ @  6} U.R  &poorbf{2} ;AND <DUMP> ;
 : CDUMP ( a #)   MAKE .UNIT &poorbf{C@  4} U.R  &poorbf{1} ;AND <DUMP> ;
 \end{Code}
-
 Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
 \emph{execute} the shell (the word <DUMP>).
 
@@ -1330,7 +1280,6 @@ DOER CR'
               MAKE SPACES'  DROP ;AND
               MAKE CR'  ;
 \end{Code}
-
 Here we've defined a vectorable set of output words, each name having a
 ``prime'' mark at the end. VISIBLE sets them to their expected functions.
 INVISIBLE makes them no-ops, eating up the arguments that would normally
@@ -1354,7 +1303,6 @@ DOER ANNOUNCE
          MAKE ANNOUNCE
    CR ." You' re in the throne room. " ;
 \end{Code}
-
 The word ANNOUNCE will display either message. First we say LONG, to
 initialize ANNOUNCE to the long message. Now we can test ANNOUNCE,
 and find that it prints the long message. Having done that,
@@ -1383,7 +1331,6 @@ VARIABLE CAR
    ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
       LEAVE  ELSE  DROP  THEN  LOOP ;
 \end{Code}
-
 In this code we've created a list of variables, then defined an ORDER in
 which they are to be searched. The word HUNT looks through each of them,
 looking for the first one that contains a 17. HUNT returns either the
@@ -1401,7 +1348,6 @@ DOER SPEECH
    MAKE SPEECH ." GOODBYE "
    O UNTIL ;
 \end{Code}
-
 \item To implement a forward reference. A forward reference is usually needed as
 a ``hook,'' that is, a word invoked in a low-level definition but reserved for
 use by a component defined later in the listing.
@@ -1442,7 +1388,6 @@ DOER B
 : A  ... B ... ;
 MAKE B  ... A ... ;
 \end{Code}
-
 \item Debugging. I often define:
 
 \begin{Code}
@@ -1462,8 +1407,8 @@ are those in which you need control over the address of the vector,
 such as when vectoring through an element in a decision table, or
 attempting to save/restore the contents of the vector.
 
-\section{Summary}
-
+\othersidetrue\section{Summary}
+\othersidefalse
 In this chapter we've examined the tradeoffs between using the stack
 and using variables and other data structures. Using the stack is
 preferable for testing and reusability, but too many values manipulated

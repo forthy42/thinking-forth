@@ -95,7 +95,10 @@
 
 
 \newcommand{\blackline}[1]{\hrule height 1pt\vspace{#1}}
-%\renewcommand\floatpagefraction{0}
+
+\renewcommand\topfraction{.95}
+\renewcommand\bottomfraction{.5}
+%\renewcommand\floatpagefraction{0.5}
 
 \newenvironment{tip}{\list{}{
 \parsep\z@ \@plus\p@\small}%
@@ -163,17 +166,23 @@
   \vspace*{100pt}
 }}
 
+%% headings style
+
+%\def\iffloatpage#1#2{\if@fcolmade #1\else #2\fi}
+
 \def\ps@headings{\let\@mkboth\markboth
   \def\@oddhead{}
   \def\@evenhead{}
-  \def\@evenfoot{\hss\vbox{\hsize\textwidth
+  \def\@evenfoot{\if@fcolmade\else
+      \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{\hbox to 0pt{\hss\hbox to .66in{\sf\bfseries\thepage\hss}}%
         \vrule height0pt depth3.2pt width 0pt%
-        {\kern-.33in\small\sf\leftmark}\hfil}}}
-  \def\@oddfoot{\hss\vbox{\hsize\textwidth
+        {\kern-.33in\small\sf\leftmark}\hfil}}\fi}
+  \def\@oddfoot{\if@fcolmade\else
+      \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{%
         \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\leftmark}\kern-.33in}%
-        \hbox to 0pt{\hbox to .66in{\hss\sf\bfseries\thepage}\hss}}}}
+        \hbox to 0pt{\hbox to .66in{\hss\sf\bfseries\thepage}\hss}}}\fi}
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
   \def\subsectionmark##1{\markright{##1}}%
