@@ -14,3 +14,5 @@ thinking-forth.dvi : $(SOURCES)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
+view : thinking-forth.dvi
+	xdvi -paper 6.8125x9.125in thinking-forth.dvi

@@ -1025,45 +1025,49 @@ problem to solve. Grab your favorite piece and turn to the next chapter.
 (Answers appear in Appendix D\fixme{}.)
 
 %!! use enumeration?
-1. Below are two approaches to defining an editor's keyboard interpreter.
+\begin{enumerate}
+\item Below are two approaches to defining an editor's keyboard interpreter.
 Which would you prefer? Why?
 
-\begin{verbatim}
-A) ( Define editor keys )
-	HEX
-	72 CONSTANT UPCURSOR
-	BO CONSTANT DOWNCURSOR
-	77 CONSTANT RIGHTCURSOR
-	75 CONSTANT LEFTCURSOR
-	82 CONSTANT INSERTKEY
-	83 CONSTANT DELETEKEY
-	DECIMAL
-	( Keystroke interpreter)
-	: EDITOR
-	BEGIN MORE WHILE KEY CASE
-		UPCURSOR      OF    CURSOR-UP     ENDOF
-		DOWNCURSOR    OF    CURSOR-DOWN   ENDOF
-		RIGHTCURSOR   OF    CURSOR>       ENDOF
-		LEFTCURSOR    OF    CURSOR<       ENDOF
-		INSERTKEY     OF    INSERTING     ENDOF
-		DELETEKEY     OF    DELETE        ENDOF
-	ENDCASE REPEAT ;
+\begin{enumerate}
+\item \begin{verbatim}
+( Define editor keys )
+HEX
+72 CONSTANT UPCURSOR
+80 CONSTANT DOWNCURSOR
+77 CONSTANT RIGHTCURSOR
+75 CONSTANT LEFTCURSOR
+82 CONSTANT INSERTKEY
+83 CONSTANT DELETEKEY
+DECIMAL
+( Keystroke interpreter)
+: EDITOR
+   BEGIN  MORE WHILE  KEY   CASE
+      UPCURSOR     OF  CURSOR-UP     ENDOF
+      DOWNCURSOR   OF  CURSOR-DOWN   ENDOF
+      RIGHTCURSOR  OF  CURSOR>       ENDOF
+      LEFTCURSOR   OF  CURSOR<       ENDOF
+      INSERTKEY    OF  INSERTING     ENDOF
+      DELETEKEY    OF  DELETE        ENDOF
+   ENDCASE  REPEAT ;
 \end{verbatim}
 
-\begin{verbatim}
-B) ( Keystroke interpreter)
-	: EDITOR
-	BEGIN MORE WHILE KEY CASE
-		72 OF CURSOR-UP   ENDOF
-		SO OF CURSOR-DOWN ENDOF
-		77 OF CURSOR>     ENDOF
-		75 OF CURSOR<     ENDOF
-		82 OF INSERTING   ENDOF
-		83 OF DELETE      ENDOF
-		ENDCASE REPEAT ;
+\item \begin{verbatim}
+( Keystroke interpreter)
+: EDITOR
+   BEGIN  MORE WHILE  KEY   CASE
+      72 OF  CURSOR-UP     ENDOF
+      80 OF  CURSOR-DOWN   ENDOF
+      77 OF  CURSOR>       ENDOF
+      75 OF  CURSOR<       ENDOF
+      82 OF  INSERTING     ENDOF
+      83 OF  DELETE        ENDOF
+   ENDCASE  REPEAT ;
 \end{verbatim}
+\end{enumerate}
 
-2. This problem is an exercise in information hiding.
+\item This problem is an exercise in information hiding.
+\end{enumerate}
 
 Let's suppose we have a region of memory outside of the FORTH
 dictionary which we want to allocate for data structures (for whatever
@@ -1074,9 +1078,9 @@ define a series of arrays which will reside in that memory.
 
 \begin{verbatim}
 HEX
-COOO CONSTANT FIRST-ARRAY ( 8 bytes)
-COO8 CONSTANT SECOND-ARRAY ( 6 bytes)
-COOC CONSTANT THIRD ARRAY ( 100 bytes)
+C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
+C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
+C00C CONSTANT THIRD ARRAY  ( 100 bytes)
 \end{verbatim}
 
 Each array-name defined above will return the starting address of the
@@ -1094,9 +1098,9 @@ COOO >RAM !
 Now we can define each array like this:
 
 \begin{verbatim}
->RAM 9 CONSTANT FIRST-ARRAY 8 >RAM +!
->RAM 8 CONSTANT SECOND-ARRAY 6 >RAM +!
->RAM & CONSTANT THIRD-ARRAY 100 >RAM +!
+>RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
+>RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
+>RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
 \end{verbatim}
 
 Notice that after defining each array, we increment the pointer by the
@@ -1108,16 +1112,16 @@ definitions:
 
 \begin{verbatim}
 : THERE ( -- address of next free byte in RAM)
-  >RAM 8 ;
-: RAM-ALLOT ( #bytes to allocate -- ) >RAM +! ;
+     >RAM @ ;
+: RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
 \end{verbatim}
 
 We can now rewrite the above equivalently as:
 
 \begin{verbatim}
-THERE CONSTANT FIRST-ARRAY 8 RAM-ALLOT
-THERE CONSTANT SECOND-ARRAY 6 RAM-ALLOT
-THERE CONSTANT THIRD-ARRAY 100 RAM-ALLOT
+THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
+THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
+THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
 \end{verbatim}
 
 (An advanced FORTH programmer would probably combine these operations
@@ -1136,13 +1140,13 @@ its \emph{starting} address, however.
 To do this, we must now write:
 
 \begin{verbatim}
-FOOO >RAM ! ( EFFF, last byte, plus one)
+F000 >RAM ! ( EFFF, last byte, plus one)
 : THERE ( -- address of next free byte in RAM)
-  >RAM & ;
-: RAM-ALLOT ( #bytes to allocate) NEGATE >RAM +! ;
-8 RAM-ALLOT THERE CONSTANT FIRST-ARRAY
-6 RAM-ALLOT THERE CONSTANT SECOND-ARRAY
-100 RAM-ALLOT THERE CONSTANT THIRD-ARRAY
+     >RAM @ ;
+: RAM-ALLOT  ( #bytes to allocate)  NEGATE >RAM +! ;
+  8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
+  6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
+100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
 \end{verbatim}
 
 This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's
