@@ -72,7 +72,7 @@ But text isn't always 10 characters long. To make the phrase useful
 for any string, you'd factor out the length by writing:
 
 \begin{Code}
-: CENTER (length -- ) 80  SWAP -  2/ SPACES ;
+: CENTER ( length -- ) 80  SWAP -  2/ SPACES ;
 \end{Code}
 The data stack can also be used to pass addresses. Therefore what's
 factored out may be a \emph{pointer} to data rather than the data
@@ -362,7 +362,7 @@ memory-efficient than the following approach using defining words:
 
 By using a defining word, we save memory because each compiled colon
 definition needs the address of \forthb{EXIT} to conclude the
-definition.(In defining eight words, the use of a defining word saves
+definition. (In defining eight words, the use of a defining word saves
 14 bytes on a 16-bit \Forth{}.) Also, in a colon definition each
 reference to a numeric literal requires the compilation of
 \forthb{LIT}\index{L!LIT} (or \forthb{literal}), another 2 bytes per
@@ -711,7 +711,7 @@ because it prints a final space.
 Here's a better factoring found in some \Forth{} systems:
 
 \begin{Code}
-: (.)  (n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
+: (.)  ( n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
 : .  ( n)  (.) TYPE SPACE ;
 \end{Code}
 We find another example of failing to factor the output function from
