@@ -42,15 +42,16 @@ The ``useful subfunction'' of course becomes the newly factored
 definition.What about the part that ``isn't quite useful''? That
 depends on what it is.
 
-\subsection{{Factoring Out Data}}
+\subsection{Factoring Out Data}
+\index{D!Data, factoring out|(}
 The simplest thing to factor out is data thanks to \Forth{}'s data
 stack. For instance, to compute two-thirds of 1,000, we write
 
 \begin{Code}
 1000 2 3 */
 \end{Code}
-To define a word that computes two-thirds of any number, we factor out
-the argument from the definition:
+To define a word that computes two-thirds of \emph{any} number,
+we factor out the argument from the definition:
 
 \begin{Code}
 : TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
@@ -60,13 +61,13 @@ have to use stack manipulation. For instance, to center a piece of
 text ten characters long on an 80-column screen, we would write:
 
 \begin{Code}
-80  10 -  2/ SPACES
+80  10 -   2/ SPACES
 \end{Code}
 But text isn't always 10 characters long. To make the phrase useful
 for any string, you'd factor out the length by writing:
 
 \begin{Code}
-: CENTER (length -- ) 80 SWAP - 2/ SPACES ;
+: CENTER (length -- ) 80  SWAP -  2/ SPACES ;
 \end{Code}
 The data stack can also be used to pass addresses. Therefore what's
 factored out may be a \emph{pointer} to data rather than the data
@@ -75,28 +76,22 @@ factored out through use of the stack.  Sometimes the difference
 appears to be a function, but you can factor it out simply as a number
 on the stack. For instance:
 
-\bigskip
+\begin{description}
+\item[Segment 1:] \forth{WILLY NILLY\ \ PUDDIN' PIE AND}
+\item[Segment 2:] \forth{WILLY NILLY\ \ 8 *\ \ PUDDING' PIE AND}
+\end{description}
 
-Segment 1:	\forth{WILLY NILLY  PUDDIN' PIE AND}
-
-Segment 2:	\forth{WILLY NILLY  8 * PUDDING PIE AND}
-
-\bigskip
-
-\noindent
-How can you factor out the ``\forth{8 *}'' operation? By including
-``\forth{*}'' in the factoring and passing it a one or eight:
+\noindent How can you factor out the ``\forth{8 *}'' operation?
+By including ``\forth{*}'' in the factoring and passing it a one or eight:
 
 \begin{Code}
-: NEW  ( n )  WILLY NILLY * PUDDIN' PIE AND ;
+: NEW  ( n )  WILLY NILLY  *  PUDDIN' PIE AND ;
 \end{Code}
 
-%% Could not do the proper spacing here.
-Segment 1:    \forth{1 NEW}
-
-Segment 2:    \forth{8 NEW}
-
-\bigskip
+\begin{description}
+\item[Segment 1:] \forth{1 NEW}
+\item[Segment 2:] \forth{8 NEW}
+\end{description}
 
 \noindent 
 (Of course if \forth{WILLY NILLY} changes the stack, you'll need to
@@ -110,49 +105,52 @@ For simplicity, try to express the difference between similar
 fragments as a numeric difference (values or addresses), rather than
 as a procedural difference.
 \end{tip}
+\index{D!Data, factoring out|)}
 
-\subsection{{Factoring Out Functions}}
+\subsection{Factoring Out Functions}
 On the other hand, the difference sometimes \emph{is} a function. Witness:
 
-\bigskip
+%ARN - this gets messed up Code doesn't indent properly
+\begin{description}
+\item[Segment 1:]
+\begin{Code}[commandchars=\&\{\}]
+BLETCH-A  BLETCH-B  &poorbf{BLETCH-C}
+         BLETCH-D  BLETCH-E  BLETCH-F
+\end{Code}
+\item[Segment 2:]
+\begin{Code}[commandchars=\&\{\}]
+BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
+         BLETCH-D  BLETCH-E  BLETCH-F
+\end{Code}
+\end{description}
 
+\noindent Wrong approach:
 
-%% could not get the proper spacing for the code
-Segment 1:	\forth{BLETCH-A BLETCH-B BLETCH-C BLETCH-D BLETCH-E BLETCH-F}
-
-Segment 2:	\forth{BLETCH-A BLETCH-B PERVERSITY BLETCH-D BLETCH-E BLETCH-F}
-
-\bigskip
-
-\noindent
-Wrong approach:
-
-\begin{Code}
-: BLETCHES ( t=do-BLETCH-C | f=do-PERVERSITY -- ) 
-   BLETCH-A BLETCH-B IF BLETCH-C ELSE PERVERSITY 
+\begin{Code}[commandchars=\&\{\}]
+: BLETCHES  ( t=do-BLETCH-C | f=do-PERVERSITY -- ) 
+   BLETCH-A  BLETCH-B  IF &poorbf{BLETCH-C} ELSE &poorbf{PERVERSITY}
       THEN BLETCH-D BLETCH-E BLETCH-F ;
 \end{Code}
 
-\noindent 
-Segment 1:	\forth{TRUE BLETCHES}
+\begin{description}
+\item[Segment 1:] \forth{TRUE BLETCHES}
+\item[Segment 2:] \forth{FALSE BLETCHES}
+\end{description}
 
-\noindent
-Segment 2:	\forth{FALSE BLETCHES}
-
-\bigskip
-
-\noindent 
-A better approach:
+\noindent A better approach:
 
 \begin{Code}
-: BLETCH-AB BLETCH-A BLETCH-B ;
-: BLETCH-DEF BLETCH-D BLETCH-E BLETCH-F ;
+: BLETCH-AB   BLETCH-A BLETCH-B ;
+: BLETCH-DEF   BLETCH-D BLETCH-E BLETCH-F ;
 \end{Code}
 
-\indent Segment 1:	\forth{BLETCH-AB BLETCH-C BLETCH-DEF}
+\begin{description}
+\item[Segment 1:] \forth{BLETCH-AB\ \ \textbf{BLETCH-C}\ \ BLETCH-DEF}
+\item[Segment 2:] \forth{BLETCH-AB\ \ \textbf{PERVERSITY}\ \ BLETCH-DEF}
+\end{description}
 
-\indent Segment 2:	\forth{BLETCH-AB PERVERSITY BLETCH-DEF}
-
+\index{C!Control flags|(}
+\index{F!Flags|(}
 \begin{tip}
 Don't pass control flags downward.
 \end{tip}
@@ -161,12 +159,18 @@ pointless decision-one you knew the answer to while
 programming-thereby reducing efficiency. Second, the terminology
 doesn't match the conceptual model. What are \forth{TRUE BLETCHES}
 as opposed to \forth{FALSE BLETCHES}?
+\index{C!Control flags|)}
+\index{F!Flags|)}
 
-\subsection{{Factoring Out Code from Within Control Structures}}
+\subsection{Factoring Out Code from Within Control Structures}
+\index{C!Code:!factoring out from within control structures|(}
+\index{C!Control structures:!factoring out|(}
+\index{C!Control structures:!factoring out code from within|(}
 
 Be alert to repetitions on either side of an \forth{IF ELSE THEN}
 statement. For instance:
 
+\index{E!EMIT|(}
 \begin{Code}
 ... ( c)  DUP  BL 127 WITHIN
        IF  EMIT  ELSE
@@ -181,6 +185,7 @@ this:
 ... ( c)  DUP  BL 127 WITHIN NOT
        IF  DROP  ASCII .  THEN  EMIT  ...
 \end{Code}
+\index{E!EMIT|)}
 The messiest situation occurs when the difference between two
 definitions is a function within a structure that makes it impossible
 to factor out the half-fragments. In this case, use stack arguments,
@@ -195,8 +200,10 @@ definition, rework the code so that \forth{I} (the index) is not
 referenced within the new definition, but rather passed as a stack
 argument to it.
 \end{tip}
+\index{C!Code:!factoring out from within control structures|)}
+\index{C!Control structures:!factoring out|)}
 
-\subsection{{Factoring Out Control Structures Themselves}}
+\subsection{Factoring Out Control Structures Themselves}
 
 Here are two definitions whose differences lies within a \forth{IF
 THEN} construct:
@@ -225,18 +232,19 @@ control structure, you may even want to factor out both. Watch this:
 : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
 \end{Code}
-The word \forth{CONDITIONALLY} may--depending on the condition--alter
+The word \forth{CONDITIONALLY} may---depending on the condition0---alter
 the control flow so that the remaining words in each definition will be
 skipped. This approach has certain disadvantages as well. We'll
-discuss this technique--pros and cons--in \Chap{8}.
+discuss this technique---pros and cons---in \Chap{8}.
 
 More benign examples of factoring-out control structures include case
 statements,\index{C!Case statements} which eliminate nested \forth{IF
 ELSE THEN}s, and multiple exit loops ( the \forth{BEGIN WHILE WHILE
 WHILE ... REPEAT} construct). We'll also discuss these topics in
 \Chap{8}.
+\index{C!Control structures:!factoring out code from within|)}
 
-\subsection{{Factoring Out Names}}
+\subsection{Factoring Out Names}
 It's even good to factor out names, when the names seem almost, but
 not quite, the same. Examine the following terrible example of code,
 which is meant to initialize three variables associated with each of
@@ -287,6 +295,7 @@ factored into three data structures, and the lengthy recital of
 \end{Code}
 That's all the code we need.
 
+\index{C!Counted strings|(}
 Even in the most innocent cases, a little data structure can eliminate
 extra names. By convention \Forth{} handles text in ``counted
 strings'' (i.e., with the count in the first byte). Any word that
@@ -295,18 +304,19 @@ address, where the count is. not only does use of this two-element
 data structure eliminate the need for separate names for string and
 count, it also makes it easier to move a string in memory, because you
 can copy the string \emph{and} the count with a single \forth{CMOVE}.
+\index{C!Counted strings|)}
 
 When you start finding the same awkwardness here and there, you can
 combine things and make the awkwardness go away.
 
-\subsection{{Factoring Out Functions into Defining Words}}
+\subsection{Factoring Out Functions into Defining Words}
 
 \begin{tip}
 If a series of definitions contains identical functions, with
 variation only in data, use a defining word.
 \end{tip}
 Examine the structure of this code (without worrying about its
-purpose--you'll see the same example later on):
+purpose---you'll see the same example later on):
 
 \begin{Code}
 : HUE  ( color -- color') 
@@ -361,6 +371,7 @@ include:
 \item Simplifying the command interface
 \end{enumerate}
 
+\index{D!Defining words:!length|(}
 \begin{tip}
 Keep definitions short.
 \end{tip}
@@ -469,10 +480,12 @@ This solution is generally a sign of bad factoring. Better to write:
 No narrative stack pictures are needed. Furthermore, the programmer
 now has a reusable, testable subset of the definition.
 
+\index{C!Code:!repetition of|(}
 \begin{tip}
 The second reason for factoring, to eliminate repeated fragments of
 code, is even more important than reducing the size of definitions.
 \end{tip}
+\index{D!Defining words:!length|)}
 
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
@@ -539,6 +552,7 @@ search through the listing changing all instances of \forth{LETTER} to
 \forth{LETTER C@}.  But I should have done that in the first place,
 separating the computation of the letter's address from the operation
 to be performed on the address.
+\index{C!Code:!repetition of|)}
 
 Similar to our injunction against repetition of code:
 
@@ -624,7 +638,7 @@ This is really a question of decomposition.
 Here's an example. The word defined below, pronounced
 ``people-to-paths,'' computes how many paths of communication there are
 between a given number of people in a group. (This is a good thing for
-managers of programmer teams to know--the number of communication
+managers of programmer teams to know---the number of communication
 paths increases drastically with each new addition to the team.)
 
 \begin{Code}
@@ -645,7 +659,7 @@ only once, to display it in a certain way, believe me, you're wrong.
 You will have to come back later an factor out the calculation part.
 Perhaps you'll need to display the information in a right-justified
 column, or perhaps you'll want to record the results in a data
-base--you never know. But you'll always have to factor it, so you
+base---you never know. But you'll always have to factor it, so you
 might as well do it right the first time. (The few times you might get
 away with it aren't worth the trouble.)
 
@@ -704,6 +718,7 @@ You can never predict everything, though. It would be useless to try,
 as we';; see in the upcoming section called ``The Iterative Approach
 in Implementation.''
 
+\index{C!Commands, reducing number of|(}
 \begin{tip}
 Simplify the command interface by reducing the number of commands.
 \end{tip}
@@ -719,8 +734,8 @@ was purely instructional, to remind the programmer which vocabulary
 was \forth{CURRENT}, and which was \forth{CONTEXT}:
 
 \begin{Code}
-: .CONTEXT   CONTEXT @  8 -  NFA  ID. ;
-: .CURRENT   CURRENT @  8 -  NFA  ID. ;
+: .CONTEXT   CONTEXT @  8 -  NFA  ID.   ;
+: .CURRENT   CURRENT @  8 -  NFA  ID.  ;
 \end{Code}
 \goodbreak
 \noindent If you typed
@@ -730,7 +745,6 @@ was \forth{CURRENT}, and which was \forth{CONTEXT}:
 \end{Code}
 the system would respond
 
-%% Could not underline \Forth{}
 \begin{Code}[commandchars=\&\{\}]
 .CONTEXT&underline{ FORTH}
 \end{Code}
@@ -864,7 +878,7 @@ These colors can be used with words such as \forth{BACKGROUND},
 \forth{FOREGROUND}, and \forth{BORDER}:
 
 \begin{Code}
-WHITE BACKGROUND  RED FAIRGROUND  BLUE BORDER
+WHITE BACKGROUND  RED FOREGROUND  BLUE BORDER
 \end{Code}
 But this solution requires 16 names, and many of them are hyphenated.
 Is there a way to simplify this?
@@ -906,6 +920,7 @@ If necessary for readability, we still might want to define:
 \end{Code}
 Again, through this approach we've achieved a more pleasant syntax and
 shorter object code.
+\index{C!Commands, reducing number of|)}
 
 \begin{tip}
 Don't factor for the sake of factoring. Use cliches.
@@ -918,7 +933,7 @@ OVER + SWAP
 \end{Code}
 may seem commonly in certain applications. (I converts an address and
 count into an ending address and starting address appropriate for a
-\forth{DO LOOP}.)
+\forth{DO LOOP}.)\index{D!DO LOOP}
 
 Another commonly seen phrase is
 
@@ -950,7 +965,8 @@ functions. You don't have to remember how the phrase works, just what
 it does. And you don't have to remember an extra name.
 \index{C!Cliches|)}
 
-\section{{Compile-Time Factoring}}
+\section{Compile-Time Factoring}
+\index{C!Compile-time factoring|(}
 
 \noindent
 In the last section we looked at many techniques for organizing code
@@ -1076,14 +1092,15 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 The phrase ``\forth{HERE POINTS -}'' computes the number of x--y
 coordinates in the table: this value becomes the constant
 \forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forth{DO LOOP}.
+\index{D!DO LOOP}
 
 This construct lets you add or subtract points from the table without
 worrying about the number of points there are. \Forth{} computes this
 for you.
 
-\subsection{{Compile-Time Factoring through Defining Words}}%
+\subsection{Compile-Time Factoring through Defining Words}%
 \index{W!Words:!defining|see{Defining words}}%
-\index{D!Defining words!compile-time factoring though}
+\index{D!Defining words:!compile-time factoring through}
 Let's examine a series of approaches to the same problem--defining a
 group of related addresses. Here's the first try:
 
@@ -1174,8 +1191,10 @@ HEX 01A0  ( base port adr)
   PORT WIN-LIGHT
 DROP
 \end{Code}
+\index{C!Compile-time factoring|)}
 
-\section{{{{The Iterative Approach in Implementation}}}}
+\section{The Iterative Approach in Implementation}
+\index{I!Iterative approach|(}
 Earlier in the book we discussed the iterative approach, paying
 particular attention to its impact on the design phase. Now that we're
 talking about implementation, let's see how the approach is actually
@@ -1309,7 +1328,6 @@ predict.
 \begin{tip}
 Today, make it work. Tomorrow, optimize it.
 \end{tip}
-
 \begin{interview}
 Again \person{Moore}.\index{M!Moore, Charles|(} On the day of this
 interview, \person{Moore} had been completing work on the design of a
@@ -1356,6 +1374,7 @@ Anticipate things-that-may-change by organizing information, not by
 adding complexity. Add complexity only as necessary to make the
 current iteration work.
 \end{tip}
+\index{I!Iterative approach|)}
 
 \subsection{Summary}
 In this chapter we've discussed various techniques and criteria for
