@@ -226,6 +226,18 @@ the same reality.}
 \pagestyle{headings}\markboth{Contents}{Contents}
 \addcontentsline{toc}{section}{\contentsname}
 \tableofcontents
+\clearpage
+\begin{tabular}{ll}
+\multicolumn{2}{c}{\sf\textbf{\large List of Program Examples}} \\ \hline
+{\Large\strut}\underline{Program} & \underline{Page number} \\
+Apples & \pageref{apples1}--\pageref{apples2} \\
+Phone Rates & \pageref{phone1}--\pageref{phone2}, \pageref{phone3}, \pageref{phone4}--\pageref{phone5} \\
+Tiny Editor & \pageref{editor1}--\pageref{editor2}, \pageref{editor3}, \pageref{editor4}--\pageref{editor5} \\
+Colors & \pageref{color1}, \pageref{color2}, \pageref{color3}, \pageref{color4}, \pageref{color5} \\
+Roman Numerals & \pageref{roman1}--\pageref{roman2}, \pageref{roman3}\\
+Drawin Boxes & \pageref{boxes1}--\pageref{boxes2}, \pageref{boxes3}\\
+Automatic Teller & \pageref{teller1}--\pageref{teller2}\\
+\end{tabular}
 \makeatletter
 \renewcommand\numberline[1]{\hb@xt@\@tempdima{#1\hfil}}
 \makeatother

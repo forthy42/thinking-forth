@@ -676,7 +676,7 @@ light-blue with 9. You want to define two words: \forth{BLUE} will return
 1; \forth{LIGHT} may precede \forth{BLUE} to produce 9.
 
 In \Forth{}, it would be possible to define \forth{BLUE} as a constant, so
-that when executed it always returns 1.
+that when executed it always returns 1.\label{color1}
 
 \begin{Code}
 1 CONSTANT BLUE
@@ -988,7 +988,7 @@ structure:
           & \emph{Full Rate} & \emph{Lower Rate} & \emph{Lowest Rate} \\ \hline
 First Min.  &       .30        &        .22        &          .12 \\ \hline
 Add'1 Mins. &       .12        &        .10        &          .06 \\ \hline
-\end{tabular}
+\end{tabular}\label{phone3}
 \bigskip
 
 \noindent Using a data structure was simpler than trying to invent a
@@ -996,7 +996,7 @@ formula by which these values could be calculated. And the formula might
 prove wrong later. In this case, table-driven code is easier to maintain.
 
 In \Chap{3} we designed a keystroke interpreter for our Tiny
-Editor using a decision table:
+Editor using a decision table:\label{editor3}
 
 %!! this should be a table; see pg 119
 %%typo: The original has here ``Cntrl''. Usually, it's Ctrl, and other chapters
@@ -1056,7 +1056,8 @@ application.
 
 \section{Solving a Problem: Computing Roman Numerals}%
 \index{D!Detailed design!demonstration of|(}%
-\index{R!Roman numeral computation problem|(}
+\index{R!Roman numeral computation problem|(}%
+\label{roman1}
 
 In this section we'll attempt to demonstrate the process of designing a
 lexicon. Rather than merely present the problem and its solution, I'm
@@ -1772,7 +1773,8 @@ VARIABLE COLUMN#  ( current offset)
 \vspace{1ex}
 \label{fig-fig4-9}
 \end{figure*}%
-\index{R!Roman numeral computation problem|)}
+\index{R!Roman numeral computation problem|)}%
+\label{roman2}
 
 \section{Summary}
 

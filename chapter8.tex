@@ -98,7 +98,7 @@ long-term consequences of the conditional.
 Before we introduce some detailed techniques, let's look at three
 approaches to the use of conditionals in a particular example.
 \Fig{fig8-1}, \Fig{fig8-2}, and \Fig{fig8-3} illustrate three versions of
-a design for an automatic teller machine.
+a design for an automatic teller machine.\label{teller1}
 
 \begin{figure*}[tttt]
 \verbfig{fig8-1}{The structured approach.}
@@ -259,7 +259,7 @@ dependent on hardware. Details of the interface to the keypad may be
 hidden within the keypad lexicon, \code{READ-BUTTON} and \code{BUTTON}.)
 
 Of course, \Forth{} will allow you to take any of the three approaches.
-Which do you prefer?
+Which do you prefer?\label{teller2}
 
 \section{How to Eliminate Control Structures}
 
@@ -999,8 +999,9 @@ Another example of the one-dimensional data table is the ``superstring''
 (\emph{Starting \Forth{}}, Chapter Ten).
 \index{O!One-dimensional data table|)}
 
-\subsubsection{Two-Dimensional Data Table}
-\index{T!Two-dimensional data table|(}
+\subsubsection{Two-Dimensional Data Table}%
+\index{T!Two-dimensional data table|(}%
+\label{phone4}
 In \Chap{2} we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
@@ -1059,11 +1060,13 @@ An optimization note: we've implemented the two-dimensional table as a set
 of three one-dimensional tables, each pointed to by \forth{RATE}. This
 approach eliminates the need for a multiplication that would otherwise be
 needed to implement a two-dimensional structure. The multiplication can be
-prohibitively slow in certain cases.
-\index{T!Two-dimensional data table|)}
+prohibitively slow in certain cases.%
+\index{T!Two-dimensional data table|)}%
+\label{phone5}
 
-\subsubsection{Two-Dimensional Decision Table}
-\index{T!Two-dimensional decision table|(}
+\subsubsection{Two-Dimensional Decision Table}%
+\index{T!Two-dimensional decision table|(}%
+\label{editor4}
 
 We'll hark back to our Tiny Editor example in \Chap{3} to illustrate
 a two-dimensional decision table.
@@ -1211,8 +1214,9 @@ manipulation. A simpler solution that uses no local variable is:
    /KEY +LOOP  DROP ;
 \end{Code}
 (We'll offer still another solution later in this chapter, under ``Using
-Structured Exits.'')
+Structured Exits.'')%
 \index{T!Two-dimensional decision table|)}%
+\label{editor5}
 
 \section{Decision Tables for Speed}
 
@@ -1624,7 +1628,7 @@ Criteria'' illustrates this point.
 
 The purpose of the word \forth{LIGHT} is to set a flag which indicates
 whether we want the intensity bit to be set or not. While we could have
-written
+written\label{color4}
 
 \begin{Code}
 : LIGHT   TRUE 'LIGHT? ! ;
@@ -1786,7 +1790,7 @@ Because flags in memory are variables, they are not reentrant.
 
 An example of a case in which we might reconsider the need for a flag is
 one we've seen several times already. In our ``colors'' example we made
-the assumption that the best syntax would be:
+the assumption that the best syntax would be:\label{color5}
 
 \begin{Code}
 LIGHT BLUE
