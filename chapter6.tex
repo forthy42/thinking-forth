@@ -333,7 +333,7 @@ If a series of definitions contains identical functions, with
 variation only in data, use a defining word.
 \end{tip}
 Examine the structure of this code (without worrying about its
-purpose---you'll see the same example later on):\label{color2}
+purpose---you'll see the same example later on):\program{color2}
 
 \begin{Code}
 : HUE  ( color -- color') 
@@ -718,7 +718,7 @@ We find another example of failing to factor the output function from
 the calculation function in our own Roman numeral example in \Chap{4}.
 Given our solution, we can't store a Roman numeral in a buffer or
 even center it in a field. (A better approach would have been to use
-\forthb{HOLD} instead of \forthb{EMIT}.)\label{roman3}
+\forthb{HOLD} instead of \forthb{EMIT}.)\program{roman3}
 
 Information hiding can also be a reason \emph{not} to factor. For
 instance, if you factor the phrase
@@ -922,7 +922,7 @@ We notice that the colors between 8 and 15 are all ``lighter''
 versions of the colors between 0 and 7. (In the hardware, the only
 difference between these two sets is the setting of the ``intensity
 bit.'') If we factor out the ``lightness,'' we might come up with this
-solution:\label{color3}
+solution:\program{color3}
 
 \begin{Code}
 VARIABLE 'LIGHT?  ( intensity bit?)
@@ -954,7 +954,7 @@ If necessary for readability, we still might want to define:
 14 HUE YELLOW
 \end{Code}
 Again, through this approach we've achieved a more pleasant syntax and
-shorter object code.\label{color4}
+shorter object code.\program{color4}
 \index{C!Commands, reducing number of|)}
 
 \begin{tip}
@@ -1017,7 +1017,7 @@ We can also apply limited redundancy during compilation, by letting
 For maximum maintainability, limit redundancy even at compile time.
 \end{tip}
 Suppose in our application we must draw nine boxes as shown in
-\Fig{fig6-1}.\label{boxes1}
+\Fig{fig6-1}.\program{boxes1}
 
 \begin{figure*}[hhhh]
 \caption{What we're supposed to display}
@@ -1135,7 +1135,7 @@ coordinates in the table: this value becomes the constant
 
 This construct lets you add or subtract points from the table without
 worrying about the number of points there are. \Forth{} computes this
-for you.\label{boxes2}
+for you.\program{boxes2}
 
 \subsection{Compile-Time Factoring through Defining Words}%
 \index{D!Defining words:!compile-time factoring through}
@@ -1243,7 +1243,7 @@ a box at a given x--y coordinate. (This is the same problem we
 introduced in the section called ``Compile-Time Factoring.'')
 
 At first we focus our attention on the problem of drawing a
-box---never mind erasing it. We might come up with this:\label{boxes3}
+box---never mind erasing it. We might come up with this:\program{boxes3}
 
 \begin{Code}
 : LAYER   WIDE  0 DO  ASCII * EMIT  LOOP ;

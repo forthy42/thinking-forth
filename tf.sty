@@ -114,6 +114,7 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 
 \newcommand{\labelsect}[1]{\label{sect-#1}}
 \newcommand{\labelfig}[1]{\label{fig-#1}}
+\newcommand{\program}[1]{\phantomsection\label{#1}}
 \newcommand{\figref}[1]{\ref{fig-#1}}
 \newcommand{\fig}[1]{Figure~\figref{#1}}
 \newcommand{\Fig}[1]{Figure~\figref{#1}}
@@ -403,6 +404,17 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \newcommand\THUGE{\@setfontsize\HUGE{65}{70}}
 \newcounter{appendix}
 
+\def\@schapter#1{\if@twocolumn
+                   \@topnewpage[\@makeschapterhead{#1}]%
+                 \else
+                   \@makeschapterhead{#1}%
+                   \@afterheading
+                 \fi
+		 \phantomsection
+                 \addcontentsline{toc}{section}{#1}%
+                 \chaptermark{#1}%
+		 }
+
 \def\@makechapterhead#1{{\HUGE
 %    \sffamily
     \fontfamily{phv}\selectfont\bfseries\slshape
@@ -450,6 +462,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
                 \twocolumn[\@makeschapterhead{\indexname}]%
                 \@mkboth{\MakeUppercase\indexname}%
                         {\MakeUppercase\indexname}%
+		\phantomsection
 		\addcontentsline{toc}{chapter}{\indexname}%
                 \thispagestyle{plain}\parindent\z@
                 \parskip\z@ \@plus .3\p@\relax
@@ -590,6 +603,18 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% table of contents style
 
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+    }
+
+
 \def\@upperskip{1.5em \@plus\p@}
 \def\@lowerskip{1.0em \@plus\p@}
 
@@ -686,11 +711,6 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
                       \@makechapterhead{#2}%
                       \@afterheading
                     \fi}
-
-\iflatextoc
-\else
-\setcounter{tocdepth}{1}
-\fi
 
 % no indent after section start
 
