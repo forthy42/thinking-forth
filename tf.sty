@@ -38,12 +38,30 @@
 \tipnofalse
 \tipfalse
 
-\DeclareOption{1984}{\eightyfourtrue}
+\newdimen\hangout
+\newdimen\hangmark
+
+\def\oldgeometry{\global\hangout.66in
+\geometry{verbose,paperwidth=6.8125in,paperheight=9.125in,tmargin=0.4in,%
+bmargin=1.3in,lmargin=0.7in,rmargin=1.3875in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+\def\sixbynine{\global\hangout.55in
+\geometry{verbose,paperwidth=6in,paperheight=9in,tmargin=0.4in,%
+bmargin=1.175in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\oldgeometry
+
+\DeclareOption{1984}{\eightyfourtrue\oldgeometry}
 \DeclareOption{2004}{\ofourtrue}
 \DeclareOption{tipno}{\tipnotrue}
 \DeclareOption{tip}{\tiptrue}
+\DeclareOption{6x9}{\sixbynine}
 \ExecuteOptions{}
 \ProcessOptions
+
+\hangmark\hangout
+\advance\hangmark-2.5em
 
 %% only chapters have section numbers
 
@@ -196,7 +214,7 @@
 \renewcommand\bottomfraction{.5}
 %\renewcommand\floatpagefraction{.05}
 
-\setlength\textfloatsep{12\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\textfloatsep{14\p@ \@plus 2\p@ \@minus 4\p@}
 \setlength\intextsep   {8\p@ \@plus 2\p@ \@minus 2\p@}
 
 %% TIP environment
@@ -424,14 +442,14 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
   \def\@evenhead{}
   \def\@evenfoot{\if@fcolmade\else
       \hss\vbox{\hsize\textwidth
-      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to .66in{\sf\bfseries\thepage\hss}}%
+      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to \hangout{\sf\bfseries\thepage\hss}}%
         \vrule height0pt depth3.2pt width 0pt%
-        {\kern-.33in\small\sf\leftmark}\hfil}}\fi}
+        {\kern-\hangmark\small\sf\leftmark}\hfil}}\fi}
   \def\@oddfoot{\if@fcolmade\else
       \hss\vbox{\hsize\textwidth
       \hbox to \textwidth{%
-        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-.33in}%
-        \hbox to 0pt{\hbox to .66in{\hss\sf\bfseries\thepage}\hss}}}\fi}
+        \hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-\hangmark}%
+        \hbox to 0pt{\hbox to \hangout{\hss\sf\bfseries\thepage}\hss}}}\fi}
   \def\chaptermark##1{\markboth{##1}{##1}}%
   \def\sectionmark##1{\markright{##1}}%
   \def\subsectionmark##1{\markright{##1}}%
@@ -476,8 +494,8 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \fi
 %%
 
-\def\section#1{\@startsection{section}{1}{-.66in}{2.5ex plus 1ex 
-    minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\sectionlr #1\kern-.66in}}
+\def\section#1{\@startsection{section}{1}{-\hangout}{2.5ex plus 1ex 
+    minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\sectionlr #1\kern-\hangout}}
 \def\subsection#1{\@startsection{subsection}{2}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\subsectionlr #1\kern0in}}
 \def\subsubsection#1{\@startsection{subsubsection}{3}{0in}{2ex plus 1ex

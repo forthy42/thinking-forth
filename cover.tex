@@ -25,6 +25,8 @@
 \usepackage{babel}
 \usepackage{geometry}
 \usepackage{pst-all}
+\usepackage{fancyvrb}
+\usepackage[2004,6x9]{tf}
 
 %% Cover creation howto:
 %% back | spine | front + border
@@ -33,19 +35,28 @@
 
 \newdimen\pthick
 \newdimen\pwidth
+\newdimen\pheight
+\newdimen\oldpwidth
+\newdimen\twidth
+\newdimen\evenmargin
+\newdimen\oddmargin
+\oldpwidth\paperwidth
+\twidth\textwidth
+\oddmargin1in
+\advance\oddmargin\evensidemargin
+\evenmargin-\oddsidemargin
 \newdimen\spine
 \pthick0.0041in
 \spine162\pthick
-\pwidth6.8125in
-\advance\pwidth6.8125in
+\pwidth2\paperwidth
 \advance\pwidth\spine
 \advance\pwidth0.25in
+\pheight\paperheight
+\advance\pheight0.25in
 
-\geometry{verbose,paperwidth=\pwidth,paperheight=9.375in,tmargin=0.125in,%
-bmargin=0.125in,lmargin=0.125in,rmargin=0.125in,headheight=0pt,headsep=0pt,%
+\geometry{verbose,paperwidth=\pwidth,paperheight=\pheight,tmargin=0in,%
+bmargin=0in,lmargin=0in,rmargin=0in,headheight=0pt,headsep=0pt,%
 footskip=0pt}
-\usepackage{fancyvrb}
-\usepackage[2004]{tf}
 
 % for pdflatex
 \ifpdf
@@ -54,33 +65,25 @@ footskip=0pt}
 \DeclareGraphicsExtensions{.eps}
 \fi
 
-% stuff left to Bernd:
-
-% chapter title page
-% page footer
-% section and subsection header style
-% caption style
-
-
+\makeatletter
+\parindent-0in
 \begin{document}
-\pagestyle{empty}
-
-\hbox{
-\rlap{\psframe[fillcolor=black,fillstyle=solid](-100,-100)(100,100)}
+\pagestyle{empty}\samepage
+\centerline{\psframebox*[fillcolor=black,framesep=0.125in]{\noindent
 \white
-\begin{minipage}{6.8125in}
-\hbox{\hspace{1.4in}
-\begin{minipage}{4.7125in}
+\begin{minipage}{\oldpwidth}
+\hbox{\hspace{\oddmargin}
+\begin{minipage}{\twidth}
 \parindent2.5em
 \input{backpage}
 \end{minipage}}
 \vspace{20pt}
 \vspace{1.5in}
-\leavevmode\hspace{1.4in}\psframe[fillcolor=white,fillstyle=solid](0,0)(5.08,3.81)
+\leavevmode\hspace{\oddmargin}\psframe[fillcolor=white,fillstyle=solid](0,0)(5.08,3.81)
 \end{minipage}
 \vline
 \begin{minipage}{\spine}
-\rotateleft{\vbox to \spine{\vss\hbox to 9.125in{
+\rotateleft{\advance\pheight-0.25in\vbox to \spine{\vss\hbox to \pheight{
     \fontfamily{phv}\selectfont
     \leavevmode\hspace{0.5in}
     \Huge\bfseries\person{Leo Brodie}\hss
@@ -89,16 +92,15 @@ footskip=0pt}
 }\vss}}
 \end{minipage}
 \vline
-\begin{minipage}{6.8125in}
-\makeatletter
+\begin{minipage}{\oldpwidth}
 \HUGE
     \fontfamily{phv}\selectfont
-  \vbox{\advance\textwidth1em\hrule \@height 3pt
-    \vspace*{0.2ex}\hbox to \textwidth{\hspace{0.7in}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
+  \vbox{\hrule \@height 3pt
+    \vspace*{0.2ex}\hbox to \textwidth{\hspace{\evenmargin}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
     \hrule \@height 3pt}
   \vspace*{100pt}
-  \hbox{\hspace{0.7in}
-  \begin{minipage}{4.7125in}
+  \hbox{\hspace{\evenmargin}
+  \begin{minipage}{\twidth}
   \vbox{\hsize\textwidth
     \parindent\z@\hyphenpenalty 10000\raggedright
   {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
@@ -107,7 +109,7 @@ footskip=0pt}
    \Large\noindent Includes interviews with \Forth{}'s inventor, \person{Charles H. Moore},
 and other \Forth{} thinkers
   \end{minipage}}
-\end{minipage}}
+\end{minipage}}}
 
 
 \end{document}
