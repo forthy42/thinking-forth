@@ -731,7 +731,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 %% Names are often typeset in small caps
 
 \ifofour
-\let\person\textsc
+\def\person#1{{\rmfamily\scshape#1}}
 \else
 \let\person\relax
 \fi
