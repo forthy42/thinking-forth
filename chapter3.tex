@@ -6,6 +6,7 @@
 %\chapternum{THREE}
 \chapter{Preliminary Design/\hy Decomposition}\Chapmark{3}
 
+\index{P!Preliminary Design|(}
 Assuming you have some idea of what your program should accomplish,
 it's time to begin the design. The first stage, preliminary design, focuses
 on shrinking your mountainous problem into manageable molehills.
@@ -14,6 +15,11 @@ In this chapter we'll discuss two ways to decompose your \Forth{}
 application.
 
 \section{Decomposition by Component}
+\index{C!Components:!decomposition by|(}
+\index{D!Decomposition!by component|(}
+\index{P!Preliminary Design!decomposition by component|(}
+\index{P!Programming cycle:!preliminary
+design/decomposition|see{Prelimiary design}}
 
 Has this sort of thing ever happened to you? You've been planning for
 three months to take a weekend vacation to the mountains. You've been
@@ -50,7 +56,6 @@ To see the relationship between two things, put them close
 together. To remind yourself of the relationship, \emph{keep} them
 together.
 \end{tip}
-
 These truisms apply to software design, particularly to the preliminary
 design phase. This phase is traditionally the one in which the designer
 dissects a large application into smaller, programmer-sized modules.
@@ -62,7 +67,6 @@ conveniently decomposed into components.
 The goal of preliminary design is to determine what components are
 necessary to accomplish the requirements.
 \end{tip}
-
 For instance, you might have an application in which events must occur
 according to some predetermined schedule. To manage the scheduling,
 you might first design a few words to constitute a ``schedule-building
@@ -112,7 +116,6 @@ and recompile.
 Within each component, implement only the commands needed for the
 current iteration. (But don't preclude future additions.)
 \end{tip}
-
 What goes on inside a component is pretty much its own business. It's
 not necessarily bad style for definitions within the component to share
 redundant information.
@@ -160,10 +163,8 @@ the screen might look like this:
 \begin{quote}
 \texttt{\textbf{Name of Member}\hspace{4em}Justine Time}
 \end{quote}
-
 The editor will provide three modes for users to change the contents of
 the input field:
-
 
 %!! original style: label in italics, no indentation
 \begin{description}
@@ -181,8 +182,6 @@ characters inserts them at the cursor position, sliding the remaining
 characters rightwards.
 
 \end{description}
-
-
 As part of the conceptual model we should also consider the error or
 exception-handling; for instance, what is the limit of the field? what
 happens in insert mode when characters spill off the right? etc.
@@ -277,13 +276,12 @@ either:
 
 \item possibly change
 \end{enumerate}
-
 We discover that all three procedures use something called a ``pointer.''
 We need two procedures:
 
 \begin{enumerate}
-\item to get the pointer (if the pointer itself is relative, this function will perform
-some computation).
+\item to get the pointer (if the pointer itself is relative, this
+function will perform some computation).
 
 \item to advance the pointer
 
@@ -352,10 +350,7 @@ left-arrow     & BACKWARD            & INSERT-OFF\\
 right-arrow    & FORWARD             & INSERT-OFF\\
 return         & ESCAPE              & INSERT-OFF\\
 any printable  & OVERWRITE           & INSERT    \\
-\end{tabular}
-\bigskip
-
-
+\end{tabular}\bigskip
 We've placed the possible types of keys in the left column, what they do
 normally in the middle column, and what they do in ``insert mode'' in the
 right column.
@@ -413,10 +408,11 @@ None of their descriptions make any reference to the video refresh
 process, because that was originally assumed to happen later.
 
 But things aren't as bad as they seem. Looking at it now, the process
-\forth{OVERWRITE} could easily include a command to type the new character
-where the terminal's cursor is. And \forth{SLIDE<} and \forth{SLIDE>} could include
-commands to type everything to the right of, and including, \forth{POSITION},
-then reset the terminal's cursor to its current position.
+\forth{OVERWRITE} could easily include a command to type the new
+character where the terminal's cursor is. And \forth{SLIDE<} and
+\forth{SLIDE>} could include commands to type everything to the right
+of, and including, \forth{POSITION}, then reset the terminal's cursor
+to its current position.
 
 Here are our revised procedure names. The commands just added
 are in boldface:
@@ -438,13 +434,15 @@ Note that the additional problem of video refresh adds an additional
 ``pointer'': the current cursor position on the screen. But decomposition
 by component has encouraged us to view the \forth{OVERWRITE} process as
 changing both the data field and the video vision of it; similarly with
-\forth{SLIDE<} and \forth{SLIDE>}. For this reason it seems natural now to maintain
-only one real pointer---a relative one---from which we can compute either
-the data address in memory, or the column number on the screen.
+\forth{SLIDE<} and \forth{SLIDE>}. For this reason it seems natural
+now to maintain only one real pointer---a relative one---from which we
+can compute either the data address in memory, or the column number on
+the screen.
 
 Since the nature of the pointer is wholly hidden within the three
-processes \forth{POSITION}, \forth{FORWARD}, and \forth{BACKWARD}, we can readily accommodate
-this approach, even if it wasn't our first approach.
+processes \forth{POSITION}, \forth{FORWARD}, and \forth{BACKWARD}, we
+can readily accommodate this approach, even if it wasn't our first
+approach.
 
 This change may have seemed simple enough here---even obvious. If so,
 it's because the technique ensures flexible design. If we had used a
@@ -566,6 +564,7 @@ we achieved not only \emph{elegance} but a more direct path to
 \emph{correctness}.
 
 \section{The Interface Component}
+\index{I!Interface component|(}
 
 In computer science terminology, interfacing between modules has two
 aspects. First, there's the way other modules invoke the module; this is
@@ -589,8 +588,10 @@ of the opposite module.
 
 There's more to good interface design than that. Allow me to introduce
 a design element which I call the ``interface component.'' The purpose
-an interface component is to implement, and \emph{hide information
-about}, the data interface between two or more other components
+an interface component is to implement, and
+\emph{hide information about},
+\index{I!Information-hiding}
+the data interface between two or more other components
 (\fig{fig3-9}).
 
 \wepsfiga{fig3-9}{Use of the interface component.}
@@ -599,7 +600,6 @@ about}, the data interface between two or more other components
 Both data structures and the commands involved in the communication of
 data between modules should be localized in an interface component.
 \end{tip}
-
 Let me give an example from my own recent experience. One of my hobbies
 is writing text formatter/editors. (I've written two of them, including
 the one on which I am writing this book.)
@@ -659,13 +659,14 @@ I allow different type widths to be used: condensed, double widths,
 etc. This means not only sending different signals to the printer, but
 changing the number of characters allowed per line.
 
-I keep a variable, called \forth{WALL}, for the formatter. \forth{WALL} indicates
-the right margin: the point beyond which no more text can be set. Changing
-to a different type width means changing the value of \forth{WALL} proportionately.
-(Actually, this turns out to be a mistake in itself. I should be
-using a finer unit of measurement, the number of which remains constant
-for the line. Changing type widths would mean changing the number of
-units per character. But getting back to the mistake at hand . . .)
+I keep a variable, called \forth{WALL}, for the formatter.
+\forth{WALL} indicates the right margin: the point beyond which no
+more text can be set. Changing to a different type width means
+changing the value of \forth{WALL} proportionately.  (Actually, this
+turns out to be a mistake in itself. I should be using a finer unit of
+measurement, the number of which remains constant for the line.
+Changing type widths would mean changing the number of units per
+character. But getting back to the mistake at hand . . .)
 
 Alas, I was also using \forth{WALL} inside the output component to determine
 how many characters to display. My reasoning was that this value would
@@ -697,7 +698,6 @@ A related point:
 \begin{tip}
 Express in objective units any data to be shared by components.
 \end{tip}
-
 For example:
 
 \begin{quotation}
@@ -707,13 +707,19 @@ For example:
 
 	Module C makes sure the door is locked if the oven is too hot.
 \end{quotation}
-
 The information of global interest is the temperature of the oven,
 expressed objectively in degrees. While Module A might receive a value
 representing the voltage from a heat sensor, it should convert this
 value to degrees before presenting it to the rest of the application.
+\index{C!Components:!decomposition by|)}
+\index{D!Decomposition!by component|)}
+\index{I!Interface component|)}
+\index{P!Preliminary Design!decomposition by component|)}
 
 \section{Decomposition by Sequential Complexity}
+\index{D!Decomposition!by sequential complexity|(}
+\index{P!Preliminary Design!decomposition by sequential complexity|(}
+\index{S!Sequential complexity, decomposition by|(}
 
 We've been discussing one way to do decomposition: according to
 components. The second way is according to sequential complexity.
@@ -747,12 +753,13 @@ current line, we invoke \forth{NEWLINE}. This ``uses'' hierarchy demands that
 we define \forth{NEWPAGE} early in the application.
 
 The problem? One of the advanced components includes a routine that
-must be invoked by \forth{NEWPAGE}. Specifically, if a figure or table appears
-in the middle of text, but at format time won't fit on what's left of
-the page, the formatter defers the figure to the next page while
-continuing with the text. This feature requires somehow ``getting
-inside of'' \forth{NEWPAGE}, so that when \forth{NEWPAGE} is next executed, it will
-format the deferred figure at the top of the new page:
+must be invoked by \forth{NEWPAGE}. Specifically, if a figure or table
+appears in the middle of text, but at format time won't fit on what's
+left of the page, the formatter defers the figure to the next page
+while continuing with the text. This feature requires somehow
+``getting inside of'' \forth{NEWPAGE}, so that when \forth{NEWPAGE} is
+next executed, it will format the deferred figure at the top of the
+new page:
 
 \begin{Code}
 : NEWPAGE ... ( terminate page with footer)
@@ -771,15 +778,21 @@ amid the elementary capabilities. If you move the advanced routines to
 the front of the application, you'll also have to move any routines they
 use, or duplicate the code. Very messy.
 
+\index{V!Vectored execution|(}
 You can organize the listing by degree of complexity using a technique
 called ``vectoring.'' You can allow the root function to invoke (point
 to) any of various routines that have been defined after the root
 function itself. In our example, only the \emph{name} of the routine
 \forth{?HOLDOVER} need be created early; its definition can be given later.
+\index{V!Vectored execution|)}
 
 \Chap{7} treats the subject of vectoring in \Forth{}.
+\index{D!Decomposition!by sequential complexity|)}
+\index{P!Preliminary Design!decomposition by sequential complexity|)}
+\index{S!Sequential complexity, decomposition by|)}
 
 \section{The Limits of Level Thinking}
+\index{L!Level@``Level'' thinking, limits of|(}
 
 Most of us are guilty of over-emphasizing the difference between
 ``high-level'' and ``low-level.'' This notion is an arbitrary one. It
@@ -789,33 +802,34 @@ limits our ability to think clearly about software problems.
 three ways:
 
 \begin{enumerate}
-	\item It implies that the order of development should follow a hierarchical structure
+\item It implies that the order of development should follow a
+hierarchical structure
 
-	\item It implies that levels should be segregated from each other, prohibiting the
-benefits of reusability
+\item It implies that levels should be segregated from each
+other, prohibiting the benefits of reusability
 
-	\item It fosters syntactical differences between levels (e.g., assembler vs. ``high-level''
-languages) and a belief that the nature of programming somehow
-changes as we move further from machine code.
+\item It fosters syntactical differences between levels (e.g.,
+assembler vs. ``high-level'' languages) and a belief that the
+nature of programming somehow changes as we move further from
+machine code.
 \end{enumerate}
-
 Let's examine each of these misconceptions one by one.
 
 \subsection{Where to Begin?}
 
 \begin{interview}
 I asked \person{Moore}\index{M!Moore, Charles|(} how he would go about
-developing a particular
-application, a game for children. As the child presses the digits on
-the numeric keypad, from zero to nine, that same number of large boxes
-would appear on the screen.
+developing a particular application, a game for children. As the child
+presses the digits on the numeric keypad, from zero to nine, that same
+number of large boxes would appear on the screen.
 
 	\person{Moore}:
 
 \begin{tfquot}
-	I don't start at the top and work down. Given that exact problem, I would
-	write a word that draws a box. I'd start at the bottom, and I'd end up with a
-	word called \forth{GO}, which monitored the keyboard.
+	I don't start at the top and work down. Given that exact
+	problem, I would write a word that draws a box. I'd start at
+	the bottom, and I'd end up with a word called \forth{GO},
+	which monitored the keyboard.
 \end{tfquot}
 
 
@@ -830,6 +844,7 @@ would appear on the screen.
 \end{tfquot}
 
 \noindent Are you advocating a ``fun-down'' approach?
+\index{F!Fun@``Fun-down'' approach|(}
 
 \begin{tfquot}
 	Given that you're doing it in a free-spirit fashion, yes. If
@@ -849,8 +864,8 @@ would appear on the screen.
 	level, last integration level---it's just tedious and not
 	helpful. My levels get all mixed up hopelessly.
 \end{tfquot}\index{M!Moore, Charles|)}
+\index{F!Fun@``Fun-down'' approach|)}
 \end{interview}
-
 Designing by components makes where you start less important. You
 could start with the key interpreter, for instance. Its goal is to
 receive keystrokes and convert them to numbers, passing these numbers
@@ -873,15 +888,20 @@ splashes of color here and there . . . until the entire wall is complete.
 In deciding where to start designing, look for:
 
 \begin{itemize}
-	\item areas where the most creativity is required (the areas where change is most likely)
-	\item areas that give the most satisfying feedback (get the juices flowing)
-	\item areas in which the approach decided upon will greatly affect other areas, or which will determine whether the stated problem can be solved at all
+	\item areas where the most creativity is required (the areas
+	where change is most likely)
+	\item areas that give the most satisfying feedback (get the
+	juices flowing)
+	\item areas in which the approach decided upon will greatly
+	affect other areas, or which will determine whether the stated
+	problem can be solved at all
 	\item things you should show the customer, for mutual understanding
 	\item things you can show the investors, if necessary for the rent.
 \end{itemize}
 \end{tip}
 
 \subsection{No Segregation Without Representation}
+\index{O!Object|(}
 The second way in which levels can interfere with optimal solutions is by
 encouraging segregation of the levels. A popular design construct called
 the ``object'' typifies this dangerous philosophy.
@@ -917,6 +937,7 @@ Finally, because the object is constructed to recognize a finite set
 of possibilities, it's difficult to make additions to the row of
 buttons when a new function is needed. The tools inside the object
 have not been designed for reuse.
+\index{O!Object|)}
 
 The idea of levels pervades the design of my own personal computer,
 the IBM Personal Computer. Besides the processor itself (with its own
@@ -930,10 +951,10 @@ machine instruction set, of course), there are these software levels:
 	\item and finally, any application using the language.
 \end{itemize}
 
-The ROM utilities provide the hardware-dependent routines: those that
-handle the video screen, disk drives, and keyboard. You invoke them by
-placing a control code in a certain register and generating the appropriate
-software interrupt.
+\noindent The ROM utilities provide the hardware-dependent routines:
+those that handle the video screen, disk drives, and keyboard. You
+invoke them by placing a control code in a certain register and
+generating the appropriate software interrupt.
 
 For instance, software interrupt 10H causes entry to the video
 routines. There are 16 of these routines. You load register AH with the
@@ -1001,6 +1022,7 @@ in theory, look no more intimidating than the code to format a report.
 Even machine code should be readable. A true \Forth{}-based
 engine would enjoy a syntax and dictionary identical and continuous
 with the ``high-level'' dictionary we know today.
+\index{L!Level@``Level'' thinking, limits of|)}
 
 \section{Summary}
 
@@ -1013,6 +1035,7 @@ interfaces between other components.
 Now, if you've done preliminary design correctly, your problem is
 lying at your feet in a heap of manageable pieces. Each piece represents a
 problem to solve. Grab your favorite piece and turn to the next chapter.
+\index{P!Preliminary Design|)}
 
 \section{For Further Thinking}
 
@@ -1020,8 +1043,8 @@ problem to solve. Grab your favorite piece and turn to the next chapter.
 
 %!! use enumeration?
 \begin{enumerate}
-\item Below are two approaches to defining an editor's keyboard interpreter.
-Which would you prefer? Why?
+\item Below are two approaches to defining an editor's keyboard
+interpreter.  Which would you prefer? Why?
 
 \begin{enumerate}
 \item \begin{Code}
@@ -1149,5 +1172,3 @@ in.
 At long last, our question: What could we have done to \forth{THERE} and
 \forth{RAM-ALLOT} to minimize the impact of this design change? (Again, the
 answer I'm looking for has nothing to do with defining words.)
-
-

@@ -5,12 +5,12 @@
 %% 
 %% Chapter: Four - Detailed Design/Problem Solving
 
-%!! horizontal line
-%FOUR
-%!! horizontal line
-
 \chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}\Chapmark{4}
 
+\index{D!Detailed design|(}
+\index{D!Design|see{Detailed design, Preliminary design}}
+\index{D!Detailed design!problem solving techniques|(}
+\index{P!Programming cycle:!detailed design|see{Detailed design}}
 \begin{tfquot}
 \emph{Trivial:} I can see how to do this. I just don't know how long it
 will take.\\
@@ -23,7 +23,6 @@ Automation and Instrumentation Design Group,
 Chemistry Dept., Virginia Polytechnic Institute and State University}
 \end{flushright}
 \end{tfquot}
-
 Once you've decided upon the components in your application, your next
 step is to design those components. In this chapter we'll apply
 problem-solving techniques to the detailed design of a \Forth{} application.
@@ -39,6 +38,8 @@ this chapter by not only presenting a problem but also designing a solution
 to it, right on through to the coded implementation.
 
 \section{Problem-Solving Techniques}
+\index{P!Problem-solving techniques|(}
+\index{P!Problem-solving techniques|see{Detailed design}}
 
 Even neophytes can solve programming problems without devoting any
 conscious thought to problem solving techniques. So what's the point in
@@ -48,32 +49,35 @@ the problems themselves, we enrich our subconscious storehouse of
 techniques.
 
 G. Polya has written several books on problem solving, especially of
-the mathematical problem. The most accessible of these is \emph{How to Solve
-It} \cite{polya}. Although solving a mathematical problem isn't quite the same as
+the mathematical problem. The most accessible of these is
+\emph{How to Solve It} \cite{polya}.
+\index{P!Polya, G.}
+\index{H!\emph{How to Solve It} (Polya)}
+Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
 The following series of tips summarize several techniques recommended by
 the science of problem solving:
-%!! horizontal line
+
 \begin{tip}
 Determine your goal.
 \end{tip}
-%!! horizontal line
 Know what you're trying to accomplish. As we saw in \Chap{2}, this
 step can be detailed further:
 
+\index{I!Interface definition}
 Determine the data interfaces: Know what data will be required to
 accomplish the goal, and make sure those data are available (input).
 Know what data the function is expected to produce (output). For a single
 definition, this means writing the stack-effect comment.
 
-Determine the rules; review all the facts that you know. In Chapter
-Two we described the rates for computing the cost of a phone call along
-with the rules for applying the rates.
-%!! horizontal line
+Determine the rules;\index{R!Rule definition}
+review all the facts that you know. In Chapter Two we described the
+rates for computing the cost of a phone call along with the rules for
+applying the rates.
+
 \begin{tip}
 Picture the problem as a whole.
 \end{tip}
-%!! horizontal line
 In the \emph{analysis} phase we separated the problem into its parts, to
 clarify our understanding of each piece. We are now entering the
 \emph{synthesis} phase. We must visualize the problem as a whole.
@@ -96,39 +100,36 @@ have to turn your attention to analogies and partial solutions. As you do
 so, it's important that you have already concentrated on the problem's
 requirements all at once, engraving these requirements on your mental
 retina.
-%!! horizontal line
+
 \begin{tip}
 Develop a plan.
 \end{tip}
-%!! horizontal line
 If the solution didn't come at a glance, the next step is to determine the
 approach that you will take to solve it. Set a course for action and avoid
 the trap of fumbling about aimlessly.
 
 The following tips suggest several approaches you might consider.
-%!! horizontal line
+
 \begin{tip}
 Think of an analogous problem.
+\index{A!Analogous problems}
 \end{tip}
-%!! horizontal line
 Does this problem sound familiar? Have you written a definition like it
 before? Figure out what parts of the problem are familiar, and in what
 ways this problem might differ. Try to remember how you solved it
 before, or how you solved something like it.
-%!! horizontal line
+
 \begin{tip}
 Work forward.
 \end{tip}
-%!! horizontal line
 The normal, obvious way to attack a problem is by begining with the
 known, and proceeding to the unknown. In deciding which horse to bet
 on, you'd begin with their recent histories, their current health, and so on,
 apply weights to these various factors and arrive at a favorite.
-%!! horizontal line
+
 \begin{tip}
 Work backward.
 \end{tip}
-%!! horizontal line
 More complicated problems present many possible ways to go with the
 incoming data. How do you know which route will take you closer to the
 solution? You don't. This class of problem is best solved by working
@@ -139,11 +140,9 @@ forward.}
 
 %!! include Figure 4-1 here
 
-%!! horizontal line
 \begin{tip}
 Believe.
 \end{tip}
-%!! horizontal line
 Belief is a necessary ingredient for successfully working backward. We'll
 illustrate with a famous mathematical problem. Suppose we have two
 containers. The containers have no graduation marks, but one holds nine
@@ -158,12 +157,13 @@ six gallons of water from the nearby stream in one of the containers
 
 Try to solve this on your own before reading further.
 
-How can we get a ``six'' out of a ``nine'' and a ``four''? We can start
-out working forward\index{W!Working forwards}, by mentally transferring water from one container
-to the other. For example, if we fill the large container twice from the
-small container, we'll get eight gallons. If we fill the nine-gallon container
-to the brim, then empty enough water to fill the four-gallon container,
-we'll have exactly five gallons in the large container.
+How can we get a ``six'' out of a ``nine'' and a ``four''? We can
+start out working forward\index{W!Working forwards}, by mentally
+transferring water from one container to the other. For example, if we
+fill the large container twice from the small container, we'll get
+eight gallons. If we fill the nine-gallon container to the brim, then
+empty enough water to fill the four-gallon container, we'll have
+exactly five gallons in the large container.
 
 These ideas are interesting, but they haven't gotten us six gallons.
 And it's not clear how they will get us six gallons.
@@ -218,11 +218,10 @@ forwards again.
 Here's another benefit of working backward:\index{W!Working backwards|)}
 If the problem is unsolvable,
 working backward helps you quickly prove that it has no solution.
-%!! horizontal line
+
 \begin{tip}
-Recognize the auxiliary problem.
+Recognize the auxiliary problem.\index{A!Auxiliary problems}
 \end{tip}
-%!! horizontal line
 Before we've solved a problem, we have only a hazy notion of what
 steps---or even how many steps---may be required. As we become more
 familiar with the problem, we begin to recognize that our problem
@@ -233,18 +232,18 @@ In the problem we just solved, we recognized two subproblems: filling
 the small container with one gallon and then filling the large container
 with six gallons.
 
-Recognizing these smaller problems, sometimes called ``auxiliary
-problems,'' is an important problem-solving technique. By identifying
+Recognizing these smaller problems, sometimes called
+``auxiliary problems,''\index{A!Auxiliary problems}
+is an important problem-solving technique. By identifying
 the subproblem, we can assume it has a straightforward solution.
 Without stopping to determine what that solution might be, we forge
 ahead with our main problem.
 
 (\Forth{} is ideally suited to this technique, as we'll see.)
-%!! horizontal line
+
 \begin{tip}
 Step back from the problem.
 \end{tip}
-%!! horizontal line
 It's easy to get so emotionally attached to one particular solution that we
 forget to keep an open mind.
 
@@ -275,11 +274,10 @@ might they be?''
 \end{tfquot}
 then you might think of extending some of the lines beyond the perimeter
 of the nine dots.
-%!! horizontal line
+
 \begin{tip}
 Use whole-brain thinking.\index{W!Whole-brain thinking}
 \end{tip}
-%!! horizontal line
 When a problem has you stumped and you seem to be getting nowhere,
 relax, stop worrying about it, perhaps even forget about it for a while.
 
@@ -317,23 +315,24 @@ evaluated and then popped into conscious attention---often in astonishingly
 full-blown detail.
 \end{tfquot}
 %!! end indented paragraph
-%!! horizontal line
+
 \begin{tip}
 Evaluate your solution. Look for other solutions.
 \end{tip}
-%!! horizontal line
 You may have found one way of skinning the cat. There may be other
 ways, and some of them may be better.
 
 Don't invest too much effort in your first solution without asking
 yourself for a second opinion.
+\index{P!Problem-solving techniques|)}
+\index{D!Detailed design!problem solving techniques|)}
 
 %!! include cartoon of page 106 here
 \wepsfigp{img4-106}{``I'm not just sleeping. I'm using my neocortex.''}
 
 \section{Interview with a Software Inventor}
 
-%!! horizontal line
+\index{B!Burgess, Donald A.|(}
 \begin{interview}
 Donald A. Burgess, owner and president of Scientek Instrumentation,
 Inc.:
@@ -393,10 +392,10 @@ long as you keep yourself from playing as a habit. Your head is a whole lot
 better than the computer for inventing things.
 \end{tfquot}
 \end{interview}
-%!! end indented paragraph
-%!! horizontal line
+\index{B!Burgess, Donald A.|)}
 
 \section{Detailed Design}
+\index{L!Lexicons|(}
 
 We're now at the point in the development cycle at which we've decided
 we need a component (or a particular word). The component will consist
@@ -405,11 +404,11 @@ be used by other components and some of which (the internal words) will
 be only used within this component.
 
 Create as many words as necessary to obey the following tip:
-%!! horizontal line
+
 \begin{tip}
 Each definition should perform a simple, well-defined task.
 \end{tip}
-%!! horizontal line
+\index{D!Detailed design!steps in|(}
 Here are the steps generally involved in designing a component:
 %!! there's certainly some better way to do ordered lists in TeX
 \begin{enumerate}
@@ -426,20 +425,23 @@ Here are the steps generally involved in designing a component:
    design and code the commonalities as internal definitions, then implement
    the external definitions.
 \end{enumerate}
+\index{D!Detailed design!steps in|)}
 We'll discuss the first two steps in depth. Then we'll engage in an
 extended example of designing a lexicon.
 
 \section{\Forth{} Syntax}
+\index{D!Detailed design!\Forth{} syntax|(}
+\index{F!\Forth{} syntax|(}
+\index{S!Syntax \Forth{}|(}
 
 At this point in the development cycle you must decide how the words in
 your new lexicon will be used in context. In doing so, keep in mind how
 the lexicon will be used by subsequent components.
-%!! horizontal line
+
 \begin{tip}
 In designing a component, the goal is to create a lexicon that will make your
 later code readable and easy to maintain.
 \end{tip}
-%!! horizontal line
 Each component should be designed with components that use it in mind.
 You must design the syntax of the lexicon so that the words make sense
 when they appear in context. Hiding interrelated information within the
@@ -450,11 +452,11 @@ yourself from writing a lot of unnecessary code by choosing a syntax that
 \Forth{} can support without any special effort on your part.
 
 Here are some elementary rules of \Forth{}'s natural syntax:
-%!! horizontal line
+
 \begin{tip}
 Let numbers precede names.
+\index{N!Numbers-precede-names syntax rule}
 \end{tip}
-%!! horizontal line
 %!! include cartoon of page 110 here
 Words that require a numeric argument will naturally expect to find that
 number on the stack. Syntactically speaking, then, the number should
@@ -464,7 +466,6 @@ emits ``n'' number of spaces, is
 \begin{Code}
 20 SPACES
 \end{Code}
-
 Sometimes this rule violates the order that our ear is accustomed to
 hearing. For instance, the \Forth{} word \textbf{+} expects to be preceded by both
 arguments, as in
@@ -472,7 +473,7 @@ arguments, as in
 \begin{Code}
 3 4 +
 \end{Code}
-
+\index{P!Postfix notation|(}
 This ordering, in which values precede operators, is called ``postfix.''
 \Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
 You could redefine \textbf{+} to expect one number in the input stream, like this:
@@ -480,7 +481,6 @@ You could redefine \textbf{+} to expect one number in the input stream, like thi
 \begin{Code}
 3 + 4
 \end{Code}
-
 by defining it so:
 \begin{Code}
 : +   BL WORD  NUMBER DROP  + ;
@@ -500,10 +500,11 @@ pointer) as a stack argument to ``verb'' type words. The \Forth{}-like syntax of
 {\sf ``noun'' ``verb''}
 \end{quote}
 \wepsfigxx{img4-110}
-will generally prove easiest to implement because of the stack.
-In some cases this word order\index{W!Words:!ordering} sounds unnatural. For instance, suppose
-we have a file named INVENTORY. One thing we can do with that
-file is SHOW it; that is, format the information in pretty columns. If
+will generally prove easiest to implement because of the stack.  In
+some cases this word order\index{W!Words:!ordering} sounds unnatural.
+For instance, suppose we have a file named INVENTORY. One thing we can
+do with that file is SHOW it; that is, format the information in
+pretty columns. If
 
 INVENTORY passes a pointer to SHOW, which acts upon it, the syntax
 becomes
@@ -523,11 +524,12 @@ If the requirements insist on the syntax
 \begin{Code}
 SHOW INVENTORY
 \end{Code}
-we have several options. SHOW might set a flag and INVENTORY
-would act according to the flag. Such an approach has certain disadvantages,
-especially that INVENTORY must be ``smart'' enough to
-know all the possible actions that might be taken on it. (We'll treat these
+we have several options. SHOW might set a flag and INVENTORY would act
+according to the flag. Such an approach has certain disadvantages,
+especially that INVENTORY must be ``smart'' enough to know all the
+possible actions that might be taken on it. (We'll treat these
 problems in Chapters Seven and Eight.)
+\index{P!Postfix notation|)}
 
 Or, SHOW might look ahead at the next word in the input stream.
 We'll discuss this approach in a tip, ``Avoid expectations,'' later in this
@@ -536,11 +538,11 @@ chapter.
 Or, the recommended approach, SHOW might set an ``execution
 variable'' that INVENTORY will then execute. (We'll discuss vectored
 execution in \Chap{7}.)
-%!! horizontal line
+
 \begin{tip}
 Let text follow names.
+\index{T!Text-follows-nams syntax rule}
 \end{tip}
-%!! horizontal line
 If the \Forth{} interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
 reason, an undefined string must be preceded by a defined word.
@@ -555,16 +557,15 @@ not execute in the usual way. An example is \textbf{FORGET}, as in
 \begin{Code}
 FORGET TASK
 \end{Code}
-
 Syntactically, \textbf{FORGET} must precede TASK so that TASK doesn't
 execute.
-%!! horizontal line
+
 \begin{tip}
 Let definitions consume their arguments.
 \end{tip}
-%!! horizontal line
 This syntax rule is more a convention of good \Forth{} programming
 than a preference of \Forth{}.
+\index{D!Definitions-consume-arguments syntax rule}
 
 Suppose you're writing the word LAUNCH, which requires the
 number of a launch pad and fires the appropriate rocket. You want the
@@ -590,11 +591,10 @@ and not
 \begin{Code}
 : READY  ( pad#)  LOAD  AIM  DROP ;
 \end{Code}
-%!! horizontal line
+
 \begin{tip}
 Use zero-relative numbering.
 \end{tip}
-%!! horizontal line
 By habit we humans number things starting with one: ``first, second,
 third,'' etc. Mathematical models, on the other hand, work more naturally
 \index{Z!Zero-relative numbering|(}
@@ -628,7 +628,6 @@ where that record begins:
 : RECORD  ( record# -- adr )
    8 *  TABLE + ;
 \end{Code}
-
 Thus in computer terms it makes sense to call the ``first record'' the Oth
 record.
 
@@ -640,19 +639,20 @@ include the conversion from zero-to one-relative numbering:
 : ITEM  ( n -- adr)  1- RECORD ;
 \end{Code}
 \index{Z!Zero-relative numbering|)}
-%!! horizontal line
+
 \begin{tip}
 Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
 \end{tip}
-%!! horizontal line
+
 Again, this is a convention, not a requirement of \Forth{}, but such conventions
 are essential for readable code. You'll find examples of this rule
 in the words \textbf{TYPE}, \textbf{ERASE}, and \textbf{BLANK}.
-%!! horizontal line
+
 \begin{tip}
 Let sources precede destinations.
+\index{S!Source-precede-destination syntax rule}
 \end{tip}
-%!! horizontal line
+
 Another convention for readability. For instance, in some systems, the
 phrase
 \begin{Code}
@@ -664,11 +664,12 @@ this convention and the previous convention:
 \begin{Code}[commandchars=\&\{\}]
 source destination count &poorbf{CMOVE}
 \end{Code}
-%!! horizontal line
+
+\index{E!Expectations-in-input-stream syntax rule|(}
 \begin{tip}
 Avoid expectations (in the input stream).
 \end{tip}
-%!! horizontal line
+
 Generally try to avoid creating words that presume there will be other
 words in the input stream.
 
@@ -682,7 +683,6 @@ that when executed it always returns 1.
 \begin{Code}
 1 CONSTANT BLUE
 \end{Code}
-
 And then define LIGHT such that it looks for the next word in the input
 stream, executes it, and ``ors'' it with 8 (the logic of this will become
 apparent when we visit this example again, later in the book):
@@ -723,13 +723,12 @@ this way \cite{rosen82}.)
 
 But generally, avoid expectations. You're setting yourself up for
 disappointment.
+\index{E!Expectations-in-input-stream syntax rule|)}
 
-%!! horizontal line
 \begin{tip}
 Let commands perform themselves.
 \end{tip}
-%!! horizontal line
-
+\index{C!Compilers|(}
 This rule is a corollary to ``Avoid expectations.'' It's one of
 \Forth{}'s philosophical quirks to let words do their own work. Witness
 the \Forth{} compiler (the function that compiles colon definitions),
@@ -768,16 +767,16 @@ there's no limit on the number of compiling words you can add at any
 time, simply by making them immediate. Thus, even \Forth{}'s colon
 compiler is extensible!
 
+\index{I!Interpreters|(}
 \Forth{}'s text interpreter and \Forth{}'s address interpreter also
 adhere to this same rule.
 
 The following tip is perhaps the most important in this chapter:
 
-%!! horizontal line
+
 \begin{tip}
 Don't write your own interpreter/compiler when you can use \Forth{}'s.
 \end{tip}
-%!! horizontal line
 One class of applications answers a need for a special purpose
 language---a self-contained set of commands for doing one particular
 thing. An example is a machine-code assembler. Here you have a large
@@ -805,7 +804,6 @@ create a defining word called ROOM to be used like this:
 \begin{Code}
 ROOM DUNGEON
 \end{Code}
-
 Then create a set of words to describe the room's attributes by building
 unseen data structures associated with the room:
 
@@ -816,14 +814,16 @@ CONTAINING POT-O-GOLD
 etc.
 \end{Code}
 %!! 'etc.' should not be part of the code, should it?
-
 The commands of this game-building language can simply be \Forth{}
 WORDS, with \Forth{} as the interpreter.
 
-\item If you're working with Programmable Array Logic (PAL) devices, you'd
-like a form of notation that lets you describe the behavior of the output pins
-in logical terms, based on the states of the input pins. A PAL programmer
-was written with wonderful simplicity in \Forth{} by Michael Stolowitz \cite{stolowitz82}.
+\item If you're working with Programmable Array Logic (PAL) devices,
+\index{P!Programmable Array Logic (PAL)}
+you'd like a form of notation that lets you describe the behavior of
+the output pins in logical terms, based on the states of the input
+pins. A PAL programmer was written with wonderful simplicity in
+\Forth{} by Michael Stolowitz \cite{stolowitz82}.
+\index{S!Stolowitz, Michael}
 
 \item If you must create a series of user menus to drive your application, you
 might want to first develop a menu-compiling language. The words of this
@@ -834,12 +834,11 @@ the cursor, etc.
 All of these examples can be coded in \Forth{} as lexicons, using the normal
 \Forth{} interpreter, without having to write a special-purpose interpreter
 or compiler.
+\index{C!Compilers|)}
 
-\bigskip
-%!! horizontal line
+\index{M!Moore, Charles|(}
 \begin{interview}
-\person{Moore}:\index{M!Moore, Charles|(}
-
+\person{Moore}:
 \begin{tfquot}
 A simple solution is one that does not obscure the problem with irrelevancies.
 It's conceivable that something about the problem requires a unique
@@ -855,11 +854,18 @@ I think that programmers like to write interpreters. They like to do these
 elaborate difficult things. But there comes a time when the world is going
 to have to quit programming keypads and converting numbers to binary,
 and start solving problems.
-\end{tfquot}\index{M!Moore, Charles|)}
+\end{tfquot}
 \end{interview}
-%!! horizontal line
+\index{M!Moore, Charles|)}
+\index{D!Detailed design!\Forth{} syntax|)}
+\index{F!\Forth{} syntax|)}
+\index{S!Syntax \Forth{}|)}
+\index{I!Interpreters|)}
+\index{L!Lexicons|)}
 
 \section{Algorithms and Data Structures}
+\index{A!Algorithms|(}
+\index{D!Detailed design!algorithms|(}
 
 In \Chap{2} we learned how to describe a problem's requirements in
 terms of interfaces and rules. In this section we'll refine the conceptual
@@ -902,15 +908,26 @@ the first. But in execution it will require fewer steps on the average
 (because you don't have to search clear from the beginning of the folder
 every time) and therefore can be performed faster.
 
+\index{D!Data structures:!defined|(}
 A data structure is an arrangement of data or locations for data,
 organized especially to match the problem. In the last example, the file
 cabinet containing folders and the folders containing individual letters
 can be thought of as data structures.
+\index{D!Data structures:!defined|)}
+\index{D!Data structures|see{\emph{also} Variables}}
 
 The new conceptual model includes the filing cabinets and folders
 (data structures) plus the steps for doing the filing (algorithms).
+\index{A!Algorithms|)}
+\index{D!Detailed design!algorithms|)}
 
 \section{Calculations vs. Data Structures vs. Logic}
+\index{C!Calculations|(}
+\index{D!Data structures:!calculation@vs. calculation vs. logic|(}
+\index{D!Detailed design!calculations|(}
+\index{D!Detailed design!data structures|(}
+\index{D!Detailed design!logic|(}
+\index{L!Logic|(}
 
 We've stated before that the best solution to a problem is the simplest
 adequate one; for any problem we should strive for the simplest
@@ -924,7 +941,6 @@ if the input argument is 1, the output is 10
 if the input argument is 2, the output is 12
 if the input argument is 3, the output is 14
 \end{Code}
-
 There are three approaches we could take:
 
 \begin{description}
@@ -1012,7 +1028,6 @@ or when the decision is not complicated enough to warrent a decision
 table. \Chap{8} is devoted to the issue of minimizing the use of logic
 in your programs.
 
-%!! horizontal line
 \begin{tip}
 In choosing which approach to apply towards solving a problem, give
 preference in the following order:
@@ -1024,13 +1039,20 @@ preference in the following order:
 \item logic
 \end{enumerate}
 \end{tip}
-%!! horizontal line
 Of course, one nice feature of modular languages such as \Forth{} is that
 the actual implementation of a component---whether it uses calculation,
 data structures, or logic---doesn't have to be visible to the rest of the
 application.
+\index{C!Calculations|)}
+\index{D!Data structures:!calculation@vs. calculation vs. logic|)}
+\index{D!Detailed design!calculations|)}
+\index{D!Detailed design!data structures|)}
+\index{D!Detailed design!logic|)}
+\index{L!Logic|)}
 
 \section{Solving a Problem: Computing Roman Numerals}
+\index{D!Detailed design!demonstration of|(}
+\index{R!Roman numeral computation problem|(}
 
 In this section we'll attempt to demonstrate the process of designing a
 lexicon. Rather than merely present the problem and its solution, I'm
@@ -1299,7 +1321,7 @@ add up to the value. But if the digit is 4, print only a ONER and a FIVER,
 or if it's 9, print only a ONER and a TENER.
 \end{tfquot}
 We now have an English-language version of our
-algorithm\index{A!Algorithms}. But we still
+algorithm.\index{A!Algorithms|(} But we still
 have some steps to go before we can run it on our computer.
 
 In particular, we have to be more specific about the exceptions. We
@@ -1314,12 +1336,10 @@ because the computer will do a, b, and c before it knows any better.
 Instead, we have to check whether the exceptions apply \emph{before} we
 do anything else.
 
-%!! horizontal line
 \begin{tip}
 In devising an algorithm, consider exceptions last. In writing code, handle
 exceptions first.
 \end{tip}
-%!! horizontal line
 This tells us something about the general structure of our digit-producing
 word. It will have to begin with a test for the 4/9 exceptions. In
 either of those cases, it will respond accordingly. If neither exception
@@ -1329,12 +1349,12 @@ applies, it will follow the ``normal'' algorithm. Using pseudocode, then:
 : DIGIT  ( n )  4-OR-9? IF  special cases
    ELSE  normal case  THEN ;
 \end{Code}
-
 An experienced \Forth{} programmer would not actually write out this
 pseudocode, but would more likely form a mental image of the structure
 for eliminating the special cases. A less experienced programmer might
 find it helpful to capture the structure in a diagram, or in code as we've
 done here.
+\index{A!Algorithms|)}
 
 In \Forth{} we try to minimize our dependence on logic. But in this
 case we need the conditional \textbf{IF} because we have an exception we need to
@@ -1354,7 +1374,6 @@ merely to test for each exception, as in this version:
                 9-CASE? IF  ONER TENER  THEN
                 normal case... ;
 \end{Code}
-
 because the normal case is never excluded. (There's no way to put an
 \textbf{ELSE} just before the normal case, because \textbf{ELSE} must appear between
 \textbf{IF} and \textbf{THEN}.)
@@ -1557,12 +1576,11 @@ model with code.
 Beginners who are learning to think in this right-brain way might
 find the following tip helpful:
 
-%!! horizontal line
 \begin{tip}
-If you have trouble thinking about a conceptual model, visualize it---or
-draw it---as a mechanical device.
+If you have trouble thinking about a conceptual model,
+\index{C!Conceptual model}
+visualize it---or draw it---as a mechanical device.
 \end{tip}
-%!! horizontal line
 Our table is simply an array of characters. Since a character requires only
 a byte, let's make each ``slot'' one byte. We'll call the table ROMANS:
 
@@ -1580,7 +1598,6 @@ or if it is not state-dependent, use:
 CREATE ROMANS  73 C,  86 C,  88 C,  76 C,
    67 C,  68 C,  77 C,
 \end{Code}
-
 We can select a particular symbol from the table by applying two
 different offsets at the same time. One dimension represents the decimal
 place: ones, tens, hundreds, etc. This dimension is made ``current,'' that
@@ -1683,7 +1700,6 @@ We might redefine ROMAN as follows:
    DUP  3999 >  ABORT" Too large"  ROMAN ;
 \end{Code}
 
-%!! horizontal line
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 
@@ -1696,7 +1712,6 @@ want to run off and tell somebody.
 Of course, nobody will appreciate it like you do.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-%!! horizontal line
 
 \begin{figure*}[pppp]
 \caption{Roman numerals, solved.}
@@ -1747,16 +1762,19 @@ VARIABLE COLUMN#  ( current offset)
 \vspace{1ex}
 \label{fig-fig4-9}
 \end{figure*}
+\index{R!Roman numeral computation problem|)}
 
 \section{Summary}
 
 In this chapter we've learned to develop a single component, starting
 first with deciding on its syntax, then proceeding with determining its
-algorithm(s)\index{A!Algorithms} and data structure(s), and concluding with an implementation
-in \Forth{}.
+algorithm(s)\index{A!Algorithms}
+and data structure(s), and concluding with an implementation in \Forth{}.
 
 With this chapter we complete our discussion of design. The remainder
 of the book will discuss style and programming techniques.
+\index{D!Detailed design|)}
+\index{D!Detailed design!demonstration of|)}
 
 %!! the ordered list thing again
 \begin{references}{9}
