@@ -363,6 +363,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 %\fwbox{text} %like fbox, but does not create a wider box
 \newcommand{\fwbox}[1]{\framebox[\width]{#1}}
 \def\boxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2\hss}}
+\def\rboxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2}}
 
 
 \def\smashlt#1{%
