@@ -21,8 +21,8 @@ SOURCES = thinking-forth.tex \
 	fig7-7.tex fig7-8.tex fig7-9.tex \
 	backpage.tex cover.tex legalcode-by-nc-sa.tex \
 	autoscale eps2pdf \
-	rodin_thinker.jpg rodin_thinker.eps head.eps \
-	leobrodie.jpg leobrodie.eps
+	head.eps leobrodie.jpg leobrodie.eps
+#	rodin_thinker.jpg rodin_thinker.eps
 
 ALL_SOURCES = $(SOURCES) Makefile
 
@@ -162,7 +162,7 @@ thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 
 cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex head.eps \
-	rodin_thinker.eps leobrodie.eps
+	leobrodie.eps #rodin_thinker.eps
 	latex cover.tex
 
 # get bookland.py from http://www.cgpp.com/bookland/
