@@ -9,7 +9,7 @@
 %FOUR
 %!! horizontal line
 
-\chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}
+\chapter{Detailed~Design/\penalty 0\allowhyphens Problem~Solving}\Chapmark{4}
 
 \begin{tfquot}
 \emph{Trivial:} I can see how to do this. I just don't know how long it
@@ -49,7 +49,7 @@ techniques.
 
 G. Polya has written several books on problem solving, especially of
 the mathematical problem. The most accessible of these is \emph{How to Solve
-It} [1]. Although solving a mathematical problem isn't quite the same as
+It} \cite{polya}. Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
 The following series of tips summarize several techniques recommended by
 the science of problem solving:
@@ -58,7 +58,7 @@ the science of problem solving:
 Determine your goal.
 \end{tip}
 %!! horizontal line
-Know what you're trying to accomplish. As we saw in Chapter Two, this
+Know what you're trying to accomplish. As we saw in \Chap{2}, this
 step can be detailed further:
 
 Determine the data interfaces: Know what data will be required to
@@ -292,7 +292,7 @@ symbols) and subconscious thought (which correlates perceptions to
 previously stored information, recombining and relinking knowledge in
 new and useful ways).
 
-Leslie Hart [2] explains the difficulty of solving a large problem by
+Leslie Hart \cite{hart75} explains the difficulty of solving a large problem by
 means of logic:
 
 %!! begin indented paragraph
@@ -532,7 +532,7 @@ chapter.
 
 Or, the recommended approach, SHOW might set an ``execution
 variable'' that INVENTORY will then execute. (We'll discuss vectored
-execution in Chapter Seven.)
+execution in \Chap{7}.)
 %!! horizontal line
 \begin{tip}
 Let text follow names.
@@ -714,7 +714,7 @@ determine whether that flag was set, as we'll see later on.
 
 There will be times when looking ahead in the input stream is desirable,
 even necessary. (The proposed TO solution is often implemented
-this way [3].)
+this way \cite{rosen82}.)
 
 But generally, avoid expectations. You're setting yourself up for
 disappointment.
@@ -817,7 +817,7 @@ WORDS, with FORTH as the interpreter.
 \item If you're working with Programmable Array Logic (PAL) devices, you'd
 like a form of notation that lets you describe the behavior of the output pins
 in logical terms, based on the states of the input pins. A PAL programmer
-was written with wonderful simplicity in FORTH by Michael Stolowitz [4].
+was written with wonderful simplicity in FORTH by Michael Stolowitz \cite{stolowitz82}.
 
 \item If you must create a series of user menus to drive your application, you
 might want to first develop a menu-compiling language. The words of this
@@ -855,7 +855,7 @@ and start solving problems.
 
 \section{Algorithms and Data Structures}
 
-In Chapter Two we learned how to describe a problem's requirements in
+In \Chap{2} we learned how to describe a problem's requirements in
 terms of interfaces and rules. In this section we'll refine the conceptual
 model for each component into clearly defined algorithms and data
 structures.
@@ -955,7 +955,7 @@ applications requiring trig, it's faster to look up the answer in a table
 stored in memory. In this case, the simplest \emph{adequate} solution is using
 the data structure.
 
-In Chapter Two we introduced the telephone rate problem. In that
+In \Chap{2} we introduced the telephone rate problem. In that
 problem the rates appeared to be arbitrary, so we designed a data
 structure:
 
@@ -972,7 +972,7 @@ Using a data structure was simpler than trying to invent a formula by
 which these values could be calculated. And the formula might prove
 wrong later. In this case, table-driven code is easier to maintain.
 
-In Chapter Three we designed a keystroke interpreter for our Tiny
+In \Chap{3} we designed a keystroke interpreter for our Tiny
 Editor using a decision table:
 
 %!! this shoulde be a table; see pg 119
@@ -1002,7 +1002,7 @@ not used in the original design.
 
 The use of logic becomes advisable when the result is not calculable,
 or when the decision is not complicated enough to warrent a decision
-table. Chapter Eight is devoted to the issue of minimizing the use of logic
+table. \Chap{8} is devoted to the issue of minimizing the use of logic
 in your programs.
 
 %!! horizontal line
@@ -1563,7 +1563,7 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
             ( thousands)  ASCII M  C,
 \end{Code}
 Note: This use of \textbf{ASCII} requires that \textbf{ASCII} be
-``\textbf{STATE}-dependent'' (see Appendix C). If you don't have \textbf{ASCII},
+``\textbf{STATE}-dependent'' (see \Chap{C}). If you don't have \textbf{ASCII},
 or if it is not state-dependent, use:
 
 \begin{Code}
@@ -1747,20 +1747,20 @@ in FORTH.
 With this chapter we complete our discussion of design. The remainder
 of the book will discuss style and programming techniques.
 
-\section{References}
-
 %!! the ordered list thing again
-\begin{enumerate}
-\item G. Polya, \emph{How To Solve It: A New Aspect of Mathematical Method},
-   (Princeton, New Jersey, Princeton University Press).
+\begin{references}{9}
+\bibitem{polya} G. Polya, \emph{How To Solve It: A New Aspect of
+   Mathematical Method}, (Princeton, New Jersey, Princeton University
+   Press).
 %!! (C) should be a nicer copyright sign
-\item Leslie A. Hart, \emph{How the Brain Works}, \copyright{} 1975 by Leslie A. Hart,
-   (New York, Basic Books, Inc., 1975).
-\item Evan Rosen, ``High Speed, Low Memory Consumption Structures,'' 1982
-   \emph{FORML Conference Proceedings}, p. 191.
-\item Michael Stolowitz, ``A Compiler for Programmable Logic in FORTH,'' 1982
-   \emph{FORML Conference Proceedings}, p. 257.
-\end{enumerate}
+\bibitem{hart75} Leslie A. Hart, \emph{How the Brain Works},
+   \copyright{} 1975 by Leslie A. Hart, (New York, Basic Books, Inc.,
+   1975).
+\bibitem{rosen82} Evan Rosen, ``High Speed, Low Memory Consumption
+   Structures,'' 1982 \emph{FORML Conference Proceedings}, p. 191.
+\bibitem{stolowitz82} Michael Stolowitz, ``A Compiler for Programmable
+   Logic in FORTH,'' 1982 \emph{FORML Conference Proceedings}, p. 257.
+\end{references}
 
 \section{For Further Thinking}
 

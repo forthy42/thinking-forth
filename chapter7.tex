@@ -9,7 +9,7 @@
 %SEVEN
 %!! horizontal line
 
-\chapter{Handling~Data: Stacks~and~States}
+\chapter{Handling~Data: Stacks~and~States}\Chapmark{7}
 
 %!! horizontal line
 FORTH handles data in one of two ways: either on the stack or in data
@@ -111,7 +111,7 @@ stack corresponds to the three English pronouns ``this,'' ``that,'' and
 
 Let's witness a case where a wrong-headed approach leads to a messy
 stack problem. Suppose we're trying to write the definition of +THRU
-(see Chapter Five, ``Listing Organization'' section, ``Relative Loading''
+(see \Chap{5}, ``Listing Organization'' section, ``Relative Loading''
 subsection). We've decided that our loop body will be
 
 \begin{Code}
@@ -494,7 +494,7 @@ are available for anyone who cares to look---like graffiti.
 Thus variables can be used to reflect the current state of affairs.
 
 Using currentness can simplify problems. In the Roman numeral example
-of Chapter Four, we used the variable COLUMN\# to represent the
+of \Chap{4}, we used the variable COLUMN\# to represent the
 current decimal-place; the words ONER, FIVER, and TENER depended
 on this information to determine which type of symbol to display. We
 didn't have to specify both descriptions every time, as in TENS ONER,
@@ -591,7 +591,7 @@ function.
 Programmers unaccustomed to a language in which data can be
 passed implicitly don't always utilize the stack as fully as they should.
 Michael Ham suggests the reason may be that beginning FORTH users
-don't trust the stack [1]. He admits to initially feeling safer about storing
+don't trust the stack \cite{ham83}. He admits to initially feeling safer about storing
 values into variables than leaving them on the stack. ``No telling \emph{what}
 might happen with all that thrashing about on the stack,'' he felt.
 
@@ -957,7 +957,7 @@ A single variable can express a single condition, either a flag, a value, or
 the address of a function.
 
 A collection of conditions together represent the \emph{state} of the
-application or of a particular component [2]. Some applications require the
+application or of a particular component \cite{slater83}. Some applications require the
 ability to save a current state, then later restore it, or perhaps to have a
 number of alternating states.
 
@@ -1137,7 +1137,7 @@ discuss a new syntax which I invented and which I think can be used in many
 circumstances more elegantly than the traditional methods.
 
 The syntax is called DOER/MAKE. (If your system doesn't include
-these words, refer to Appendix B for code and implementation details.) It
+these words, refer to \Chap{B} for code and implementation details.) It
 works like this: You define the word whose behavior will be vectorable
 with the defining word \textbf{DOER}, as in
 
@@ -1416,13 +1416,12 @@ on the stack by a single definition hurts readability and writeability.
 We also explored techniques for saving and restoring data structures,
 and concluded with a study of vectored execution using \textbf{DOER}/\textbf{MAKE}.
 
-\section{References}
-
 %!! there's certainly some better way to do ordered lists in TeX
-\begin{enumerate}
-\item Michael Ham, ``Why Novices Use So Many Variables,'' \emph{FORTH
-   Dimensions}, vol. 5, no. 4, November/December 1983.
-\item Daniel Slater, ``A State Space Approach to Robotics,'' \emph{The Journal
-   of FORTH Application and Research}, 1, 1 (September 1983), 17.
-\end{enumerate}
+\begin{references}{9}
+\bibitem{ham83} Michael Ham, ``Why Novices Use So Many Variables,''
+   \emph{FORTH Dimensions}, vol. 5, no. 4, November/December 1983.
+\bibitem{slater83} Daniel Slater, ``A State Space Approach to
+   Robotics,'' \emph{The Journal of FORTH Application and Research},
+   1, 1 (September 1983), 17.
+\end{references}
 

@@ -14,7 +14,7 @@
 
 %\pagestyle{empty}
 
-\chapter{Factoring}
+\chapter{Factoring}\Chapmark{6}
 
 In this chapter we'll continue our study of the implementations phase, this time focusing on factoring.
 
@@ -31,7 +31,7 @@ Deciding how much should go into, or stay out of, a definition is another aspect
 \section{Factoring Techniques}
 
 \begin{tfquot}
-If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\emph{Structured Design}'' [1]).
+If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\emph{Structured Design}'' \cite{stevens74}).
 \end{tfquot}
 The ``useful subfunction'' of course becomes the newly factored definition.What about the part that ``isn't quite useful''? That depends on what it is.
 
@@ -154,7 +154,7 @@ This fragment normally emits an ASCII character, but if the character is a contr
 ... ( c)  DUP  BL 127 WITHIN NOT
        IF  DROP  ASCII .  THEN  EMIT  ...
 \end{Code}
-The messiest sityation occurs when the difference between two definitions is a function within a structure that makes it impossible to factor out the half-fragments. In this case, use stack arguments, variables, or even vectoring. We'll see how vectoring can be used in a section of Chapter Seven called ``Using DOER/MAKE.''
+The messiest sityation occurs when the difference between two definitions is a function within a structure that makes it impossible to factor out the half-fragments. In this case, use stack arguments, variables, or even vectoring. We'll see how vectoring can be used in a section of \Chap{7} called ``Using DOER/MAKE.''
 
 Here's a reminder about factoring code from out of a \textbf{DO LOOP}:
 
@@ -188,9 +188,9 @@ Depending on the number of reptitions of the same condition and control structur
 \end{Code}
 
 \noindent 
-The word \textbf{CONDITIONALLY} may--depenting on the condition--alter the control flow so that the remaining words in each defintion will be skipped. This approach has certain disadvantages as well. We'll discuss this technique--pros and cons--in Chapter Eight.
+The word \textbf{CONDITIONALLY} may--depenting on the condition--alter the control flow so that the remaining words in each defintion will be skipped. This approach has certain disadvantages as well. We'll discuss this technique--pros and cons--in \Chap{8}.
 
-More benign examples of factoring-out control structures include case statements, which eliminate nested \textbf{IF ELSE THEN}s, and multiple exit loops ( the \textbf{BEGIN WHILE WHILE WHILE ... REPEAT} construct). We'll also discuss these topics in Chapter Eight.
+More benign examples of factoring-out control structures include case statements, which eliminate nested \textbf{IF ELSE THEN}s, and multiple exit loops ( the \textbf{BEGIN WHILE WHILE WHILE ... REPEAT} construct). We'll also discuss these topics in \Chap{8}.
 
 \subsection{{Factoring Out Names}}
 It's even good to factor out names, when the names seem almost, but not quite, the same. Examine the following terrible example of code, which is meant to initialize three variables associated with each of eight channels:
@@ -317,7 +317,7 @@ Short words give you a good feeling.
 
 An informal examination of one of Moore's applications shows that he averages seven references, including both words and numbers, per definition. These are remarkably short definitions. (Actually his code was divided about 50-50 between one-line and two-line definitions.)
 
-Psychological tests have shown that the human mind can only focus its conscious attention on seven things, plus or minus two, at a time [2]. Yet all the while, day and night, the vast amounts of data, making connections and associations and solving problems.
+Psychological tests have shown that the human mind can only focus its conscious attention on seven things, plus or minus two, at a time \cite{miller56}. Yet all the while, day and night, the vast amounts of data, making connections and associations and solving problems.
 
 Even if out subconscious mind knows each part of an application inside out, our narrow-viewed conscious mind can only correlate seven elements of it at once. Beyond that, our grasp wavers. Short definitions match our mental capabilities.
 
@@ -452,7 +452,7 @@ Here's a very short definition that does little except hide information:
 
 %% >BODY will not display properly.
 \noindent
-This defintion allows you to convert an acf (address of code field) to an apf (address of parameter field) without depending on the actual structure of a dictionary definition. If you were to use @+ instead of the word \textbf{>BODY}, you would lose transportability if you ever converted to a FORTH system in which the heads were separated from the bodies. (This is one of a set of words suggested by Kim harris, and included as an Experimental Proposal in the FORTH-83 Standard [3].)
+This defintion allows you to convert an acf (address of code field) to an apf (address of parameter field) without depending on the actual structure of a dictionary definition. If you were to use @+ instead of the word \textbf{>BODY}, you would lose transportability if you ever converted to a FORTH system in which the heads were separated from the bodies. (This is one of a set of words suggested by Kim harris, and included as an Experimental Proposal in the FORTH-83 Standard \cite{harris83}.)
 
 Here's a group of definitions that might be used in writing an editor:
 
@@ -506,7 +506,7 @@ Here's a better factoring found in some FORTH systems:
 : (.)  (n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
 : .  ( n)  (.) TYPE SPACE ;
 \end{Code}
-We find another example of failing to factor the output function from the calculation function in our own Roman numeral example in Chapter Four. Given our solution, we can't store a Roman numeral i8n a buffer or even center it in a field. (A better approach would have been to use \textbf{HOLD} instead of \textbf{EMIT}.)
+We find another example of failing to factor the output function from the calculation function in our own Roman numeral example in \Chap{4}. Given our solution, we can't store a Roman numeral i8n a buffer or even center it in a field. (A better approach would have been to use \textbf{HOLD} instead of \textbf{EMIT}.)
 
 Information hiding can also be a reason \emph{not} to factor. For instance, if you factor the phrase
 
@@ -1054,11 +1054,15 @@ current iteration work.
 \subsection{Summary}
 In this chapter we've discussed various techniques and criteria for factoring. We also examined how the iterative approach applies to the implementation phase.
 
-\subsection{References}
-	
-\begin{enumerate}
-\item W.P. Stevens, G.J. Myers, and L.L. Constantine, \emph{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by International Business Machines Corporation.
-\item G.A. Miller, ``The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for Processing Information,'' \emph{Psychol. Rev}., vol. 63, pp. 81-97, Mar. 1956.
-\item Kim R. Harris, ``Definition Field Address Conversion Operators,'' \emph{FORTH--83 Standard}, FORTH Standards Team.
-\end{enumerate}
+\begin{references}{9}
+\bibitem{stevens74} W.P. Stevens, G.J. Myers, and L.L. Constantine,
+\emph{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by
+International Business Machines Corporation.
+\bibitem{miller56} G.A. Miller, ``The Magical Number Seven, Plus or
+Minus Two: Some Limits on our Capacity for Processing Information,''
+\emph{Psychol. Rev}., vol. 63, pp. 81-97, Mar. 1956.
+\bibitem{harris83} Kim R. Harris, ``Definition Field Address
+Conversion Operators,'' \emph{FORTH--83 Standard}, FORTH Standards
+Team.
+\end{references}
 

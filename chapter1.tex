@@ -1,4 +1,4 @@
-\chapter{The~Philosophy of~FORTH}
+\chapter{The~Philosophy of~FORTH}\Chapmark{1}
 
 
 FORTH is a language and an operating system. But that's not all; It's
@@ -80,7 +80,7 @@ name, just as though the programmer had written them out in full.
 
 \subsection{Abstraction}
 \index{A!Abstraction}
-A major advance was the invention of the {}``high-level language.\char`\"{}
+A major advance was the invention of the {}``high-level language.''{}
 Again this was a translator program, but a more powerful one. High-level
 languages make it possible for programmers to write code like this:
 
@@ -138,7 +138,7 @@ using jumps or {}``GOTOs.''}
 A significant advance arose with the invention of {}``Structured
 Programming,'' a methodology based on the observation that large problems
 are more easily solved if treated as collections of smaller problems
-{[}1{]}. Each piece is called a module. Programs consist of modules
+\cite{dahl72}. Each piece is called a module. Programs consist of modules
 within modules.
 
 Structured programming eliminates spaghetti coding by insisting that
@@ -269,8 +269,7 @@ procedure make-breakfast
    &textbf{call cleanup}
 end
 \end{Code}
-
-
+\label{make-breakfast}
 \medskip
 
 The phrase {}``call make-cereal'' causes the subroutine named {}``make-cereal''
@@ -316,7 +315,7 @@ to a full page of source code in length.
 
 \subsection{Successive Refinement}
 An approach that relies heavily on subroutines is called {}``Successive
-Refinement'' {[}2{]}. The idea is that you begin by writing a skeletal
+Refinement'' \cite{wirth71}. The idea is that you begin by writing a skeletal
 version of your program using natural names for procedures for data
 structures. Then you write versions of each of the named procedures.
 You continue this process to greater levels of detail until the procedures
@@ -361,7 +360,7 @@ Scholars naturally responded by placing more emphasis on design. {}``Next
 time let's think things out better.''
 
 About this time a new philosophy arose, described in an article called
-``Structured Design'' {[}3{]}. One of its principles is stated in
+``Structured Design'' \cite{stevens74}. One of its principles is stated in
 this paragraph: 
 
 \begin{quote}
@@ -486,7 +485,7 @@ of data, t hen a change in plan won' t have so disastrous an effect.
 
 
 \subsection{Information-Hiding }
-In a paper {[}4{]} published back in 1972, Dr. David L. Parnas showed
+In a paper \cite{parnas72} published back in 1972, Dr. David L. Parnas showed
 that the criteria for decomposing modules should not be steps in the
 process, but rather pieces of information that might possibly change.
 Modules should be used to hide such information.
@@ -565,7 +564,7 @@ view. This {}``module'' is a collection of routines, usually very
 small, which together hide information about some aspect of the problem. 
 
 Two other writers describe the same idea in a different way, using
-the term {}``data abstraction'' {[}5{]}.\index{A!Abstraction}
+the term {}``data abstraction'' \cite{liskov75}.\index{A!Abstraction}
 Their example is a push-down
 stack. The stack {}``module'' consists of routines to initialize
 the stack, push a value onto the stack, pop a value from the stack,
@@ -577,7 +576,7 @@ method for pushing a value without also changing the method for popping
 a value.
 
 The word \emph{uses} plays an important role in this concept. Parnas
-writes in a later paper {[}6{]}:
+writes in a later paper \cite{parnas79}:
 
 \begin{quote}
 Systems that have achieved a certain {}``elegance''... have done
@@ -609,14 +608,14 @@ an example of FORTH code;
    HURRIED?  IF  CEREAL  ELSE  EGGS  THEN CLEAN ;
 \end{Code}
 This is structurally identical to the procedure MAKE-BREAKFAST on
-page 8. (If you're new to FORTH, refer to Appendix A for an explanation.)
-The words HURRIED?, CEREAL, EGGS, and CLEAN are (most likely) also
-defined. as colon definitions. Up to a point, FORTH exhibits all the
-traits we've studied: mnemonic value,
-abstraction,\index{A!Abstraction} power, structured
-control operators, strong functional binding, limited coupling, and
-modularity. But regarding modularity, we encounter what may be FORTH's
-most significant breakthrough:
+page \pageref{make-breakfast}. (If you're new to FORTH, refer to \Chap{A}
+for an explanation.)  The words HURRIED?, CEREAL, EGGS, and CLEAN are
+(most likely) also defined. as colon definitions. Up to a point, FORTH
+exhibits all the traits we've studied: mnemonic value,
+abstraction,\index{A!Abstraction} power, structured control operators,
+strong functional binding, limited coupling, and modularity. But
+regarding modularity, we encounter what may be FORTH's most
+significant breakthrough:
 
 \begin{quote}
 The smallest atom of a FORTH program is not a module or a subroutine
@@ -847,7 +846,7 @@ FORTH programmers generally prefer to keep the program under their
 own control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to FORTH has been implemented, in only three lines
-of code, by Dewey Val Shorre {[}7{]}.)
+of code, by Dewey Val Shorre \cite{shorre71}.)
 
 
 \section{Hiding the Construction of Data Structures}
@@ -1035,7 +1034,7 @@ of small words to write simple programs for experimentation. As new
 equipment appears, new lexicons are added.
 
 Mark Bernstein has described the problem of using an off-the-shelf
-special-purpose procedure library in the laboratory {[}8{]}: {}``The
+special-purpose procedure library in the laboratory \cite{bern83}: {}``The
 computer, not the user, dominates the experiment.'' But with FORTH,
 he writes, {}``the computer actually encourages scientists to modify,
 repair, and improve the software, to experiment with and characterize
@@ -1128,7 +1127,7 @@ Although FORTH is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC.
 
 FORTH is optimized for the execution of words by means of a technique
-known as {}``threaded code'' {[}9{]}, {[}10{]}, {[}11{]}. The penalty
+known as {}``threaded code'' \cite{bell72}, \cite{dewar}, \cite{kogge82}. The penalty
 for modularizing into very small pieces of code is relatively slight.
 
 It does not run as fast as assembler code because the inner interpreter
@@ -1211,7 +1210,7 @@ matter how powerful, uses only two bytes.
 
 One of the most exciting new territories for FORTH is the production
 of FORTH chips such as the Rockwell R65F11 FORTH-based microprocessor
-{[}12{]}. The chip includes not only hardware features but also the
+\cite{dumse}. The chip includes not only hardware features but also the
 run-time portions of the FORTH language and operating system for dedicated
 applications. Only FORTH's architecture and compactness make FORTH-based
 micros possible.
@@ -1244,22 +1243,32 @@ language, if such a thing is possible, will more closely resemble
 FORTH than any other contemporary language.
 
 
-\section{References}
-\begin{enumerate}
-\item O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare, Structured Programming,
-London, Academic Press, 1972.
-\item Niklaus Wirth, {}``Program Development by Stepwise Refinement,\char`\"{}
-Com- munications of ACM, 14, No. 4 (1971), 221-27.
-\item W.P. Stevens, G.J. Myers, and L.L. Constantine, {}``Structured Design,\char`\"{}
-IBM Systems Journal, Vol. 13, No. 2, 1974.
-\item David L. Parnas, {}``On the Criteria To Be Used in Decomposing Systems
-into Modules,\char`\"{} Communications of the ACM, December 1972.
-\item Barbara H. Liskov and Stephen N. Zilles, {}``Specification Techniques
-for Data Abstractions,\char`\"{} IEEE Transactions on Software Engineering,
-March 1975.
-\item David L. Parnas, {}``Designing Software for Ease of Extension and
-Contraction,\char`\"{} IEEE Transactions on Software Engineering,
-March 1979.
-\item Dewey Val Shorre, {}``Adding Modules to FORTH,\char`\"{} 1980 FORML
-Proceedings, p. 71.
-\end{enumerate}
+\begin{references}{99}
+\bibitem{dahl72} O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare,
+Structured Programming, London, Academic Press, 1972.
+\bibitem{wirth71} Niklaus Wirth, {}``Program Development by Stepwise
+Refinement,''{} Com- munications of ACM, 14, No. 4 (1971), 221-27.
+\bibitem{stevens74} W.P. Stevens, G.J. Myers, and L.L. Constantine,
+{}``Structured Design,''{} IBM Systems Journal, Vol. 13, No. 2, 1974.
+\bibitem{parnas72} David L. Parnas, {}``On the Criteria To Be Used in
+Decomposing Systems into Modules,''{} Communications of the ACM,
+December 1972.
+\bibitem{liskov75} Barbara H. Liskov and Stephen N. Zilles,
+{}``Specification Techniques for Data Abstractions,''{} IEEE
+Transactions on Software Engineering, March 1975.
+\bibitem{parnas79} David L. Parnas, {}``Designing Software for Ease of
+Extension and Contraction,''{} IEEE Transactions on Software
+Engineering, March 1979.
+\bibitem{shorre71} Dewey Val Shorre, {}``Adding Modules to FORTH,''{}
+1980 FORML Proceedings, p. 71.
+\bibitem{bern83} Mark Bernstein, ``Programming in the Laboratory,''
+  unpublished paper, 1983.
+\bibitem{bell72} James R. Bell, ``Threaded Code,'' Communications
+of ACM, Vol. 16, No. 6, 370-72.
+\bibitem{dewar} Robert B.K. DeWar, ``Indirect Threaded Code,''
+Communications of ACM, Vol. 18, No. 6, 331.
+\bibitem{kogge82} Peter M. Kogge, ``An Architectural Trail to
+Threaded-Code Systems,'' Computer, March, 1982.
+\bibitem{dumse} Randy Dumse, ``The R65F11 FORTH Chip,'' FORTH
+Dimensions, Vol. 5, No. 2, p. 25.
+\end{references}

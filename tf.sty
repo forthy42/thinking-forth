@@ -44,7 +44,15 @@
 \newcommand{\Fig}[1]{Figure~\figref{#1}}
 \newcommand{\sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
-\newcommand{\Chap}[1]{Chapter~\enumchap{#1}} % really should use a label!!!
+\newcommand{\Chapmark}[1]{{\def\@currentlabel{\refchapter}\label{chapter-#1}}}
+\newcommand{\Chap}[1]{\ref{chapter-#1}}
+
+% Hurenkinder und Schusterjungen verbieten
+
+\clubpenalty=10000          % No orphans, keine Schusterjungen
+\widowpenalty=10000         % No widows, keine Hurenkinder
+\brokenpenalty=10000        % No broken words between pages
+\doublehyphendemerits=10000 % No double hyphens
 
 %% Images
 
@@ -250,14 +258,14 @@ TIP\\[1ex]\small
 \def\enumchap#1{\ifcase#1\or One\or Two\or Three\or Four\or
 Five\or Six\or seven\or Eight\or Nine\or Ten\fi}
 \def\wordchapter{\MakeUppercase{\enumchap\c@chapter}}
-\def\refchapter{\enumchap\c@chapter}
+\def\refchapter{Chapter \enumchap{\c@chapter}}
 
 \def\epilog{\gdef\wordchapter{EPILOGUE}}
 \renewcommand\appendix{\par
   \setcounter{appendix}{1}%
   \setcounter{section}{0}%
   \gdef\thechapter{\@Alph\c@appendix}%
-  \gdef\refchapter{\@Alph\c@appendix}%
+  \gdef\refchapter{Appendix \@Alph\c@appendix}%
   \gdef\wordchapter{APPENDIX \thechapter}%
   \gdef\chapter@upper\relax}
 
@@ -416,5 +424,29 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 
 \let\@afterindenttrue\@afterindentfalse
 \@afterindentfalse
+
+%% References style
+
+\newenvironment{references}[1]
+     {\section{References}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `references' environment}}%
+      \endlist
+\setcounter{enumiv}{0}% references are counted per chapter
+}
+
 
 \makeatother

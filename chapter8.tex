@@ -9,7 +9,7 @@
 %EIGHT
 %!! horizontal line
 
-\chapter{Minimizing Control~Structures}
+\chapter{Minimizing Control~Structures}\Chapmark{8}
 
 Control structures aren't as important in FORTH as they are in other
 languages. FORTH programmers tend to write very complex applications
@@ -400,7 +400,7 @@ invoke them from within a higher-level definition and expect them to
 behave as they do interpretively.
 \end{tip}
 \textbf{ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
-(See Appendix C.)
+(See \Chap{C}.)
 
 \subsection{Nesting and Combining Conditionals}
 \begin{tip}
@@ -537,7 +537,7 @@ We can solve this problem more elegantly by using a ``case statement.''
 
 Here's the same definition, rewritten using the ``Eacker case statement''
 format, named after Dr. Charles E. Eacker, the gentleman who proposed
-it [1].
+it \cite{eaker}.
 
 \begin{Code}
 : .SUIT ( suit -- )
@@ -725,7 +725,7 @@ moment's (in)decision.
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< NEGATE ;
 \end{Code}
-See Appendix C.)
+See \Chap{C}.)
 
 We can do even more with ``hybrid values'':
 
@@ -863,7 +863,7 @@ In this case the conditional is factored within the word \textbf{MAX}.
 \begin{tip}
 Use decision tables.
 \end{tip}
-We introduced these in Chapter Two. A decision table is a structure that
+We introduced these in \Chap{2}. A decision table is a structure that
 contains either data (a ``data table'') or addresses of functions (a
 ``function table'') arranged according to any number of dimensions. Each
 dimension represents all the possible, mutually exclusive states of a
@@ -939,7 +939,7 @@ Another example of the one-dimensional data table is the ``superstring''
 (emph{Starting FORTH}, Chapter Ten).
 
 \subsubsection{Two-Dimensional Data Table}
-In Chapter Two we presented a phone-rate problem. \Fig{fig8-4} gives one
+In \Chap{2} we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
 In this problem, each dimension of the data table consists of three
@@ -1000,7 +1000,7 @@ be prohibitively slow in certain cases.
 
 \subsubsection{Two-Dimensional Decision Table}
 
-We'll hark back to our Tiny Editor example in Chapter Three to illustrate
+We'll hark back to our Tiny Editor example in \Chap{3} to illustrate
 a two-dimensional decision table.
 
 In \Fig{fig8-5} we're constructing a table of functions to be performed
@@ -1187,7 +1187,7 @@ When it became necessary to handle a second type of apples, the
 shipment/sales/inventory words. The \emph{right} approach was the one we
 took: to add the complexity ``at the bottom''; that is, to APPLES itself.
 
-This principle can be realized in many ways. In Chapter Seven
+This principle can be realized in many ways. In \Chap{7}
 (under ``The State Table'') we used state tables to implement the words
 WORKING and PRETENDING, which changed the meaning of a group
 of variables. Later in that chapter, we used vectored execution to define
@@ -1420,7 +1420,7 @@ looking for a match. If we find a match, we want to return the address
 where we found it; if we don't find a match, we want the address of the
 last row of the functions table.
 
-We can introduce the word LEAP (see Appendix C), which will work
+We can introduce the word LEAP (see \Chap{C}), which will work
 like \textbf{EXIT} (it will simulate a semicolon). Now we can write:
 
 \begin{Code}
@@ -1505,7 +1505,7 @@ If the only purpose to setting a flag is so that later some code can decide
 between one number and another, you're better off saving the number
 itself.
 
-The ``colors'' example in Chapter Six's section called ``Factoring
+The ``colors'' example in \Chap{6}'s section called ``Factoring
 Criteria'' illustrates this point.
 
 The purpose of the word LIGHT is to set a flag which indicates
@@ -1742,11 +1742,10 @@ applications, or target compilation.
 
 But that's another story.
 
-\section{References}
-
-\begin{enumerate}
-\item Charles Eaker, ``Just in Case,'' \emph{FORTH Dimensions} II/3, p. 37.
-\end{enumerate}
+\begin{references}{9}
+\bibitem{eaker} Charles Eaker, ``Just in Case,'' \emph{FORTH
+Dimensions} II/3, p. 37.
+\end{references}
 
 \section{For Further Thinking}
 

@@ -3,13 +3,14 @@
 %% Initial transcription by Ed Beroset
 %% 
 %% Chapter: Appendix C, Other Utilities Described in This Book
+\Chapmark{C}
 \chapter{Other~Utilities
 Described
 in~This~Book}
 This appendix is here to help you define some of the words referred to in 
 this book that may not exist in your system.  Definitions are given in
 FORTH-83 Standard.
-\section{From Chapter 4}
+\section{From \Chap{4}}
 A definition of {\bf ASCII} that will work in '83 Standard is:
 \begin{verbatim}
     : ASCII  ( -- c)  \  Compile:  c  ( -- )
@@ -17,7 +18,7 @@ A definition of {\bf ASCII} that will work in '83 Standard is:
          BL WORD 1+ C@  STATE @
          IF [COMPILE] LITERAL  THEN ; IMMEDIATE
 \end{verbatim}
-\section{From Chapter 5}
+\section{From \Chap{5}}
 The word {\bf $\backslash$} can be defined as:
 \begin{verbatim}
     : \  ( skip rest of line)
@@ -68,7 +69,7 @@ however, ``true'' is indicated with hex FF, which is the signed number --1
     : WITHIN  ( n lo hi+1 -- ?)
          >R  1- OVER <  SWAP R>  < AND ;
 \end{verbatim}
-\section{From Chapter 8}
+\section{From \Chap{8}}
 The implementation of {\bf LEAP} will depend on how your system 
 implement {\bf DO LOOP}s.  If {\bf DO} keeps two items on the return stack (the
 index and the limit), {\bf LEAP} must drop both of them plus one more

@@ -5,7 +5,7 @@
 %% Chapter: Implementation: Elements of FORTH Style
 
 \chapter{Implementation:
-Elements~of FORTH~Style}
+Elements~of FORTH~Style}\Chapmark{5}
 
 Badly written FORTH has been accused of looking like ``code that went
 through a trash compactor.'' It's true, FORTH affords more freedom in
@@ -74,7 +74,7 @@ lattermost screens (i.e., not load them) and still have a self-sufficient,
 running application, working properly except for the lack of the more advanced
 features.
 
-We discussed the art of decomposition extensively in Chapter Three.
+We discussed the art of decomposition extensively in \Chap{3}.
 
 \subsection{Composition}
 
@@ -205,7 +205,7 @@ is the run-time routine for semicolon.  In these systems the use of EXIT is
 acceptable.  Some FORTH systems, however, require for internal reasons
 a different routine for the ``skip-screen'' function.
 
-Definitions for $\backslash${} and $\backslash${}S can be found in Appendix C.
+Definitions for $\backslash${} and $\backslash${}S can be found in \Chap{C}.
 
 \subsection{Chapter-load Screens}
 
@@ -264,7 +264,7 @@ and
 \end{Code}
 
 My own way, which I submit as a more useful factoring, requires a single
-word, FH (see Appendix C for its definition).
+word, FH (see \Chap{C} for its definition).
 
 The phrase
 \begin{Code}
@@ -565,7 +565,7 @@ This form requires fewer characters than
 \end{Code}
 and eliminates possible confusion between dates and months.
 
-If your system has $\backslash${} (``skip-line''-see Appendix C), you can write
+If your system has $\backslash${} (``skip-line''-see \Chap{C}), you can write
 the comment line like this:
 \begin{Code}
 \ Chapter name          Screen Name -- pg.#         JPJ 06/10/83
@@ -622,7 +622,7 @@ be indented.)
 %Page 147 in first edition.
 
 VARIABLES and CONSTANTS should also be defined one per
-line.  (See ``Samples of Good Commenting Style'' in Appendix E.) This
+line.  (See ``Samples of Good Commenting Style'' in \Chap{E}.) This
 leaves room for an explanatory comment on the same line.  The exception
 is a large ``family'' of words (defined by a common defining-word) which
 do not need unique comments:
@@ -645,7 +645,7 @@ another screen.)
 
 Leaving plenty of room at the outset makes later additions more
 pleasant.  One writer recommends that on the initial pass, the screen
-should contain about 20-40 percent code and 80-60 percent whitespace [1].
+should contain about 20-40 percent code and 80-60 percent whitespace \cite{stevenson81}.
 
 Don't skip a line between each definition.  You may, however, skip a
 line between groups of definitions.'
@@ -676,7 +676,7 @@ R> BASE !               \ restore it
 Sometimes an argument is passed on the stack from screen to screen,
 such as the value returned by BEGIN or IF in a multiscreen assembler
 definition, or the base address passed from one defining word to
-another-see ``Compile-Time Factoring'' in Chapter Six.  In these cases,
+another-see ``Compile-Time Factoring'' in \Chap{6}.  In these cases,
 it's best to save the value of BASE on
 the return stack like this:
 \begin{Code}
@@ -928,7 +928,7 @@ definitions that consume nothing and return arguments.
 \subsection{Stack Abbreviation Standards}
 
 Abbreviations used in stack notation should be consistent.  \ref{tab-5-2} lists
-most of the commonly used abbreviations.  (This table reappears in Appendix E.)
+most of the commonly used abbreviations.  (This table reappears in \Chap{E}.)
 The terms ``single-length,'' ``double-length,'' etc. refer to
 the size of a ``cell'' in the particular FORTH system.  (If the system uses a
 16-bit cell, ``n'' represents a 16-bit number; if the system uses a 32-bit
@@ -1295,7 +1295,7 @@ require three comments.  For instance:
 \ Interpret:   c   (-- c)
      ... ; IMMEDIATE
 \end{Code}
-Appendix E includes two screens showing good commenting style.
+\Chap{E} includes two screens showing good commenting style.
 
 \section{Vertical Format vs.\ Horizontal Format}
 The purpose of commenting is to allow a reader of your code to easily
@@ -1401,7 +1401,7 @@ about it.  This means that:
 \item the purpose is commented (if it's not clear from the name or stack comment)
 \item definitions are not too long
 \item not too many arguments are passed to a single definition via the stack (see
-``The Stylish Stack'' in Chapter Seven).
+``The Stylish Stack'' in \Chap{7}).
 \end{itemize}
 %!!</ENUMERATION>
 FORTH is simply not like other languages, in which line-by-line
@@ -1439,7 +1439,7 @@ consider the vertical format.
 \begin{tfquot}
 Besides a mathematical inclination, an exceptionally good mastery of one's
 native tongue is the most vital asset of a competent programmer (Prof.
-Edsger W. Dijkstra [3]).
+Edsger W. Dijkstra \cite{dijkstra82}).
 \end{tfquot}
 %!!</SMALLPRINT>
 We've talked about the significance of using names to symbolize ideas
@@ -1490,14 +1490,15 @@ Suit the action to the word, the word to the action (Shakespeare, Hamlet,
 Act III).
 %!!</SMALLPRINT>
 Henry Laxen, a FORTH consultant and author, suggests that the most
-important FORTH development tool is a good thesaurus [4].
+important FORTH development tool is a good thesaurus \cite{laxen}.
 
 Sometimes you'll think of an adequate word for a definition, but it
-doesn't feel quite right.  It may be months later before you realize that
-you fell short of the mark.  In the Roman numeral example in Chapter
-Four, there's a word that handles the exception case: numbers that are
-one-less-than the next symbol's value.  My first choice was 4-0R-9.  That's
-awkward, but it was much later that I thought of ALMOST.
+doesn't feel quite right.  It may be months later before you realize
+that you fell short of the mark.  In the Roman numeral example in
+\Chap{4}, there's a word that handles the exception case: numbers that
+are one-less-than the next symbol's value.  My first choice was
+4-0R-9.  That's awkward, but it was much later that I thought of
+ALMOST.
 
 Most fig-FORTH systems include the word VLIST, which lists the
 names of all the words in the current vocabulary.  After many years someone
@@ -1708,7 +1709,7 @@ We'll amplify on these ideas in the next chapter on ``Factoring.''
 Learn and adopt FORTH's naming conventions.
 \end{tip}
 In the quest for short, yet meaningful names, FORTH programmers
-have adopted certain naming conventions.  Appendix E includes a list of
+have adopted certain naming conventions.  \Chap{E} includes a list of
 the most useful conventions developed over the years.
 
 An example of the power of naming conventions is the use of ``dot''
@@ -1777,7 +1778,7 @@ Had FORTH been designed by committee, we would not love it so.
 \section{More Tips for Readability}
 
 Here are some final suggestions to make your code more readable.
-(Definitions appear in Appendix C.)
+(Definitions appear in \Chap{C}.)
 
 One constant that pays for itself in most applications is BL (the
 ASCII value for ``blank-space'').
@@ -1856,16 +1857,16 @@ all documentation apart from the listing itself.  We won't discuss
 auxiliary documentation further in this volume, but it remains an integral
 part of the software development process.
 
-\section{References}
-\begin{enumerate}
-\item Gregory Stevenson, ``Documentation Priorities,'' 1981 FORML Conference
-Proceedings, p. 401.
-\item Joanne Lee, ``Quality Assurance in a FORTH Environment,'' (Appendix
-A), 1981 FORML Proceedings, p. 363.
-\item Edsger W. Dijkstra, Selected Writings on Computing:\ A Personal Perspective,
-New York, Springer Verlag, Inc., 1982.
-\item Henry Laxen, ``Choosing Names,'' FORTH Dimensions, vol. 4, no.\ 4,
-FORTH Interest Group.
-\end{enumerate}
+\begin{references}{9}
+\bibitem{stevenson81} Gregory Stevenson, ``Documentation Priorities,''
+1981 FORML Conference Proceedings, p. 401.
+\bibitem{lee81} Joanne Lee, ``Quality Assurance in a FORTH
+Environment,'' (Appendix A), 1981 FORML Proceedings, p. 363.
+\bibitem{dijkstra82} Edsger W. Dijkstra, Selected Writings on
+Computing:\ A Personal Perspective, New York, Springer Verlag, Inc.,
+1982.
+\bibitem{laxen} Henry Laxen, ``Choosing Names,'' FORTH Dimensions,
+vol. 4, no.\ 4, FORTH Interest Group.
+\end{references}
 
 %Page 172 in first edition.

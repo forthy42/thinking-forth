@@ -7,7 +7,7 @@
 %Page 037 in first edition
 
 %\chapternum{TWO}
-\chapter{Analysis}
+\chapter{Analysis}\Chapmark{2}
 
 %Page 038 in first edition
 
@@ -67,7 +67,7 @@ programming cycle is known as using the ``Iterative Approach.''
 \section{The Iterative Approach}
 
 The iterative approach was explained eloquently by Kim
-Harris {[}1{]}. He begins by describing the scientific method:
+Harris \cite{harris81}. He begins by describing the scientific method:
 
 \begin{tfquot}
 \dots{} a never-ending cycle of discovery and refinement. It first
@@ -645,7 +645,7 @@ application.
 Develop the conceptual model by imagining the data traveling through and
 being acted upon by the parts of the model.
 \end{tip}
-A discipline called \emph{structured analysis} {[}2{]} offers some
+A discipline called \emph{structured analysis} \cite{weinberg80} offers some
 techniques for describing interfaces in ways that your clients will
 easily understand.  One of these techniques is called the ``data-flow
 diagram'' (DFD), which Teleska mentioned.
@@ -1057,9 +1057,9 @@ to a running FORTH application. But it is only pseudocode. We've
 avoided stack manipulations by assuming that values will somehow be on
 the stack where the comments indicate. Also, we've used hyphenated
 names because they might be more readable for the customer. Short
-names are preferred in real code---see Chapter Five.)
+names are preferred in real code---see \Chap{5}.)
 
-We'll unveil the finished code for this example in Chapter Eight.
+We'll unveil the finished code for this example in \Chap{8}.
 
 \section{Defining the Data Structures}
 
@@ -1253,7 +1253,7 @@ or ``Would you mind if I took off this page and replaced it with this
 expression?'' They get annoyed. They want you to do what they told you
 to do.
 
-LaFarr Stuart took this attitude when he redesigned FORTH {[}3{]}. He
+LaFarr Stuart took this attitude when he redesigned FORTH \cite{stuart80}. He
 didn't like the input buffer, so he implemented FORTH without it, and
 discovered he didn't really need an input buffer.
 
@@ -1386,7 +1386,7 @@ coats. It rarely gets that bad, of course, but the odds are decidedly
 
 How can you improve your chances of judging time requirements
 correctly? Many fine books have been written on this topic, notably
-\emph{The Mythical Man-Month} by Frederick P. Brooks, Jr. {[}4{]}.
+\emph{The Mythical Man-Month} by Frederick P. Brooks, Jr. \cite{brooks75}.
 I have little to add to this body of knowledge except for some
 personal observations.
 
@@ -1435,17 +1435,16 @@ Show the documented conceptual model to the customer. When the
 customer is finally satisfied, you're ready for the next big step: the
 design!
 
-\section{References}
-
-\begin{enumerate}
-\item Kim Harris, ``The FORTH Philosophy,'' \emph{Dr. Dobb's Journal,} \\
-  Vol. 6, Iss. 9, No. 59 (Sept. 81), pp. 6-11.
-\item Victor Weinberg, \emph{Structured Analysis,} Englewood Cliffs, N.J.:\\
-  Prentice-Hall, Inc., 1980.
-\item LaFarr Stuart, ``LaFORTH'',
+\begin{references}{9}
+\bibitem{harris81} Kim Harris, ``The FORTH Philosophy,''
+  \emph{Dr. Dobb's Journal,} Vol. 6, Iss. 9, No. 59 (Sept. 81),
+  pp. 6-11.
+\bibitem{weinberg80} Victor Weinberg, \emph{Structured Analysis,}
+  Englewood Cliffs, N.J.: Prentice-Hall, Inc., 1980.
+\bibitem{stuart80} LaFarr Stuart, ``LaFORTH'',
   \emph{1980 FORML Proceedings,} p. 78.
-\item Frederick P. Brooks, Jr., \emph{The Mythical Man-Month,} Reading,\\
-  Massachusetts, Addison-Wesley, 1975.
-\end{enumerate}
+\bibitem{brooks75} Frederick P. Brooks, Jr., \emph{The Mythical
+  Man-Month,} Reading, Massachusetts, Addison-Wesley, 1975.
+\end{references}
 
 % end of chapter two
