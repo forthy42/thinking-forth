@@ -1,0 +1,75 @@
+{\sf
+\setlength{\topsep}{0pt}
+
+\begin{framed}
+\textbf{DOER SAM}\underline{ ok}
+
+\textbf{DOER BIFF}\underline{ ok}
+\medskip
+
+\begin{tabular}{|c|}\hline SAM \\ \hline\end{tabular}\kern 4cm
+\begin{tabular}{|c|}\hline BIFF \\ \hline\end{tabular}
+\medskip
+
+Creates two \textbf{DOER} words that do nothing.
+\end{framed}
+
+\begin{framed}
+\textbf{: TESTB MAKE SAM 2 . ;AND MAKE BIFF 3 . ;}\underline{ ok}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTB & MAKE & SAM & 2 & . & ;AND & MAKE & BIFF & 3 & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+Defines a new word called TESTB.
+\end{framed}
+ 
+\begin{framed}
+\textbf{TESTB}\underline{ ok}
+\medskip
+
+\rnode{A1}{\begin{tabular}{|c|}\hline SAM \\ \hline\end{tabular}}\kern 4cm
+\begin{tabular}{|c|}\hline BIFF \\ \hline\end{tabular}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTB & MAKE & SAM & \smash{\rnode{B1}{2\large\strut}} & . & ;AND & MAKE & BIFF & 3 & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleB=90}
+\ncangle{A1}{B1}
+The first \textbf{MAKE} redirects SAM so that it points to the code
+after it\dots
+\medskip
+
+\rnode{A2}{\begin{tabular}{|c|}\hline SAM \\ \hline\end{tabular}}\kern 4cm
+\rnode{A3}{\begin{tabular}{|c|}\hline BIFF \\ \hline\end{tabular}}\kern1ex\lower1.4ex\hbox{CONTINUE}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTB & MAKE & SAM & \smash{\rnode{B2}{2\large\strut}} & . & ;AND & MAKE & BIFF & \smash{\rnode{B3}{3\large\strut}} & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleB=90}
+\ncangle{A2}{B2}
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleB=90}
+\ncangle{A3}{B3}
+The \textbf{;AND} continues executeion of TESTB. The second \textbf{MAKE}
+redirects BIFF.
+\end{framed}
+
+\begin{framed}
+\textbf{SAM}\underline{ 2 ok}
+
+\textbf{BIFF}\underline{ 3 ok}
+\medskip
+
+Two \textbf{DOER} words have been redirected at the same time by the
+single word TESTB. SAM's code stops at \textbf{;AND}. BIFF's code
+stops at semicolon.
+\end{framed}
+}

@@ -1,0 +1,52 @@
+{\sf
+\setlength{\topsep}{0pt}
+\begin{framed}
+\textbf{DOER JOE}\underline{ ok}
+\medskip
+
+{\begin{tabular}{|c|}\hline \boxto{MAKE}{JOE}\\ \hline\end{tabular}}
+\medskip
+
+Creates a \textbf{DOER} word called JOE, that does nothing.
+\end{framed}
+
+\begin{framed}
+\textbf{: TEST~~MAKE JOE~~1 . ;}\underline{ ok}
+\medskip
+
+{\begin{tabular}{|c|}\hline \boxto{MAKE}{JOE}\\ \hline\end{tabular}}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+\boxto{MAKE}{TEST} & \boxto{MAKE}{MAKE} & \boxto{MAKE}{JOE} & \boxto{MAKE}{1} & \boxto{MAKE}{.} & \boxto{MAKE}{;} \\ \hline
+\end{tabular}
+\medskip
+
+Defines a new word called TEST
+\end{framed}
+
+\begin{framed}
+\textbf{TEST}\underline{ ok}
+\medskip
+
+\relax\rnode{A}{\begin{tabular}{|c|}\hline \boxto{MAKE}{JOE}\\ \hline\end{tabular}}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+\boxto{MAKE}{TEST} & \boxto{MAKE}{MAKE} & \boxto{MAKE}{JOE} & \smash{\boxto{MAKE}{\rnode{B}{1\large\strut}}} & \boxto{MAKE}{.} & \boxto{MAKE}{;} \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleB=90}
+\ncangle{A}{B}
+\textbf{MAKE} redirects JOE so that it points to the code after
+\textbf{MAKE} JOE, and stops execution of the rest of TEST.
+\end{framed}
+
+\begin{framed}
+\textbf{JOE}\underline{ 1 ok}
+\medskip
+
+Executes the code that JOE points to ( \textbf{1 . }).
+\end{framed}
+}

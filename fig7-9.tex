@@ -1,0 +1,75 @@
+{\sf
+\setlength{\topsep}{0pt}
+
+\begin{framed}
+\textbf{: TESTC~~MAKE JOE 4 .~~MAKE JOE 5 . ;}\underline{ ok}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTC & MAKE & JOE & 4 & . & MAKE & JOE & 5 & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+Defines a new word called TESTC.
+\end{framed}
+
+\begin{framed}
+\textbf{TESTC}\underline{ ok}
+\medskip
+
+\rnode{A4}{\begin{tabular}{|c|}\hline JOE \\ \hline\end{tabular}}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTC & MAKE & JOE & \smash{\rnode{B4}{4\large\strut}} & . & MAKE & JOE & 5 & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleB=90}
+\ncangle{A4}{B4}
+\textbf{MAKE} redirects JOE to the code after \textbf{MAKE} JOE.
+\end{framed}
+
+\begin{framed}
+\textbf{JOE}\underline{ 4 ok}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTC & MAKE & JOE & \smash{\rnode{A4A}{\rnode{B4A}{4\large\strut}\Huge\strut}} & . & MAKE & JOE & 5 & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=90,angleB=90}
+\ncangle{A4A}{B4A}
+Executes the code that JOE points to ( 4 . MAKE etc.).
+\medskip
+
+\rnode{A5}{\begin{tabular}{|c|}\hline JOE \\ \hline\end{tabular}}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTC & MAKE & JOE & 4 & . & MAKE & JOE & \smash{\rnode{B5}{5\large\strut}} & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=0,angleB=90}
+\ncangle{A5}{B5}
+After execution of 4 . the second \textbf{MAKE} redirects JOE to
+point to the five. (There was no \textbf{;AND} to stop it.).
+\end{framed}
+
+\begin{framed}
+\textbf{JOE}\underline{ 5 ok}
+\medskip
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+TESTC & MAKE & JOE & 4 & . & MAKE & JOE & \smash{\rnode{A5A}{\rnode{B5A}{5\large\strut}\Huge\strut}} & . & ; \\ \hline
+\end{tabular}
+\medskip
+
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=90,angleB=90}
+\ncangle{A5A}{B5A}
+Typing JOE a second time executes the new code pointed to by JOE ( 5
+. ). Here the pointer will stay.
+\end{framed}
+}
