@@ -26,14 +26,13 @@
 \usepackage{geometry}
 \usepackage{pst-all}
 \usepackage{fancyvrb}
-\usepackage[2004,6x9]{tf}
+\usepackage[2004]{tf}
 
 %% Cover creation howto:
 %% back | spine | front + border
 %% spine = pages*0.0041in
 %% border: 0.25in
 
-\newdimen\pthick
 \newdimen\pwidth
 \newdimen\pheight
 \newdimen\oldpwidth
@@ -46,13 +45,12 @@
 \advance\oddmargin\evensidemargin
 \evenmargin-\oddsidemargin
 \newdimen\spine
-\pthick0.0041in
 \spine162\pthick
 \pwidth2\paperwidth
 \advance\pwidth\spine
-\advance\pwidth0.25in
+\advance\pwidth2\cborder
 \pheight\paperheight
-\advance\pheight0.25in
+\advance\pheight2\cborder
 
 \geometry{verbose,paperwidth=\pwidth,paperheight=\pheight,tmargin=0in,%
 bmargin=0in,lmargin=0in,rmargin=0in,headheight=0pt,headsep=0pt,%
@@ -66,10 +64,10 @@ footskip=0pt}
 \fi
 
 \makeatletter
-\parindent-0in
+\parindent0pt
 \begin{document}
 \pagestyle{empty}\samepage
-\centerline{\psframebox*[fillcolor=black,framesep=0.125in]{\noindent
+\centerline{\psframebox*[fillcolor=black,framesep=\cborder]{\noindent
 \white
 \begin{minipage}{\oldpwidth}
 \hbox{\hspace{\oddmargin}
@@ -83,7 +81,7 @@ footskip=0pt}
 \end{minipage}
 \vline
 \begin{minipage}{\spine}
-\rotateleft{\advance\pheight-0.25in\vbox to \spine{\vss\hbox to \pheight{
+\rotateleft{\advance\pheight-2\cborder\vbox to \spine{\vss\hbox to \pheight{
     \fontfamily{phv}\selectfont
     \leavevmode\hspace{0.5in}
     \Huge\bfseries\person{Leo Brodie}\hss

@@ -53,7 +53,7 @@ TOGETHER = 20 # how many pages you bind together - divide by 4
 PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
 PSLET = sed -e 's/%%BoundingBox:.*/%%PageSize: letter\n%%Orientation: Landscape/'
 
-all:	index pspdf ps cover
+all:	index pspdf cover
 
 cover:	cover.pdf
 
