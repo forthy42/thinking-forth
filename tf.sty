@@ -172,11 +172,11 @@
 %% Emulate with printing several times, slightly moving
 
 \newcommand{\poorbf}[1]{%
-\kern-.25pt\hbox to 0.25pt{#1\hss}%
-\raise0.25pt\hbox to 0pt{#1\hss}%
-\lower0.25pt\hbox to 0pt{#1\hss}%
-\hbox to 0.25pt{#1\hss}%
-#1\kern-0.25pt}
+\kern-.20pt\hbox to 0.20pt{#1\hss}%
+\raise0.20pt\hbox to 0pt{#1\hss}%
+\lower0.20pt\hbox to 0pt{#1\hss}%
+\hbox to 0.20pt{#1\hss}%
+#1\kern-0.20pt}
 
 %% line for separating is blacker than LaTeX default
 
@@ -251,11 +251,13 @@ TIP\\[1ex]\small
 %\code text was originally also set in roman font
 %1984 edition uses fat romand for Forth words
 \ifeightyfour
-\newcommand{\forth}[1]{\textbf{#1}}
-\newcommand{\code}[1]{\textbf{#1}}
+\newcommand{\forth}[1]{\textrm{#1}}
+\newcommand{\forthb}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\textrm{#1}}
 \else
 %1994 edition uses teletype for Forth words
 \newcommand{\forth}[1]{\texttt{#1}}
+\newcommand{\forthb}[1]{\texttt{\poorbf{#1}}}
 \newcommand{\code}[1]{\texttt{#1}}
 \fi
 
