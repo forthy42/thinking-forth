@@ -289,16 +289,16 @@ execute functions are hidden within the FORTH system.
 In my accounting package, if you receive a check from somebody, you type
 the amount, the check number, the word FROM, and the person's name:
 
-\begin{verbatim}
+\begin{Code}
 200.00 127 FROM ALLIED
-\end{verbatim}
+\end{Code}
 The word FROM takes care of that situation. If you want to bill someone,
 you type the amount, the invoice number, the word BILL and the person's
 name:
 
-\begin{verbatim}
+\begin{Code}
 1000.OO 280 BILL TECHNITECH
-\end{verbatim}
+\end{Code}
 \dots{} One word for each situation. The dictionary is making the decision.
 \end{tfquot}\blackline{1ex}
 This notion pervades FORTH itself. To add a pair of single-length
@@ -324,9 +324,9 @@ A few common FORTH words have been the source of controversy
 recently over this issue. One such word is \textbf{."} which prints a string.
 In its simplest form, it's allowed only inside a colon definition:
 
-\begin{verbatim}
+\begin{Code}
 : TEST   ." THIS IS A STRING " ;
-\end{verbatim}
+\end{Code}
 Actually, this version of the word does \emph{not} print a string. It
 \emph{compiles} a string, along with the address of another definition
 that does the printing at run time.
@@ -355,14 +355,14 @@ Suppose a student wants to write a new word called \textbf{B."} (for
 ``bright-dot-quote'') to display a string in bright characters on her
 display, to be used like this:
 
-\begin{verbatim}
+\begin{Code}
 ." INSERT DISK IN "  B." LEFT "  ." DRIVE "
-\end{verbatim}
+\end{Code}
 She might expect to define \textbf{B."} as
 
-\begin{verbatim}
+\begin{Code}
 : B."   BRIGHT  ."  NORMAL ;
-\end{verbatim}
+\end{Code}
 that is, change the video mode to bright, print the string, then reset the
 mode to normal.
 
@@ -381,9 +381,9 @@ that it always sets the mode to normal after typing, even though it will
 already be normal most of the time. With this syntax, the programmer
 need merely precede the emphasized string with the simple word BRIGHT.
 
-\begin{verbatim}
+\begin{Code}
 ." INSERT DISK IN "  BRIGHT ." LEFT "  ." DRIVE "
-\end{verbatim}
+\end{Code}
 The '83 Standard now specifies a dumb \textbf{."} and, for those cases where an
 interpretive version is wanted, the new word \textbf{.(} has been added. Happily,
 in this new standard we're using the dictionary to make a decision by
@@ -403,34 +403,34 @@ behave as they do interpretively.
 \textbf{ASCII} works well as a STATE-dependent word, and so does \textbf{MAKE}.
 (See Appendix C.)
 
-\subsection{Nesting and Combining Conditionals}
-
+\othersidetrue\subsection{Nesting and Combining Conditionals}
+\othersidefalse
 \begin{tip}
 Don't test for something that has already been excluded.
 \end{tip}
 Take this example, please:
 
-\begin{verbatim}
+\begin{Code}
 : PROCESS-KEY
    KEY  DUP  LEFT-ARROW  =  IF CURSOR-LEFT  THEN
         DUP  RIGHT-ARROW =  IF CURSOR-RIGHT THEN
         DUP  UP-ARROW    =  IF CURSOR-UP    THEN
              DOWN-ARROW  =  IF CURSOR-DOWN  THEN ;
-\end{verbatim}
+\end{Code}
 This version is inefficient because all four tests must be made regardless
 of the outcome of any of them. If the key pressed was the left-arrow key,
 threre's no need to check if it was some other key.
 
 Instead, you can nest the conditionals, like this:
 
-\begin{verbatim}
+\begin{Code}
 : PROCESS-KEY
    KEY  DUP  LEFT-ARROW  =  IF CURSOR-LEFT  ELSE
         DUP  RIGHT-ARROW =  IF CURSOR-RIGHT ELSE
         DUP  UP-ARROW    =  IF CURSOR-UP    ELSE
                                CURSOR-DOWN
            THEN THEN THEN  DROP ;
-\end{verbatim}
+\end{Code}
 \begin{tip}
 Combine booleans of similar weight.
 \end{tip}
@@ -438,50 +438,50 @@ Many instances of doubly-nested \textbf{IF THEN} structures can be simplified
 by combining the flags with logical operators before making the decision.
 Here's a doubly-nested test:
 
-\begin{verbatim}
+\begin{Code}
 : ?PLAY   SATURDAY? IF  WORK FINISHED? IF
      GO PARTY  THEN  THEN ;
-\end{verbatim}
+\end{Code}
 The above code uses nested \textbf{IF}s to make sure that it's both Saturday and
 the chores are done before it boogies on down. Instead, let's combine the
 conditions logically and make a single decision:
 
-\begin{verbatim}
+\begin{Code}
 : ?PLAY   SATURDAY?  WORK FINISHED? AND  IF
      GO PARTY  THEN ;
-\end{verbatim}
+\end{Code}
 It's simpler and more readable.
 
 The logical ``or'' situation, when implemented with \textbf{IF THEN}s, is
 even clumsier:
 
-\begin{verbatim}
+\begin{Code}
 : ?RISE    PHONE RINGS? IF  UP GET  THEN
      ALARM-CLOCK RINGS?  IF UP GET THEN ;
-\end{verbatim}
+\end{Code}
 This is much more elegantly written as
 
-\begin{verbatim}
+\begin{Code}
 : ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
-\end{verbatim}
+\end{Code}
 One exception to this rule arises when the speed penalty for checking
 some of the conditions is too great.
 
 We might write
 
-\begin{verbatim}
+\begin{Code}
 : ?CHOW-MEIN   BEAN-SPROUTS?  CHOW-MEIN RECIPE?  AND IF
    CHOW-MEIN PREPARE  THEN ;
-\end{verbatim}
+\end{Code}
 But suppose it's going to take us a long time to hunt through our recipe
 file to see if there's anything on chow mein. Obviously there's no point in
 undertaking the search if we have no bean sprouts in the fridge. It would
 be more efficient to write
 
-\begin{verbatim}
+\begin{Code}
 : ?CHOW-MEIN   BEAN-SPROUTS? IF  CHOW-MEIN RECIPE? IF
    CHOW-MEIN PREPARE THEN   THEN ;
-\end{verbatim}
+\end{Code}
 We don't bother looking for the recipe if there are no sprouts.
 
 Another exception arises if any term is probably not true. By
@@ -496,25 +496,25 @@ to be true or easiest to calculate on the outside.
 Trying to improve performance in this way is more difficult with the OR
 construct. For instance, in the definition
 
-\begin{verbatim}
+\begin{Code}
 : ?RISE  PHONE RINGS?  ALARM RINGS? OR  IF  UP GET THEN ;
-\end{verbatim}
+\end{Code}
 we're testing for the phone and the alarm, even though only one of them
 needs to ring for us to get up. Now suppose it were much more difficult to
 determine that the alarm clock was ringing. We could write
 
-\begin{verbatim}
+\begin{Code}
 : ?RISE   PHONE RINGS? IF  UP GET  ELSE
      ALARM-CLOCK RINGS?  IF UP GET THEN THEN  ;
-\end{verbatim}
+\end{Code}
 If the first condition is true, we don't waste time evaluating the second.
 We have to get up to answer the phone anyway.
 
 The repetition of UP GET is ugly---not nearly as readible as the
 solution using \textbf{OR}---but in some cases desirable.
 
-\subsection{Choosing Control Structures}
-
+\othersidetrue\subsection{Choosing Control Structures}
+\othersidefalse
 \begin{tip}
 The most elegant code is that which most closely matches the problem.
 Choose the control structure that most closely matches the control-flow
@@ -528,28 +528,28 @@ want the word .SUIT to take a number representing a suit of playing
 cards, O through 3, and display the name of the suit. We might define this
 word using nested \textbf{IF ELSE THEN}s, like this:
 
-\begin{verbatim}
+\begin{Code}
 : .SUIT ( suit -- )
   DUP  O=  IF ." HEARTS "   ELSE
   DUP  1 = IF ." SPADES "   ELSE
   DUP  2 = IF ." DIAMONDS " ELSE
               ." CLUBS "
   THEN THEN THEN  DROP ;
-\end{verbatim}
+\end{Code}
 We can solve this problem more elegantly by using a ``case statement.''
 
 Here's the same definition, rewritten using the ``Eacker case statement''
 format, named after Dr. Charles E. Eacker, the gentleman who proposed
 it [1].
 
-\begin{verbatim}
+\begin{Code}
 : .SUIT ( suit -- )
   CASE
   O OF   ." HEARTS "    ENDOF
   1 OF   ." SPADES "    ENDOF
   2 OF   ." DIAMONDS "  ENDOF
   3 OF   ." CLUBS "     ENDOF     ENDCASE ;
-\end{verbatim}
+\end{Code}
 The case statement's value lies exclusively in its readability and
 writeability. There's no efficiency improvement either in object memory
 or in execution speed. In fact, the case statement compiles much the
@@ -640,9 +640,9 @@ byte. This makes it easier to type, move, or do practically anything with
 the string. With the address and count on the stack, the definition of
 \textbf{TYPE} can be coded:
 
-\begin{verbatim}
+\begin{Code}
 : TYPE  ( a #)  OVER + SWAP DO  I C@ EMIT  LOOP ;
-\end{verbatim}
+\end{Code}
 (Although \textbf{TYPE} really ought to be written in machine code.)
 
 This definition uses no overt conditional. \textbf{LOOP} actually hides the
@@ -652,10 +652,10 @@ has not yet reached the limit.
 If a delimiter were used, let's say ASCII null (zero), the definition
 would have to be written:
 
-\begin{verbatim}
+\begin{Code}
 : TYPE  ( a)  BEGIN DUP C@  ?DUP WHILE  EMIT  1+
    REPEAT  DROP ;
-\end{verbatim}
+\end{Code}
 An extra test is needed on each pass of the loop. (\textbf{WHILE} is a conditional
 operator.)
 
@@ -663,10 +663,10 @@ Optimization note: The use of \textbf{?DUP} in this solution is expensive in
 terms of time because it contains an extra decision itself. A faster
 definition would be:
 
-\begin{verbatim}
+\begin{Code}
 : TYPE  ( a)  BEGIN DUP C@  DUP WHILE EMIT 1+
     REPEAT  2DROP ;
-\end{verbatim}
+\end{Code}
 The '83 Standard applied this principle to \textbf{INTERPRET} which now accepts
 a count rather than looking for a terminator.
 
@@ -699,10 +699,10 @@ calculate.'' The idea is that booleans, which the computer represents as
 numbers, can efficiently be used to effect numeric decisions. Here's one
 example, found in many FORTH systems:
 
-\begin{verbatim}
+\begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
      DUP O<  IF -1  ELSE  O THEN ;
-\end{verbatim}
+\end{Code}
 (The purpose of this definition is to convert a single-length number to
 double-length. A double-length number is represented as two 16-bit
 values on the stack, the high-order part on top. Converting a positive
@@ -716,19 +716,19 @@ negative. If so, it pushes a negative one onto the stack; otherwise a zero.
 But notice that the outcome is merely arithmetic; there's no change
 in process. We can take advantage of this fact by using the boolean itself:
 
-\begin{verbatim}
+\begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< ;
-\end{verbatim}
+\end{Code}
 This version pushes a zero or negative one onto the stack without a
 moment's (in)decision.
 
 (In pre-1983 systems, the definition would be:
 
-\begin{verbatim}
+\begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
      DUP  O< NEGATE ;
-\end{verbatim}
+\end{Code}
 See Appendix C.)
 
 We can do even more with ``hybrid values'':
@@ -739,41 +739,41 @@ To effect a decision with a numeric outcome, use AND.
 In the case of a decision that produces either zero or a non-zero ``n,'' the
 traditional phrase
 
-\begin{verbatim}
+\begin{Code}
 ( ? ) IF  n  ELSE  O  THEN
-\end{verbatim}
+\end{Code}
 is equivalent to the simpler statement
 
-\begin{verbatim}
+\begin{Code}
 ( ? )  n AND
-\end{verbatim}
+\end{Code}
 Again, the secret is that ``false'' is represented by -1 (all ones) in '83
 FORTH systems. \textbf{AND}ing ``n'' with the flag will either produce ``n'' (all
 bits intact) or ``O'' (all bits cleared).
 
 To restate with an example:
 
-\begin{verbatim}
+\begin{Code}
 ( ? )  IF  200  ELSE  O  THEN
-\end{verbatim}
+\end{Code}
 is the same as
 
-\begin{verbatim}
+\begin{Code}
 ( ? )  200 AND
-\end{verbatim}
+\end{Code}
 Take a look at this example:
 
-\begin{verbatim}
+\begin{Code}
 n  a b <  IF  45 +  THEN
-\end{verbatim}
+\end{Code}
 This phrase either adds 45 to ``n'' or doesn't, depending on the relative
 sizes of ``a'' and ``b.'' Since ``adding 45 or not'' is the same as ``adding 45
 or adding 0,'' the difference between the two outcomes is purely numeric.
 We can rid ourselves of a decision, and simply compute:
 
-\begin{verbatim}
+\begin{Code}
 n  a b <  45 AND  +
-\end{verbatim}
+\end{Code}
 \bigskip\blackline{2ex}
 \noindent Moore:
 \begin{tfquot}
@@ -789,14 +789,14 @@ algebra and arithmetic expressions will accommodate it.
 In books you often see a lot of piece-wise linear approximations that fail to
 express things clearly. For instance the expression
 
-\begin{Verbatim}[commandchars=\&\{\}]
+\begin{Code}[commandchars=\&\{\}]
 x = O for t < O
 x = 1 for t &(&ge&) O
-\end{Verbatim}
+\end{Code}
 This would be equivalent to
-\begin{verbatim}
+\begin{Code}
 t  O<  1 AND
-\end{verbatim}
+\end{Code}
 as a single expression, not a piece-wise expression.
 \end{tfquot}\blackline{1ex}
 I call these flags ``hybrid values'' because they are booleans (truth
@@ -807,14 +807,14 @@ We can eliminate numeric \textbf{ELSE} clauses as well (where both results
 are non-zero), by factoring out the difference between the two results. For
 instance,
 
-\begin{verbatim}
+\begin{Code}
 : STEPPERS  'TESTING? @  IF 150 ELSE 151  THEN  LOAD ;
-\end{verbatim}
+\end{Code}
 can be simplified to
 
-\begin{verbatim}
+\begin{Code}
 : STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
-\end{verbatim}
+\end{Code}
 This approach works here because conceptually we want to either load
 Screen 150, or if testing, the next screen past it.
 
@@ -852,14 +852,14 @@ Use \textbf{MIN} and \textbf{MAX} for clipping.
 Suppose we want to decrement the contents of the variable VALUE, but
 we don't want the value to go below zero:
 
-\begin{verbatim}
+\begin{Code}
 -1 VALUE +!  VALUE @  -1 = IF  O VALUE !  THEN
-\end{verbatim}
+\end{Code}
 This is more simply written:
 
-\begin{verbatim}
+\begin{Code}
 VALUE @  1-  O MAX  VALUE !
-\end{verbatim}
+\end{Code}
 In this case the conditional is factored within the word \textbf{MAX}.
 
 \subsection{Using Decision Tables}
@@ -887,31 +887,31 @@ freeways, false when we're referring to city streets.
 Let's construct the word SPEED-LIMIT, which returns the speed
 limit depending on the current state. Using \textbf{IF THEN} we would write:
 
-\begin{verbatim}
+\begin{Code}
 : SPEED-LIMIT  ( -- speed-limit)
      'FREEWAY? @  IF  55  ELSE  25  THEN ;
-\end{verbatim}
+\end{Code}
 We might eliminate the \textbf{IF THEN} by using a hybrid value with \textbf{AND}:
 
-\begin{verbatim}
+\begin{Code}
 : SPEED-LIMIT   25  'FREEWAY? @  30 AND + ;
-\end{verbatim}
+\end{Code}
 But this approach doesn't match our conceptual model of the problem
 and therefore isn't very readable.
 
 Let's try a data table. This is a one-dimensional table, with only two
 elements, so there's not much to it:
 
-\begin{verbatim}
+\begin{Code}
 CREATE LIMITS   25 ,  55 ,
-\end{verbatim}
+\end{Code}
 The word SPEED-LIMIT? now must apply the boolean to offset into
 the data table:
 
-\begin{verbatim}
+\begin{Code}
 : SPEED-LIMIT  ( -- speed-limit)
      LIMITS  'FREEWAY? @  2 AND  +  @ ;
-\end{verbatim}
+\end{Code}
 Have we gained anything over the \textbf{IF THEN} approach? Probably not,
 with so simple a problem.
 
@@ -920,30 +920,30 @@ process from the data itself. This becomes more cost-effective when we
 have more than one set of data related to the same decision. Suppose we
 also had
 
-\begin{verbatim}
+\begin{Code}
 CREATE #LANES   4 ,  10 ,
-\end{verbatim}
+\end{Code}
 representing the number of lanes on a city street and on a freeway. We
 can use identical code to compute the current number of lanes:
 
-\begin{verbatim}
+\begin{Code}
 : #LANES?  ( -- #lanes)
      #LANES  'FREEWAY? @  2 AND  +  @ ;
-\end{verbatim}
+\end{Code}
 Applying techniques of factoring, we simplify this to:
 
-\begin{verbatim}
+\begin{Code}
 : ROAD  ( for-freeway for-city ) CREATE , ,
      DOES> ( -- data )  'FREEWAY? @  2 AND  +  @ ;
 
 55 25 ROAD SPEED-LIMIT?
 10  4 ROAD #LANES?
-\end{verbatim}
+\end{Code}
 Another example of the one-dimensional data table is the ``superstring''
 (emph{Starting FORTH}, Chapter Ten).
 
-\subsubsection{Two-Dimensional Data Table}
-
+\othersidetrue\subsubsection{Two-Dimensional Data Table}
+\othersidefalse
 In Chapter Two we presented a phone-rate problem. \Fig{fig8-4} gives one
 solution to the problem, using a two-dimensional data structure.
 
@@ -955,13 +955,13 @@ way.
 The current rate, which depends on the time of day, is stored as an
 address, representing one of the three rate-structure sub-tables. We can
 say
-\begin{verbatim}
+\begin{Code}
 FULL RATE !
-\end{verbatim}
+\end{Code}
 or
-\begin{verbatim}
+\begin{Code}
 LOWER RATE !
-\end{verbatim}
+\end{Code}
 etc.
 
 \begin{figure*}[tttt]
@@ -1015,14 +1015,14 @@ Each key has a different behavior depending on the current mode.
 
 The first screen implements the change of the modes. If we invoke
 
-\begin{verbatim}
+\begin{Code}
 NORMAL MODE# !
-\end{verbatim}
+\end{Code}
 we'll go into Normal Mode.
 
-\begin{verbatim}
+\begin{Code}
 INSERTING MODE# !
-\end{verbatim}
+\end{Code}
 enters Inserting Mode.
 
 The next screen constructs the function table, called FUNCTIONS.
@@ -1043,16 +1043,16 @@ the variable MODE\#. Since MODE\# will contain either a 2 or a 4, by
 adding this offset we're now pointing into the table at the address
 of the routine we want to perform. A simple
 
-\begin{verbatim}
+\begin{Code}
 @ EXECUTE
-\end{verbatim}
+\end{Code}
 will perform the routine (or \textbf{@EXECUTE} if you have it).
 
 In fig-FORTH, change the definition of \textbf{IS} to:
 
-\begin{verbatim}
+\begin{Code}
 : IS   [COMPILE] '  CFA , ;
-\end{verbatim}
+\end{Code}
 \begin{figure*}[pppp]
 \verbfig{fig8-5}{Implementation of the Tiny Editor.}
 \setcounter{screen}{30}
@@ -1095,27 +1095,27 @@ VARIABLE MATCHED
 \end{Screen}
 \end{figure*}
 In 79-Standard FORTHs, use:
-\begin{verbatim}
+\begin{Code}
 : IS   [COMPILE] '  , ;
-\end{verbatim}
+\end{Code}
 We've also used non-redundancy at compile time in the definition just
 below the function table:
-\begin{verbatim}
+\begin{Code}
 HERE /KEY -  CONSTANT 'NOMATCH  \  adr of no-match key
-\end{verbatim}
+\end{Code}
 We're making a constant out of the last row in the function table. (At the
 moment we invoke \textbf{HERE}, it's pointing to the next free cell after the last
 table entry has been filled in. Six bytes back is the last row.) We now have
 two words:
-\begin{verbatim}
+\begin{Code}
 FUNCTIONS  ( adr of beginning of function table )
 'NOMATCH   ( adr of "no-match" row; these are the
              routines for any key not in the table)
-\end{verbatim}
+\end{Code}
 We use these names to supply the addresses passed to \textbf{DO}:
-\begin{verbatim}
+\begin{Code}
 'NOMATCH FUNCTION DO
-\end{verbatim}
+\end{Code}
 to set up a loop that runs from the first row of the table to the last. We
 don't have to know how many rows lie in the table. We could even delete a
 row or add a row to the table, without having to change any other piece of
@@ -1127,12 +1127,12 @@ columns in the table.
 Incidentally, the approach to 'FUNCTION taken in the listing is a
 quick-and-dirty one; it uses a local variable to simplify stack
 manipulation. A simpler solution that uses no local variable is:
-\begin{verbatim}
+\begin{Code}
 : 'FUNCTION  ( key -- adr of match )
    'NOMATCH SWAP  'NOMATCH FUNCTIONS DO  DUP
       I @ =  IF SWAP DROP I SWAP  LEAVE  THEN
    /KEY +LOOP  DROP ;
-\end{verbatim}
+\end{Code}
 (We'll offer still another solution later in this chapter, under ``Using
 Structured Exits.'')
 
@@ -1144,12 +1144,12 @@ speed justify the extra complexity of a table.
 
 Here is an example that computes powers of two to 8-bit precision:
 
-\begin{verbatim}
+\begin{Code}
 CREATE TWOS
    1 C,  2 C,  4 C,  8 C,  16 C,  32 C,
 : 2**  ( n -- 2 to the n)
    TWOS +  C@ ;
-\end{verbatim}
+\end{Code}
 Instead of computing the answer by multiplying two times itself ``n''
 times, the answers are all pre-computed and placed in a table. We can use
 simple addition to offset into the table and get the answer.
@@ -1280,16 +1280,21 @@ involved. Assuming we have a six-byte table in which each byte represents
 a pixel in the pattern:
 
 %!! include inline graphic here (page 254)
-
+\bigskip
+{\sf\begin{tabular}{l|c|c|} \cline{2-3}
+PIXELS~~ & ~0~ & ~1~ \\ \cline{2-3}
+       & 2 & 3 \\ \cline{2-3}
+       & 4 & 5 \\ \cline{2-3}
+\end{tabular}}\\[1ex]
 and assuming that each byte contains hex FF if the pixel is ``on;'' zero if
 it is ``off,'' then here's how little code it takes to compute the character:
 
-\begin{verbatim}
+\begin{Code}
 CREATE PIXELS  6 ALLOT
 : PIXEL  ( i -- a )  PIXELS + ;
 : CHARACTER  ( -- graphics character)
    160   6 O DO  I PIXEL C@  I 2** AND  +  LOOP ;
-\end{verbatim}
+\end{Code}
 (We introduced 2** a few tips back.)
 
 No decisions are necessary in the definition of CHARACTER. The
@@ -1328,11 +1333,11 @@ Use the structured exit.
 In the chapter on factoring we demonstrated the possibility of factoring
 out a control structure using this technique:
 
-\begin{verbatim}
+\begin{Code}
 : CONDITIONALLY   A B OR  C AND  IF  NOT R> DROP  THEN ;
 : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
 : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
-\end{verbatim}
+\end{Code}
 FORTH allows us to alter the control flow by directly manipulating the
 return stack. (If in doubt, see \emph{Starting FORTH}, Chapter Nine.)
 Indiscreet application of this trick can lead to unstructured code with nasty
@@ -1375,14 +1380,14 @@ be used one level down. Here are some examples of both approaches.
 If you have an \textbf{IF ELSE THEN} phrase in which no code follows
 \textbf{THEN}, like this:
 
-\begin{verbatim}
+\begin{Code}
 ... HUNGRY?  IF  EAT-IT  ELSE  FREEZE-IT  THEN ;
-\end{verbatim}
+\end{Code}
 you can eliminate \textbf{ELSE} by using \textbf{EXIT}:
 
-\begin{verbatim}
+\begin{Code}
 ... HUNGRY?  IF EAT-IT EXIT  THEN  FREEZE-IT ;
-\end{verbatim}
+\end{Code}
 (If the condition is true, we eat and run; \textbf{EXIT} acts like a semicolon.
 If the condition is false, we skip to \textbf{THEN} and FREEZE-IT.)
 
@@ -1396,12 +1401,12 @@ Especially if your conditionals are getting elaborate, it's handy to jump out
 in the middle without having to match all your \textbf{THEN}s at the end. In one
 application I had a word that went like this:
 
-\begin{verbatim}
+\begin{Code}
 : TESTING
    SIMPLE  1CONDITION IF ... EXIT THEN
            2CONDITION IF ... EXIT THEN
            3CONDITION IF ... EXIT THEN ;
-\end{verbatim}
+\end{Code}
 SIMPLE handled the simple cases. SIMPLE ended up with \textbf{R> DROP}.
 These other conditions were the more complex ones.
 
@@ -1424,18 +1429,18 @@ last row of the functions table.
 We can introduce the word LEAP (see Appendix C), which will work
 like \textbf{EXIT} (it will simulate a semicolon). Now we can write:
 
-\begin{verbatim}
+\begin{Code}
 : 'FUNCTION  ( key -- adr of match )
    'NOMATCH FUNCTIONS DO  DUP  I @ =  IF  DROP I LEAP
    THEN  /KEY +LOOP  DROP  'NOMATCH ;
-\end{verbatim}
+\end{Code}
 If we find a match we LEAP, not to \textbf{+LOOP}, but right out of the definition,
 leaving \textbf{I} (the address at which we found it) on the stack. If we don't
 find a match, we fall through the loop and execute
 
-\begin{verbatim}
+\begin{Code}
 DROP  'NOMATCH
-\end{verbatim}
+\end{Code}
 which drops the key\# being searched for, then leaves the address of the
 last row!
 
@@ -1453,8 +1458,8 @@ the unwanted value on the stack.
 Fooling with the return stack is like playing with fire. You can get
 burned. But how convenient it is to have fire.
 
-\subsection{Employing Good Timing}
-
+\othersidetrue\subsection{Employing Good Timing}
+\othersidefalse
 \begin{tip}
 Take the action when you know you need to, not later.
 \end{tip}
@@ -1480,9 +1485,9 @@ parentheses in and out of your load blocks to change which version gets
 loaded each time. Instead, write throw-away definitions that make the
 decisions for you. For instance (as already previewed in another context):
 
-\begin{verbatim}
+\begin{Code}
 : STEPPERS   150  'TESTING? @  1 AND +  LOAD ;
-\end{verbatim}
+\end{Code}
 \begin{tip}
 \textbf{DUP} a flag, don't recreate it.
 \end{tip}
@@ -1490,16 +1495,16 @@ Sometimes you need a flag to indicate whether or not a previous piece of
 code was invoked. The following definition leaves a flag which indicates
 that DO-IT was done:
 
-\begin{verbatim}
+\begin{Code}
 : DID-I?  ( -- t=I-did)
    SHOULD-I?  IF  DO-IT  TRUE  ELSE  FALSE  THEN ;
-\end{verbatim}
+\end{Code}
 This can be simplified to:
 
-\begin{verbatim}
+\begin{Code}
 : DID-I?  ( -- t=I-did)
         SHOULD-I? DUP  IF  DO-IT  THEN ;
-\end{verbatim}
+\end{Code}
 \begin{tip}
 Don't set a flag, set the data.
 \end{tip}
@@ -1514,25 +1519,25 @@ The purpose of the word LIGHT is to set a flag which indicates
 whether we want the intensity bit to be set or not. While we could have
 written
 
-\begin{verbatim}
+\begin{Code}
 : LIGHT   TRUE 'LIGHT? ! ;
-\end{verbatim}
+\end{Code}
 to set the flag, and
 
-\begin{verbatim}
+\begin{Code}
 'LIGHT? @ IF  8 OR  THEN ...
-\end{verbatim}
+\end{Code}
 to use the flag, this approach is not quite as simple as putting the
 intensity bit-mask itself in the variable:
 
-\begin{verbatim}
+\begin{Code}
 : LIGHT   8 'LIGHT? ! ;
-\end{verbatim}
+\end{Code}
 and then simply writing
 
-\begin{verbatim}
+\begin{Code}
 'LIGHT? @  OR ...
-\end{verbatim}
+\end{Code}
 to use it.
 
 \begin{tip}
@@ -1547,25 +1552,25 @@ For instance, the code for transmitting a character to a printer is
 different than for slapping a character onto a video display. A poor
 implementation would define:
 
-\begin{verbatim}
+\begin{Code}
 VARIABLE DEVICE  ( O=video | 1=printer)
 : VIDEO   FALSE DEVICE ! ;
 : PRINTER   TRUE DEVICE ! ;
 : TYPE  ( a # -- ) DEVICE @ IF
    ( ...code for printer...) ELSE
    ( ...code for video...)  THEN ;
-\end{verbatim}
+\end{Code}
 This is bad because you're deciding which function to perform every time
 you type a string.
 
 A preferable implementation would use vectored execution. For
 instance:
 
-\begin{verbatim}
+\begin{Code}
 DOER TYPE  ( a # -- )
 : VIDEO   MAKE TYPE ( ...code for video...) ;
 : PRINTER   MAKE TYPE ( ...code for printer...) ;
-\end{verbatim}
+\end{Code}
 This is better because TYPE doesn't have to decide which code to use, it
 already knows.
 
@@ -1586,13 +1591,13 @@ concerned about speed. We type strings so often, we can't afford to waste
 time doing it. The best solution here might be to set the function of
 TYPE and also set a flag:
 
-\begin{verbatim}
+\begin{Code}
 DOER TYPE
 : VIDEO   O DEVICE !  MAKE TYPE
      ( ...code for video...) ;
 : PRINTER   1 DEVICE !  MAKE TYPE
      ( ...code for printer...) ;
-\end{verbatim}
+\end{Code}
 Thus TYPE already knows which code to execute, but other definitions
 will refer to the flag.
 
@@ -1606,7 +1611,7 @@ If changing the state involves changing a small number of functions,
 you can still use DOER/MAKE. Here are definitions of three
 memory-move operators that can be shut off together.
 
-\begin{verbatim}
+\begin{Code}
 DOER !'  ( vectorable ! )
 DOER CMOVE'  ( vectorable CMOVE )
 DOER FILL'  ( vectorable FILL )
@@ -1616,21 +1621,21 @@ DOER FILL'  ( vectorable FILL )
 : -STORING  MAKE !'  2DROP ;AND
             MAKE CMOVE'  2DROP DROP ;AND
             MAKE FILL'  2DROP DROP ;
-\end{verbatim}
+\end{Code}
 But if a large number of functions need to be vectored, a state table
 would be preferable.
 
 A corollary to this rule introduces the ``structured exit hook,'' a
 \textbf{DOER} word vectored to perform a structured exit.
 
-\begin{verbatim}
+\begin{Code}
 DOER HESITATE  ( the exit hook)
 : DISSOLVE   HESITATE  FILE-DIVORCE ;
-\end{verbatim}
+\end{Code}
 (... Much later in the listing:)
-\begin{verbatim}
+\begin{Code}
 : RELENT   MAKE HESITATE   SEND-FLOWERS  R> DROP ;
-\end{verbatim}
+\end{Code}
 By default, HESITATE does nothing. If we invoke DISSOLVE, we'll
 end up in court. But if we RELENT before we DISSOLVE, we'll send
 flowers, then jump clear to the semicolon, cancelling that court order
@@ -1674,24 +1679,24 @@ An example of a case in which we might reconsider the need for a
 flag is one we've seen several times already. In our ``colors'' example we
 made the assumption that the best syntax would be:
 
-\begin{verbatim}
+\begin{Code}
 LIGHT BLUE
-\end{verbatim}
+\end{Code}
 that is, the adjective LIGHT preceding the color. Fine. But remember the
 code to implement that version? Compare it with the simplicity of this
 approach:
 
-\begin{verbatim}
+\begin{Code}
 O CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
 3 CONSTANT CYAN     4 CONSTANT RED     5 CONSTANT MAGENTA
 6 CONSTANT BROWN    7 CONSTANT GRAY
 : LIGHT   ( color -- color )  8 OR ;
-\end{verbatim}
+\end{Code}
 In this version we've reversed the syntax, so that we now say
 
-\begin{verbatim}
+\begin{Code}
 BLUE LIGHT
-\end{verbatim}
+\end{Code}
 We establish the color, then we modify the color.
 
 We've eliminated the need for a variable, for code to fetch from the
@@ -1756,9 +1761,9 @@ But that's another story.
 \item You have the word CHOOSE which takes an argument ``n'' and returns a
 random number between 0 and n-1. The result is always positive or zero.
 You can use CHOOSE to produce a flag; the phrase
-\begin{verbatim}
+\begin{Code}
 2 CHOOSE
-\end{verbatim}
+\end{Code}
 produces a random flag of zero or one (false or true).
 
 \item Write a phrase to choose a number at random between 0 and 19 (inclusive)

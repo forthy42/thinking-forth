@@ -38,24 +38,24 @@ The ``useful subfunction'' of course becomes the newly factored definition.What 
 \subsection{{Factoring Out Data}}
 The simpleest thing to factor out is data thanks to FORTH's data stack. For instance, to compute two-thirds of 1,000, we write
 
-\begin{verbatim}
-      1000 2 3 */
-\end{verbatim}
+\begin{Code}
+1000 2 3 */
+\end{Code}
 To define a word that computes two-thirds of any number, we factor out the argument from teh defintion:
 
-\begin{verbatim}
-      : TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
-\end{verbatim}
+\begin{Code}
+: TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
+\end{Code}
 When the datum comes in the \emph{middle} of the useful phrase, we have to use stack manipulation. For instance, to center a piece of text ten characters ong on an 80-column screen, we would write:
 
-\begin{verbatim}
-      80  10 -  2/ SPACES
-\end{verbatim}
+\begin{Code}
+80  10 -  2/ SPACES
+\end{Code}
 But text isn't always 10 characters long. To make the phrase useful for any string, you'd factor out the length by writing:
 
-\begin{verbatim}
-      : CENTER (length -- ) 80 SWAP - 2/ SPACES ;
-\end{verbatim}
+\begin{Code}
+: CENTER (length -- ) 80 SWAP - 2/ SPACES ;
+\end{Code}
 The data stack can also be used to pass addresses. Therefore what's factored out may be a \emph{pointer} to data rather than the data themselves. The data can be numbers or even strings, and still be factored out through use of the stack.
 	
 Sometimes the difference appears to be a function, but you can factor it out simply as a number on the stack. For instance:
@@ -71,9 +71,9 @@ Segment 2:	\texttt{WILLY NILLY  8 * PUDDING PIE AND}
 \noindent
 How can you factor out the ``8 *'' operation? By including ``*'' in the factoring and passing it a one or eight:
 
-\begin{verbatim}
-      : NEW  ( n )  WILLY NILLY * PUDDIN' PIE AND ;
-\end{verbatim}
+\begin{Code}
+: NEW  ( n )  WILLY NILLY * PUDDIN' PIE AND ;
+\end{Code}
 
 %% Could not do the proper spacing here.
 Segment 1:    \texttt{1 NEW}
@@ -92,8 +92,8 @@ For simplicity, try to express the difference between similar fragments as a num
 \end{tip}
 
 
-\subsection{{Factoring Out Functions}}
-
+\othersidetrue\subsection{{Factoring Out Functions}}
+\othersidefalse
 On the other hand, the difference sometimes \emph{is} a function. Witness:
 
 \bigskip
@@ -109,11 +109,11 @@ Segment 2:	\texttt{BLETCH-A BLETCH-B PREVESITY BLETCH-D BLETCH-E BLETCH-F}
 \noindent
 Wrong approach:
 
-\begin{verbatim}
+\begin{Code}
 : BLETCHES ( t=do-BLETCH-C | f=do-PERVESITY -- ) 
    BLETCH-A BLETCH-B IF BLETCH-C ELSE PERVESITY 
       THEN BLETCH-D BLETCH-E BLETCH-F ;
-\end{verbatim}
+\end{Code}
 
 \noindent 
 Segment 1:	\texttt{TRUE BLETCHES}
@@ -126,10 +126,10 @@ Segment 2:	\texttt{FALSE BLETCHES}
 \noindent 
 A better approach:
 
-\begin{verbatim}
-     : BLETCH-AB BLETCH-A BLETCH-B ;
-     : BLETCH-DEF BLETCH-D BLETCH-E BLETCH-F ;
-\end{verbatim}
+\begin{Code}
+: BLETCH-AB BLETCH-A BLETCH-B ;
+: BLETCH-DEF BLETCH-D BLETCH-E BLETCH-F ;
+\end{Code}
 
 \indent Segment 1:	\texttt{BLETCH-AB BLETCH-C BLETCH-DEF}
 
@@ -144,17 +144,17 @@ Why not? First, you are asking your running application to make a pointless deci
 
 Be alert to reptitions on either side of an \textbf{IF ELSE THEN} statement. For instance:
 
-\begin{verbatim}
-      ... ( c)  DUP  BL 127 WITHIN
-             IF  EMIT  ELSE
-             DROP  ASCII . EMIT   THEN ...
-\end{verbatim}
+\begin{Code}
+... ( c)  DUP  BL 127 WITHIN
+       IF  EMIT  ELSE
+       DROP  ASCII . EMIT   THEN ...
+\end{Code}
 This fragment normally emits an ASCII character, but if the character is a control code, it emits a dot. Either way, an \textbf{EMIT} is performed. Factor \textbf{EMIT} out of the conditional structure, like this:
 
-\begin{verbatim}
-      ... ( c)  DUP  BL 127 WITHIN NOT
-             IF  DROP  ASCII .  THEN  EMIT  ...
-\end{verbatim}
+\begin{Code}
+... ( c)  DUP  BL 127 WITHIN NOT
+       IF  DROP  ASCII .  THEN  EMIT  ...
+\end{Code}
 The messiest sityation occurs when the difference between two definitions is a function within a structure that makes it impossible to factor out the half-fragments. In this case, use stack arguments, variables, or even vectoring. We'll see how vectoring can be used in a section of Chapter Seven called ``Using DOER/MAKE.''
 
 Here's a reminder about factoring code from out of a \textbf{DO LOOP}:
@@ -167,48 +167,48 @@ Infactoring out the contents of a \textbf{DO LOOP} into a new defintion, rework 
 
 Here are tow defintions whose differences lise within a \textbf{IF THEN} construct:
 
-\begin{verbatim}
+\begin{Code}
 : ACTIVE    A B OR  C AND  IF  TUMBLE JUGGLE JUMP THEN ;
 : LAZY      A B OR  C AND  IF   SIT  EAT  SLEEP   THEN ;
-\end{verbatim}
+\end{Code}
 The condition and control structure remain the same; only the event changes. Since you can't factor the \textbf{IF} into one word and the \textbf{THEN} into another, the simplest thing is to factor the condition:
 
-\begin{verbatim}
-      : CONDITIONS? ( -- ?) A B OR C AND ;
-      : ACTIVE    CONDITIONS? IF TUMBLE JUGGLE JUMP THEN ;
-      : LAZY      CONDITIONS? IF    SIT  EAT  SLEEP THEN ;
-\end{verbatim}
+\begin{Code}
+: CONDITIONS? ( -- ?) A B OR C AND ;
+: ACTIVE    CONDITIONS? IF TUMBLE JUGGLE JUMP THEN ;
+: LAZY      CONDITIONS? IF    SIT  EAT  SLEEP THEN ;
+\end{Code}
 
 \noindent 
 Depending on the number of reptitions of the same condition and control structure, you may even want to factor out both. Watch this:
 
-\begin{verbatim}
-      : CONDITIONALLY   A B OR  C AND NOT IF  R> DROP   THEN ;
-      : ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
-      : LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
-\end{verbatim}
+\begin{Code}
+: CONDITIONALLY   A B OR  C AND NOT IF  R> DROP   THEN ;
+: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
+: LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
+\end{Code}
 
 \noindent 
 The word \textbf{CONDITIONALLY} may--depenting on the condition--alter the control flow so that the remaining words in each defintion will be skipped. This approach has certain disadvantages as well. We'll discuss this technique--pros and cons--in Chapter Eight.
 
 More benign examples of factoring-out control structures include case statements, which eliminate nested \textbf{IF ELSE THEN}s, and multiple exit loops ( the \textbf{BEGIN WHILE WHILE WHILE ... REPEAT} construct). We'll also discuss these topics in Chapter Eight.
 
-\subsection{{Factoring Out Names}}
-
+\othersidetrue\subsection{{Factoring Out Names}}
+\othersidefalse
 It's even good to factor out names, when the names seem almost, but not quite, the same. Examine the following terrible example of code, which is meant to initialize three variables associated with each of eight channels:
 
-\begin{verbatim} 
-VARIABLE OSTS              VARIABLE 1STS              VARIABLE 2STS 
-VARIABLE 3STS              VARIABLE 4STS              VARIABLE 5STS
-VARIABLE 6STS              VARIABLE 7STS              VARIABLE 0TNR
-VARIABLE 1TNR              VARIABLE 2TNR              VARIABLE 3TNR
-VARIABLE 4TNR              VARIABLE 5TNR              VARIABLE 6TNR
-VARIABLE 7TNR              VARIABLE OUPS              VARIABLE 1UPS
-VARIABLE 2UPS              VARIABLE 3UPS              VARIABLE 4UPS
-VARIABLE 5UPS              VARIABLE 6UPS              VARIABLE 7UPS
-\end{verbatim}
+\begin{Code}
+VARIABLE OSTS       VARIABLE 1STS       VARIABLE 2STS 
+VARIABLE 3STS       VARIABLE 4STS       VARIABLE 5STS
+VARIABLE 6STS       VARIABLE 7STS       VARIABLE 0TNR
+VARIABLE 1TNR       VARIABLE 2TNR       VARIABLE 3TNR
+VARIABLE 4TNR       VARIABLE 5TNR       VARIABLE 6TNR
+VARIABLE 7TNR       VARIABLE OUPS       VARIABLE 1UPS
+VARIABLE 2UPS       VARIABLE 3UPS       VARIABLE 4UPS
+VARIABLE 5UPS       VARIABLE 6UPS       VARIABLE 7UPS
+\end{Code}
 
-\begin{verbatim} 
+\begin{Code} 
 : INIT-CHO   0 0STS !  1000 0TNR !  -1 OUPS ! ; 
 : INIT-CHO   0 1STS !  1000 1TNR !  -1 1UPS ! ; 
 : INIT-CH2   0 2STS !  1000 2TNR !  -1 2UPS ! ; 
@@ -217,25 +217,25 @@ VARIABLE 5UPS              VARIABLE 6UPS              VARIABLE 7UPS
 : INIT-CH5   0 5STS !  1000 5TNR !  -1 5UPS ! ; 
 : INIT-CH6   0 6STS !  1000 6TNR !  -1 6UPS ! ; 
 : INIT-CH7   0 7STS !  1000 7TNR !  -1 7UPS ! ; 
-\end{verbatim}
+\end{Code}
 
-\begin{verbatim} 
+\begin{Code} 
 : INIT-ALL-CHS    INIT-CHO  INIT-CH1  INIT-CH2  INIT-CH3
    INIT-CH4  INIT-CH5  INIT-CH6  INIT-CH7 ;
-\end{verbatim}
+\end{Code}
 First there's a similarity among the names of the variables; then there's a similarity in the code used in all the INIT-CH words.
 
 Here's an improved rendition. The similar variable names have been factored into three data structures, and the lengthy recital of INIT-CH words has been factored into a \textbf{DO LOOP}:
 
-\begin{verbatim}
-      : ARRAY  ( #cells -- )  CREATE  2* ALLOT
-         DOES> ( i -- 'cell)  SWAP  2* + ; 
-      8 ARRAY STATUS  ( channel# -- adr)
-      8 ARRAY TENOR   (        "       )
-      8 ARRAY UPSHOT  (        "       )
-      : STABLE   8 0 DO  0 I STATUS !  1000 I TENOR ! 
-         -1 I UPSHOT !  LOOP ;
-\end{verbatim}
+\begin{Code}
+: ARRAY  ( #cells -- )  CREATE  2* ALLOT
+   DOES> ( i -- 'cell)  SWAP  2* + ; 
+8 ARRAY STATUS  ( channel# -- adr)
+8 ARRAY TENOR   (        "       )
+8 ARRAY UPSHOT  (        "       )
+: STABLE   8 0 DO  0 I STATUS !  1000 I TENOR ! 
+   -1 I UPSHOT !  LOOP ;
+\end{Code}
 
 \noindent That's all the code we need.
 
@@ -251,28 +251,28 @@ If a series of definitions contains identical functions, with variation only in 
 \end{tip}
 Examine the structure of this code (without worrying about its purpose--you'll see the same example later on):
 
-\begin{verbatim}
-     : HUE  ( color -- color') 
-        'LIGHT? @  OR  0 'LIGHT? ! ;
-     : BLACK   0 HUE ;
-     : BLUE   1 HUE ;
-     : GREEN   2 HUE ;
-     : CYAN   3 HUE ;
-     : RED   4 HUE ;
-     : MAGENTA   5 HUE ;
-     : BROWN   6 HUE ;
-     : GRAY   7 HUE ;
-\end{verbatim}
+\begin{Code}
+: HUE  ( color -- color') 
+   'LIGHT? @  OR  0 'LIGHT? ! ;
+: BLACK   0 HUE ;
+: BLUE   1 HUE ;
+: GREEN   2 HUE ;
+: CYAN   3 HUE ;
+: RED   4 HUE ;
+: MAGENTA   5 HUE ;
+: BROWN   6 HUE ;
+: GRAY   7 HUE ;
+\end{Code}
 
 \noindent The above approach is technically correct, but less memory-efficient than the following approach using defining words:
 
-\begin{verbatim}
-     : HUE   ( color -- )  CREATE ,
-        DOES>  ( -- color )  @ 'LIGHT? @  OR  0 'LIGHT? ! ;
-      0 HUE BLACK         1 HUE BLUE          2 HUE GREEN
-      3 HUE CYAN          4 HUE RED           5 HUE MAGENTA
-      6 HUE BROWN         7 HUE GRAY
-\end{verbatim}
+\begin{Code}
+: HUE   ( color -- )  CREATE ,
+   DOES>  ( -- color )  @ 'LIGHT? @  OR  0 'LIGHT? ! ;
+ 0 HUE BLACK         1 HUE BLUE          2 HUE GREEN
+ 3 HUE CYAN          4 HUE RED           5 HUE MAGENTA
+ 6 HUE BROWN         7 HUE GRAY
+\end{Code}
 
 \noindent 
 (Defining words are explained in \emph{Starting FORTH}, Chapter Eleven).
@@ -283,8 +283,8 @@ In terms of readability, the defining word makes it absolutely clear that all th
 
 The greatest strength of defining words, however, arises when a series of defintinos share the same \emph{compile-time} behavior. This topic is the subject of a later section, ``Compile-Time Factoring.''
 
-\section{Factoring Criteria}
-
+\othersidetrue\section{Factoring Criteria}
+\othersidefalse
 Armed with an understanding of factoring techniques, let's now discuss several of the criteria for factoring FORTH definitions. They include:
 
 \begin{enumerate}
@@ -350,18 +350,18 @@ Particularly if you feel a need to remind yourself what's on the stack, this may
 
 Suppose you have
 
-\begin{verbatim}
-     ... BALANCE  DUP xxx xxx xxx xxx xxx xxx xxx xxx xxx
-          xxx xxx xxx xxx xxx xxx   ( balance) SHOW  ...
-\end{verbatim}
+\begin{Code}
+... BALANCE  DUP xxx xxx xxx xxx xxx xxx xxx xxx xxx
+     xxx xxx xxx xxx xxx xxx   ( balance) SHOW  ...
+\end{Code}
 which begins by computing the balance and ends by displaying it. In the meantime, several lines of code use the balance for purposes of their own. Since it's difficult to see that the balance is still on the stack when SHOW executes, the programmer has interjected a stack picture.
 
 This solution is gererally a sign of bad factoring. Better to write:
-\begin{verbatim}
-     : REVISE  ( balance -- )  xxx xxx xxx xxx xxx xxx xxx
-          xxx xxx xxx xxx xxx xxx xxx ;
-     ... BALANCE  DUP REVISE  SHOW  ...
-\end{verbatim}
+\begin{Code}
+: REVISE  ( balance -- )  xxx xxx xxx xxx xxx xxx xxx
+     xxx xxx xxx xxx xxx xxx xxx ;
+... BALANCE  DUP REVISE  SHOW  ...
+\end{Code}
 No narrative stack pictures are needed. Furthermore, the programmer now has a reuseable, testable subset of the definition.
 
 \begin{tip}
@@ -380,21 +380,21 @@ Many times when a program has gotten too big I will go back through it looking f
 \blackline{1ex}
 In looking over your work, you often find identical phrases or short passeges duplicated several times. In writing an editor I found this phrase repeated several times:
 
-\begin{verbatim}
-     FRAME  CURSOR @ +
-\end{verbatim}
+\begin{Code}
+FRAME  CURSOR @ +
+\end{Code}
 Because it appeared several times I factored it into a new word called AT.
 
 It's up to you to recognize fragments that are coded differently but functionally equivalent, such as:
 
-\begin{verbatim}
-     FRAME  CURSOR @ 1-  +
-\end{verbatim}
+\begin{Code}
+FRAME  CURSOR @ 1-  +
+\end{Code}
 The 1- appears to make this phrase different from the one definced as AT. But infact, it can be written
 
-\begin{verbatim}
-     AT 1-
-\end{verbatim}
+\begin{Code}
+AT 1-
+\end{Code}
 On the other hand:
 
 \begin{tip}
@@ -402,16 +402,16 @@ When factoring out duplicate code, make sure the factored code serves a single p
 \end{tip}
 Don't blindly seize upon duplications that may not be useful. For instance, in several places in one application I used this phrase:
 
-\begin{verbatim}
-     BLK @ BLOCK  >IN @ +  C@
-\end{verbatim}
+\begin{Code}
+BLK @ BLOCK  >IN @ +  C@
+\end{Code}
 I turned it into a new word and called it LETTER, since it returned the letter being pointed to by the interpreter.
 
 In a later revision, I unexpectedly had to write:
 
-\begin{verbatim}
-     BLK @ BLOCK  >IN @ +  C!
-\end{verbatim}
+\begin{Code}
+BLK @ BLOCK  >IN @ +  C!
+\end{Code}
 I could have used the existing LETTER were it not for its C@ at the end. Rather than duplicated the bulk of the phrase in the new section, I chose to refactor LETTER to a finer resolutioin, taking out the C@. The usage was then either LETTER C@ OR LETTER C!. This change required me to search through the listing changing all instances of LETTER to LETTER C@. But I should have done that in the first place, separating the computation of the letter's address from the operation to be performed on the address.
 
 Similar to our injunction against repetition of code:
@@ -442,9 +442,9 @@ We've seen the value of information hiding in earlier chapters, especially with 
 
 Here's a very short definition that does little except hide information:
 
-\begin{verbatim}
-     : >BODY  ( acf -- apf )  2+ ;
-\end{verbatim}
+\begin{Code}
+: >BODY  ( acf -- apf )  2+ ;
+\end{Code}
 
 
 %% >BODY will not display properly.
@@ -453,19 +453,19 @@ This defintion allows you to convert an acf (address of code field) to an apf (a
 
 Here's a group of definitions that might be used in writing an editor:
 
-\begin{verbatim}
-     : FRAME  ( -- a)  SCR @ BLOCK ;
-     : CURSOR  ( -- a)  R# ;
-     : AT  ( -- a)  FRAME  CURSOR @ + ;
-\end{verbatim}
+\begin{Code}
+: FRAME  ( -- a)  SCR @ BLOCK ;
+: CURSOR  ( -- a)  R# ;
+: AT  ( -- a)  FRAME  CURSOR @ + ;
+\end{Code}
 These three defintions can form the basis for all calculations of addresses necessary for moving text around. Use of these three defintions completely separates your editiong algorithms from a reliance on FORTH blocks.
 
 What good is that? Ifyou should decide, during development, to create an editing buffer to protect the user from making errors that destroy a block, you merely have to redifine two of these words, perhaps like this:
 
-\begin{verbatim}
-     CREATE FRAME  1024 ALLOT
-     VARIABLE CURSOR
-\end{verbatim}
+\begin{Code}
+CREATE FRAME  1024 ALLOT
+VARIABLE CURSOR
+\end{Code}
 The rest of your code can remain intact. 
 
 \begin{tip}
@@ -475,46 +475,46 @@ This is really a question of decompostion.
 
 Here's an example. The word defined below, pronounced ``people-to-paths,'' computeshow many paths of communication there are between a given nember of people in a group. (This is a good thing for managers of programmer teams to know--the number of communication paths increases drastically with each new addition to the team.)
 
-\begin{verbatim}
-     : PEOPLE  ( #people)
-         ." = "  PEOPLE>PATHS  .  ." PATHS " ;
-\end{verbatim}
+\begin{Code}
+: PEOPLE  ( #people)
+    ." = "  PEOPLE>PATHS  .  ." PATHS " ;
+\end{Code}
 This produces:
 
 %% I don't know how to underline these.
-\begin{verbatim}
-     2 PEOPLE = 1 PATHS
-     3 PEOPLE = 3 PATHS
-     5 PEOPLE = 10 PATHS
-     10 PEOPLE = 45 PATHS
-\end{verbatim}
+\begin{Code}
+2 PEOPLE = 1 PATHS
+3 PEOPLE = 3 PATHS
+5 PEOPLE = 10 PATHS
+10 PEOPLE = 45 PATHS
+\end{Code}
 Even if you think you're going to perform a particular calculation conly once, to display it in a certain way, believe me, you're wrong. You will have to come back later an factor out the calculation part. Perhaps you'll need to display the information in a right-justified column, or perhaps you'll want to record the results in a data base--you never know. But you'll always have to factor it, so you might as well do it right the first time. (The few times you might get away with it aren't worth the trouble.)
 
 The word . (dot) is a prime example. Dot is great 99\% of the time, but occasionally it does too much. Here's what it does, in fact (in FORTH--83):
 
-\begin{verbatim}
-     : .   ( n )  DUP ABS 0 <# #S  ROT SIGN  #> TYPE SPACE ;
-\end{verbatim}
+\begin{Code}
+: .   ( n )  DUP ABS 0 <# #S  ROT SIGN  #> TYPE SPACE ;
+\end{Code}
 But suppose you want to convert a numver on the stack into an ASCII string and store it in a buffer for typing later. Dot converts it, but also types it. Or suppose you want to format playing cards in the form 10C (for ``ten of clubs''). You can't use dot to display the 10 because it prints a final space.
 
 Here's a better factoring found in some FORTH systems:
 
-\begin{verbatim}
-     : (.)  (n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
-     : .  ( n)  (.) TYPE SPACE ;
-\end{verbatim}
+\begin{Code}
+: (.)  (n -- a #)  DUP ABS 0  <# #S  ROT SIGN  #> ;
+: .  ( n)  (.) TYPE SPACE ;
+\end{Code}
 We find another example of failing to factor the output function from the calculation function in our own Roman numeral example in Chapter Four. Given our solution, we can't store a Roman numeral i8n a buffer or even center it in a field. (A better approach would have been to use \textbf{HOLD} instead of \textbf{EMIT}.)
 
 Information hiding can also be a reason \emph{not} to factor. For instance, if you factor the phrase
 
-\begin{verbatim}
-     SCR @ BLOCK
-\end{verbatim}
+\begin{Code}
+SCR @ BLOCK
+\end{Code}
 into the defintion
 
-\begin{verbatim}
-     : FRAME   SCR @ BLOCK ;
-\end{verbatim}
+\begin{Code}
+: FRAME   SCR @ BLOCK ;
+\end{Code}
 remember you are doing so only because you may want to change the location of the editing frame. Don't blindly replace all occurrences of the phrase with the new word FRAME, because you may change the defintion of FRAME and there will certainly be times when you really wnat \textbf{SCR @ BLOCK.}
 
 \begin{tip}
@@ -531,54 +531,54 @@ It may seem paradoxical, but good factoring can often yield \emph{fewer} names. 
 
 As another example, I found two definitions circulating in one department in which FORTH had recently introduced. Their purposet was purely instructional, to remind the programmer which vocabulary was CURRENT, and which was CONTEXT:
 
-\begin{verbatim}
-     : .CONTEXT   CONTEXT @  8 -  NFA  ID. ;
-     : .CURRENT   CURRENT @  8 -  NFA  ID. ;
-\end{verbatim}
+\begin{Code}
+: .CONTEXT   CONTEXT @  8 -  NFA  ID. ;
+: .CURRENT   CURRENT @  8 -  NFA  ID. ;
+\end{Code}
 If you typed
 
-\begin{verbatim}
-     .CONTEXT
-\end{verbatim}
+\begin{Code}
+.CONTEXT
+\end{Code}
 the system would respond
 
 
 %% Could not underline FORTH
-\begin{verbatim}
-     .CONTEXT FORTH
-\end{verbatim}
+\begin{Code}
+.CONTEXT FORTH
+\end{Code}
 (They worked--at least on the system used there--by backing up to the name field of the vocabulary definition, and displaying it.)
 
 The obvious repetition of code struck my eye as a sign of bad factoring. It would have been possible to consolidate the repeated passage into a third definition:
 
-\begin{verbatim}
-     : .VOCABULARY   ( pointer )  @  8 -  NFA  ID. ;
-\end{verbatim}
+\begin{Code}
+: .VOCABULARY   ( pointer )  @  8 -  NFA  ID. ;
+\end{Code}
 shortening the original defintions to:
 
-\begin{verbatim}
-     : .CONTEXT   CONTEXT .VOCABULARY ;
-     : .CURRENT   CURRENT .VOCABULARY ;
-\end{verbatim}
+\begin{Code}
+: .CONTEXT   CONTEXT .VOCABULARY ;
+: .CURRENT   CURRENT .VOCABULARY ;
+\end{Code}
 But in this approach, the only difference between the two definitions was the pointer to be displayed. Since part of good factoring is to make fewer, not more definitions, it seemed logical to have only one definition, and let it take as an argument either the word CONTEXT or the word CURRENT.
 
 Applying the principles of good naming, I suggested:
 
-\begin{verbatim}
-     : IS  ( adr)   @  8 -  NFA  ID. ;
-\end{verbatim}
+\begin{Code}
+: IS  ( adr)   @  8 -  NFA  ID. ;
+\end{Code}
 allowing the syntax
 
 %% Could not underline.
-\begin{verbatim}
-     CONTEXT IS ASSEMBLER ok
-\end{verbatim}
+\begin{Code}
+CONTEXT IS ASSEMBLER ok
+\end{Code}
 or
 
 %% Could not underline.
-\begin{verbatim}
-     CURRENT IS FORTH ok
-\end{verbatim}
+\begin{Code}
+CURRENT IS FORTH ok
+\end{Code}
 The initial clue was repetition of code, but the final result came from attempting to simplify the command interface.
 
 Here's another example. The IBM PC has four modes four displaying text only:
@@ -602,99 +602,99 @@ Since I need to switch between these modes in doing presentations, I need to hav
 
 Here's the most straightforward way to fulfill the requirements:
 
-\begin{verbatim}
-     : 40-B&W       40 #COLUMNS !  0 MODE ;
-     : 40-COLOR     40 #COLUMNS !  1 MODE ;
-     : 80-B&W       80 #COLUMNS !  2 MODE ;
-     : 80-COLOR     80 #COLUMNS !  3 MODE ;
-\end{verbatim}
+\begin{Code}
+: 40-B&W       40 #COLUMNS !  0 MODE ;
+: 40-COLOR     40 #COLUMNS !  1 MODE ;
+: 80-B&W       80 #COLUMNS !  2 MODE ;
+: 80-COLOR     80 #COLUMNS !  3 MODE ;
+\end{Code}
 By factoring to eliminate the repetition, we come up with this version:
 
-\begin{verbatim}
-     : COL-MODE!     ( #columns mode )  MODE  #COLUMNS ! ;
-     : 40-B&W       40 0 COL-MODE! ;
-     : 40-COLOR     40 1 COL-MODE! ;
-     : 80-B&W       80 2 COL-MODE! ;
-     : 80-COLOR     80 3 COL-MODE! ;
-\end{verbatim}
+\begin{Code}
+: COL-MODE!     ( #columns mode )  MODE  #COLUMNS ! ;
+: 40-B&W       40 0 COL-MODE! ;
+: 40-COLOR     40 1 COL-MODE! ;
+: 80-B&W       80 2 COL-MODE! ;
+: 80-COLOR     80 3 COL-MODE! ;
+\end{Code}
 But by attempting to reduce the number of commands, and also by following the injunctions against numerically-prefixed and hyphenated names, we realize that we can use the number of columns as a stack argument, and \emph{calculate} the mode:
 
-\begin{verbatim}
+\begin{Code}
 : B&W    ( #cols -- )  DUP #COLUMNS !  20 /  2-     MODE ;
 : COLOR  ( #cols -- )  DUP #COLUMNS !  20 /  2-  1+ MODE ;
-\end{verbatim}
+\end{Code}
 This gives us this syntax:
 
-\begin{verbatim}
-     40 B&W
-     80 B&W
-     40 COLOR
-     80 COLOR
-\end{verbatim}
+\begin{Code}
+40 B&W
+80 B&W
+40 COLOR
+80 COLOR
+\end{Code}
 We've reduced the number of commands from four to two.
 
 Once again, though, we have some duplicate code. If we factor out this code we get:
 
-\begin{verbatim}
-     : COL-MODE!  ( #columns chroma?)
-        SWAP DUP #COLUMNS !  20 / 2-  +  MODE ;
-     : B&W    ( #columns -- )  0 COL-MODE! ;
-     : COLOR  ( #columns -- )  1 COL-MODE! ;
-\end{verbatim}
-     
+\begin{Code}
+: COL-MODE!  ( #columns chroma?)
+   SWAP DUP #COLUMNS !  20 / 2-  +  MODE ;
+: B&W    ( #columns -- )  0 COL-MODE! ;
+: COLOR  ( #columns -- )  1 COL-MODE! ;
+\end{Code}
+
 \noindent
 Now we've achieved a nicer syntax, and at the same time greatly reduced the size fo the object code. With only two commands, as in this example, the benefits may be marginal. But with larger sets of commands the benefits increase goemetrically.
 
 Our final example is a set of words to represent colors on a particular system. Names like BLUE and RED are nicer than numbers. One solution might be to define:
 
-\begin{verbatim}
- 0 CONSTANT BLACK                        1 CONSTANT BLUE
- 2 CONSTANT GREEN                        3 CONSTANT CYAN
- 4 CONSTANT RED                          5 CONSTANT MAGENTA
- 6 CONSTANT BROWN                        7 CONSTANT GRAY
- 8 CONSTANT DARK-GRAY                    9 CONSTANT LIGHT-BLUE
-10 CONSTANT LIGHT-GREEN                 11 CONSTANT LIGHT-CYAN
-12 CONSTANT LIGHT-RED                   13 CONSTANT LIGHT-MAGENTA
-14 CONSTANT YELLOW                      15 CONSTANT WHITE
-\end{verbatim}
+\begin{Code}
+ 0 CONSTANT BLACK                 1 CONSTANT BLUE
+ 2 CONSTANT GREEN                 3 CONSTANT CYAN
+ 4 CONSTANT RED                   5 CONSTANT MAGENTA
+ 6 CONSTANT BROWN                 7 CONSTANT GRAY
+ 8 CONSTANT DARK-GRAY             9 CONSTANT LIGHT-BLUE
+10 CONSTANT LIGHT-GREEN          11 CONSTANT LIGHT-CYAN
+12 CONSTANT LIGHT-RED            13 CONSTANT LIGHT-MAGENTA
+14 CONSTANT YELLOW               15 CONSTANT WHITE
+\end{Code}
 These colors can be used with words such as BACKGROUND, FOREGROUND, and BORDER:
 
-\begin{verbatim}
-     WHITE BACKGROUND  RED FORGROUND  BLUE BORDER
-\end{verbatim}
+\begin{Code}
+WHITE BACKGROUND  RED FORGROUND  BLUE BORDER
+\end{Code}
 But this solution requires 16 names, and many of them are hyphenated. Is there a way to simplify this?
 
 We notice that the colors between 8 and 15 are all ``lighter'' versions of the colors between 0 and 7. (In the hardware, the only difference between these two sets is the setting of the ``intensity bit.'') If we factor out the ``lightness,'' we might come up with this solution:
 
-\begin{verbatim}
-     VARIABLE 'LIGHT?  ( intesity bit?)
-     : HUE  ( color)  CREATE ,
-        DOES>  ( -- color )  @  'LIGHT? @  OR  0 'LIGHT? ! ;
-      0 HUE BLACK         1 HUE BLUE           2 HUE GREEN
-      3 HUE CYAN          4 HUE RED            5 HUE MAGENTA
-      6 HUE BROWN         7 HUE GRAY
-     : LIGHT   8 'LIGHT? ! ;
-\end{verbatim}
-     
+\begin{Code}
+VARIABLE 'LIGHT?  ( intesity bit?)
+: HUE  ( color)  CREATE ,
+   DOES>  ( -- color )  @  'LIGHT? @  OR  0 'LIGHT? ! ;
+ 0 HUE BLACK         1 HUE BLUE           2 HUE GREEN
+ 3 HUE CYAN          4 HUE RED            5 HUE MAGENTA
+ 6 HUE BROWN         7 HUE GRAY
+: LIGHT   8 'LIGHT? ! ;
+\end{Code}
+
 \noindent     
 With this syntax, the word
 
-\begin{verbatim}
-     BLUE
-\end{verbatim}
+\begin{Code}
+BLUE
+\end{Code}
 by itself will return a ``1'' on the stack, but the phrase
 
-\begin{verbatim}
-     LIGHT BLUE
-\end{verbatim}
+\begin{Code}
+LIGHT BLUE
+\end{Code}
 will return a ``9.'' (The adjective LIGHT sets flag which is used by the hues, then cleared.)
 
 If necessary for readability, we still might want to define:
 
-\begin{verbatim}
-     8 HUE DARK-GRAY
-     14 HUE YELLOW
-\end{verbatim}
+\begin{Code}
+8 HUE DARK-GRAY
+14 HUE YELLOW
+\end{Code}
 Again, through this approach we've achieved a more pleasent syntax and shorter object code.
 
 \begin{tip}
@@ -702,16 +702,16 @@ Don't factor for the sake of factoring. Use cliches.
 \end{tip}
 The phrase
 
-\begin{verbatim}
-     OVER + SWAP
-\end{verbatim}
+\begin{Code}
+OVER + SWAP
+\end{Code}
 may seem commonly in certain applications. (I converts an address and count into an ending address and starting address appropriate for a \textbf{DO LOOP}.)
 
 Another commonly seen phrase is
 
-\begin{verbatim}
-     1+ SWAP
-\end{verbatim}
+\begin{Code}
+1+ SWAP
+\end{Code}
 (It rearranges a first-number and last-number into the last-number-plus-one and first-number order required by \textbf{DO}.)
 
 It's a little tempting to seize upon these phrases and turn them into words, such as (for the first phrase RANGE.
@@ -769,12 +769,12 @@ In our design we need to have constants that represent values such as the size o
 
 Naturally we can define:
 
-\begin{verbatim}
-     8 CONSTANT WIDE
-     5 CONSTANT HIGH
-     4 CONSTANT AVE
-     2 CONSTANT STREET
-\end{verbatim}
+\begin{Code}
+8 CONSTANT WIDE
+5 CONSTANT HIGH
+4 CONSTANT AVE
+2 CONSTANT STREET
+\end{Code}
 (Streets run east and west; avenues run north and south.)
 
 %% I changed "We want" to "we want"
@@ -791,19 +791,19 @@ $8 + 4 + 8 + 4 + 8 = 32$
 
 So we could, crudely, define:
 
-\begin{verbatim}
-     24 CONSTANT LEFTMARGIN
-\end{verbatim}
+\begin{Code}
+24 CONSTANT LEFTMARGIN
+\end{Code}
 and use the same approach for TOPMARGIN.
 
 But what if we should later redesign the pattern, so that the width changed, or perhaps the gap between the boxes? We'd have to recompute the left margin ourselves.
 
 In the FORTH environment, we can use the full power of FORTH even when we're compiling. Why not let FORTH do the figuring?
 
-\begin{verbatim}
+\begin{Code}
 WIDE 3 *  AVE 2 *  +  80 SWAP -  2/ CONSTANT LEFTMARGIN
 HIGH 3 *  STREET 2 * +  24 SWAP -  2/ CONSTANT TOPMARGIN
-\end{verbatim}
+\end{Code}
 
 \begin{tip}
 If a constant's value depends on the value of an earlir constant, use FORTH to calculate the value of
@@ -817,9 +817,9 @@ Here's another example. \Fig{fig6-2} shows the code for a word that draws shapes
 
 Notice the line immediately following the list of points:
 
-\begin{verbatim}
+\begin{Code}
 HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
-\end{verbatim}
+\end{Code}
 %% I don't know how to offset the Figure 6-2.
 \begin{figure*}[tttt]
 \labelfig{fig6-2}
@@ -845,36 +845,36 @@ This construct lets you add or suvtract points from the table withour worrying a
 
 Let's examine a series of approaches to the same problem--defining a group of related addresses. Here's the first try:
 
-\begin{verbatim}
-     HEX 01A0 CONSTANT BASE.PORT.ADDRESS
-     BASE.PORT.ADDRESS CONSTANT SPEAKER
-     BASE.PORT.ADDRESS 2+ CONSTANT FLIPPER-A
-     BASE.PORT.ADDRESS 4 + CONSTANT FLIPPER-B
-     BASE.PORT.ADDRESS 6 + CONSTANT WIN-LIGHT
-     DECIMAL
-\end{verbatim}
+\begin{Code}
+HEX 01A0 CONSTANT BASE.PORT.ADDRESS
+BASE.PORT.ADDRESS CONSTANT SPEAKER
+BASE.PORT.ADDRESS 2+ CONSTANT FLIPPER-A
+BASE.PORT.ADDRESS 4 + CONSTANT FLIPPER-B
+BASE.PORT.ADDRESS 6 + CONSTANT WIN-LIGHT
+DECIMAL
+\end{Code}
 The idea is right, but the implementation is ugly. The only elements that change from port to port are the numeric offset and the name of the port being defined; everythingelse repeats. This repetition suggests the use of a defining word.
 
 The following approach, which is more readable, combines all the repeated code into the ``does'' part  of a defining word:
 
-\begin{verbatim}
-     : PORT  ( offset -- )  CREATE ,
-        \ does>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
-     0 PORT SPEAKER
-     2 PORT FLIPPER-A
-     4 PORT FLIPPER-B
-     6 PORT WIN-LIGHT
-\end{verbatim}
+\begin{Code}
+: PORT  ( offset -- )  CREATE ,
+   \ does>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
+0 PORT SPEAKER
+2 PORT FLIPPER-A
+4 PORT FLIPPER-B
+6 PORT WIN-LIGHT
+\end{Code}
 In this solution we're performing the offset calculation at \emph{run}-time, every time we invoke one of these names. It would be more efficient to perform the calculation at compile time, like this:
 
-\begin{verbatim}
-     : PORT  ( offset -- )  BASE.PORT.ADDRESS + CONSTANT ;
-        \ does>  ( -- 'port)
-     0 PORT SPEAKER
-     2 PORT FLIPPER-A
-     4 PORT FLIPPER-B
-     6 PORT WIN-LIGHT
-\end{verbatim}
+\begin{Code}
+: PORT  ( offset -- )  BASE.PORT.ADDRESS + CONSTANT ;
+   \ does>  ( -- 'port)
+0 PORT SPEAKER
+2 PORT FLIPPER-A
+4 PORT FLIPPER-B
+6 PORT WIN-LIGHT
+\end{Code}
 Here we've created a defining word, PORT, that has a unique \emph{compile}-timebehavior, namely adding the offset to BASE.PORT.ADDRESS and defining a CONSTANT.
 
 We might even go one step further. Suppose that all port addresses are two bytes apart. In this case ther's no reason we should have to specify these offsets. The numeric sequence
@@ -890,28 +890,28 @@ is itself redundant.
 
 In the following version, we begin with the BASE.PORT.ADDRESS on the stack. The defining word PORT duplicates this address, makes a constant out of it, then adds 2 to the address still on the stack, for the next invocation of PORT.
 
-\begin{verbatim}
-     : PORT   ( 'port -- 'next-port)  DUP CREATE ,  2+ ;
-        \ does>  ( -- 'port)
-     BASE.PORT.ADDRESS
-       PORT SPEAKER
-       PORT FLIPPER-A
-       PORT FLIPPER-B
-       PORT WIN-LIGHT
-     DROP ( port.address)
-\end{verbatim}
+\begin{Code}
+: PORT   ( 'port -- 'next-port)  DUP CREATE ,  2+ ;
+   \ does>  ( -- 'port)
+BASE.PORT.ADDRESS
+  PORT SPEAKER
+  PORT FLIPPER-A
+  PORT FLIPPER-B
+  PORT WIN-LIGHT
+DROP ( port.address)
+\end{Code}
 Notice we must supply the initial port address on the stack before defining the fust port, then invoke \textbf{DROP} when we've finished defining all the ports to get rid of the port address that's still on the stack.
 
 One final comment. The base-port address is very likely to change, and therefor should be defined in only one place. This does \textbf{not} mean it has to be defined as a constant. Provided that the base-port address won't be used outside of this lexicon of port names, it's just as well to refer to it by number here.
 
-\begin{verbatim}
-     HEX 01A0  ( base port adr)
-       PORT SPEAKER
-       PORT FLIPPER-A
-       PORT FLIPPER-B
-       PORT WIN-LIGHT
-     DROP
-\end{verbatim}
+\begin{Code}
+HEX 01A0  ( base port adr)
+  PORT SPEAKER
+  PORT FLIPPER-A
+  PORT FLIPPER-B
+  PORT WIN-LIGHT
+DROP
+\end{Code}
 
 \section{{{{The Iterative Approach in Implementation}}}}
 Earlier in the book we discussed the itertive approach, paying particular attention to its impact on the design phase. Now that we're talking about implementation, let's see how the approach is actually used in writing code.
@@ -923,31 +923,31 @@ Supose we're entrusted with the job of coding a word to draw or erase a box at a
 
 At first we focus our attention on the probleem of drawing a box--never mind erasing it. We might come up with this:
 
-\begin{verbatim}
-     : LAYER   WIDE  0 DO  ASCII * EMIT  LOOP ;
-     : BOX   ( upper-left-x  upper-left-y -- )
-        HIGH  0 DO  2DUP  I +  XY LAYER  LOOP  2DROP ;
-\end{verbatim}
+\begin{Code}
+: LAYER   WIDE  0 DO  ASCII * EMIT  LOOP ;
+: BOX   ( upper-left-x  upper-left-y -- )
+   HIGH  0 DO  2DUP  I +  XY LAYER  LOOP  2DROP ;
+\end{Code}
 Having tested this to make sure it works correctly, we turn now to the problem of using the same code to \emph{un}draw a box. The solution is simple: instead of hard-coding the \textbf{ASCII *} we'd like to change the emitted character from an asterisk to a blank. This requires the addition of a variable, and some readable words for setting the contents of the variable. So:
 
-\begin{verbatim}
-     VARIABLE INK
-     : DRAW   ASCII *  INK ! ;
-     : UNDRAW   BL  INK ! ;
-     : LAYER   WIDTH  0 DO  INK @  EMIT  LOOP ;
-\end{verbatim}
+\begin{Code}
+VARIABLE INK
+: DRAW   ASCII *  INK ! ;
+: UNDRAW   BL  INK ! ;
+: LAYER   WIDTH  0 DO  INK @  EMIT  LOOP ;
+\end{Code}
 The defintion of BOX, along with the remainder of the application, remains the same.
 
 This approach allows the syntax
 
-\begin{verbatim}
-     ( x y ) DRAW BOX
-\end{verbatim}
+\begin{Code}
+( x y ) DRAW BOX
+\end{Code}
 or
 
-\begin{verbatim}
-     ( x y ) UNDRAW BOX
-\end{verbatim}
+\begin{Code}
+( x y ) UNDRAW BOX
+\end{Code}
 By switching from an explicit value to a variable that contains a value, we've added a level of indirection. In this case, we've added indirection ``backwards,'' adding a new level of complexity to the defintion of LAYER withour substantially lengthening the defintion.
 
 By concentrating on one dimension of the problem at a time, you can solve each dimension more efficiently. If there's an error in your thinking, the problem will be easier to see if it's not obsured by yet another untried, untested aspect of your code.
@@ -973,17 +973,17 @@ Some people wonder why most FORTH systems don't include the defintion word ARRAY
 I often have a class of things called arrays. The simplest arrray
 merely adds a subscript to an address and gives you back an
 address. You can define an array by saying
-\begin{verbatim}
+\begin{Code}
 CREATE X   100 ALLOT
-\end{verbatim}
+\end{Code}
 then saying
-\begin{verbatim}
+\begin{Code}
 X +
-\end{verbatim}
+\end{Code}
 Or you can say
-\begin{verbatim}
+\begin{Code}
 : X   X + ;
-\end{verbatim}
+\end{Code}
 One of the problems that's most frustrating for me is knowing whether
 it's worth creating a defining word for a particulat data
 structure. Will I have enough instances to justify it?

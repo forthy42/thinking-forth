@@ -126,20 +126,20 @@ As long as that number 14 remains a ``secret'' to the component and
 won't be used elsewhere, you don't need to define it as constant. Just use
 the number 14 in both definitions:
 
-\begin{verbatim}
+\begin{Code}
 : +RECORD 14 RECORDS +! ;
 : -RECORD -14 RECORD# +! ;
-\end{verbatim}
+\end{Code}
 
 On the other hand, if the value will be needed outside of the component,
 or if it's used several times within the component and there's a good
 chance that it will change, you're better off hiding it behind a name:
 
-\begin{verbatim}
+\begin{Code}
 14 CONSTANT /RECORD
 : +RECORD /RECORD RECORD# +! ;
 : -RECORD /RECORD NEGATE RECORD# +! ;
-\end{verbatim}
+\end{Code}
 
 (The name \forth{/RECORD}, by convention, means ``bytes per record.'')
 
@@ -214,9 +214,9 @@ Finally, we'll need a component to display the field on the video
 screen. For the sake of simplicity, let's plan on creating one word only,
 \forth{REDISPLAY}, to redisplay the entire field after each key is pressed.
 
-\begin{verbatim}
+\begin{Code}
 : EDITOR BEGIN KEY REVISE REDISPLAY ... UNTIL ;
-\end{verbatim}
+\end{Code}
 
 This approach separates revising the buffer from updating the display.
 For now, we'll only concentrate on revising the buffer.
@@ -305,7 +305,7 @@ hidden within this component.
 
 Let's attempt to rewrite these algorithms in code:
 
-\begin{verbatim}
+\begin{Code}
 : KEYS ( returns value of key last pressed ) ... ;
 : POSITION ( returns address of character pointed-to) ;
 : FORWARD ( advance pointer, stopping at last position) ;
@@ -313,7 +313,7 @@ Let's attempt to rewrite these algorithms in code:
 : OVERWRITE KEY# POSITION C! FORWARD ;
 : INSERT SLIDE> OVERWRITE ;
 : DELETE SLIDE< BLANK-END ;
-\end{verbatim}
+\end{Code}
 
 To copy the text leftwards and rightwards, we had to invent two new
 names as we went along, \forth{SLIDE<} and \forth{SLIDE>} (pronounced
@@ -366,9 +366,9 @@ right column.
 To implement what happens when ``backspace'' is pressed while in
 Insert Mode, we add a new procedure:
 
-\begin{verbatim}
+\begin{Code}
 : INSERT< BACKWARD SLIDE< ;
-\end{verbatim}
+\end{Code}
 
 (move the cursor backwards on top of the last character typed, then slide
 everything to the right leftward, covering the mistake).
@@ -405,14 +405,14 @@ cavalierly relegated to the key interpreter, now must depend on which
 editing functions occur. As we've discovered, the most important names
 needed to implement the key interpreter are:
 
-\begin{verbatim}
+\begin{Code}
 FORWARD
 BACKWARD
 OVERWRITE
 INSERT
 DELETE
 <INSERT
-\end{verbatim}
+\end{Code}
 
 None of their descriptions make any reference to the video refresh
 process, because that was originally assumed to happen later.
@@ -427,13 +427,13 @@ Here are our revised procedure names. The commands just added
 are in boldface:
 
 %!! "KEY# EMIT" and "RETYPE" in boldface
-\begin{verbatim}
+\begin{Code}
 : OVERWRITE KEY# POSITION C! KEY# EMIT FORWARD ;
 : RETYPE ( type from current position to
    end of field and reset cursor) ;
 : INSERT SLIDE> RETYPE OVERWRITE ;
 : DELETE SLIDE< BLANK-END RETYPE ;
-\end{verbatim}
+\end{Code}
 
 Since these are the only three functions which change memory, they are
 the only three functions that need to refresh the screen. This idea is
@@ -642,10 +642,10 @@ In FORTH I've defined these elements together in a single screen.
 The buffers are defined with \forth{CREATE}, the count is an ordinary
 \forth{VARIABLE}, and the attribute patterns are defined as \forth{CONSTANTs},
 such as:
-\begin{verbatim}
+\begin{Code}
 1 CONSTANT UNDERNESS ( bit mask for underlining)
 2 CONSTANT BOLDNESS ( bit mask for boldface)
-\end{verbatim}
+\end{Code}
 
 The formatting component uses phrases like \forth{UNDERNESS SET-FLAG}
 to set bits in the attribute buffer. The output component uses phrases
@@ -761,10 +761,10 @@ continuing with the text. This feature requires somehow ``getting
 inside of'' \forth{NEWPAGE}, so that when \forth{NEWPAGE} is next executed, it will
 format the deferred figure at the top of the new page:
 
-\begin{verbatim}
+\begin{Code}
 : NEWPAGE ... ( terminate page with footer)
 ( start new page with header) ... ?HOLDOVER ... ;
-\end{verbatim}
+\end{Code}
 
 How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is not
 defined until much later?
@@ -1033,7 +1033,7 @@ problem to solve. Grab your favorite piece and turn to the next chapter.
 Which would you prefer? Why?
 
 \begin{enumerate}
-\item \begin{verbatim}
+\item \begin{Code}
 ( Define editor keys )
 HEX
 72 CONSTANT UPCURSOR
@@ -1053,9 +1053,9 @@ DECIMAL
       INSERTKEY    OF  INSERTING     ENDOF
       DELETEKEY    OF  DELETE        ENDOF
    ENDCASE  REPEAT ;
-\end{verbatim}
+\end{Code}
 
-\item \begin{verbatim}
+\item \begin{Code}
 ( Keystroke interpreter)
 : EDITOR
    BEGIN  MORE WHILE  KEY   CASE
@@ -1066,7 +1066,7 @@ DECIMAL
       82 OF  INSERTING     ENDOF
       83 OF  DELETE        ENDOF
    ENDCASE  REPEAT ;
-\end{verbatim}
+\end{Code}
 \end{enumerate}
 
 \item This problem is an exercise in information hiding.
@@ -1079,12 +1079,12 @@ define a series of arrays which will reside in that memory.
 
  We might do something like this:
 
-\begin{verbatim}
+\begin{Code}
 HEX
 C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
 C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
 C00C CONSTANT THIRD ARRAY  ( 100 bytes)
-\end{verbatim}
+\end{Code}
 
 Each array-name defined above will return the starting address of the
 appropriate array. But notice we had to compute the correct starting
@@ -1093,18 +1093,18 @@ allocated. Let's try to automate this, by keeping an ``allocation
 pointer,'' called \forth{>RAM}, showing where the next free byte is. We first
 set the pointer to the beginning of the RAM space:
 
-\begin{verbatim}
+\begin{Code}
 VARIABLE >RAM
 COOO >RAM !
-\end{verbatim}
+\end{Code}
 
 Now we can define each array like this:
 
-\begin{verbatim}
+\begin{Code}
 >RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
 >RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
 >RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
-\end{verbatim}
+\end{Code}
 
 Notice that after defining each array, we increment the pointer by the
 size of the new array to show that we've allocated that much additional
@@ -1113,19 +1113,19 @@ RAM.
 To make the above more readable, we might add these two
 definitions:
 
-\begin{verbatim}
+\begin{Code}
 : THERE ( -- address of next free byte in RAM)
      >RAM @ ;
 : RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
-\end{verbatim}
+\end{Code}
 
 We can now rewrite the above equivalently as:
 
-\begin{verbatim}
+\begin{Code}
 THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
 THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
 THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
-\end{verbatim}
+\end{Code}
 
 (An advanced FORTH programmer would probably combine these operations
 into a single defining word, but that whole topic is not germane to
@@ -1142,7 +1142,7 @@ its \emph{starting} address, however.
 
 To do this, we must now write:
 
-\begin{verbatim}
+\begin{Code}
 F000 >RAM ! ( EFFF, last byte, plus one)
 : THERE ( -- address of next free byte in RAM)
      >RAM @ ;
@@ -1150,7 +1150,7 @@ F000 >RAM ! ( EFFF, last byte, plus one)
   8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
   6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
 100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
-\end{verbatim}
+\end{Code}
 
 This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's
 okay, it's easy to add \forth{NEGATE} to the definition of

@@ -114,33 +114,33 @@ stack problem. Suppose we're trying to write the definition of +THRU
 (see Chapter Five, ``Listing Organization'' section, ``Relative Loading''
 subsection). We've decided that our loop body will be
 
-\begin{verbatim}
+\begin{Code}
 ...  DO  I LOAD  LOOP ;
-\end{verbatim}
+\end{Code}
 
 that is, we'll put \textbf{LOAD} in a loop, then arrange for the index and limit
 to correspond to the absolute screens being loaded.
 
 On the stack initially we have:
 
-\begin{verbatim}
+\begin{Code}
 lo hi
-\end{verbatim}
+\end{Code}
 
 where ``lo'' and ``hi'' are the \emph{offsets} from \textbf{BLK}.
 
 We need to permute them for \textbf{DO}, like this:
 
-\begin{verbatim}
+\begin{Code}
 hi+1+blk lo+blk
-\end{verbatim}
+\end{Code}
 
 Our biggest problem is adding the value of \textbf{BLK} to both offsets.
 
 We've already taken a wrong turn but we don't know it yet. So let's
 proceed. We try:
 
-\begin{verbatim}
+\begin{Code}
 lo hi
                BLK @
 lo hi blk
@@ -156,22 +156,22 @@ lo blk hi+blk+1
 hi+blk+1 lo blk
                +
 hi+blk+1 lo+blk
-\end{verbatim}
+\end{Code}
 
 We made it, but what a mess!
 
 If we're gluttons for punishment, we might make two more stabs at
 it arriving at:
 
-\begin{verbatim}
+\begin{Code}
 BLK @  DUP ROT + 1+  ROT ROT +
-\end{verbatim}
+\end{Code}
 
 and
 
-\begin{verbatim}
+\begin{Code}
 BLK @  ROT OVER +  ROT ROT + 1+  SWAP
-\end{verbatim}
+\end{Code}
 
 All three sequences do the same thing, but the code seems to be getting
 blurrier, not better.
@@ -183,9 +183,9 @@ we have four elements on the stack.
 
 At this point, the first resort is usually the return stack:
 
-\begin{verbatim}
+\begin{Code}
 BLK @  DUP >R  + 1+  SWAP R> + +
-\end{verbatim}
+\end{Code}
 
 (See ``The Stylish Return Stack,'' coming up next.) Here we've \textbf{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
@@ -196,9 +196,9 @@ Admittedly an improvement. But readable?
 Next we think, ``Maybe we need a named variable.'' Of course, we
 have one already: \textbf{BLK}. So we try:
 
-\begin{verbatim}
+\begin{Code}
 BLK @  + 1+  SWAP BLK @ +
-\end{verbatim}
+\end{Code}
 
 Now it's more readable, but it's still rather long, and redundant too.
 \textbf{BLK @ +} appears twice.
@@ -207,15 +207,15 @@ Now it's more readable, but it's still rather long, and redundant too.
 
 We look back at the source for +LOAD just defined:
 
-\begin{verbatim}
+\begin{Code}
 : +LOAD  ( offset -- )  BLK @ +  LOAD ;
-\end{verbatim}
+\end{Code}
 
 This word, +LOAD, should be doing the work. All we have to write is:
 
-\begin{verbatim}
+\begin{Code}
 : +THRU  ( lo hi )  1+ SWAP  DO  I +LOAD  LOOP ;
-\end{verbatim}
+\end{Code}
 
 We haven't created a more efficient version here, because the work of
 \textbf{BLK @ +} will be done on every pass of the loop. But we have created a
@@ -236,9 +236,9 @@ Here's an example of a worst case. Assume you have a word called
 LINE which draws a line between any two points, specified as coordinates
 in this order:
 
-\begin{verbatim}
+\begin{Code}
 ( x1 y1 x2 y2)
-\end{verbatim}
+\end{Code}
 
 where x1,y1 represent the x,y coordinates for the one end-point, and
 x2,y2 represent the opposite end-point.
@@ -246,9 +246,9 @@ x2,y2 represent the opposite end-point.
 Now you have to write a box-drawing word called [BOX] which
 takes four arguments in this order:
 
-\begin{verbatim}
+\begin{Code}
 ( x1 y1 x2 y2)
-\end{verbatim}
+\end{Code}
 
 where x1 y1 represent the x,y coordinates for the upper left-hand corner
 of the box, and x2 y2 represent the lower right-hand corner coordinates.
@@ -259,7 +259,7 @@ Although we're using the stack to get the four arguments, the algorithm
 for drawing a box doesn't lend itself to the nature of the stack. If you're
 in a hurry, it would probably be best to take the easy way out:
 
-\begin{verbatim}
+\begin{Code}
 VARIABLE TOP         ( y coordinates top of box)
 VARIABLE LEFT        ( x     "       left side)
 VARIABLE BOTTOM      ( y     "       bottom)
@@ -269,7 +269,7 @@ VARIABLE RIGHT       ( x     "       right side)
    RIGHT @ TOP @  RIGHT @ BOTTOM @  LINE
    RIGHT @ BOTTOM @  LEFT @ BOTTOM @  LINE
    LEFT @ BOTTOM @  LEFT @ TOP @  LINE ;
-\end{verbatim}
+\end{Code}
 
 What we've done is create four named variables, one for each coordinate.
 The first thing [BOX] does is fill these variables with the arguments from
@@ -335,9 +335,9 @@ length. This factoring of function simplifies the definition of [BOX].
 Or we might discover that this syntax feels more natural to the
 user:
 
-\begin{verbatim}
+\begin{Code}
 10 10 ORIGIN! 30 30 BOX
-\end{verbatim}
+\end{Code}
 
 where ORIGIN! sets a two-element pointer to the ``origin,'' the place
 where the box will start (the upper left-hand corner). Then ``30 30 BOX''
@@ -370,15 +370,15 @@ above it, and the number of things above it can change constantly. For
 instance, if you have an address at the fourth stack position down, you can
 write
 
-\begin{verbatim}
+\begin{Code}
 4 PICK @
-\end{verbatim}
+\end{Code}
 
 to fetch its contents. But you must write
 
-\begin{verbatim}
+\begin{Code}
 ( n) 5 PICK !
-\end{verbatim}
+\end{Code}
 
 because with ``n'' on the stack, the address is now in the fifth position.
 Code like this is hard to read and harder to modify.
@@ -412,15 +412,15 @@ will go underneath first.
 \end{tip}
 For example:
 
-\begin{verbatim}
+\begin{Code}
 : COUNT  ( a -- a+1 # )  DUP C@  SWAP 1+  SWAP ;
-\end{verbatim}
+\end{Code}
 
 (where you first get the count) is more efficiently written:
 
-\begin{verbatim}
+\begin{Code}
 : COUNT  ( a -- a+1 # )  DUP 1+  SWAP C@ ;
-\end{verbatim}
+\end{Code}
 
 (where you first compute the address).
 
@@ -432,9 +432,9 @@ You'll often find a definition which does some job and, if something goes
 wrong, returns an error-code indentifying the problem. Here's one way
 the stack interface might be designed:
 
-\begin{verbatim}
+\begin{Code}
 ( -- error-code f | -- t)
-\end{verbatim}
+\end{Code}
 
 If the flag is true, the operation was successful. If the flag is false, it was
 unsuccessful and there's another value on the stack to indicate the nature
@@ -443,9 +443,9 @@ of the error.
 You'll find stack manipulation easier, though, if you redesign the interface
 to look like this:
 
-\begin{verbatim}
+\begin{Code}
 ( -- error-code | O=no-error)
-\end{verbatim}
+\end{Code}
 
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
@@ -485,9 +485,9 @@ For every \textbf{>R} there must be a \textbf{R>} in the same definition. Someti
 the operators will appear to be symmetrical, but due to the control structure
 they aren't. For instance:
 
-\begin{verbatim}
+\begin{Code}
 ... BEGIN ... >R ... WHILE ... R> ... REPEAT
-\end{verbatim}
+\end{Code}
 
 If this construction is used in the outer loop of your application,
 everything will run fine until you exit (perhaps hours later) when you'll
@@ -547,17 +547,17 @@ feed character.
 Once the loop has found the character sequence, we subtract its
 relative address from our current cursor position
 
-\begin{verbatim}
+\begin{Code}
 its-position CURSOR @  SWAP -
-\end{verbatim}
+\end{Code}
 
 to determine the distance between them.
 
 Our word's stack effect is:
 
-\begin{verbatim}
+\begin{Code}
 ( -- distance-to-previous-cr/lf)
-\end{verbatim}
+\end{Code}
 
 But in later coding we find we need a similar word to compute the
 distance from an arbitrary character---\emph{not} the current cursor
@@ -565,9 +565,9 @@ position---to the first previous line-feed character. We end up factoring
 out the ``CURSOR @'' and allowing the starting address to be passed as an
 argument on the stack, resulting in:
 
-\begin{verbatim}
+\begin{Code}
 ( starting-position -- distance-to-previous-cr/lf)
-\end{verbatim}
+\end{Code}
 
 By factoring-out the reference to the variable, we made the definition
 more useful.
@@ -682,18 +682,18 @@ problems this can create, and some of the things we can do about them.
 numeric input and output. The following words are commonly found in
 FORTH systems:
 
-\begin{verbatim}
+\begin{Code}
 : DECIMAL   10 BASE ! ;
 : HEX   16 BASE ! ;
-\end{verbatim}
+\end{Code}
 
 Suppose we've written a word that displays a ``dump'' of memory. Ordinarily,
 we work in decimal mode, but we want the dump in hexadecimal. So we write:
 
-\begin{verbatim}
+\begin{Code}
 : DUMP  ( a # )
    HEX   ...   ( code for the dump) ... DECIMAL ;
-\end{verbatim}
+\end{Code}
 
 This works---most of the time. But there's a presumption that we want to
 come back to decimal mode. What if it had been working in hexadecimal,
@@ -704,19 +704,19 @@ restore it.
 This means we have to tuck away the saved value temporarily,
 while we format the dump. The return stack is one place to do this:
 
-\begin{verbatim}
+\begin{Code}
 : DUMP  ( a # )
    BASE @ >R  HEX   ( code for dump)  R> BASE ! ;
-\end{verbatim}
+\end{Code}
 
 If things get too messy, we may have to define a temporary variable:
 
-\begin{verbatim}
+\begin{Code}
 VARIABLE OLD-BASE
 : DUMP  ( a # )
    BASE @  OLD-BASE !  HEX ( code for dump )
    OLD-BASE @  BASE ! ;
-\end{verbatim}
+\end{Code}
 
 How quickly things get complicated.
 
@@ -724,24 +724,24 @@ In this situation, if both the current and the old version of a variable
 belong only to your application (and not part of your system), and if this
 same situation comes up more than once, apply a technique of factoring:
 
-\begin{verbatim}
+\begin{Code}
 : BURY  ( a)  DUP 2+  2 CMOVE ;
 : EXHUME  ( a)  DUP 2+  SWAP 2 CMOVE ;
-\end{verbatim}
+\end{Code}
 
 Then instead of defining two variables, such as CONDITION and
 OLD-CONDITION, define one double-length variable:
 
-\begin{verbatim}
+\begin{Code}
 2VARIABLE CONDITION
-\end{verbatim}
+\end{Code}
 
 Use BURY and EXHUME to save and restore the original value:
 
-\begin{verbatim}
+\begin{Code}
 : DIDDLE    CONDITION BURY  17 CONDITION !  ( diddle )
    CONDITION EXHUME ;
-\end{verbatim}
+\end{Code}
 
 BURY saves the ``old'' version of condition at CONDITION 2+.
 
@@ -802,29 +802,29 @@ Finally, when you encounter this situation of having to save/restore a
 value, make sure it's not just a case of bad factoring. For example,
 suppose we have written:
 
-\begin{verbatim}
+\begin{Code}
 : LONG   18 #HOLES ! ;
 : SHORT   9 #HOLES ! ;
 : GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
-\end{verbatim}
+\end{Code}
 
 The current GAME is either LONG or SHORT.
 
 Later we decide we need a word to play \emph{any} number of holes. So we
 invoke GAME making sure not to clobber the current value of \#HOLES:
 
-\begin{verbatim}
+\begin{Code}
 : HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
-\end{verbatim}
+\end{Code}
 
 Because we needed HOLES after we'd defined GAME, it seemed to be of
 greater complexity; we built HOLES around GAME. But in fact---perhaps
 you see it already---rethinking is in order:
 
-\begin{verbatim}
+\begin{Code}
 : HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
 : GAME   #HOLES @ HOLES ;
-\end{verbatim}
+\end{Code}
 
 We can build GAME around HOLES and avoid all this saving/restoring
 nonsense.
@@ -839,14 +839,14 @@ your own stack.
 Here is the code for a user stack including very simple error checking
 (an error clears the stack):
 
-\begin{verbatim}
+\begin{Code}
 CREATE STACK  12 ALLOT  \  ( 2tos-pointer | 10stack [5 cells] )
 HERE CONSTANT STACK>
 : INIT-STACK   STACK STACK ! ;   INIT-STACK
 : ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  ABORT  THEN ;
 : PUSH  ( n)   2 STACK +!  STACK @  DUP  STACK> = ?BAD  ! ;
 : POP  ( -- n)  STACK @ @  -2 STACK +!  STACK @ STACK < ?BAD ;
-\end{verbatim}
+\end{Code}
 
 The word PUSH takes a value from off of your data stack and ``pushes''
 it onto this new stack. POP is the opposite, ``popping'' a value from off
@@ -855,8 +855,8 @@ the new stack, and onto FORTH's data stack.
 In a real application you might want to change the names PUSH
 and POP to better match their conceptual purposes.
 
-\section{Sharing Components}
-
+\othersidetrue\section{Sharing Components}
+\othersidefalse
 \begin{tip}
 It's legal to use a component for an additional purpose besides its intended
 one, provided:
@@ -923,14 +923,14 @@ There are two ways to accomplish the latter approach, depending on
 how you want to decompose the problem. First, we could nest one condition
 within the other:
 
-\begin{verbatim}
+\begin{Code}
 : [DISPLAY]  ...
 ( the original definition, always does the output) ... ;
 VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
 : <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
 VARIABLE 'TOC?  ( t=setting-table-of-contents)
 : DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
-\end{verbatim}
+\end{Code}
 
 DISPLAY checks that we're not setting the table of contents and invokes
 <DISPLAY>, which in turn checks that we're not looking ahead
@@ -949,21 +949,21 @@ previous DISPLAY was renamed <DISPLAY>.
 That's one approach to the use of two variables. Another is to include
 both tests within a single word:
 
-\begin{verbatim}
+\begin{Code}
 : DISPLAY   'LOOKAHEAD? @  'TOC @ OR  NOT IF [DISPLAY] THEN ;
-\end{verbatim}
+\end{Code}
 
 But in this particular case, yet another approach can simplify the whole
 mess. We can use a single variable not as a flag, but as a counter.
 
 We define:
 
-\begin{verbatim}
+\begin{Code}
 VARIABLE 'INVISIBLE?  ( t=invisible)
 : DISPLAY   'INVISIBLE? @  O= IF [DISPLAY] THEN ;
 : INVISIBLE   1 'INVISIBLE? +! ;
 : VISIBLE    -1 'INVISIBLE? +! ;
-\end{verbatim}
+\end{Code}
 
 The lookahead code begins by invoking INVISIBLE which bumps the
 counter up one. Non-zero is ``true,'' so DISPLAY will not do the output.
@@ -986,9 +986,9 @@ This use of a counter may be dangerous, however. It requires parity
 of command usage: two VISIBLEs yields invisible. That is, unless VISIBLE
 clips the counter:
 
-\begin{verbatim}
+\begin{Code}
 : VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
-\end{verbatim}
+\end{Code}
 
 \section{The State Table}
 
@@ -1026,12 +1026,12 @@ shown in \Fig{fig7-2}.
 Now suppose that we need to save all of them, so that further processing
 can take place, and later restore all of them. We could define:
 
-\begin{verbatim}
+\begin{Code}
 : @STATE ( -- top bottom left right inside out)
    TOP @  BOTTOM @  LEFT @  RIGHT @  INSIDE @  OUT @ ;
 : !STATE ( top bottom left right inside out -- )
    OUT !  INSIDE !  RIGHT !  LEFT !  BOTTOM !  TOP ! ;
-\end{verbatim}
+\end{Code}
 
 thereby saving all the values on the stack until it's time to restore them.
 Or, we might define alternate variables for each of the variables above, in
@@ -1143,7 +1143,7 @@ CREATE PSEUDO  /POINTERS ALLOT  \ temporary state table
 \end{figure*}
 pointer appropriately. For instance:
 
-\begin{Verbatim}[commandchars=&\{\}]
+\begin{Code}[commandchars=&\{\}]
 WORKING
 10 TOP !
 TOP &underline{? 10}
@@ -1154,7 +1154,7 @@ WORKING
 TOP &underline{? 10}
 PRETENDING
 TOP &underline{? 20}
-\end{Verbatim}
+\end{Code}
 
 The major difference with this latter approach is that names go through
 an extra level of indirection (POINTERS has been changed from a
@@ -1182,45 +1182,45 @@ these words, refer to Appendix B for code and implementation details.) It
 works like this: You define the word whose behavior will be vectorable
 with the defining word \textbf{DOER}, as in
 
-\begin{verbatim}
+\begin{Code}
 DOER PLATFORM
-\end{verbatim}
+\end{Code}
 
 Initially, the new word PLATFORM does nothing. Then you can write
 words that change what PLATFORM does by using the word MAKE:
 
-\begin{verbatim}
+\begin{Code}
 : LEFTWING   MAKE PLATFORM  ." proponent " ;
 : RIGHTWING  MAKE PLATFORM  ." opponent " ;
-\end{verbatim}
+\end{Code}
 
 When you invoke LEFTWING, the phrase MAKE PLATFORM changes
 what PLATFORM will do. Now if you type PLATFORM, you'll see:
 
-\begin{Verbatim}[commandchars=\&\{\}]
+\begin{Code}[commandchars=\&\{\}]
 LEFTWING ok
 PLATFORM &underline{proponent ok}
-\end{Verbatim}
+\end{Code}
 
 RIGHTWING will make PLATFORM display ``opponent.'' You can use
 PLATFORM within another definition:
 
-\begin{verbatim}
+\begin{Code}
 : SLOGAN   ." Our candidate is a longstanding " PLATFORM
    ." of heavy taxation for business. " ;
-\end{verbatim}
+\end{Code}
 
 The statement
 
-\begin{verbatim}
+\begin{Code}
 LEFTWING SLOGAN
-\end{verbatim}
+\end{Code}
 
 will display one campaign statement, while
 
-\begin{verbatim}
+\begin{Code}
 RIGHTWING SLOGAN
-\end{verbatim}
+\end{Code}
 
 will display another.
 
@@ -1273,21 +1273,21 @@ contents of a specified region of memory.
 %!! include \Fig{fig7-8 here
 
 %!! does \textbf{} work inside verbatim blocks? It better should...
-\begin{Verbatim}[commandchars=\&\{\}]
+\begin{Code}[commandchars=\&\{\}]
 : DUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{@ 6} U.R  &poorbf{2 +LOOP}  DROP ;
-\end{Verbatim}
+\end{Code}
 
 The problem arises when you write a definition called CDUMP, designed to
 format the output according to bytes, not cells:
 
 %!! does \textbf{} work inside verbatim blocks? It better should...
-\begin{Verbatim}[commandchars=\&\{\}]
+\begin{Code}[commandchars=\&\{\}]
 : CDUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{C@  4} U.R  &poorbf{LOOP} DROP ;
-\end{Verbatim}
+\end{Code}
 
 %!! include \Fig{fig7-9 here
 
@@ -1301,14 +1301,14 @@ by the code in DUMP and CDUMP. (Recognize that ``\textbf{1 +LOOP}'' has
 the same effect as ``\textbf{LOOP}''.)
 
 %!! does \textbf{} work inside verbatim blocks? It better should...
-\begin{Verbatim}[commandchars=\&\{\}]
+\begin{Code}[commandchars=\&\{\}]
 DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
 : DUMP   ( a #)  MAKE .UNIT &poorbf{ @  6} U.R  &poorbf{2} ;AND <DUMP> ;
 : CDUMP ( a #)   MAKE .UNIT &poorbf{C@  4} U.R  &poorbf{1} ;AND <DUMP> ;
-\end{Verbatim}
+\end{Code}
 
 Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
 \emph{execute} the shell (the word <DUMP>).
@@ -1316,7 +1316,7 @@ Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
 \item To change the state of related functions by invoking a single command. For
 instance:
 
-\begin{verbatim}
+\begin{Code}
 DOER TYPE'
 DOER EMIT'
 DOER SPACES'
@@ -1329,7 +1329,7 @@ DOER CR'
               MAKE EMIT'  DROP ;AND
               MAKE SPACES'  DROP ;AND
               MAKE CR'  ;
-\end{verbatim}
+\end{Code}
 
 Here we've defined a vectorable set of output words, each name having a
 ``prime'' mark at the end. VISIBLE sets them to their expected functions.
@@ -1346,14 +1346,14 @@ returns to the same room later, the game will show a shorter message.
 
 We write:
 
-\begin{verbatim}
+\begin{Code}
 DOER ANNOUNCE
 : LONG MAKE ANNOUNCE
    CR ." You're in a large hall with a huge throne"
    CR  ." covered with a red velvet canopy. "
          MAKE ANNOUNCE
    CR ." You' re in the throne room. " ;
-\end{verbatim}
+\end{Code}
 
 The word ANNOUNCE will display either message. First we say LONG, to
 initialize ANNOUNCE to the long message. Now we can test ANNOUNCE,
@@ -1367,7 +1367,7 @@ In effect we're queuing behaviors. We can queue any number of behaviors,
 letting each one set the next. The following example (though not terribly
 practical) illustrates the point.
 
-\begin{verbatim}
+\begin{Code}
 DOER WHERE
 VARIABLE SHIRT
 VARIABLE PANTS
@@ -1382,7 +1382,7 @@ VARIABLE CAR
 : HUNT  ( -- a|O )  \  find location containing 17
    ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
       LEAVE  ELSE  DROP  THEN  LOOP ;
-\end{verbatim}
+\end{Code}
 
 In this code we've created a list of variables, then defined an ORDER in
 which they are to be searched. The word HUNT looks through each of them,
@@ -1394,13 +1394,13 @@ returns a different address, as defined in ORDER, then finally zero.
 
 We can even define a \textbf{DOER} word that toggles its own behavior endlessly:
 
-\begin{verbatim}
+\begin{Code}
 DOER SPEECH
 : ALTERNATE
    BEGIN  MAKE SPEECH ." HELLO "
    MAKE SPEECH ." GOODBYE "
    O UNTIL ;
-\end{verbatim}
+\end{Code}
 
 \item To implement a forward reference. A forward reference is usually needed as
 a ``hook,'' that is, a word invoked in a low-level definition but reserved for
@@ -1409,14 +1409,14 @@ use by a component defined later in the listing.
 To implement a forward reference, build the header of the word with \textbf{DOER},
 before invoking its name.
 
-\begin{verbatim}
+\begin{Code}
 DOER STILL-UNDEFINED
-\end{verbatim}
+\end{Code}
 Later in the listing, use MAKE;
 
-\begin{verbatim}
+\begin{Code}
 MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
-\end{verbatim}
+\end{Code}
 (Remember, MAKE can be used outside a colon definition.)
 
 \item Recursion, direct or indirect.
@@ -1424,30 +1424,30 @@ MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
 Direct recursion occurs when a word invokes itself. A good example is the
 recursive definition of greatest-common-denominator:
 
-\begin{verbatim}
+\begin{Code}
 GCD of a, b =  a                     if b = O
                GCD of b, a mod b     if b > O
-\end{verbatim}
+\end{Code}
 This translates nicely into:
 
-\begin{verbatim}
+\begin{Code}
 DOER GCD ( a b -- gcd)
 MAKE GCD  ?DUP  IF  DUP ROT ROT  MOD  GCD  THEN ;
-\end{verbatim}
+\end{Code}
 Indirect recursion occurs when one word invokes a second word, while the
 second word invokes the first. This can be done using the form:
 
-\begin{verbatim}
+\begin{Code}
 DOER B
 : A  ... B ... ;
 MAKE B  ... A ... ;
-\end{verbatim}
+\end{Code}
 
 \item Debugging. I often define:
 
-\begin{verbatim}
+\begin{Code}
 DOER SNAP
-\end{verbatim}
+\end{Code}
 (short for SNAPSHOT), then edit SNAP into my application at a point
 where I want to see what's going on. For instance, with SNAP invoked inside
 the main loop of a keystroke interpreter, I can set it up to let me watch

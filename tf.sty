@@ -133,12 +133,6 @@
 %\chapternum{THREE}
 \newcommand{\chapternum}[1]{}
 
-\newcounter{screen}
-\DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
-label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
-labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
-samepage=true,xleftmargin=0em,xrightmargin=0em}
-
 %\lstloadaspects{labels}
 %\lstset{language=Forth,basicstyle=\ttfamily,keywordstyle=\bfseries,%
 %basewidth=0.5em,frame=tlbr,frameround=tttt,%
@@ -155,7 +149,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
     \hrule \@height 2pt}
   \vspace*{100pt}
   \hbox{\hbox to .1\linewidth{}
-  \vbox{\hsize.8\linewidth
+  \vbox{\hsize.9\linewidth
     \parindent\z@\hyphenpenalty 10000\raggedright
   #1}}
   \vspace*{1em plus 1fill}
@@ -211,7 +205,15 @@ FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
 \def\subsubsection#1{\vspace*{\section@ditionalsp@ce}\goodbreak\vspace{-\section@ditionalsp@ce}\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
     minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\protect\raggedlr #1\kern0in}}
 
+%% indentation
+
 \parindent 2.5em
+\DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=2.5em}
+\newcounter{screen}
+\DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
+label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
+labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
+samepage=true,xleftmargin=0em,xrightmargin=0em}
 
 %% caption style
 

@@ -18,21 +18,24 @@ employ the elements of good FORTH style.
 In this chapter we'll delve into FORTH coding convention
 including:
 %!!<ENUMERATION>
-\begin{itemize}
-\item listing organization
-\item screen layout, spacing and indentation
-\item commenting
-\item choosing names.
-\end{itemize}
+\begin{tfquot}
+listing organization
+
+screen layout, spacing and indentation
+
+commenting
+
+choosing names.
+\end{tfquot}
 %!!</ENUMERATION>
 I wish I could recommend a list of hard-and-fast conventions for
 everyone.  Unfortunately, such a list may be inappropriate in many situations.
 This chapter merges many widely-adopted conventions with personal
 preferences, commented with alternate ideas and the reasons for
 the preferences.  In other words:
-\begin{verbatim}
+\begin{Code}
 : TIP VALUE JUDGEMENT ;
-\end{verbatim}
+\end{Code}
 I'd especially like to thank Kim Harris, who proposed many of the conventions
 described in this chapter, for his continuing efforts at unifying
 divergent views on good FORTH style.
@@ -133,9 +136,9 @@ chapters in the proper sequence.
 
 \Fig{fig5-1} is an example of an application-load screen.  Since it resides in
 Screen 1, you can load this entire application by entering
-\begin{verbatim}
+\begin{Code}
 1 LOAD
-\end{verbatim}
+\end{Code}
 The individual load commands within this screen load the chapters of the
 application.  For instance, Screen 12 is the load screen for the video
 primitives chapter.
@@ -174,10 +177,10 @@ because you ``ran out of room.''
 Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 %!!<ENUMERATION>
-\begin{itemize}
-\item $\backslash$
-\item $\backslash${}S also called EXIT
-\end{itemize}
+\begin{description}
+\item[\(\backslash\)]
+\item[\(\backslash\){}S] also called EXIT
+\end{description}
 %!!</ENUMERATION>
 $\backslash${} is pronounced ``skip-line.'' It causes the FORTH interpreter to ignore
 everything to the right of it on the same line.  (Since $\backslash${} is a FORTH word, it
@@ -191,10 +194,10 @@ During testing, $\backslash${} also serves to temporarily ``paren out'' lines th
 already contain a right parenthesis in a name or comment.  For instance,
 these two ``skip-line''s keep the definition of NUTATE from being compiled
 without causing problems in encountering either right parenthesis:
-\begin{verbatim}
+\begin{Code}
 \ : NUTATE (x y z )
 \ SWAP ROT (NUTATE);
-\end{verbatim}
+\end{Code}
 $\backslash${}S is pronounced ``skip-screen.'' It causes the FORTH interpreter to stop
 interpreting the screen entirely, as though there were nothing else in the
 screen beyond $\backslash${}S.
@@ -253,34 +256,34 @@ screen numbers in the chapter- or section-load screens.
 There are two ways to implement relative loading.  The most common is
 to define:
 %!!<FORTHCODE>
-\begin{verbatim}
+\begin{Code}
 : +LOAD  ( offset -- )  BLK @ +  LOAD;
-\end{verbatim}
+\end{Code}
 and
-\begin{verbatim}
+\begin{Code}
 : +THRU  ( la-offset hi-offset -- )
      1+ SWAP DO  I +LOAD  LOOP;
-\end{verbatim}
+\end{Code}
 
 My own way, which I submit as a more useful factoring, requires a single
 word, FH (see Appendix C for its definition).
 
 The phrase
-\begin{verbatim}
+\begin{Code}
 1 FH LOAD
-\end{verbatim}
+\end{Code}
 is read ``1 from here LOAD,'' and is equivalent to 1 + LOAD.
 
 Similarly,
-\begin{verbatim}
+\begin{Code}
 2 FH   5 FH THRU
-\end{verbatim}
+\end{Code}
 is read ``2 from here, 5 from here THRU.''
 
 Some programmers begin each chapter with a dummy word; e.g.,
-\begin{verbatim}
+\begin{Code}
 : VIDEO-IO ;
-\end{verbatim}
+\end{Code}
 %Page 141 in first edition.
 and list its name in the comment on the line where the chapter is loaded in
 the application-load screen.  This permits selectively FORGETting any
@@ -432,17 +435,17 @@ use named files longer than 5K to 10K.  So what's the benefit?
 Some might answer that rhetorical question: ``It's easier to remember
 names than numbers.'' If that's so, then predefine those block
 numbers as constants, e.g.:
-\begin{verbatim}
+\begin{Code}
 90 CONSTANT FRAMING
-\end{verbatim}
+\end{Code}
 Then to load the ``framing'' section, enter
-\begin{verbatim}
+\begin{Code}
 FRAMING LOAD
-\end{verbatim}
+\end{Code}
 Or, to list the section's load block, enter
-\begin{verbatim}
+\begin{Code}
 FRAMING LIST
-\end{verbatim}
+\end{Code}
 (It's a convention that names of sections end in ``ING.'')
 
 Of course, to minimize the hassle of the screen-based approach you
@@ -487,9 +490,9 @@ page, with the top screen always evenly divisible by three.  Such a page is
 called a ``triad''; most FORTH systems include the word TRIAD to
 produce it, given as an argument the number of any of the three screens
 in the triad.  For instance, if you type
-\begin{verbatim}
+\begin{Code}
 77 TRIAD
-\end{verbatim}
+\end{Code}
 you'll get a page that includes 75, 76, and 77.
 
 The main benefit of this convention is that if you change a single
@@ -544,39 +547,39 @@ lexicon, you should include a ``page number'' as well.
 The upper right hand corner is reserved for the ``stamp.'' The stamp
 includes the date of latest revision and, when authorship is important,
 the programmer's initials (three characters to the left of the date); e.g.:
-\begin{verbatim}
+\begin{Code}
 ( Chapter name          Screen Name -- pg #       JPJ 06/10/83)
-\end{verbatim}
+\end{Code}
 Some FORTH editors will enter the stamp for you at the press of a key.
 A common form for representing dates is
-\begin{verbatim}
+\begin{Code}
 mm-dd-yy
-\end{verbatim}
+\end{Code}
 that is, February 6, 1984 would be expressed
-\begin{verbatim}
+\begin{Code}
 02-06-84
-\end{verbatim}
+\end{Code}
 An increasingly popular alternative uses
-\begin{verbatim}
+\begin{Code}
 ddMmmyy
-\end{verbatim}
+\end{Code}
 where ``Mmm'' is a three-letter abbreviation of the month.  For instance:
-\begin{verbatim}
+\begin{Code}
 22Oct84
-\end{verbatim}
+\end{Code}
 %Page 146 in first edition.
 
 This form requires fewer characters than
-\begin{verbatim}
+\begin{Code}
 10-22-84
-\end{verbatim}
+\end{Code}
 and eliminates possible confusion between dates and months.
 
 If your system has $\backslash${} (``skip-line''-see Appendix C), you can write
 the comment line like this:
-\begin{verbatim}
+\begin{Code}
 \ Chapter name          Screen Name -- pg.#         JPJ 06/10/83
-\end{verbatim}
+\end{Code}
 As with all comments, use lower-case or a mixture of lower- and uppercase
 text in the comment line.
 
@@ -592,14 +595,14 @@ per lines.
 \end{tip}
 \emph{Bad:}
 %!!<FORTHCODE>
-\begin{verbatim}
+\begin{Code}
 : ARRIVING ." HELLO" ;  : DEPARTING ." GOODBYE" ;
-\end{verbatim}
+\end{Code}
 \emph{Good:}
-\begin{verbatim}
+\begin{Code}
 : ARRIVING  ." HELLO" ;
 : DEPARTING ." GOODBYE" ;
-\end{verbatim}
+\end{Code}
 %!!</FORTHCODE>
 
 This rule makes it easier to find a definition in the listing.  (When definitions
@@ -609,7 +612,7 @@ be indented.)
 \begin{figure*}
 \labelfig{fig5-5}
 \caption{The output of INDEX showing indented comment lines.}
-\begin{verbatim}
+\begin{Code}
  90 \ Graphics         Chapter load     JPJ 06/10/83
  91    \ Dot-drawing primitives         JPJ 06/10/83
  92 \ Line-drawing primitives           JPJ 06/11/83
@@ -623,7 +626,7 @@ be indented.)
 100 \ Circles                           JPJ 06/10/83
 101    \ Circles                        JPJ 06/10/83
 102    \ Circles                        JPJ 06/10/83
-\end{verbatim}
+\end{Code}
 \end{figure*}
 %!!</Figure>
 %Page 147 in first edition.
@@ -633,10 +636,10 @@ line.  (See ``Samples of Good Commenting Style'' in Appendix E.) This
 leaves room for an explanatory comment on the same line.  The exception
 is a large ``family'' of words (defined by a common defining-word) which
 do not need unique comments:
-\begin{verbatim}
+\begin{Code}
 0 HUE BLACK     1 HUE BLUE      2 HUE GREEN
 3 HUE CYAN      4 HUE RED       5 HUE MAGENTA
-\end{verbatim}
+\end{Code}
 \begin{tip}
 Leave lots of room at the bottom of the screen for later additions.
 \end{tip}
@@ -671,13 +674,13 @@ Some shops take this rule even further.  Rather than brashly resetting
 base to DECIMAL at the end, they reset base to whatever it was
 at the beginning.  This extra bit of insurance can be accomplished in this
 fashion:
-\begin{verbatim}
+\begin{Code}
 BASE @          HEX     \ save original BASE on stack
 OA2 CONSTANT BELLS
 OA4 CONSTANT WHISTLES
 ... etc. ...
 R> BASE !               \ restore it
-\end{verbatim}
+\end{Code}
 %Page 148 in first edition.
 
 Sometimes an argument is passed on the stack from screen to screen,
@@ -685,11 +688,11 @@ such as the value returned by BEG IN or IF in a multiscreen assembler
 definition, or the base address passed from one defining word to
 another-see ``Compile-Time Factoring'' in Chapter Six.  In these cases,
 it's best to save the value of BASE on the return stack like this:
-\begin{verbatim}
+\begin{Code}
 BASE @ >R HEX
 ... etc. ...
 R> BASE !
-\end{verbatim}
+\end{Code}
 
 Some folks make it a policy to use this approach on any screen that
 changes BASE, so they don't have to worry about it.
@@ -750,31 +753,31 @@ in the last column.
 Here are some common errors of spacing and indentation:
 
 \emph{Bad}(name not separated from the body of the definition):
-\begin{verbatim}
+\begin{Code}
 : PUSH HEAVE HO ;
-\end{verbatim}
+\end{Code}
 \emph{Good:}
-\begin{verbatim}
+\begin{Code}
 : PUSH   HEAVE HO ;
-\end{verbatim}
+\end{Code}
 \emph{Bad} (subsequent lines not indented three spaces):
-\begin{verbatim}
+\begin{Code}
 : RIDDANCE (thing-never-to-darken-again -- )
 DARKEN   NEVER AGAIN;
-\end{verbatim}
+\end{Code}
 \emph{Good:}
-\begin{verbatim}
+\begin{Code}
 : RIDDANCE (thing-never-to-darken-again -- )
    DARKEN NEVER AGAIN;
-\end{verbatim}
+\end{Code}
 \emph{Bad} (lack of phrasing):
-\begin{verbatim}
+\begin{Code}
 : GETTYSBURG   4 SCORE 7 YEARS + AGO ;
-\end{verbatim}
+\end{Code}
 \emph{Good:}
-\begin{verbatim}
+\begin{Code}
 : GETTYSBURG   4 SCORE   7 YEARS +   AGO ;
-\end{verbatim}
+\end{Code}
 Phrasing is a subjective art; I've yet to see a useful set of formal rules.
 Simply strive for readability.
 
@@ -830,16 +833,16 @@ time.  Items are listed from left to right, with the leftmost item representing
 the bottom of the stack and the rightmost item representing the top.
 
 For instance, the stack picture
-\begin{verbatim}
+\begin{Code}
 nl n2
-\end{verbatim}
+\end{Code}
 indicates two numbers on the stack, with n2 on the top (the most accessible
 position).
 This is the same order that you would use to type these values in;
 i.e., if n1 is 100 and n2 is 5000, then you would type
-\begin{verbatim}
+\begin{Code}
 100 5000
-\end{verbatim}
+\end{Code}
 to place these values correctly on the stack.
 
 %Page 151 in first edition.
@@ -852,9 +855,9 @@ space.
 If a stack item is described with a phrase (such as ``address-of-latest-link''),
 the words in the phrase should be joined by hyphens.  For
 example, the stack picture:
-\begin{verbatim}
+\begin{Code}
 address current-count max-count
-\end{verbatim}
+\end{Code}
 shows three elements on the stack.
 
 \subsection{Stack Effect}
@@ -865,9 +868,9 @@ may be consumed by a definition, and another picture of any items
 two hyphens, then the ``after'' picture.
 
 For instance, the stack effect for FORTH's addition operator, + is
-\begin{verbatim}
+\begin{Code}
 n n -- sum
-\end{verbatim}
+\end{Code}
 where + consumes two numbers and returns their sum.
 
 Remember that the stack effect describes only the \emph{net result} of the
@@ -876,16 +879,16 @@ beneath the arguments of interest don't need to be shown.  Nor do values
 that may appear or dissappear while the operation is executing.
 If the word returns any input arguments unchanged, they should be
 repeated in the output picture; e.g.,
-\begin{verbatim}
+\begin{Code}
 3rd 2nd top-input -- 3rd 2nd top-output
-\end{verbatim}
+\end{Code}
 
 Conversely, if the word changes any arguments, the stack comment must
 use a different descriptor:
-\begin{verbatim}
+\begin{Code}
 nl -- n2
 n  -- n'
-\end{verbatim}
+\end{Code}
 A stack effect might appear in a formatted glossary.
 
 \subsection{Stack Effect Comment}
@@ -893,36 +896,36 @@ A stack effect might appear in a formatted glossary.
 A ``stack-effect comment'' is a stack effect that appears in source code
 surrounded by parentheses.  Here's the stack-effect comment for the word
 COUNT:
-\begin{verbatim}
+\begin{Code}
 ( address-of-counted-string -- address-of-text count)
-\end{verbatim}
+\end{Code}
 %Page 152 in first edition.
 or:
-\begin{verbatim}
+\begin{Code}
 ( 'counted-string -- 'text count)
-\end{verbatim}
+\end{Code}
 (The ``count'' is on top of the stack after the word has executed.)
 
 If a definition has no effect on the stack (that is, no effect the user is
 aware of, despite what gyrations occur within the definition), it needs no
 stack-effect comment:
-\begin{verbatim}
+\begin{Code}
 : BAKE   COOKIES OVEN ! ;
-\end{verbatim}
+\end{Code}
 On the other hand, you may want to use an empty stack comment-i.e.,
-\begin{verbatim}
+\begin{Code}
 : BAKE  ( -- )  COOKIES OVEN ! ;
-\end{verbatim}
+\end{Code}
 to emphasize that the word has no effect on the stack.
 If a definition consumes arguments but returns none, the double-hyphen
 is optional.  For instance,
-\begin{verbatim}
+\begin{Code}
 ( address count -- )
-\end{verbatim}
+\end{Code}
 can be shortened to
-\begin{verbatim}
+\begin{Code}
 ( address count)
-\end{verbatim}
+\end{Code}
 The assumption behind this convention is this: There are many more
 colon definitions that consume arguments and return nothing than
 definitions that consume nothing and return arguments.
@@ -940,11 +943,11 @@ cell, ``n'' represents a 32-bit number.)
 
 \ref{tab-5-2} shows three ways to represent a boolean flag.  To illustrate, here
 are three versions of the same stack comment for the word -TEXT:
-\begin{verbatim}
+\begin{Code}
 ( at u a2 -- ?)
 ( at u a2 -- t=no-match)
 ( at u a2 -- f=match)
-\end{verbatim}
+\end{Code}
 %Page 153 in first edition.
 %!!<TABLE>
 \begin{table}
@@ -996,17 +999,17 @@ but the items themselves change, you can use the vertical bar ( | )
 to mean ``or.'' The following stack-effect comment describes a word that
 returns either the address of a file or, if the requested file is not found,
 zero:
-\begin{verbatim}
+\begin{Code}
 ( -- address|O=undefined-file)
-\end{verbatim}
+\end{Code}
 If the number of items in a stack picture can vary---in either the ``before''
 or ``after'' picture---you must write out both versions of the entire stack
 %Page 154 in first edition.
 picture, along with the double-hyphen, separated by the ``or'' symbol.  For
 instance:
-\begin{verbatim}
+\begin{Code}
 -FIND ( -- apf len t=found | -- f=not-found )
-\end{verbatim}
+\end{Code}
 This comment indicates that if the word is found, three arguments are
 returned (with the flag on top); otherwise only a false flag is returned.
 
@@ -1016,22 +1019,22 @@ flag.
 
 If you prefer, you can write the entire stack effect twice, either on
 the same line, separated by three spaces:
-\begin{verbatim}
+\begin{Code}
   UP \ if zero: ( n -- n)    if non-zero:( n -- n n)
-\end{verbatim}
+\end{Code}
 or listed vertically:
-\begin{verbatim}
+\begin{Code}
 -FIND  \     found: ( -- apf len t )
        \ not-found: ( -- f )
-\end{verbatim}
+\end{Code}
 \subsection{Data-Structure Comments}
 
 A ``data-structure comment'' depicts the elements in a data structure.
 For example, here's the definition of an insert buffer called |INSERT :
 %!!<FORTHCODE>
-\begin{verbatim}
+\begin{Code}
 CREATE |INSERT  64 ALLOT  \  { 1# | 63text }
-\end{verbatim}
+\end{Code}
 %!!<FORTHCODE>
 The ``faces'' (curly-brackets) begin and end the structure comment; the
 bars separate the various elements in the structure; the numbers represent
@@ -1041,9 +1044,9 @@ count, and the remaining 63 bytes contain the text.
 A ``bit comment'' uses the same format as a data-structure comment
 to depict the meaning of bits in a byte or cell.  For instance, the bit
 comment
-\begin{verbatim}
+\begin{Code}
 { Ibusy? | lacknowledge? | 2x | 6input-device | 6output-device}
-\end{verbatim}
+\end{Code}
 describes the format of a 16-bit status register of a communications channel.
 The first two bits are flags, the second two bits are unused, and the
 final pair of six-bit fields indicate the input and output devices which this
@@ -1056,24 +1059,24 @@ give a name to the pattern for reference in subsequent screens.  For instance,
 if the preamble gives the above bit-pattern the name ``status,''
 then ``status'' can be used in stack comments to indicate values with that
 pattern:
-\begin{verbatim}
+\begin{Code}
 : STATUS?  ( -- status) ... ;
-\end{verbatim}
+\end{Code}
 If a 2VARIABLE contains one double-length value, the comment should
 be a stack picture that indicates the contents:
-\begin{verbatim}
+\begin{Code}
 2VARIABLE PRICE  \ price in cents
-\end{verbatim}
+\end{Code}
 If a 2VARIABLE contains two single-length data elements, it's given a
 stack picture showing what would be on the stack after a 2@.  Thus:
-\begin{verbatim}
+\begin{Code}
 2VARIABLE MEASUREMENTS  ( height weight )
-\end{verbatim}
+\end{Code}
 This is different from the comment that would be used if
 MEASUREMENTS were defined by CREATE.
-\begin{verbatim}
+\begin{Code}
 CREATE MEASUREMENTS 4 ALLOT  \ { 2weight | 2height }
-\end{verbatim}
+\end{Code}
 (While both statements produce the same result in the dictionary, the use
 of 2VARIABLE implies that the values will normally be ``2-fetched'' and
 ``2-stored'' together-thus we use a \emph{stack} comment.  The high-order part,
@@ -1110,13 +1113,13 @@ is not encapsulated between its own pair of parentheses, but simply surrounded
 by three spaces on each side.  For instance, here's one way to
 comment the definition of ' (tick) showing first the input-stream comment,
 then the stack comment:
-\begin{verbatim}
+\begin{Code}
 : ,   \ name   ( -- a)
-\end{verbatim}
+\end{Code}
 If you prefer to use ( , the comment would look like this:
-\begin{verbatim}
+\begin{Code}
 : ,   ( name   ( -- a)
-\end{verbatim}
+\end{Code}
 
 Incidentally, there are three distinct ways to receive string input.  To
 avoid confusion, here are the terms:
@@ -1143,63 +1146,63 @@ b. if it consists of three or fewer words.
 
 The purpose comment should be kept to a minimum-never more than a
 full line.  For example:
-\begin{verbatim}
+\begin{Code}
 : COLD \ restore system to start condition
    ... ;
-\end{verbatim}
+\end{Code}
 use the imperative mood: ``set Foreground color,'' not ``sets Foreground
 color.''
 
 On the other hand, a word's purpose can often be described in terms
 of its stack-effect comment.  You rarely need both a stack comment and a
 purpose comment.  For instance:
-\begin{verbatim}
+\begin{Code}
 : SPACES ( #)
-\end{verbatim}
+\end{Code}
 %Page 157 in first edition.
 or
-\begin{verbatim}
+\begin{Code}
 : SPACES  ( #spaces-to-type -- )  ... ;
-\end{verbatim}
+\end{Code}
 
 This definition takes as its incoming argument a number that represents
 the number of spaces to type.
-\begin{verbatim}
+\begin{Code}
 : ELEMENT  ( element# -- 'element)  2*  TABLE + ;
-\end{verbatim}
+\end{Code}
 This definition converts an index, which it consumes, into an address
 within a table of 2-byte elements corresponding to the indexed element.
-\begin{verbatim}
+\begin{Code}
 : PAD ( -- 'scratch-pad)  HERE 80 + ;
-\end{verbatim}
+\end{Code}
 This definition returns an address of a scratch region of memory.
 
 Occasionally, readability is best served by including both types of
 comment.  In this case, the purpose comment should appear last.  For
 instance:
-\begin{verbatim}
+\begin{Code}
 : BLOCK  ( n -- a)  \  ensure block n in buffer at a
-\end{verbatim}
+\end{Code}
 
 \begin{tip}
 Indicate the type of comment by ordering: input-stream comments first,
 stack-effect comments second, purpose comments last.
 \end{tip}
 For example:
-\begin{verbatim}
+\begin{Code}
 : GET  \  name  ( -- a)   get first match
-\end{verbatim}
+\end{Code}
 If you prefer to use (, then write:
-\begin{verbatim}
+\begin{Code}
 : GET  (  name  ( -- a) ( get first match
-\end{verbatim}
+\end{Code}
 
 If necessary, you can put the purpose comment on a second line:
-\begin{verbatim}
+\begin{Code}
 : WORD   \   name   (c -- a)
    \ scan for string delimt'd by "c"; 1eave at a
    ... ;
-\end{verbatim}
+\end{Code}
 \subsection{Comments for Defining Words}
 The definition of a defining word involves two behaviors:
 %!!<ENUMERATION>
@@ -1218,10 +1221,10 @@ its run-time behavior separately, following the word DOES> (or
 \end{tip}
 
 For instance,
-\begin{verbatim}
+\begin{Code}
 : CONSTANT   ( n )
    DOES> ( -- n)  @ ;
-\end{verbatim}
+\end{Code}
 
 The stack-effect comment for the run-time (child's) behavior represents
 the net stack effect for the child word.  Therefore it does not include the
@@ -1229,28 +1232,28 @@ address returned by DOES>, even though this address is on the stack
 when the run-time code begins.
 
 Bad (run-time comment includes apf):
-\begin{verbatim}
+\begin{Code}
 : ARRAY    \  name ( #cells)
    CREATE 2* ALLOT
     DOES>   ( i apf -- 'cell)   SWAP  2* + ;
-\end{verbatim}
+\end{Code}
 Good:
-\begin{verbatim}
+\begin{Code}
 : ARRAY \  name ( #cells)
    CREATE 2* ALLOT
     DOES>   ( i -- 'cell)   SWAP  2* + ;
-\end{verbatim}
+\end{Code}
 %% Note: AH: CELLS instead of 2* is indicated
 Words defined by this word ARRAY will exhibit the stack effect:
-\begin{verbatim}
+\begin{Code}
 ( i -- 'cell)
-\end{verbatim}
+\end{Code}
 If the defining word does not specify the run-time behavior, there still
 exists a run-time behavior, and it may be commented:
-\begin{verbatim}
+\begin{Code}
 : VARIABLE   ( name ( -- ) CREATE 2 ALLOT ;
    \ does>   ( -- adr )
-\end{verbatim}
+\end{Code}
 \subsection{Comments for Compiling Words}
 As with defining words, most compiling words involve two behaviors:
 %!!<ENUMERATION>
@@ -1267,11 +1270,11 @@ Comment a compiling word's run-time behavior in the usual way; comment
 its compile-time behavior separately, beginning with the label ``Compile:''.
 \end{tip}
 For instance:
-\begin{verbatim}
+\begin{Code}
 : IF   ( ? -- ) ...
 \ Compile:   ( -- address-of-unresolved-branch)
    ... ; IMMEDIATE
-\end{verbatim}
+\end{Code}
 In the case of compiling words, the first comment describes the run-time
 behavior, which is usually the \emph{syntax for using} the word.  The second comment
 describes what the word \emph{actually does} in compiling (which is of less
@@ -1284,12 +1287,12 @@ Other examples:
 Occasionally a compiling word may exhibit a different behavior when it is
 invoked outside a colon definition.  Such words (to be fastidious about it)
 require three comments.  For instance:
-\begin{verbatim}
+\begin{Code}
 : ASCII  (-- c)
 \ Compile:   c   (--)
 \ Interpret:   c   (-- c)
      ... ; IMMEDIATE
-\end{verbatim}
+\end{Code}
 Appendix E includes two screens showing good commenting style.
 
 \section{Vertical Format vs.\ Horizontal Format}
@@ -1308,7 +1311,7 @@ the process, in the manner of a well-commented assembly language
 listing.  These line-by-line comments are called ``narrative comments.''
 
 %Page 160 in first edition.
-\begin{verbatim}
+\begin{Code}
 \ CRC Checksum                             07/15/83
 : ACCUMULATE    ( oldcrc char -- newcrc)
     256 *              \ shift char to hi-order byte
@@ -1322,15 +1325,15 @@ listing.  These line-by-line comments are called ``narrative comments.''
           DUP +        \ shift it left one place
              THEN
        LOOP;           \ complete the loop
-\end{verbatim}
+\end{Code}
 The other approach does not intersperse narrative comments between
 code phrases.  This is called the ``horizontal format.''
-\begin{verbatim}
+\begin{Code}
 \ CRC Checksum                             07/15/83
 : ACCUMULATE    ( oldcrc char -- newcrc)
     256 *  XOR  8 0 DO  DUP 0< IF
        16386 XOR  DUP +  1+  ELSE  DUP +  THEN  LOOP;
-\end{verbatim}
+\end{Code}
 
 The vertical format is preferred when a large team of programmers are
 coding and maintaining the application.  Typically, such a team will include
@@ -1500,13 +1503,13 @@ names of all the words in the current vocabulary.  After many years someone
 realized that a nicer name is WORDS.  Not only does WORDS sound
 more pleasant by itself, it also works nicely with vocabulary names.  For
 instance:
-\begin{verbatim}
+\begin{Code}
 EDITOR WORDS
-\end{verbatim}
+\end{Code}
 or
-\begin{verbatim}
+\begin{Code}
 ASSEMBLER WORDS
-\end{verbatim}
+\end{Code}
 On the other hand, Moore points out that inappropriate names can
 become a simple technique for encryption.  If you need to provide security
 when you're forced to distribute source, you can make your code very
@@ -1518,25 +1521,25 @@ Choose names that work in phrases.
 \end{tip}
 Faced with a definition you don't know what to call, think about how the
 word will be used in context.  For instance:
-\begin{verbatim}
+\begin{Code}
 SHUTTER OPEN
-\end{verbatim}
+\end{Code}
 OPEN is the appropriate name for a word that sets a
 bit in an 1/0 address identified with the name
 SHUTTER.
 %Page 165 in first edition.
-\begin{verbatim}
+\begin{Code}
 3 BUTTON DOES IGNITION
-\end{verbatim}
+\end{Code}
 %!!<INDENT3LEVELS>
 DOES is a good choice for a word that vectors the
 address of the function IGNITION into a table of
 functions, so that IGNITION will be executed when
 Button 3 is pushed.
 %!!</INDENT3LEVELS>
-\begin{verbatim}
+\begin{Code}
 SAY HELLO
-\end{verbatim}
+\end{Code}
 %!!<INDENT3LEVELS>
 SAY is the perfect choice for vectoring HELLO into an
 execution variable.  (When I first wrote this example
@@ -1544,9 +1547,9 @@ for Starting FORTH, I called it VERSION.  Moore
 reviewed the manuscript and suggested SAY, which is
 clearly much better.)
 %!!</INDENT3LEVELS>
-\begin{verbatim}
+\begin{Code}
 I'M HARRY
-\end{verbatim}
+\end{Code}
 %!!<INDENT3LEVELS>
 The word I'M seems more natural than LOGON HARRY,
 LOGIN HARRY or SESSION HARRY, as often seen.
@@ -1567,9 +1570,9 @@ with the right word.
 %!!</SMALLPRINT>
 Another of Moore's favorite words is TH, which he uses as an array indexing
 word.  For instance, the phrase
-\begin{verbatim}
+\begin{Code}
 5 TH
-\end{verbatim}
+\end{Code}
 returns the address of the ``fifth'' element of the array.
 
 \begin{tip}
@@ -1599,14 +1602,14 @@ Still, there are exceptions.  Here ate a few:
 \item Words that you use extremely frequently in code. FORTH employs a handful
 of commands that get used over and over, but have little or no intrinsic
 meaning:
-\begin{verbatim}
+\begin{Code}
 :   ;   @   !   .   ,
-\end{verbatim}
+\end{Code}
 But there are so few of them, and they're used so often, they become old
 friends.  I would never want to type, on a regular basis,
-\begin{verbatim}
+\begin{Code}
 DEFINE  END-DEFINITION  FETCH  STORE  PRINT  COMPILE#
-\end{verbatim}
+\end{Code}
 (Interestingly, most of these symbols don't have English counterparts.  We
 use the phrase ``emph{colon} definition'' because there's no other term; we say
 ``emph{comma} a number into the dictionary'' because it's not exactly compiling,
@@ -1654,7 +1657,7 @@ But I suspect a hyphenated word of mixing two concepts.
 %!!</SMALLPRINT>
 
 Compare the following two strategies for saying the same thing:
-\begin{verbatim}
+\begin{Code}
 ENABLE-LEFT-MOTOR        LEFT MOTOR ON
 ENABLE-RIGHT-MOTOR       RIGHT MOTOR ON
 DISABLE-LEFT-MOTOR       LEFT MOTOR OFF
@@ -1663,7 +1666,7 @@ ENABLE-LEFT-SOLENOID     LEFT SOLENOID ON
 ENABLE-RIGHT-SOLENOID    RIGHT SOLENOID ON
 DISABLE-LEFT-SOLENOID    LEFT SOLENOID OFF
 DISABLE-RIGHT-SOLENOID   RIGHT SOLENOID OFF
-\end{verbatim}
+\end{Code}
 The syntax on the left requires eight dictionary entries; the syntax on the
 right requires only six-and some of the words are likely to be reused in
 other parts of the application.  If you had a MIDDLE motor and solenoid
@@ -1679,20 +1682,20 @@ This bundling of names and numbers may be an indication of bad
 factoring.  The crime is similar to hyphenation, except that what should
 be factored out is a number, not a word.  A better factoring of the above
 would be
-\begin{verbatim}
+\begin{Code}
 1 CHANNEL
 2 CHANNEL
 3 CHANNEL
-\end{verbatim}
+\end{Code}
 In this case, the three words were reduced to one.
 Often the bundling of names and numbers indicates fuzzy naming.
 
 %Page 168 in first edition.
 In the above case, more descriptive names might indicate the purpose of
 the channels, as in
-\begin{verbatim}
+\begin{Code}
 VOICE  , TELEMETRY  , GUITAR
-\end{verbatim}
+\end{Code}
 %% Note: AH: the commas be better left out here.
 
 We'll amplify on these ideas in the next chapter on ``Factoring.''
@@ -1708,15 +1711,15 @@ the most useful conventions developed over the years.
 
 An example of the power of naming conventions is the use of ``dot''
 to mean ``print'' or ``display.'' FORTH itself uses
-\begin{verbatim}
+\begin{Code}
 .  D.  U.R
-\end{verbatim}
+\end{Code}
 for displaying various types of numbers in various formats.  The convention
 extends to application words as well.  If you have a variable called
 DATE, and you want a word that displays the date, use the name
-\begin{verbatim}
+\begin{Code}
 .DATE
-\end{verbatim}
+\end{Code}
 A caution: The overuse of prefixes and suffixes makes words uglier and
 ultimately less readable.  Don't try to describe everything a word does by
 its name alone.  After all, a name is a symbol, not a shorthand for code.
@@ -1741,13 +1744,13 @@ cram details of meaning into the name itself.
 %Page 169 in first edition.
 
 For instance, the phrase
-\begin{verbatim}
+\begin{Code}
 ... DONE IF CLOSE THEN ...
-\end{verbatim}
+\end{Code}
 is just as readable as
-\begin{verbatim}
+\begin{Code}
 ... DONE? IF CLOSE THEN ...
-\end{verbatim}
+\end{Code}
 and cleaner as well.  It is therefore preferable, unless we need an additional
 word called DONE (as a flag, for instance).
 A final tip on naming:
@@ -1780,24 +1783,24 @@ ASCII value for ``blank-space'').
 The word ASCII is used primarily within colon definitions to free
 you from having to know the literal value of an ASCII character.  For instance,
 instead of writing:
-\begin{verbatim}
+\begin{Code}
 : ( 41 WORD DROP: IMMEDIATE
-\end{verbatim}
+\end{Code}
 where 41 is the ASCII representation for right-parenthesis, you can write
-\begin{verbatim}
+\begin{Code}
 : ( ASCII) WORD DROP; IMMEDIATE
-\end{verbatim}
+\end{Code}
 A pair of words that can make dealing with booleans more readable are
 TRUE and FALSE.  With these additions you can write phrases such as
 
 %Page 170 in first edition.
-\begin{verbatim}
+\begin{Code}
 TRUE 'STAMP? !
-\end{verbatim}
+\end{Code}
 to set a flag or
-\begin{verbatim}
+\begin{Code}
 FALSE 'STAMP? !
-\end{verbatim}
+\end{Code}
 to clear it.
 
 (I once used T and F, but the words are needed so rarely I now heed
@@ -1805,27 +1808,27 @@ the injunction against abbreviations.)
 
 As part of your application (not necessarily part of your FORTH
 system), you can take this idea a step further and define:
-\begin{verbatim}
+\begin{Code}
 : ON   ( a) TRUE SWAP ! ;
 : OFF   ( a) FALSE SWAP ! ;
-\end{verbatim}
+\end{Code}
 These words allow you to write:
-\begin{verbatim}
+\begin{Code}
 'STAMP? ON
-\end{verbatim}
+\end{Code}
 or
-\begin{verbatim}
+\begin{Code}
 'STAMP? OFF
-\end{verbatim}
+\end{Code}
 Other names for these definitions include SET and RESET, although
 SET and RESET most commonly use bit masks to manipulate individual
 bits.
 
 An often-used word is WITHIN, which determines whether a given
 value lies within two other values.  The syntax is:
-\begin{verbatim}
+\begin{Code}
 n  lo hi WITHIN
-\end{verbatim}
+\end{Code}
 where ``n'' is the value to be tested and ``lo'' and ``hi'' represent the range.
 WITHIN returns true if ``n'' is \emph{greater-than} or \emph{equal-to} ``lo'' and
 \emph{less-than} ``hi.'' This use of the non-inclusive upper limit parallels the syntax
@@ -1835,9 +1838,9 @@ of DO LOOPs.
 Moore recommends the word UNDER+.  It's useful for adding a
 value to the number just under the top stack item, instead of to the top
 stack item.  It could be implemented in high level as:
-\begin{verbatim}
+\begin{Code}
 : UNDER+ (a b c -- a+c b) ROT + SWAP !
-\end{verbatim}
+\end{Code}
 {\othersidetrue\section{Summary}}
 
 Maintainability requires readability.  In this chapter we've enumerated
