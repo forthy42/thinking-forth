@@ -344,11 +344,15 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
                 \twocolumn[\@makeschapterhead{\indexname}]%
                 \@mkboth{\MakeUppercase\indexname}%
                         {\MakeUppercase\indexname}%
-		\addcontentsline{toc}{chapter}{\indexname}
+		\addcontentsline{toc}{chapter}{\indexname}%
                 \thispagestyle{plain}\parindent\z@
                 \parskip\z@ \@plus .3\p@\relax
                 \let\item\@idxitem}
                {\if@restonecol\onecolumn\else\clearpage\fi}
+
+\renewcommand\@idxitem{\par\Large\sf\bfseries\hangindent 40\p@}
+\renewcommand\subitem{\@idxitem\normalfont\normalsize \hspace*{10\p@}}
+\renewcommand\subsubitem{\@idxitem\normalfont\normalsize \hspace*{20\p@}}
 
 %% appendix stuff
 
