@@ -16,15 +16,15 @@ employ the elements of good \Forth{} style.
 In this chapter we'll delve into \Forth{} coding convention
 including:
 %!!<ENUMERATION>
-\begin{tfquot}
-listing organization
+\begin{itemize}
+\item listing organization
 
-screen layout, spacing and indentation
+\item screen layout, spacing and indentation
 
-commenting
+\item commenting
 
-choosing names.
-\end{tfquot}
+\item choosing names.
+\end{itemize}
 %!!</ENUMERATION>
 I wish I could recommend a list of hard-and-fast conventions for
 everyone.  Unfortunately, such a list may be inappropriate in many situations.
@@ -63,9 +63,9 @@ as well.  Good organization has three aspects:
 \subsection{Decomposition}
 
 As we've already seen, the organization of a listing should follow the
-decomposition of the application into lexicons.  Generally these lexicons
-should be sequenced in ``uses'' order.  Lexicons being used should precede
-the lexicons which use them.
+decomposition of the application into lexicons.  Generally these
+lexicons should be sequenced in ``uses'' order.  Lexicons being
+\emph{used} should precede the lexicons which \emph{use} them.
 
 On a larger scale, elements in a listing should be organized by
 degree of complexity, with the most complex variations appearing
@@ -91,7 +91,6 @@ Instead:
 \begin{tip}
 Structure your application listing like a book: hierarchically.
 \end{tip}
-
 An application may consist of:
 %!!<ENUMERATION>
 \begin{description}
@@ -109,7 +108,7 @@ chapters in the proper sequence.
 \labelfig{fig5-1}
 \setcounter{screen}{1}
 \begin{Screen}
-\ QTF+ Load Screen   07/09/83
+\ QTF+ Load Screen                                      07/09/83
 : RELEASE#   ." 2.01" ;
   9 LOAD \ compiler tools, language primitives
  12 LOAD \ video primitives
@@ -166,7 +165,7 @@ however, the extra level of hierarchy can improve maintainability.
 %Page 139 in first edition.
 
 A screen should either be a load-screen or a code-screen, not a mixture.
-Avoid embedding a LOAD or THRU command in the middle of a
+Avoid embedding a \forth{LOAD} or \forth{THRU} command in the middle of a
 screen containing definitions just because you ``need something'' or
 because you ``ran out of room.''
 
@@ -176,36 +175,39 @@ Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 %!!<ENUMERATION>
 \begin{description}
-\item[\(\backslash\)]
-\item[\(\backslash\){}S] also called EXIT
+\item[\emph{\forth{\backslash}}]
+\item[\emph{\forth{\backslash S}}] also called \forth{EXIT}
 \end{description}
 %!!</ENUMERATION>
-$\backslash${} is pronounced ``skip-line.'' It causes the \Forth{} interpreter to ignore
-everything to the right of it on the same line.  (Since $\backslash${} is a \Forth{} word, it
-must be followed by a space.) It does not require a delimiter.
+\forth{\backslash} is pronounced ``skip-line.'' It causes the \Forth{}
+interpreter to ignore everything to the right of it on the same line.
+(Since \forth{\backslash} is a \Forth{} word, it must be followed by a
+space.) It does not require a delimiter.
 
-In \Fig{fig5-1}, you see $\backslash${} used in two ways: to begin the screen-comment
-line (Line 0), and to begin comments on individual lines which
-have no more code to the right of the comment.
+In \Fig{fig5-1}, you see \forth{\backslash} used in two ways: to begin
+the screen-comment line (Line 0), and to begin comments on individual
+lines which have no more code to the right of the comment.
 
-During testing, $\backslash${} also serves to temporarily ``paren out'' lines that
-already contain a right parenthesis in a name or comment.  For instance,
-these two ``skip-line''s keep the definition of NUTATE from being compiled
-without causing problems in encountering either right parenthesis:
+During testing, \forth{\backslash} also serves to temporarily ``paren
+out'' lines that already contain a right parenthesis in a name or
+comment.  For instance, these two ``skip-line''s keep the definition
+of NUTATE from being compiled without causing problems in encountering
+either right parenthesis:
 \begin{Code}
-\ : NUTATE (x y z )
-\ SWAP ROT (NUTATE);
+\ : NUTATE ( x y z )
+\   SWAP ROT  (NUTATE) ;
 \end{Code}
-$\backslash${}S is pronounced ``skip-screen.'' It causes the \Forth{} interpreter to stop
-interpreting the screen entirely, as though there were nothing else in the
-screen beyond $\backslash${}S.
+\forth{\backslash S} is pronounced ``skip-screen.'' It causes the
+\Forth{} interpreter to stop interpreting the screen entirely, as
+though there were nothing else in the screen beyond \forth{\backslash
+S}.
 
-In many \Forth{} systems, this function is the same as EXIT, which
-is the run-time routine for semicolon.  In these systems the use of EXIT is
+In many \Forth{} systems, this function is the same as \forth{EXIT}, which
+is the run-time routine for semicolon.  In these systems the use of \forth{EXIT} is
 acceptable.  Some \Forth{} systems, however, require for internal reasons
 a different routine for the ``skip-screen'' function.
 
-Definitions for $\backslash${} and $\backslash${}S can be found in \App{C}.
+Definitions for \forth{\backslash} and \forth{\backslash S} can be found in \App{C}.
 
 \subsection{Chapter-load Screens}
 
@@ -227,11 +229,11 @@ chapter-load screen are position-independent.  All you have to change is
 \begin{Screen}
 \ GRAPHICS                 Chapter load                 07/11/83
 
-1 FH LOAD             \ dot-drawing primitive
-2 FH 3 FH THRU        \ line-drawing primitives
-4 FH 7 FH THRU        \ scaling, rotation
-8 FH LOAD             \ box
-9 FH 11 FH THRU       \ circle
+ 1 FH LOAD            \ dot-drawing primitive
+ 2 FH 3 FH THRU       \ line-drawing primitives
+ 4 FH 7 FH THRU       \ scaling, rotation
+ 8 FH LOAD            \ box
+ 9 FH 11 FH THRU      \ circle
 
 
 
@@ -262,7 +264,6 @@ and
 : +THRU  ( la-offset hi-offset -- )
      1+ SWAP DO  I +LOAD  LOOP;
 \end{Code}
-
 My own way, which I submit as a more useful factoring, requires a single
 word, FH (see \App{C} for its definition).
 
@@ -284,7 +285,7 @@ Some programmers begin each chapter with a dummy word; e.g.,
 \end{Code}
 %Page 141 in first edition.
 and list its name in the comment on the line where the chapter is loaded in
-the application-load screen.  This permits selectively FORGETting any
+the application-load screen.  This permits selectively \forth{FORGET}ting any
 chapter and reloading from that point on without having to look at the
 chapter itself.
 
@@ -338,33 +339,34 @@ HISTORY  -
 \end{figure*}
 %!!</Figure>
 %Page 142 in first edition.
-
+\begin{interview}
 \person{Charles Moore}\index{M!Moore, Charles|(} (no relation to Moore Products
 Co.) places less importance on the well-organized hierarchical listing
 than I do.  \person{Moore}:
 
 \begin{tfquot}
 I structure \emph{applications} hierarchically, but not necessarily
-listings.  My listings are organized in a fairly sloppy way, not at
+\emph{listings.}  My listings are organized in a fairly sloppy way, not at
 all hierarchically in the sense of primitives first.
 
-I use LOCATE {[}also known as VIEW; see the Handy Hint in Starting
-\Forth{}, Chapter Nine{]}.  As a result, the listing is much less carefully
-organized because I have LOCATE to find things for me.  I never look
-at listings.
+I use \forth{LOCATE} {[}also known as \forth{VIEW}; see the Handy Hint in
+\emph{Starting \Forth{},} Chapter Nine{]}.  As a result, the listing
+is much less carefully organized because I have \forth{LOCATE} to find
+things for me.  I never look at listings.
 \end{tfquot}\index{M!Moore, Charles|)}
+\end{interview}
 
 
 \subsection{--\/--> vs.\ THRU}
 
 On the subject of relative loading, one popular way to load a series of adjacent
-screens is with the word --\/--> (pronounced ``next block'').  This word
+screens is with the word \forth{-{}->} (pronounced ``next block'').  This word
 causes the interpreter to immediately cease interpreting the current
 screen and begin interpreting the next (higher-numbered) screen.
 
-If your system provides --\/-->, you must choose between using the
-THRU command in your chapter-load screen to load each series of
-screens, or linking each series together with the arrows and LOADing
+If your system provides \forth{-{}->}, you must choose between using the
+\forth{THRU} command in your chapter-load screen to load each series of
+screens, or linking each series together with the arrows and \forth{LOAD}ing
 only the first in the series.  (You can't do both; you'd end up loading most
 of the screens more than once.)
 
@@ -386,17 +388,17 @@ or
 \item load the entire remainder of the application.
 \end{enumerate}
 %!!</ENUMERATION>
-The use of THRU seems to give you the greatest control.
+The use of \forth{THRU} seems to give you the greatest control.
 
 Some people consider the arrow to be useful for letting definitions
-cross screen boundaries.  In fact --\/--> is the only way to compile a high-level
-(colon) definition that occupies more than one screen, because --\/--> is
-``immediate.'' But it's NEVER good style to let a colon definition cross
+cross screen boundaries.  In fact \forth{-{}->} is the only way to compile a high-level
+(colon) definition that occupies more than one screen, because \forth{-{}->} is
+``immediate.'' But it's \emph{never} good style to let a colon definition cross
 screen boundaries.  (They should never be that long!)
 
 On the other hand, an extremely complicated and time-critical piece
 of assembler coding might occupy several sequential screens.  In this
-case, though, normal LOADing will do just as well, since the assembler
+case, though, normal \forth{LOAD}ing will do just as well, since the assembler
 does not use compilation mode, and therefore does not require
 immediacy.
 
@@ -480,7 +482,7 @@ on a disk should be made on boundaries evenly divisible by thirty.
 
 The reason? By convention, \Forth{} screens are printed three to a
 page, with the top screen always evenly divisible by three.  Such a page is
-called a ``triad''; most \Forth{} systems include the word TRIAD to
+called a ``triad''; most \Forth{} systems include the word \forth{TRIAD} to
 produce it, given as an argument the number of any of the three screens
 in the triad.  For instance, if you type
 \begin{Code}
@@ -492,7 +494,7 @@ The main benefit of this convention is that if you change a single
 screen, you can slip the new triad right into your binder containing the
 current listing, replacing exactly one page with no overlapping screens.
 
-Similarly, the word INDEX lists the first line of each screen, 60 per
+Similarly, the word \forth{INDEX} lists the first line of each screen, 60 per
 page, on boundaries evenly divisible by 60.
 
 \begin{tip}
@@ -515,9 +517,9 @@ allows the programmer to pick and choose the special routines
 actually needed.
 
 These user-loadable routines are called ``electives.'' Double-length
-arithmetic, date and time support, CASE statements and the DOER/
-MAKE construct (described later) are some of the features that \Forth{}
-systems should offer as electives.
+arithmetic, date and time support, \forth{CASE} statements and the
+\forth{DOER}/\hy \forth{MAKE} construct (described later) are some of
+the features that \Forth{} systems should offer as electives.
 
 \section{Screen Layout}
 
@@ -526,9 +528,8 @@ In this section we'll discuss the layout of each source screen.
 \begin{tip}
 Reserve Line 0 as a ``comment line.''
 \end{tip}
-
 The comment line serves both as a heading for the screen, and also as a
-line in the disk INDEX.  It should describe the purpose of the screen (not
+line in the disk \forth{INDEX}.  It should describe the purpose of the screen (not
 list the words defined therein).
 
 The comment line minimally contains the name of the screen.  In
@@ -560,14 +561,13 @@ where ``Mmm'' is a three-letter abbreviation of the month.  For instance:
 22Oct84
 \end{Code}
 %Page 146 in first edition.
-
 This form requires fewer characters than
 \begin{Code}
 10-22-84
 \end{Code}
 and eliminates possible confusion between dates and months.
 
-If your system has $\backslash${} (``skip-line''-see \App{C}), you can write
+If your system has \forth{\backslash} (``skip-line''-see \App{C}), you can write
 the comment line like this:
 \begin{Code}
 \ Chapter name          Screen Name -- pg.#         JPJ 06/10/83
@@ -578,31 +578,11 @@ text in the comment line.
 One way to make the index of an application reveal more about the
 organization of the screens is to indent the comment line by three spaces
 in screens that continue a lexicon.  \Fig{fig5-5} shows a portion of a list produced
-by INDEX in which the comment lines for the continuing screens
+by \forth{INDEX} in which the comment lines for the continuing screens
 are indented.
-
-\begin{tip}
-Begin all definitions at the left edge of the screen, and define only one word
-per lines.
-\end{tip}
-\emph{Bad:}
-%!!<\Forth{}CODE>
-\begin{Code}
-: ARRIVING ." HELLO" ;  : DEPARTING ." GOODBYE" ;
-\end{Code}
-\emph{Good:}
-\begin{Code}
-: ARRIVING  ." HELLO" ;
-: DEPARTING ." GOODBYE" ;
-\end{Code}
-%!!</\Forth{}CODE>
-
-This rule makes it easier to find a definition in the listing.  (When definitions
-continue for more than one line, the subsequent lines should always
-be indented.)
 %!!<Figure>
-\begin{figure*}
-\caption{The output of INDEX showing indented comment lines.}
+\begin{figure*}[bbbb]
+\caption{The output of \forth{INDEX} showing indented comment lines.}
 \labelfig{fig5-5}
 \begin{Code}
  90 \ Graphics         Chapter load     JPJ 06/10/83
@@ -621,9 +601,27 @@ be indented.)
 \end{Code}
 \end{figure*}
 %!!</Figure>
+\begin{tip}
+Begin all definitions at the left edge of the screen, and define only one word
+per lines.
+\end{tip}
+\emph{Bad:}
+%!!<\Forth{}CODE>
+\begin{Code}
+: ARRIVING ." HELLO" ;  : DEPARTING ." GOODBYE" ;
+\end{Code}
+\emph{Good:}
+\begin{Code}
+: ARRIVING  ." HELLO" ;
+: DEPARTING ." GOODBYE" ;
+\end{Code}
+%!!</\Forth{}CODE>
+This rule makes it easier to find a definition in the listing.  (When definitions
+continue for more than one line, the subsequent lines should always
+be indented.)
 %Page 147 in first edition.
 
-VARIABLES and CONSTANTS should also be defined one per
+\forth{VARIABLES} and \forth{CONSTANTS} should also be defined one per
 line.  (See ``Samples of Good Commenting Style'' in \App{E}.) This
 leaves room for an explanatory comment on the same line.  The exception
 is a large ``family'' of words (defined by a common defining-word) which
@@ -635,22 +633,21 @@ do not need unique comments:
 \begin{tip}
 Leave lots of room at the bottom of the screen for later additions.
 \end{tip}
-
 On your first pass, fill each screen no more than half with code.  The
 iterative approach demands that you sketch out the components of your
-application first, then iteratively flesh them out until all the requirements
-are satisfied.  Usually this means adding new commands, or
-adding special-case handling, to existing screens.  (Not always, though.  A
-new iteration may see a simplification of the code.  Or anew complexity
-may really belong in another component and should be factored out, into
-another screen.)
+application first, then iteratively flesh them out until all the
+requirements are satisfied.  Usually this means adding new commands,
+or adding special-case handling, to existing screens.  (Not
+\emph{always,} though.  A new iteration may see a simplification of
+the code.  Or anew complexity may really belong in another component
+and should be factored out, into another screen.)
 
 Leaving plenty of room at the outset makes later additions more
 pleasant.  One writer recommends that on the initial pass, the screen
-should contain about 20-40 percent code and 80-60 percent whitespace \cite{stevenson81}.
+should contain about 20--40 percent code and 80--60 percent whitespace \cite{stevenson81}.
 
 Don't skip a line between each definition.  You may, however, skip a
-line between groups of definitions.'
+line between \emph{groups} of definitions.'
 \begin{tip}
 All screens must leave BASE\index{B!BASE} set to DECIMAL.
 \end{tip}
@@ -690,7 +687,7 @@ R> BASE !
 Some folks make it a policy to use this approach on any screen that
 changes BASE\index{B!BASE}, so they don't have to worry about it.
 
-\person{Moore}\index{M!Moore, Charles} prefers to define LOAD to
+\person{Moore}\index{M!Moore, Charles} prefers to define \forth{LOAD} to
 invoke DECIMAL after loading.
 This approach simplifies the screen's contents because you don't have to
 worry about resetting.
@@ -1341,7 +1338,7 @@ listing.  These line-by-line comments are called ``narrative comments.''
     256 *              \ shift char to hi-order byte
     XOR                \ & xor into previous crc
     8 0 DO             \ Then for eight repetitions,
-       DUP 0< IF     \ if hi-order bit is "1"
+       DUP 0< IF       \ if hi-order bit is "1"
           16386 XOR    \ xor it with mask and
           DUP +        \ shift it left one place
           1+           \ set lo-order bit to "1"
@@ -1449,7 +1446,6 @@ code.
 %!!<ILLUSTRATION>
 \wepsfigp{fig5-2}{Wiggins, proud of his commenting technique.}
 %!!</ILLUSTRATION>
-
 Unfortunately, even the best programmers, given the pressure of a
 deadline, may write working code that is not easily readable without comments.
 If you are writing for yourself, or for a small group with whom
@@ -1476,8 +1472,9 @@ they think, ``the computer doesn't care what names I choose.''
 But good names are essential for readability.  Moreover, the mental
 exercise of summoning a one-word description bears a synergistic effect
 on your perceptions of what the entity should or should not do.
-Here are some rules for choosing good names:
 
+\smallbreak
+Here are some rules for choosing good names:
 \begin{tip}
 Choose names according to ``what,'' not ``how.''
 \end{tip}
@@ -1487,16 +1484,16 @@ procedure, and instead should describe the outward appearance or net
 effect.
 
 For instance, the \Forth{} word ALLOT simply increments the dictionary
-pointer (called DP or H in most systems).  But the name ALLOT
-is better than D P +! because the user is thinking of reserving space, not
-incrementing a pointer.
+pointer (called \forth{DP} or \forth{H} in most systems).  But the
+name \forth{ALLOT} is better than \forth{DP~+!} because the user is
+thinking of reserving space, not incrementing a pointer.
 
-The '83 Standard adopted the name CMOVE> instead of the previous
-name for the same function, <CMOVE.  The operation makes it
-possible to copy a region of memory forward into overlapping memory.  It
-accomplishes this by starting with the last byte and working backward.
-In the new name, the forwardness of the ``what'' supercedes the
-backwardness of the ``how.''
+The '83 Standard adopted the name \forth{CMOVE>} instead of the
+previous name for the same function, \forth{<CMOVE}.  The operation
+makes it possible to copy a region of memory \emph{forward} into
+overlapping memory.  It accomplishes this by starting with the last
+byte and working \emph{backward}.  In the new name, the forwardness of
+the ``what'' supercedes the backwardness of the ``how.''
 
 \begin{tip}
 Find the most expressive word.
@@ -1512,7 +1509,7 @@ The difference between the right word and the almost-right word is like the
 difference between lightning and the lightning bug \emph{(Mark Twain).}
 
 Suit the action to the word, the word to the action \emph{(Shakespeare, Hamlet,
-Act III).}
+Act~III).}
 \end{tfquot}
 %!!</SMALLPRINT>
 Henry Laxen, a \Forth{} consultant and author, suggests that the most
@@ -1523,14 +1520,14 @@ doesn't feel quite right.  It may be months later before you realize
 that you fell short of the mark.  In the Roman numeral example in
 \Chap{4}, there's a word that handles the exception case: numbers that
 are one-less-than the next symbol's value.  My first choice was
-4-0R-9.  That's awkward, but it was much later that I thought of
-ALMOST.
+\forth{4-0R-9}.  That's awkward, but it was much later that I thought of
+\forth{ALMOST}.
 
-Most fig-\Forth{} systems include the word VLIST, which lists the
-names of all the words in the current vocabulary.  After many years someone
-realized that a nicer name is WORDS.  Not only does WORDS sound
-more pleasant by itself, it also works nicely with vocabulary names.  For
-instance:
+Most fig-\Forth{} systems include the word \forth{VLIST}, which lists
+the names of all the words in the current vocabulary.  After many
+years someone realized that a nicer name is \forth{WORDS}.  Not only
+does \forth{WORDS} sound more pleasant by itself, it also works nicely
+with vocabulary names.  For instance:
 \begin{Code}
 EDITOR WORDS
 \end{Code}
@@ -1538,11 +1535,11 @@ or
 \begin{Code}
 ASSEMBLER WORDS
 \end{Code}
-On the other hand, \person{Moore}\index{M!Moore, Charles} points out that inappropriate names can
-become a simple technique for encryption.  If you need to provide security
-when you're forced to distribute source, you can make your code very
-unreadable by deliberately choosing misleading names.  Of course, maintenance
-becomes impossible.
+On the other hand, \person{Moore}\index{M!Moore, Charles} points out
+that inappropriate names can become a simple technique for encryption.
+If you need to provide security when you're forced to distribute
+source, you can make your code very unreadable by deliberately
+choosing misleading names.  Of course, maintenance becomes impossible.
 
 \begin{tip}
 Choose names that work in phrases.
@@ -1552,7 +1549,7 @@ word will be used in context.  For instance:
 \begin{Code}[fontfamily=cmss,commandchars=\&\{\}]
 SHUTTER OPEN
   OPEN is the appropriate name for a word that sets a
-  bit in an 1/0 address identified with the name
+  bit in an I/O address identified with the name
   SHUTTER.&medskip
 3 BUTTON DOES IGNITION
   DOES is a good choice for a word that vectors the
@@ -1571,7 +1568,7 @@ I'M HARRY
 \end{Code}
 %!!<SMALLPRINT>
 \begin{interview}
-The choice of I'M is another invention of \person{Moore}, who says:
+The choice of \forth{I'M} is another invention of \person{Moore}, who says:
 
 \begin{tfquot}
 I detest the word LOGON.  There is no such word in English.  I was
@@ -1579,8 +1576,9 @@ looking for a word that said, ``I'm. \dots{}'' It was a natural.  I just
 stumbled across it.  Even though it's clumsy with that apostrophe, it
 has that sense of rightness.
 
-All these little words are the nicest way of getting the ``Aha!'' reaction.  If
-you think of the right word, it is obviously the right word.
+All these little words are the nicest way of getting the ``Aha!''
+reaction.  If you think of the right word, it is \emph{obviously} the
+right word.
 
 If you have a wide recall vocabulary, you're in a better position to come up
 with the right word.
@@ -1678,7 +1676,6 @@ separately.  That isn't always possible, and it isn't always advantageous.
 But I suspect a hyphenated word of mixing two concepts.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-
 Compare the following two strategies for saying the same thing:
 \begin{Code}
 ENABLE-LEFT-MOTOR        LEFT MOTOR ON
@@ -1711,16 +1708,15 @@ would be
 3 CHANNEL
 \end{Code}
 In this case, the three words were reduced to one.
-Often the bundling of names and numbers indicates fuzzy naming.
 
+Often the bundling of names and numbers indicates fuzzy naming.
 %Page 168 in first edition.
 In the above case, more descriptive names might indicate the purpose of
 the channels, as in
 \begin{Code}
-VOICE  , TELEMETRY  , GUITAR
+VOICE , TELEMETRY , GUITAR
 \end{Code}
 %% Note: AH: the commas be better left out here.
-
 We'll amplify on these ideas in the next chapter on ``Factoring.''
 
 \section{Naming Standards: The Science}
@@ -1765,7 +1761,6 @@ Use prefixes and suffices to differentiate between like words rather than to
 cram details of meaning into the name itself.
 \end{tip}
 %Page 169 in first edition.
-
 For instance, the phrase
 \begin{Code}
 ... DONE IF CLOSE THEN ...
@@ -1807,11 +1802,11 @@ The word ASCII is used primarily within colon definitions to free
 you from having to know the literal value of an ASCII character.  For instance,
 instead of writing:
 \begin{Code}
-: ( 41 WORD DROP: IMMEDIATE
+: (    41 WORD  DROP ; IMMEDIATE
 \end{Code}
 where 41 is the ASCII representation for right-parenthesis, you can write
 \begin{Code}
-: ( ASCII) WORD DROP; IMMEDIATE
+: (    ASCII ) WORD  DROP ; IMMEDIATE
 \end{Code}
 A pair of words that can make dealing with booleans more readable are
 TRUE and FALSE.  With these additions you can write phrases such as
@@ -1832,8 +1827,8 @@ the injunction against abbreviations.)
 As part of your application (not necessarily part of your \Forth{}
 system), you can take this idea a step further and define:
 \begin{Code}
-: ON   ( a) TRUE SWAP ! ;
-: OFF   ( a) FALSE SWAP ! ;
+: ON   ( a)  TRUE SWAP ! ;
+: OFF   ( a)  FALSE SWAP ! ;
 \end{Code}
 These words allow you to write:
 \begin{Code}
@@ -1862,7 +1857,7 @@ of DO LOOPs.
 value to the number just under the top stack item, instead of to the top
 stack item.  It could be implemented in high level as:
 \begin{Code}
-: UNDER+ (a b c -- a+c b) ROT + SWAP !
+: UNDER+ ( a b c -- a+c b ) ROT + SWAP ;
 \end{Code}
 
 \section{Summary}
@@ -1879,13 +1874,13 @@ part of the software development process.
 
 \begin{references}{9}
 \bibitem{stevenson81} Gregory Stevenson, ``Documentation Priorities,''
-1981 FORML Conference Proceedings, p. 401.
+\emph{1981 FORML Conference Proceedings,} p. 401.
 \bibitem{lee81} Joanne Lee, ``Quality Assurance in a FORTH
-Environment,'' (Appendix A), 1981 FORML Proceedings, p. 363.
+Environment,'' (Appendix A), \emph{1981 FORML Proceedings,} p. 363.
 \bibitem{dijkstra82} Edsger W. Dijkstra, Selected Writings on
-Computing:\ A Personal Perspective, New York, Springer Verlag, Inc.,
+Computing:\ \emph{A Personal Perspective,} New York, Springer Verlag, Inc.,
 1982.
-\bibitem{laxen} Henry Laxen, ``Choosing Names,'' FORTH Dimensions,
+\bibitem{laxen} Henry Laxen, ``Choosing Names,'' \emph{FORTH Dimensions,}
 vol. 4, no.\ 4, FORTH Interest Group.
 \end{references}
 

@@ -168,7 +168,7 @@
 
 %% line for separating is blacker than LaTeX default
 
-\newcommand{\blackline}[1]{\hrule height 1pt\vspace{#1}}
+\newcommand{\blackline}[1]{\hrule height 1pt\nopagebreak\vspace{#1}}
 
 %% allow pretty big top fractions for floating placement
 
@@ -217,10 +217,9 @@ TIP\\[1ex]\small
                         \leftmargin    0pt
 			\topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\smallbreak\blackline{\medskipamount}\nopagebreak
+		\medbreak\blackline{\medskipamount}\nopagebreak
                 \item\relax}
-               {\par\nopagebreak\blackline{0pt}\medskip
-		\smallbreak\endlist}
+               {\samepage\par\blackline{0pt}\medskip\endlist\goodbreak}
 
 
 %\pointto{box}
@@ -237,10 +236,19 @@ TIP\\[1ex]\small
 %set in a roman font; if you change \forth to do this, make sure that > and
 %< get the correct glyphs
 %\forth{words} %used within text paragraphs
+%1984 edition uses fat romand for Forth words
+%\newcommand{\forth}[1]{\textbf{#1}}
+%1994 edition uses teletype for Forth words
 \newcommand{\forth}[1]{\texttt{#1}}
+
+{\catcode`\|0\catcode`\\12%
+|gdef|backslash{\}}
 
 %\code text was originally also set in roman font
 %\code{text}
+%1984 edition uses fat romand for code words
+%\newcommand{\code}[1]{\textbf{#1}}
+%1994 edition uses teletype for code words
 \newcommand{\code}[1]{\texttt{#1}}
 
 \newcommand{\chapternum}[1]{}
@@ -512,11 +520,10 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 }
 
 %% Forth ``logo''
-
-\def\Forth{FORTH}
-
-%Modern form is to spell as noun, since it's not an abbreviation
-%\def\Forth{Forth}
+%1984 edition spells ``FORTH''
+%\def\Forth{FORTH}
+%1994 edition spells ``Forth''
+\def\Forth{Forth}
 
 %% Names are often typeset in small caps
 
