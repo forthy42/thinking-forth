@@ -223,10 +223,10 @@ deleting, and inserting. We might draw something like the following on
 the back of an old pizza menu (we won't pay much attention to
 exception-handling in the present discussion):
 
-\vspace{2ex}
+\begin{description}
 %!!small layout differences between the '84 and '94 edition; using '94 layout
+\item[To Overwrite:]~\\
 \begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
-\emph{To Overwrite:}&\\
 Store new character into byte pointer to by pointer Advance pointer (unless at end of field)
 & \parbox[t]{2in}{
   F U N \fwbox{\pointto{K}} T I O N A L I T Y\\
@@ -234,8 +234,8 @@ Store new character into byte pointer to by pointer Advance pointer (unless at e
   F U N C \pointto{T} I O N A L I T Y}\\
 \end{tabular}
 
+\item[To Delete:]~\\
 \begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
-\emph{To Delete:}&\\
 Copy leftwards, by one place, the string
 beginning one place to the right of the pointer.
 Store a ``blank'' into the last
@@ -247,8 +247,8 @@ position on the line.
 \end{tabular}
 
 % Note, pointers-and-boxes omitted in this diagram for some reason.
+\item[To Insert:]~\\
 \begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
-\emph{To Insert:}&\\
 Copy rightwards, by one place,
 the string beginning at the pointer
 %!!'84 ed: the string beginning one place\\ to the right of the pointer.
@@ -262,9 +262,8 @@ Advance pointer (unless at end of field)
   F U N T T I O N A L I T Y} \\
 
 \end{tabular}
-\vspace{2ex}
-
-\noindent We've just developed the algorithms for the problem at hand.
+\end{description}
+We've just developed the algorithms for the problem at hand.
 
 Our next step is to examine these three essential procedures, looking
 for useful ``names''---that is procedures or elements which can
