@@ -653,7 +653,8 @@ Variables have the characteristic that when you change their contents,
 you clobber the value that was there before. Let's look at some of the
 problems this can create, and some of the things we can do about them.
 
-\textbf{BASE}\index{B!BASE} is a variable that indicates the current
+\index{B!BASE|(}
+\forth{BASE} is a variable that indicates the current
 number radix for all numeric input and output. The following words are
 commonly found in \Forth{} systems:
 
@@ -689,7 +690,8 @@ VARIABLE OLD-BASE
    BASE @  OLD-BASE !  HEX ( code for dump )
    OLD-BASE @  BASE ! ;
 \end{Code}
-How quickly things get complicated.\index{B!BASE} 
+How quickly things get complicated.
+\index{B!BASE|)}
 
 In this situation, if both the current and the old version of a variable
 belong only to your application (and not part of your system), and if this
@@ -725,7 +727,7 @@ through and finds himself, strangely, in hexadecimal.
 In the simple case at hand, the best solution is to not use
 \textbf{QUIT}, but rather a controlled exit from the loop (via
 \textbf{LEAVE}, etc.) to the end of the definition where
-\textbf{BASE}\index{B!BASE} is reset.
+\textbf{BASE} is reset.
 
 In very complex applications a controlled exit is often impractical,
 yet many variables must somehow be restored to a natural condition.

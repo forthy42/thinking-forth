@@ -688,6 +688,7 @@ situations in which the difference in outcome results from a difference in
 numbers. If numbers are involved, we can calculate them. (In Chapter
 Four see the section called ``Calculations vs. Data Structures vs. Logic.'')
 
+\index{B!Booleans, as hybrid values|(}
 \begin{tip}
 Use booleans as hybrid values.
 \end{tip}
@@ -727,9 +728,12 @@ moment's (in)decision.
      DUP  O< NEGATE ;
 \end{Code}
 See \App{C}.)
+\index{B!Booleans, as hybrid values|)}
 
+\index{H!Hybrid values|(}
 We can do even more with ``hybrid values'':
 
+\index{A!AND|(}
 \begin{tip}
 To effect a decision with a numeric outcome, use AND.
 \end{tip}
@@ -797,10 +801,12 @@ t  O<  1 AND
 as a single expression, not a piece-wise expression.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
+\index{A!AND|)}
 
 I call these flags ``hybrid values'' because they are booleans (truth
 values) being applied as data (numeric values). Also, I don't know what
 else to call them.
+\index{H!Hybrid values|)}
 
 We can eliminate numeric \textbf{ELSE} clauses as well (where both results
 are non-zero), by factoring out the difference between the two results. For
@@ -1210,6 +1216,7 @@ There's no need for a function to check an argument passed by
 another component in the system. The calling program should bear the
 responsibility for not exceeding the limits of the called component.
 
+\index{A!Algorithms|(}
 \begin{tip}
 Reexamine the algorithm.
 \end{tip}
@@ -1234,6 +1241,7 @@ Instead of trying to get rid of conditionals, you're best to question the
 underlying theory that led to the conditionals.
 \end{tfquot}
 \end{interview}
+\index{A!Algorithms|)}
 \begin{tip}
 Avoid the need for special handling.
 \end{tip}

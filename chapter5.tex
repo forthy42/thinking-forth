@@ -5,6 +5,8 @@
 %% Chapter: Implementation: Elements of FORTH Style
 
 \chapter{Implementation:
+\index{I!Implementation|(}
+\index{P!Programming cycle:!implementation|see{Implementation}}
 Elements~of \Forth{}~Style}\Chapmark{5}
 
 Badly written \Forth{} has been accused of looking like ``code that went
@@ -34,9 +36,10 @@ the preferences.  In other words:
 \begin{Code}
 : TIP VALUE JUDGEMENT ;
 \end{Code}
-I'd especially like to thank Kim Harris, who proposed many of the conventions
-described in this chapter, for his continuing efforts at unifying
-divergent views on good \Forth{} style.
+I'd especially like to thank Kim Harris,\index{H!Harris, Kim}
+who proposed many of the conventions described in this chapter, for
+his continuing efforts at unifying divergent views on good \Forth{}
+style.
 
 \section{Listing Organization}
 
@@ -61,11 +64,14 @@ as well.  Good organization has three aspects:
 \end{enumerate}
 %!!</ENUMERATION>
 \subsection{Decomposition}
+\index{D!Decomposition|(}
 
+\index{L!Lexicons|(}
 As we've already seen, the organization of a listing should follow the
 decomposition of the application into lexicons.  Generally these
 lexicons should be sequenced in ``uses'' order.  Lexicons being
 \emph{used} should precede the lexicons which \emph{use} them.
+\index{L!Lexicons|)}
 
 On a larger scale, elements in a listing should be organized by
 degree of complexity, with the most complex variations appearing
@@ -75,6 +81,7 @@ running application, working properly except for the lack of the more advanced
 features.
 
 We discussed the art of decomposition extensively in \Chap{3}.
+\index{D!Decomposition|)}
 
 \subsection{Composition}
 
@@ -855,11 +862,10 @@ to place these values correctly on the stack.
 
 %Page 151 in first edition.
 A stack picture can include either abbreviations, such as ``n1,'' or
-fully spelled-out words.  Usually abbreviations are used.  Some standard
-\index{A!Abbreviations!in stack diagrams}
-abbreviations appear in Table \ref{tab-5-2}.  Whether abbreviations or fully
-spelled-out words are used, each stack item should be separated by a
-space.
+fully spelled-out words.  Usually abbreviations are used.  Some
+standard abbreviations appear in Table \ref{tab-5-2}.  Whether
+abbreviations or fully spelled-out words are used, each stack item
+should be separated by a space.
 
 If a stack item is described with a phrase (such as ``address-of-latest-link''),
 the words in the phrase should be joined by hyphens.  For
@@ -952,7 +958,7 @@ cell, ``n'' represents a 32-bit number.)
 
 Table \ref{tab-5-2} shows three ways to represent a boolean flag.  To
 illustrate, here are three versions of the same stack comment for the
-word -TEXT: \index{A!Abbreviations!in stack diagrams}
+word -TEXT:
 \begin{Code}
 ( at u a2 -- ?)
 ( at u a2 -- t=no-match)
@@ -1001,7 +1007,6 @@ An ``index'' is a difference expressed in logical units, such as elements or rec
 The equal sign after the symbols ``t'' and ``f'' equates the flag outcome
 with its meaning.  The result-side of the second version would be read
 ``true means no match.''
-
 
 \subsection{Notation of Variable Possibilities}
 Some definitions yield a different stack effect under different circumstances.
@@ -1601,6 +1606,7 @@ such eyesores as DSPL-BFR for ``display buffer.'' Other writers seem to
 think that three characters magically says it all, coining LEN for
 ``length.'' Such practices reflect thinking from a bygone age.
 
+\index{A!Abbreviations|(}
 \Forth{} words should be fully spelled out.  Feel proud to type every
 letter of INITIALIZE or TERMINAL or BUFFER.  These are the words
 you mean.
@@ -1609,8 +1615,7 @@ you mean.
 The worst problem with abbreviating a word is that you forget just
 how you abbreviated it.  Was that DSPL or DSPLY?
 
-Another problem is that abbreviations
-\index{A!Abbreviations!hinder readability}hinder readability.
+Another problem is that abbreviations hinder readability.
 Any programming language is hard enough to read without compounding
 the difficulty.
 
@@ -1659,6 +1664,7 @@ screen.  Most important, they make your code crisp and clean.
 \begin{tip}
 Hyphenated names may be a sign of bad factoring.
 \end{tip}
+\index{A!Abbreviations|)}
 %Page 168 in first edition.
 
 \begin{interview}
@@ -1698,6 +1704,7 @@ Don't bundle numbers into names.
 Watch out for a series of names beginning or ending with numbers, such
 as 1CHANNEL, 2CHANNEL, 3CHANNEL, etc.
 
+\index{B!Bundling of names and numbers|(}
 This bundling of names and numbers may be an indication of bad
 factoring.  The crime is similar to hyphenation, except that what should
 be factored out is a number, not a word.  A better factoring of the above
@@ -1717,6 +1724,8 @@ the channels, as in
 VOICE , TELEMETRY , GUITAR
 \end{Code}
 %% Note: AH: the commas be better left out here.
+\index{B!Bundling of names and numbers|)}
+
 We'll amplify on these ideas in the next chapter on ``Factoring.''
 
 \section{Naming Standards: The Science}
@@ -1871,6 +1880,7 @@ We've mentioned only briefly auxiliary documentation, which includes
 all documentation apart from the listing itself.  We won't discuss
 auxiliary documentation further in this volume, but it remains an integral
 part of the software development process.
+\index{I!Implementation|)}
 
 \begin{references}{9}
 \bibitem{stevenson81} Gregory Stevenson, ``Documentation Priorities,''
@@ -1885,3 +1895,4 @@ vol. 4, no.\ 4, FORTH Interest Group.
 \end{references}
 
 %Page 172 in first edition.
+%1234567890123456789012345678901234567890123456789012345678901234567890123456789
