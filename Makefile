@@ -16,7 +16,8 @@ SOURCES = thinking-forth.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
 	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
-	fig7-7.tex fig7-8.tex fig7-9.tex backpage.tex cover.tex \
+	fig7-7.tex fig7-8.tex fig7-9.tex \
+	backpage.tex cover.tex legalcode-by-nc-sa.tex \
 	autoscale eps2pdf
 
 ALL_SOURCES = $(SOURCES) Makefile
@@ -38,11 +39,11 @@ PNGSOURCES = \
 	img2-047.png img2-060.png img2-063.png img2-066.png \
 	img4-103.png img4-106.png img4-110.png img7-211.png \
 	no-scrambled.png \
-	img-by.png img-nc.png img-sa.png img-cc.png \
+	img-by.png img-nc.png img-sa.png img-cc.png logo_code.png \
 	pointing-l.png pointing-r.png
 
-WIDTH = 6.8125
-HEIGHT = 9.125
+WIDTH = 6.8125in
+HEIGHT = 9.125in
 
 # original Prentice Hall ISBN
 ISBN = 0-13-917568-7
@@ -82,15 +83,15 @@ thinking-forth-book.pdf: thinking-forth-book.ps
 
 booka4 : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
-	psnup -c -2 -w$(WIDTH)in -h$(HEIGHT)in | \
-	psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | \
+	psnup -c -2 -w$(WIDTH) -h$(HEIGHT) | \
+	psresize -W$(WIDTH) -H$(HEIGHT) -w210mm -h297mm | \
 	$(PSA4) >tf-a4.ps
 	ps2pdf tf-a4.ps tf-a4.pdf
 
 bookletter : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
-	psnup -2 -w$(WIDTH)in -h$(HEIGHT) | \
-	psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | \
+	psnup -2 -w$(WIDTH) -h$(HEIGHT) | \
+	psresize -W$(WIDTH) -H$(HEIGHT) -w8.5in -h11in | \
 	$(PSLET) >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
 
@@ -114,20 +115,26 @@ pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 
 ps :	thinking-forth.ps
 
+dvi :	thinking-forth.dvi
+
 %.ps	: %.dvi
 	dvips $< -o $@
 
-dvi thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
+
+thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
 	latex thinking-forth.tex
 
-cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex
+cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex
 	latex cover.tex
 
 # get bookland.py from http://www.cgpp.com/bookland/
 
 isbn.eps:
 	bookland.py $(ISBN) $(PRICE) >$@
+
+pagecount.tex:	thinking-forth.ps
+	grep %%Pages: $< | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' >$@
 
 thinking-forth.idx: $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
@@ -167,4 +174,4 @@ no-scrambled.pdf:	no-scrambled.eps
 	./eps2pdf $<
 
 view : thinking-forth.dvi
-	xdvi -s 6 -paper $(WIDTH)x$(HEIGHT)in thinking-forth.dvi
+	xdvi -s 6 -paper $(WIDTH:in=)x$(HEIGHT) thinking-forth.dvi

@@ -14,6 +14,7 @@
 \fi
 
 \input{tfoptions}
+\input{pagecount}
 
 \ifpdf
 \documentclass[10pt,american,pdftex]{book}
@@ -49,7 +50,8 @@
 \advance\evenmargin-\twidth
 \advance\evenmargin-\oddmargin
 \newdimen\spine
-\spine162\pthick
+\spine0.5\pthick
+\spine\pagecount\spine
 \pwidth2\paperwidth
 \advance\pwidth\spine
 \advance\pwidth2\cborder
