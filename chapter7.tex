@@ -1,0 +1,1483 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Nils M Holm
+%% Based on OCR scans by Steve Fisher
+%% 
+%% Chapter: Seven - Handling Data: Stacks and States
+
+%!! horizontal line
+SEVEN
+%!! horizontal line
+
+\chapter{Handling Data: Stacks and States}
+
+%!! horizontal line
+FORTH handles data in one of two ways: either on the stack or in data
+structures. When to use which approach and how to manage both the
+stack and data structures are the topics of this chapter.
+
+\section{The Stylish Stack}
+
+The simplest way for FORTH words to pass arguments to each other is
+via the stack. The process is ``simple'' because all the work of pushing
+and popping values to and from the stack is implicit.
+
+%!! horizontal line
+Moore:
+
+The data stack uses this idea of ``hidden information.'' The arguments
+being passed between subroutines are not explicit in the calling sequence.
+The same argument might ripple through a whole lot of words quite invisibly,
+even below the level of awareness of the programmer, simply because it
+doesn't have to be referred to explicitly.
+%!! horizontal line
+
+One important result of this approach: Arguments are unnamed. They
+reside on the stack, not in named variables. This effect is one of the
+reasons for FORTH's elegance. At the same time it's one of the reasons
+badly written FORTH code can be unreadable. Let's explore this
+paradox.
+
+The invention of the stack is analogous to that of pronouns in
+English. Consider the passage:
+
+%!! indent paragraph
+Take this gift, wrap it in tissue paper and put it in a box.
+
+Notice the word ``gift'' is mentioned only once. The gift is referred to
+henceforth as ``it.''
+
+The informality of the ``it'' construct makes English more readable
+(provided the reference is unambiguous). So with the stack, the implicit
+passing of arguments makes code more readable. We emphasize the
+\emph{processes}, not the \emph{passing of arguments} to the processes.
+
+Our analogy to pronouns suggests why bad FORTH can be so unreadable.
+The spoken language gets confusing when too many things are
+referred to with pronouns.
+
+%!! indent paragraph
+Take off the wrapping and open the box. Remove the gift and throw it
+away.
+
+The problem with this passage is that we're using ``it'' to refer to too
+many things at once. There are two solutions to this error. The easiest
+solution is to supply a real name instead of ``it'':
+
+%!! indent paragraph
+Remove the wrapping and open the box. Take out the gift and throw
+\emph{the box} away.
+
+Or we can introduce the words ``former'' and ``latter.'' But the best
+solution is to redesign the passage:
+
+%!! indent paragraph
+Remove the wrapping and open the present. Throw away the box.
+
+So in FORTH we have analogous observations:
+
+%!! horizontal line
+TIP
+
+Simplify code by using the stack. But don't stack too deeply within any
+single definition. Redesign, or, as a last resort, use a named variable.
+%!! horizontal line
+
+Some newcomers to FORTH view the stack the way a gymnast views a
+trampoline: as a fun place to bounce around on. But the stack is meant for
+data-passing, not acrobatics.
+
+So how deep is ``too deep?'' Generally, three elements on the stack is
+the most you can manage within a single definition. (In double-length
+arithmetic, each ``element'' occupies two stack positions but is logically
+treated as a single element by operators such as \bf{2DUP}, \bf{20VER},
+etc.)
+
+In your ordinary lexicon of stack operators, \bf{ROT} is the only one
+that gives you access to the third stack item. Aside from \bf{PICK} and
+\bf{ROLL} (which we'll comment on soon), there's no easy way to get at
+anything below that.
+
+To stretch our analogy to the limit, perhaps three elements on the
+stack corresponds to the three English pronouns ``this,'' ``that,'' and
+``th'other.''
+
+\subsection{Redesign}
+
+Let's witness a case where a wrong-headed approach leads to a messy
+stack problem. Suppose we're trying to write the definition of +THRU
+(see Chapter Five, ``Listing Organization'' section, ``Relative Loading''
+subsection). We've decided that our loop body will be
+
+\begin{verbatim}
+...  DO  I LOAD  LOOP ;
+\end{verbatim}
+
+that is, we'll put \bf{LOAD} in a loop, then arrange for the index and limit
+to correspond to the absolute screens being loaded.
+
+On the stack initially we have:
+
+\begin{verbatim}
+lo hi
+\end{verbatim}
+
+where ``lo'' and ``hi'' are the \emph{offsets} from \bf{BLK}.
+
+We need to permute them for \bf{DO}, like this:
+
+\begin{verbatim}
+hi+1+blk lo+blk
+\end{verbatim}
+
+Our biggest problem is adding the value of \bf{BLK} to both offsets.
+
+We've already taken a wrong turn but we don't know it yet. So let's
+proceed. We try:
+
+\begin{verbatim}
+lo hi
+               BLK @
+lo hi blk
+               SWAP
+lo blk hi
+               OVER
+lo blk hi blk
+               +
+lo blk hi+blk
+               1+
+lo blk hi+blk+1
+               ROT ROT
+hi+blk+1 lo blk
+               +
+hi+blk+1 lo+blk
+\end{verbatim}
+
+We made it, but what a mess!
+
+If we're gluttons for punishment, we might make two more stabs at
+it arriving at:
+
+\begin{verbatim}
+BLK @  DUP ROT + 1+  ROT ROT +
+\end{verbatim}
+
+and
+
+\begin{verbatim}
+BLK @  ROT OVER +  ROT ROT + 1+  SWAP
+\end{verbatim}
+
+All three sequences do the same thing, but the code seems to be getting
+blurrier, not better.
+
+With experience we learn to recognize the combination ROT ROT as
+a danger sign: the stack is too crowded. Without having to work out the
+alternates, we recognize the problem: once we make two copies of ``blk,''
+we have four elements on the stack.
+
+At this point, the first resort is usually the return stack:
+
+\begin{verbatim}
+BLK @  DUP >R  + 1+  SWAP R> + +
+\end{verbatim}
+
+(See ``The Stylish Return Stack,'' coming up next.) Here we've \bf{DUP}ed
+``blk,'' saving one copy on the return stack and adding the other copy to
+``hi.''
+
+Admittedly an improvement. But readable?
+
+Next we think, ``Maybe we need a named variable.'' Of course, we
+have one already: \bf{BLK}. So we try:
+
+\begin{verbatim}
+BLK @  + 1+  SWAP BLK @ +
+\end{verbatim}
+
+Now it's more readable, but it's still rather long, and redundant too.
+\bf{BLK @ +} appears twice.
+
+``\bf{BLK @ +}''? That sounds famililar. Finally our neurons connect.
+
+We look back at the source for +LOAD just defined:
+
+\begin{verbatim}
+: +LOAD  ( offset -- )  BLK @ +  LOAD ;
+\end{verbatim}
+
+This word, +LOAD, should be doing the work. All we have to write is:
+
+\begin{verbatim}
+: +THRU  ( lo hi )  1+ SWAP  DO  I +LOAD  LOOP ;
+\end{verbatim}
+
+We haven't created a more efficient version here, because the work of
+\bf{BLK @ +} will be done on every pass of the loop. But we have created a
+cleaner, conceptually simpler, and more readable piece of code. In this
+case, the inefficiency is unnoticeable because it only occurs as each block
+is loaded.
+
+Redesigning, or rethinking the problem, was the path we should
+have taken as soon as things got ugly.
+
+\subsection{Local Variables}
+
+Most of the time problems can be arranged so that only a few arguments
+are needed on the stack at any one time. Occasionally, however, there's
+nothing you can do.
+
+Here's an example of a worst case. Assume you have a word called
+LINE which draws a line between any two points, specified as coordinates
+in this order:
+
+\begin{verbatim}
+( x1 y1 x2 y2)
+\end{verbatim}
+
+where x1,y1 represent the x,y coordinates for the one end-point, and
+x2,y2 represent the opposite end-point.
+
+Now you have to write a box-drawing word called [BOX] which
+takes four arguments in this order:
+
+\begin{verbatim}
+( x1 y1 x2 y2)
+\end{verbatim}
+
+where x1 y1 represent the x,y coordinates for the upper left-hand corner
+of the box, and x2 y2 represent the lower right-hand corner coordinates.
+Not only do you have four elements on the stack, they each have to
+be referred to more than once as you draw lines from point to point.
+
+Although we're using the stack to get the four arguments, the algorithm
+for drawing a box doesn't lend itself to the nature of the stack. If you're
+in a hurry, it would probably be best to take the easy way out:
+
+\begin{verbatim}
+VARIABLE TOP         ( y coordinates top of box)
+VARIABLE LEFT        ( x     "       left side)
+VARIABLE BOTTOM      ( y     "       bottom)
+VARIABLE RIGHT       ( x     "       right side)
+: [BOX]   ( x1 y1 x2 y2)   BOTTOM !  RIGHT !  TOP !  LEFT !
+   LEFT @ TOP @  RIGHT @ TOP @  LINE
+   RIGHT @ TOP @  RIGHT @ BOTTOM @  LINE
+   RIGHT @ BOTTOM @  LEFT @ BOTTOM @  LINE
+   LEFT @ BOTTOM @  LEFT @ TOP @  LINE ;
+\end{verbatim}
+
+What we've done is create four named variables, one for each coordinate.
+The first thing [BOX] does is fill these variables with the arguments from
+the stack. Then the four lines are drawn, referencing the variables.
+Variables such as these that are used only within a definition (or in some
+cases, within a lexicon) are called ``local variables.''
+
+I've been guilty many times of playing hotshot, trying to do as
+much as possible on the stack rather than define a local variable. There
+are three reasons to avoid this cockiness.
+
+First, it's a pain to code that way. Second, the result is unreadable.
+Third, all your work becomes useless when a design change becomes
+necessary, and the order of two arguments changes on the stack. The
+\bf{DUP}s, \bf{OVER}s and \bf{ROT}s weren't really solving the problem,
+just jockeying things into position.
+
+With this third reason in mind, I recommend the following:
+
+%!! horizontal line
+TIP
+
+Especially in the design phase, keep on the stack only the arguments you're
+using immediately. Create local variables for any others. (If necessary,
+eliminate the variables during the optimization phase.)
+%!! horizontal line
+
+Fourth, if the definition is extremely time-critical, those tricky stack
+manipulators, (e.g., \bf{ROT ROT}) can really eat up clock cycles. Direct
+access to variables is faster.
+
+If it's \emph{really} time-critical, you may need to convert to assembler
+anyway. In this case, all your stack problems fly out the door, because all
+your data will be referenced either in registers or indirectly through
+registers. Luckily, the definitions with the messiest stack arguments are
+often the ones written in code. Our [BOX] primitive is a case in point.
+\bf{CMOVE>} is another.
+
+The approach we took with [BOX] certainly beats spending half an
+hour juggling items on the stack, but it is by no means the best solution.
+What's nasty about it is the expense of creating four named variables,
+headers and all, solely for use within this one routine.
+
+(If you're target compiling an application that will not require
+headers in the dictionary, the only loss will be the 8 bytes in RAM for the
+variables. In FORTH systems of the future, headers may be separated
+into other pages of memory anyway; again the loss will be only 8 bytes.)
+Let me repeat: This example represents a worst-case situation, and
+occurs rarely in most FORTH applications. If words are well-factored,
+then each word is designed to do very little. Words that do little generally
+require few arguments.
+
+In this case, though, we are dealing with two points each represented
+by two coordinates.
+
+Can we change the design? First, LINE may be \emph{too} primitive a
+primitive. It requires four arguments because it can draw lines between
+any two points, diagonally, if necessary.
+
+In drawing our box, we may only need perfectly vertical and horizontal
+lines. In this case we can write the more powerful, but less specific,
+words VERTICAL and HORIZONTAL to draw these lines. Each requires
+only \emph{three} arguments: the starting position's x and y and the
+length. This factoring of function simplifies the definition of [BOX].
+
+Or we might discover that this syntax feels more natural to the
+user:
+
+\begin{verbatim}
+10 10 ORIGIN! 30 30 BOX
+\end{verbatim}
+
+where ORIGIN! sets a two-element pointer to the ``origin,'' the place
+where the box will start (the upper left-hand corner). Then ``30 30 BOX''
+draws a box 30 units high and 30 units wide, relative to the origin.
+
+This approach reduces the number of stack arguments to BOX as
+part of the design.
+
+%!! horizontal line
+TIP
+
+When determining which arguments to handle via data structures rather
+than via the stack, choose the arguments that are the more permanent or
+that represent a current state.
+%!! horizontal line
+
+\subsection{On PICK and ROLL}
+
+Some folks like the words \bf{PICK} and \bf{ROLL}. They use these words to
+access elements from any level on the stack. We don't recommend them.
+For one thing, \bf{PICK} and \bf{ROLL} encourage the programmer to think
+of the stack as an array, which it is not. If you have so many elements on
+the stack that you need \bf{PICK} and \bf{ROLL}, those elements should be in
+an array instead.
+
+Second, they encourage the programmer to refer to arguments that
+have been left on the stack by higher-level, calling definitions without
+being explicitly \emph{passed} as arguments. This makes the definition
+dependent on other definitions. That's unstructured---and dangerous.
+
+Finally, the position of an element on the stack depends on what's
+above it, and the number of things above it can change constantly. For
+instance, if you have an address at the fourth stack position down, you can
+write
+
+\begin{verbatim}
+4 PICK @
+\end{verbatim}
+
+to fetch its contents. But you must write
+
+\begin{verbatim}
+( n) 5 PICK !
+\end{verbatim}
+
+because with ``n'' on the stack, the address is now in the fifth position.
+Code like this is hard to read and harder to modify.
+
+\subsection{Make Stack Drawings}
+
+When you do have a cumbersome stack situation to solve, it's best to work
+it out with paper and pencil. Some people even make up forms, such as the
+one in Figure 7-1. Done formally like this (instead of on the back of your
+phone bill) stack commentaries serve as nice auxiliary documentation.
+
+\subsection{Stack Tips}
+
+%!! horizontal line
+TIP
+
+Make sure that stack effects balance out under all possible control flows.
+%!! horizontal line
+
+In the stack commentary for \bf{CMOVE>} in Figure 7-1, the inner brace
+represents the contents of the \bf{DO LOOP}. The stack depth upon exiting
+the loop is the same as upon entering it: one element. Within the outer
+braces, the stack result of the \bf{IF} clause is the same as that of the
+\bf{ELSE} clause: one element left over. (What that leftover element
+represents doesn't matter, as symbolized by the ``x'' next to \bf{THEN}.)
+
+\bf{Figure 7-1.} \emph{Example of a stack commentary.}
+
+%!! include Figure 7-1 here
+
+%!! horizontal line
+TIP
+
+When doing two things with the same number, perform the function that
+will go underneath first.
+%!! horizontal line
+
+For example:
+
+\begin{verbatim}
+: COUNT  ( a -- a+1 # )  DUP C@  SWAP 1+  SWAP ;
+\end{verbatim}
+
+(where you first get the count) is more efficiently written:
+
+\begin{verbatim}
+: COUNT  ( a -- a+1 # )  DUP 1+  SWAP C@ ;
+\end{verbatim}
+
+(where you first compute the address).
+
+%!! horizontal line
+TIP
+
+Where possible, keep the number of return arguments the same in all
+possible cases.
+%!! horizontal line
+
+You'll often find a definition which does some job and, if something goes
+wrong, returns an error-code indentifying the problem. Here's one way
+the stack interface might be designed:
+
+\begin{verbatim}
+( -- error-code f | -- t)
+\end{verbatim}
+
+If the flag is true, the operation was successful. If the flag is false, it was
+unsuccessful and there's another value on the stack to indicate the nature
+of the error.
+
+You'll find stack manipulation easier, though, if you redesign the interface
+to look like this:
+
+\begin{verbatim}
+( -- error-code | O=no-error)
+\end{verbatim}
+
+One value serves both as a flag and (in case of an error) the error code.
+Note that reverse-logic is used; non-zero indicates an error. You can use
+any values for the error codes except zero.
+
+\section{The Stylish Return Stack}
+
+What about this use of the return stack to hold temporary arguments? Is
+it good style or what?
+
+Some people take great offense to its use. But the return stack
+offers the simplest solution to certain gnarly stack jams. Witness the
+definition of \bf{CMOVE>} in the previous section.
+
+If you decide to use the return stack for this purpose, remember
+that you are using a component of FORTH for a purpose other than that
+intended. (See the section called ``Sharing Components,'' later in this
+chapter.)
+
+Here's some suggestions to keep you from shooting yourself in the
+foot:
+
+%!! horizontal line
+TIP
+
+%!! there's certainly some better way to do ordered lists in TeX
+1. Keep return stack operators symmetrical.
+2. Keep return stack operators symmetrical under all control flow
+   conditions.
+3. In factoring definitions, watch out that one part doesn't contain one
+   return stack operator, and the other its counterpart.
+4. If used inside a \bf{DO LOOP}, return stack operators must by symmetrical
+   within the loop, and \bf{I} is no longer valid in code bounded by
+   \bf{>R} and \bf{R>}.
+%!! horizontal line
+
+For every \bf{>R} there must be a \bf{R>} in the same definition. Sometimes
+the operators will appear to be symmetrical, but due to the control structure
+they aren't. For instance:
+
+\begin{verbatim}
+... BEGIN ... >R ... WHILE ... R> ... REPEAT
+\end{verbatim}
+
+If this construction is used in the outer loop of your application,
+everything will run fine until you exit (perhaps hours later) when you'll
+suddenly blow up. The problem? The last time through the loop, the
+resolving \bf{R>} has been skipped.
+
+\section{The Problem With Variables}
+
+Although we handle data of immediate interest on the stack, we depend
+on much information tucked away in variables, ready for recurring access.
+A piece of code can change the contents of a variable without
+necessarily having to know anything about how that data will be used,
+who will use it, or when and if it will be used. Another piece of code can
+fetch the contents of a variable and use it without knowing where that
+value came from.
+
+For every word that pushes a value onto the stack, another word
+must consume that value. The stack gives us point-to-point communication,
+like the post office.
+
+Variables, on the other hand, can be set by any command and accessed
+any number of times---or not at all---by any command. Variables
+are available for anyone who cares to look---like graffiti.
+
+Thus variables can be used to reflect the current state of affairs.
+
+Using currentness can simplify problems. In the Roman numeral example
+of Chapter Four, we used the variable COLUMN# to represent the
+current decimal-place; the words ONER, FIVER, and TENER depended
+on this information to determine which type of symbol to display. We
+didn't have to specify both descriptions every time, as in TENS ONER,
+TENS FIVER, etc.
+
+On the other hand, currentness adds a new level of complexity. To
+make something current we must first define a variable or some type of
+data structure. We also must remember to initialize it, if there's any
+chance that part of our code will refer to it before another part has had a
+chance to set it.
+
+A more serious problem with variables is that they are not ``reentrant.''
+On a multi-tasked FORTH system, each task which requires
+local variables must have its own copies. FORTH's \bf{USER} variables
+serve this purpose. (See \emph{Starting FORTH}, Chapter Nine, ``FORTH
+Geography.'')
+
+Even within a single task, a definition that refers to a variable is
+harder to test, verify, and reuse in a different situation than one in which
+arguments are passed via the stack.
+
+Suppose we are implementing a word-processor editor. We need a
+routine that calculates the number of characters between the current cursor
+position and the previous carriage-return/line-feed sequence. So we
+write a word that employs a \bf{DO LOOP} starting at the current position
+(CURSOR @) and ending at the zeroth position, searching for the line
+feed character.
+
+Once the loop has found the character sequence, we subtract its
+relative address from our current cursor position
+
+\begin{verbatim}
+its-position CURSOR @  SWAP -
+\end{verbatim}
+
+to determine the distance between them.
+
+Our word's stack effect is:
+
+\begin{verbatim}
+( -- distance-to-previous-cr/lf)
+\end{verbatim}
+
+But in later coding we find we need a similar word to compute the
+distance from an arbitrary character---\emph{not} the current cursor
+position---to the first previous line-feed character. We end up factoring
+out the ``CURSOR @'' and allowing the starting address to be passed as an
+argument on the stack, resulting in:
+
+\begin{verbatim}
+( starting-position -- distance-to-previous-cr/lf)
+\end{verbatim}
+
+By factoring-out the reference to the variable, we made the definition
+more useful.
+
+%!! horizontal line
+TIP
+
+Unless it involves cluttering up the stack to the point of unreadability, try
+to pass arguments via the stack rather than pulling them out of variables.
+%!! horizontal line
+
+%!! horizontal line
+Kogge:
+
+Most of the modularity of FORTH comes from designing and treating
+FORTH words as ``functions'' in the mathematical sense. In my experience
+a FORTH programmer usually tries quite hard to avoid defining any but
+the most essential global variables (I have a friend who has the sign ``Help
+stamp out variables'' above his desk), and tries to write words with what is
+called ``referential transparency,'' i.e., given the same stack inputs a word
+will always give the same stack ouputs regardless of the more global
+context in which it is executed.
+
+In fact this property is exactly what we use when we test words in isolation.
+Words that do not have this property are significantly harder to test. In a
+sense a ``named variable'' whose value changes frequently is the next worst
+thing to the now ``forbidden'' GOTO.
+%!! horizontal line
+
+%!! include cartoon of page 211 here
+
+``\emph{Shot from a cannon on a fast-moving train, hurtling between the
+blades of a windmill, and expecting to grab a trapeze dangling from a
+hot-air balloon... I told you Ace, there were too many variables!}''
+
+Earlier we suggested the use of local variables especially during the
+design phase, to eliminate stack traffic. It's important to note that in
+doing so, the variables were referred to only within the one definition. In
+our example, [BOX] receives four arguments from the stack and immediately
+loads them into local variables for its own use. The four variables are not
+referred to outside of this definition, and the word behaves safely as a
+function.
+
+Programmers unaccustomed to a language in which data can be
+passed implicitly don't always utilize the stack as fully as they should.
+Michael Ham suggests the reason may be that beginning FORTH users
+don't trust the stack [1]. He admits to initially feeling safer about storing
+values into variables than leaving them on the stack. ``No telling \emph{what}
+might happen with all that thrashing about on the stack,'' he felt.
+
+It took some time for him to appreciate that ``if words keep properly
+to themselves, using the stack only for their expected input and output
+and cleaning up after themselves, they can be looked upon as sealed
+systems ... I could put the count on the stack at the beginning of the
+loop, go through the complete routine for each group, and at the end the
+count would emerge, back on top of the stack, not a hair out of place.''
+
+\section{Local and Global Variables/Initialization}
+
+As we saw earlier, a variable that is used exclusively within a single
+definition (or single lexicon), hidden from other code, is called a local
+variable. A variable used by more than one lexicon is called a global
+variable. As we've seen in an earlier chapter, a set of global variables that
+collectively describe a common interface between several lexicons is
+called an ``interface lexicon.''
+
+FORTH makes no distinction between local and global variables.
+But FORTH programmers do.
+
+%!! horizontal line
+Moore:
+
+We should be writing for the reader. If something is referred to only locally,
+a temporary variable just for accumulating a sum in, we should define it
+locally. It's handier to define it in the block where it's used, where you can
+see its comment.
+
+If it's used globally, we should collect things according to their logical
+function, and define them together on a separate screen. One per line with a
+comment.
+
+The question is, where do you initialize them? Some say on the same line,
+immediately following its definition. But that messes up the comments,
+and there isn't room for any decent comment. And it scatters the
+initialization all over the application.
+
+I tend to do all my initialization in the load screen. After I've loaded all my
+blocks, I initialize the things that have to be initialized. It might also set
+up color lookup tables or execute some initialization code.
+
+If your program is destined to be target compiled, then it's easy to write a
+word at the point that encompasses all the initialization.
+
+It can get much more elaborate. I've defined variables in ROM where the
+variables were all off in an array in high memory, and the initial values are
+in ROM, and I copy up the initial values at initialization time. But usually
+you're only initializing a few variables to anything other than zero.
+%!! horizontal line
+
+\section{Saving and Restoring a State}
+
+Variables have the characteristic that when you change their contents,
+you clobber the value that was there before. Let's look at some of the
+problems this can create, and some of the things we can do about them.
+
+\bf{BASE} is a variable that indicates the current number radix for all
+numeric input and output. The following words are commonly found in
+FORTH systems:
+
+\begin{verbatim}
+: DECIMAL   10 BASE ! ;
+: HEX   16 BASE ! ;
+\end{verbatim}
+
+Suppose we've written a word that displays a ``dump'' of memory. Ordinarily,
+we work in decimal mode, but we want the dump in hexadecimal. So we write:
+
+\begin{verbatim}
+: DUMP  ( a # )
+   HEX   ...   ( code for the dump) ... DECIMAL ;
+\end{verbatim}
+
+This works---most of the time. But there's a presumption that we want to
+come back to decimal mode. What if it had been working in hexadecimal,
+and wants to come back to hexadecimal? Before we change the base to
+\bf{HEX}, we have to save its current value. When we're done dumping, we
+restore it.
+
+This means we have to tuck away the saved value temporarily,
+while we format the dump. The return stack is one place to do this:
+
+\begin{verbatim}
+: DUMP  ( a # )
+   BASE @ >R  HEX   ( code for dump)  R> BASE ! ;
+\end{verbatim}
+
+If things get too messy, we may have to define a temporary variable:
+
+\begin{verbatim}
+VARIABLE OLD-BASE
+: DUMP  ( a # )
+   BASE @  OLD-BASE !  HEX ( code for dump )
+   OLD-BASE @  BASE ! ;
+\end{verbatim}
+
+How quickly things get complicated.
+
+In this situation, if both the current and the old version of a variable
+belong only to your application (and not part of your system), and if this
+same situation comes up more than once, apply a technique of factoring:
+
+\begin{verbatim}
+: BURY  ( a)  DUP 2+  2 CMOVE ;
+: EXHUME  ( a)  DUP 2+  SWAP 2 CMOVE ;
+\end{verbatim}
+
+Then instead of defining two variables, such as CONDITION and
+OLD-CONDITION, define one double-length variable:
+
+\begin{verbatim}
+2VARIABLE CONDITION
+\end{verbatim}
+
+Use BURY and EXHUME to save and restore the original value:
+
+\begin{verbatim}
+: DIDDLE    CONDITION BURY  17 CONDITION !  ( diddle )
+   CONDITION EXHUME ;
+\end{verbatim}
+
+BURY saves the ``old'' version of condition at CONDITION 2+.
+
+You still have to be careful. Going back to our \bf{DUMP} example, suppose
+you decided to add the friendly feature of letting the user exit the
+dump at any time by pressing the ``escape'' key. So inside the loop you
+build the test for a key being pressed, and if so execute \bf{QUIT}. But what
+happens?
+
+The user starts in decimal, then types \bf{DUMP}. He exits \bf{DUMP} midway
+through and finds himself, strangely, in hexadecimal.
+
+In the simple case at hand, the best solution is to not use \bf{QUIT}, but
+rather a controlled exit from the loop (via \bf{LEAVE}, etc.) to the end of the
+definition where \bf{BASE} is reset.
+
+In very complex applications a controlled exit is often impractical,
+yet many variables must somehow be restored to a natural condition.
+
+%!! horizontal line
+Moore responds to this example:
+
+You really get tied up in a knot. You're creating problems for yourself. If I
+want a hex dump I say \bf{HEX DUMP}. If I want a decimal dump I say
+\bf{DECIMAL DUMP}. I don't give \bf{DUMP} the privilege of messing around
+with my environment.
+
+There's a philosophical choice between restoring a situation when you
+finish and establishing the situation when you start. For a long time I felt
+you should restore the situation when you're finished. And I would try to
+do that consistently everywhere. But it's hard to define ``everywhere.'' So
+now I tend to establish the state before I start.
+
+If I have a word which cares where things are, it had better set them. If
+somebody else changes them, they don't have to worry about resetting
+them.
+
+There are more exits than there are entrances.
+%!! horizontal line
+
+In cases in which I need to do the resetting before I'm done, I've found it
+useful to have a single word (which I call PRISTINE) to perform this
+resetting. I invoke PRISTINE:
+
+%!! '*'s should be bullets
+* at the normal exit point of the application
+* at the point where the user may deliberately exit (just before QUIT)
+* at any point where a fatal error may occur, causing an abort.
+
+Finally, when you encounter this situation of having to save/restore a
+value, make sure it's not just a case of bad factoring. For example,
+suppose we have written:
+
+\begin{verbatim}
+: LONG   18 #HOLES ! ;
+: SHORT   9 #HOLES ! ;
+: GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
+\end{verbatim}
+
+The current GAME is either LONG or SHORT.
+
+Later we decide we need a word to play \emph{any} number of holes. So we
+invoke GAME making sure not to clobber the current value of #HOLES:
+
+\begin{verbatim}
+: HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
+\end{verbatim}
+
+Because we needed HOLES after we'd defined GAME, it seemed to be of
+greater complexity; we built HOLES around GAME. But in fact---perhaps
+you see it already---rethinking is in order:
+
+\begin{verbatim}
+: HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
+: GAME   #HOLES @ HOLES ;
+\end{verbatim}
+
+We can build GAME around HOLES and avoid all this saving/restoring
+nonsense.
+
+\section{Application Stacks}
+
+In the last section we examined some ways to save and restore a single
+previous value. Some applications require \emph{several} values to be saved and
+restored. You may often find the best solution to this problem in defining
+your own stack.
+
+Here is the code for a user stack including very simple error checking
+(an error clears the stack):
+
+\begin{verbatim}
+CREATE STACK  12 ALLOT  \  ( 2tos-pointer | 10stack [5 cells] )
+HERE CONSTANT STACK>
+: INIT-STACK   STACK STACK ! ;   INIT-STACK
+: ?BAD  ( ?)   IF ." STACK ERROR "  INIT-STACK  ABORT  THEN ;
+: PUSH  ( n)   2 STACK +!  STACK @  DUP  STACK> = ?BAD  ! ;
+: POP  ( -- n)  STACK @ @  -2 STACK +!  STACK @ STACK < ?BAD ;
+\end{verbatim}
+
+The word PUSH takes a value from off of your data stack and ``pushes''
+it onto this new stack. POP is the opposite, ``popping'' a value from off
+the new stack, and onto FORTH's data stack.
+
+In a real application you might want to change the names PUSH
+and POP to better match their conceptual purposes.
+
+\section{Sharing Components}
+
+%!! horizontal line
+TIP
+
+It's legal to use a component for an additional purpose besides its intended
+one, provided:
+
+%!! there's certainly some better way to do ordered lists in TeX
+1. All uses of the component are mutually exclusive
+2. Each interrupting use of the component restores the component to
+   its previous state when finished.
+
+Otherwise you need an additional component or level of complexity.
+%!! horizontal line
+
+We've seen a simple example of this principle with the return stack. The
+return stack is a component of the FORTH system designed to hold
+return addresses, and thereby serve as an indication of where you've been
+and where you're going. To use the return stack as a holder for temporary
+values is possible, and in many cases desirable. Problems occur when one
+of the above restrictions is ignored.
+
+In my text formatter the output can go invisible. This feature has
+two purposes: (1) for looking ahead to see whether something will fit, and
+(2) for formatting the table of contents (the entire document is formatted
+and page numbers are calculated without anything actually being
+displayed).
+
+It was tempting to think that once having added the ability to make
+the output invisible, I could use this feature to serve both purposes.
+Unfortunately, the two purposes are not mutually exclusive.
+
+Let's see what would happen if I tried to violate this rule. Imagine
+that the word DISPLAY does the output, and it's smart enough to know
+whether to be visible or invisible. The words VISIBLE and INVISIBLE
+set the state respectively.
+
+My code for looking ahead will first execute INVISIBLE, then
+test-format the upcoming text to determine its length, and finally execute
+VISIBLE to restore things to the normal state.
+
+This works fine.
+
+Later I add the table-of-contents feature. First the code executes
+INVISIBLE, then runs through the document determining page
+numbers etc.; then finally executes VISIBLE to restore things to normal.
+
+The catch? Suppose I'm running a table of contents and I hit one of
+those places where I look ahead. When I finish looking ahead, I execute
+VISIBLE. Suddenly I start printing the document when I was supposed
+to be running the table of contents.
+
+The solution? There are several.
+
+One solution views the problem as being that the lookahead code is
+clobbering the visible/invisible flag, which may have been preset by
+table-of-contents. Therefore, the lookahead code should be responsible for
+saving, and later restoring, the flag.
+
+Another solution involves keeping two separate variables---one to
+indicate we're looking ahead, the other to indicate we're printing the
+table of contents. The word DISPLAY requires that both flags be false in
+order to actually display anything.
+
+There are two ways to accomplish the latter approach, depending on
+how you want to decompose the problem. First, we could nest one condition
+within the other:
+
+\begin{verbatim}
+: [DISPLAY]  ...
+( the original definition, always does the output) ... ;
+VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
+: <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
+VARIABLE 'TOC?  ( t=setting-table-of-contents)
+: DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
+\end{verbatim}
+
+DISPLAY checks that we're not setting the table of contents and invokes
+<DISPLAY>, which in turn checks that we're not looking ahead
+and invokes [DISPLAY].
+
+In the development cycle, the word [DISPLAY] that always does
+the output was originally called DISPLAY. Then a new DISPLAY was
+defined to include the lookahead check, and the original definition was
+renamed [DISPLAY], thus adding a level of complexity backward
+without changing any of the code that used DISPLAY.
+
+Finally, when the talbe-of-contents feature was added, a new DISPLAY
+was defined to include the table-of-contents check, and the
+previous DISPLAY was renamed <DISPLAY>.
+
+That's one approach to the use of two variables. Another is to include
+both tests within a single word:
+
+\begin{verbatim}
+: DISPLAY   'LOOKAHEAD? @  'TOC @ OR  NOT IF [DISPLAY] THEN ;
+\end{verbatim}
+
+But in this particular case, yet another approach can simplify the whole
+mess. We can use a single variable not as a flag, but as a counter.
+
+We define:
+
+\begin{verbatim}
+VARIABLE 'INVISIBLE?  ( t=invisible)
+: DISPLAY   'INVISIBLE? @  O= IF [DISPLAY] THEN ;
+: INVISIBLE   1 'INVISIBLE? +! ;
+: VISIBLE    -1 'INVISIBLE? +! ;
+\end{verbatim}
+
+The lookahead code begins by invoking INVISIBLE which bumps the
+counter up one. Non-zero is ``true,'' so DISPLAY will not do the output.
+After the lookahead, the code invokes VISIBLE which decrements the
+counter back to zero (``false'').
+
+The table-of-contents code also begins with VISIBLE and ends with
+INVISIBLE. If we're running the table of contents while we come upon a
+lookahead, the second invocation of VISIBLE raises the counter to two.
+
+The subsequent invocation of INVISIBLE decrements the counter to
+one, so we're still invisible, and will remain invisible until the table of
+contents has been run.
+
+(Note that we must substitute \bf{0=} for \bf{NOT}. The '83 Standard has
+changed \bf{NOT} to mean one's complement, so that \bf{1 NOT} yields true. By
+the way, I think this was a mistake.)
+
+This use of a counter may be dangerous, however. It requires parity
+of command usage: two VISIBLEs yields invisible. That is, unless VISIBLE
+clips the counter:
+
+\begin{verbatim}
+: VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
+\end{verbatim}
+
+\section{The State Table}
+
+A single variable can express a single condition, either a flag, a value, or
+the address of a function.
+
+A collection of conditions together represent the \emph{state} of the
+application or of a particular component [2]. Some applications require the
+ability to save a current state, then later restore it, or perhaps to have a
+number of alternating states.
+
+%!! horizontal line
+TIP
+
+When the application requires handling a group of conditions
+simultaneously, use a state table, not separate variables.
+%!! horizontal line
+
+\bf{Figure 7-2.} \emph{A collection of related variables.}
+
+\begin{verbatim}
+VARIABLE TOP
+VARIABLE BOTTOM
+VARIABLE LEFT
+VARIABLE RIGHT
+VARIABLE INSIDE
+VARIABLE OUT
+\end{verbatim}
+
+The simple case requires saving and restoring a state. Suppose we initially
+have six variables representing the state of a particular component, as
+shown in Figure 7-2.
+
+Now suppose that we need to save all of them, so that further processing
+can take place, and later restore all of them. We could define:
+
+\begin{verbatim}
+: @STATE ( -- top bottom left right inside out)
+   TOP @  BOTTOM @  LEFT @  RIGHT @  INSIDE @  OUT @ ;
+: !STATE ( top bottom left right inside out -- )
+   OUT !  INSIDE !  RIGHT !  LEFT !  BOTTOM !  TOP ! ;
+\end{verbatim}
+
+thereby saving all the values on the stack until it's time to restore them.
+Or, we might define alternate variables for each of the variables above, in
+which to save each value separately.
+
+But a preferred technique involves creating a table, with each
+element of the table referred to by name. Then creating a second table of
+the same length. As you can see in Figure 7-3, we can save the state by
+copying the table, called POINTERS, into the second table, called
+SAVED.
+
+\bf{Figure 7-3.} \emph{Conceptual model for saving a state table.}
+
+%!! include Figure 7-3 here
+
+We've implemented this approach with the code in Figure 7-4.
+
+\bf{Figure 7-4.} \emph{Implementation of save/restorable state table.}
+
+\begin{verbatim}
+O CONSTANT POINTERS  \ address of state table PATCHED LATER
+: POSITION   ( o -- o+2 ) CREATE DUP ,  2+
+   DOES>  ( -- a )  @  POINTERS + ;
+O  \ initial offset
+POSITION TOP
+POSITION BOTTOM
+POSITION LEFT
+POSITION RIGHT
+POSITION INSIDE
+POSITION OUT
+CONSTANT /POINTERS   \ final computed offset
+
+HERE ' POINTERS >BODY !  /POINTERS ALLOT  \ real table
+CREATE SAVED  /POINTERS ALLOT  \ saving place
+: SAVE     POINTERS  SAVED  /POINTERS CMOVE ;
+: RESTORE  SAVED  POINTERS  /POINTERS CMOVE ;
+\end{verbatim}
+
+Notice in this implementation that the names of the pointers, TOP,
+BOTTOM, etc., always return the same address. There is only one location
+used to represent the current value of any state at any time.
+
+Also notice that we define POINTERS (the name of the table) with
+CONSTANT, not with CREATE, using a dummy value of zero. This is
+because we refer to POINTERS in the defining word POSITION, but it's
+not until after we've defined all the field names that we know how big the
+table must be and can actually ALLOT it.
+
+As soon as we create the field names, we define the size of the table
+as a constant /POINTERS. At last we reserve room for the table itself,
+patching its beginning address (HERE) into the constant POINTERS.
+(The word \bf{>BODY} converts the address returned by tick into the
+address of the constant's value.) Thus POINTERS returns the address of
+the table allotted later, just as a name defined by CREATE returns the
+address of a table allotted directly below the name's header.
+
+Although it's valid to patch the value of a CONSTANT at compile
+time, as we do here, there is a restriction of style:
+
+%!! horizontal line
+TIP
+
+A CONSTANT's value should never be changed once the application is
+compiled.
+%!! horizontal line
+
+The case of alternating states is slightly more involved. In this situation
+we need to alternate back and forth between two (or more) states, never
+clobbering the conditions in each state when we jump to the other state.
+Figure 7-5 shows the conceptual model for this kind of state table.
+
+\bf{Figure 7-5.} \emph{Conceptual model for alternating-states tables.}
+
+%!! include Figure 7-5 here
+
+In this model, the names TOP, BOTTOM, etc., can be made to point
+into either of two tables, REAL or PSEUDO. By making the REAL table
+the current one, all the pointer names reference addresses in the REAL
+table; by making the PSEUDO table current, they address the PSEUDO
+table.
+
+The code in Figure 7-6 implements this alternating states
+mechanism. The words WORKING and PRETENDING change the
+
+\bf{Figure 7-6.} \emph{Implementation of alternating-states mechanism.}
+
+\begin{verbatim}
+VARIABLE 'POINTERS  \ pointer to state table
+: POINTERS ( -- adr of current table)   'POINTERS @ ;
+: POSITION   ( o -- o+2 ) CREATE DUP ,  2+
+   DOES>  ( -- a )  @ POINTERS + ;
+O  \ initial offset
+POSITION TOP
+POSITION BOTTOM
+POSITION LEFT
+POSITION RIGHT
+POSITION INSIDE
+POSITION OUT
+CONSTANT /POINTERS  \ final computed offset
+CREATE REAL    /POINTERS ALLOT  \ real state table
+CREATE PSEUDO  /POINTERS ALLOT  \ temporary state table
+: WORKING      REAL 'POINTERS ! ;     WORKING
+: PRETENDING   PSEUDO 'POINTERS ! ;
+\end{verbatim}
+
+pointer appropriately. For instance:
+
+\begin{verbatim}
+WORKING
+10 TOP !
+TOP ? 10	%!! underline '? 10'
+PRETENDING
+20 TOP !
+TOP ? 20	%!! underline '? 20'
+WORKING
+TOP ? 10	%!! underline '? 10'
+PRETENDING
+TOP ? 20	%!! underline '? 20'
+\end{verbatim}
+
+The major difference with this latter approach is that names go through
+an extra level of indirection (POINTERS has been changed from a
+constant to a colon definition). The field names can be made to point to
+either of two state tables. Thus each name has slightly more work to do.
+Also, in the former approach the names refer to fixed locations; a
+\bf{CMOVE} is required each time we save or restore the values. In this
+approach, we have only to change a single pointer to change the current
+table.
+
+\section{Vectored Execution}
+
+Vectored execution extends the ideas of currentness and indirection
+beyond data, to functions. Just as we can save values and flags in
+variables, we can also save functions, because functions can be referred to
+by address.
+
+The traditional techniques for implementing vectored execution are
+described in \emph{Starting FORTH}, Chapter Nine. In this section we'll
+discuss a new syntax which I invented and which I think can be used in many
+circumstances more elegantly than the traditional methods.
+
+The syntax is called DOER/MAKE. (If your system doesn't include
+these words, refer to Appendix B for code and implementation details.) It
+works like this: You define the word whose behavior will be vectorable
+with the defining word \bf{DOER}, as in
+
+\begin{verbatim}
+DOER PLATFORM
+\end{verbatim}
+
+Initially, the new word PLATFORM does nothing. Then you can write
+words that change what PLATFORM does by using the word MAKE:
+
+\begin{verbatim}
+: LEFTWING   MAKE PLATFORM  ." proponent " ;
+: RIGHTWING  MAKE PLATFORM  ." opponent " ;
+\end{verbatim}
+
+When you invoke LEFTWING, the phrase MAKE PLATFORM changes
+what PLATFORM will do. Now if you type PLATFORM, you'll see:
+
+\begin{verbatim}
+LEFTWING ok
+PLATFORM proponent ok	%%! underline 'proponent ok'
+\end{verbatim}
+
+RIGHTWING will make PLATFORM display ``opponent.'' You can use
+PLATFORM within another definition:
+
+\begin{verbatim}
+: SLOGAN   ." Our candidate is a longstanding " PLATFORM
+   ." of heavy taxation for business. " ;
+\end{verbatim}
+
+The statement
+
+\begin{verbatim}
+LEFTWING SLOGAN
+\end{verbatim}
+
+will display one campaign statement, while
+
+\begin{verbatim}
+RIGHTWING SLOGAN
+\end{verbatim}
+
+will display another.
+
+The ``MAKE'' code can be any FORTH code, as much or as long as
+you want; just remember to conclude it with semicolon. The semicolon at
+the end of LEFTWING serves for both LEFTWING and for the bit of
+code after MAKE. When MAKE redirects execution of the \bf{DOER} word,
+it also \emph{stops} execution of the word in which it appears.
+
+When you invoke LEFTWING, for example, \bf{MAKE} redirects
+PLATFORM and exits. Invoking LEFTWING does not cause ``proponent''
+to be printed. Figure 7-7 demonstrates this point, using a
+conceptualized illustration of the dictionary.
+
+If you want to \emph{continue} execution, you can use the word \bf{;AND} in
+place of semicolon. \bf{;AND} terminates the code that the \bf{DOER} word
+
+\bf{Figure 7-7.} \emph{DOER and MAKE.}
+
+%!! include Figure 7-7 here
+
+points to, and resumes execution of the definition in which it appears, as
+you can see in Figure 7-8.
+
+Finally, you can chain the ``making'' of \bf{DOER} words in series by
+not using \bf{;AND}. Figure 7-9 explains this better than I could write about
+it.
+
+\section{Using DOER/MAKE}
+
+There are many occasions when the DOER/MAKE construct proves
+beneficial. They are:
+
+%!! there's certainly some better way to do ordered lists in TeX
+%!! This list has seven items and spans several pages;
+%!! I have marked its end using ---End-Of-List---
+
+1. To change the state of a function (when external testing of the state is not
+necessary). The words LEFTWING and RIGHTWING change the state of
+the word PLATFORM.
+
+2. To factor out internal phrases from similar definitions, but within control
+structures such as loops.
+
+Consider the definition of a word called DUMP, designed to reveal the
+contents of a specified region of memory.
+
+\bf{Figure 7-8.} \emph{Multiple MAKEs in parallel using ;AND.}
+
+%!! include Figure 7-8 here
+
+%!! does \bf{} work inside verbatim blocks? It better should...
+\begin{verbatim}
+: DUMP  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I +  \bf{@ 6} U.R  \bf{2 +LOOP}  DROP ;
+\end{verbatim}
+
+The problem arises when you write a definition called CDUMP, designed to
+format the output according to bytes, not cells:
+
+%!! does \bf{} work inside verbatim blocks? It better should...
+\begin{verbatim}
+: CDUMP  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I +  \bf{C@  4} U.R  \bf{LOOP} DROP ;
+\end{verbatim}
+
+\bf{Figure 7-9.} \emph{Multiple MAKEs in series.}
+
+%!! include Figure 7-9 here
+
+The code within these two definitions is identical except for the fragments
+in boldface. But factoring is difficult because the fragments occur inside the
+\bf{DO LOOP}.
+
+Here's a solution to this problem, using \bf{DOER/MAKE}. The code that
+changes has been replaced with the word .UNIT, whose behavior is vectored
+by the code in DUMP and CDUMP. (Recognize that ``\bf{1 +LOOP}'' has
+the same effect as ``\bf{LOOP}''.)
+
+%!! does \bf{} work inside verbatim blocks? It better should...
+\begin{verbatim}
+DOER .UNIT ( a -- increment)  \ display byte or cell
+: <DUMP>  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I + \bf{.UNIT}  +LOOP  DROP ;
+: DUMP   ( a #)  MAKE .UNIT \bf{ @  6} U.R  \bf{2} ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT \bf{C@  4} U.R  \bf{1} ;AND <DUMP> ;
+\end{verbatim}
+
+Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
+\emph{execute} the shell (the word <DUMP>).
+
+3. To change the state of related functions by invoking a single command. For
+instance:
+
+\begin{verbatim}
+DOER TYPE'
+DOER EMIT'
+DOER SPACES'
+DOER CR'
+: VISIBLE     MAKE TYPE'  TYPE ;AND
+              MAKE EMIT'  EMIT ;AND
+              MAKE SPACES'  SPACES ;AND
+              MAKE CR'  CR ;
+: INVISIBLE   MAKE TYPE'  2DROP ;AND
+              MAKE EMIT'  DROP ;AND
+              MAKE SPACES'  DROP ;AND
+              MAKE CR'  ;
+\end{verbatim}
+
+Here we've defined a vectorable set of output words, each name having a
+``prime'' mark at the end. VISIBLE sets them to their expected functions.
+INVISIBLE makes them no-ops, eating up the arguments that would normally
+be passed to them. Say INVISIBLE and any words defined in terms
+of these four output operators will \emph{not} produce any output.
+
+4. To change the state for the next occurrence only, then change the state (or
+reset it) again.
+
+Suppose we're writing an adventure game. When the player first arrives at
+a particular room, the game will display a detailed description. If the player
+returns to the same room later, the game will show a shorter message.
+
+We write:
+
+\begin{verbatim}
+DOER ANNOUNCE
+: LONG MAKE ANNOUNCE
+   CR ." You're in a large hall with a huge throne"
+   CR  ." covered with a red velvet canopy. "
+         MAKE ANNOUNCE
+   CR ." You' re in the throne room. " ;
+\end{verbatim}
+
+The word ANNOUNCE will display either message. First we say LONG, to
+initialize ANNOUNCE to the long message. Now we can test ANNOUNCE,
+and find that it prints the long message. Having done that,
+however, it continues to ``make'' ANNOUNCE display the short message.
+
+If we test ANNOUNCE a second time, it prints the short message. And it
+will for ever more, until we say LONG again.
+
+In effect we're queuing behaviors. We can queue any number of behaviors,
+letting each one set the next. The following example (though not terribly
+practical) illustrates the point.
+
+\begin{verbatim}
+DOER WHERE
+VARIABLE SHIRT
+VARIABLE PANTS
+VARIABLE DRESSER
+VARIABLE CAR
+
+: ORDER  \  specify search order
+   MAKE WHERE  SHIRT   MAKE WHERE  PANTS
+   MAKE WHERE  DRESSER   MAKE WHERE CAR
+   MAKE WHERE  O ;
+
+: HUNT  ( -- a|O )  \  find location containing 17
+   ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
+      LEAVE  ELSE  DROP  THEN  LOOP ;
+\end{verbatim}
+
+In this code we've created a list of variables, then defined an ORDER in
+which they are to be searched. The word HUNT looks through each of them,
+looking for the first one that contains a 17. HUNT returns either the
+address of the correct variable, or a zero if none have the value.
+
+It does this by simply executing WHERE five times. Each time, WHERE
+returns a different address, as defined in ORDER, then finally zero.
+
+We can even define a \bf{DOER} word that toggles its own behavior endlessly:
+
+\begin{verbatim}
+DOER SPEECH
+: ALTERNATE
+   BEGIN  MAKE SPEECH ." HELLO "
+   MAKE SPEECH ." GOODBYE "
+   O UNTIL ;
+\end{verbatim}
+
+5. To implement a forward reference. A forward reference is usually needed as
+a ``hook,'' that is, a word invoked in a low-level definition but reserved for
+use by a component defined later in the listing.
+
+To implement a forward reference, build the header of the word with \bf{DOER},
+before invoking its name.
+
+\begin{verbatim}
+DOER STILL-UNDEFINED
+\end{verbatim}
+
+Later in the listing, use MAKE;
+
+\begin{verbatim}
+MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
+\end{verbatim}
+
+(Remember, MAKE can be used outside a colon definition.)
+
+6. Recursion, direct or indirect.
+
+Direct recursion occurs when a word invokes itself. A good example is the
+recursive definition of greatest-common-denominator:
+
+\begin{verbatim}
+GCD of a, b =  a                     if b = O
+               GCD of b, a mod b     if b > O
+\end{verbatim}
+
+This translates nicely into:
+
+\begin{verbatim}
+DOER GCD ( a b -- gcd)
+MAKE GCD  ?DUP  IF  DUP ROT ROT  MOD  GCD  THEN ;
+\end{verbatim}
+
+Indirect recursion occurs when one word invokes a second word, while the
+second word invokes the first. This can be done using the form:
+
+\begin{verbatim}
+DOER B
+: A  ... B ... ;
+MAKE B  ... A ... ;
+\end{verbatim}
+
+7. Debugging. I often define:
+
+\begin{verbatim}
+DOER SNAP
+\end{verbatim}
+
+(short for SNAPSHOT), then edit SNAP into my application at a point
+where I want to see what's going on. For instance, with SNAP invoked inside
+the main loop of a keystroke interpreter, I can set it up to let me watch
+what's happening to a data structure as I enter keys. And I can change
+what SNAP does without having to recompile the loop.
+
+%%! ---End-Of-List---
+
+The situations in which it's preferable to use the tick-and-execute approach
+are those in which you need control over the address of the vector,
+such as when vectoring through an element in a decision table, or
+attempting to save/restore the contents of the vector.
+
+\section{Summary}
+
+In this chapter we've examined the tradeoffs between using the stack
+and using variables and other data structures. Using the stack is
+preferable for testing and reusability, but too many values manipulated
+on the stack by a single definition hurts readability and writeability.
+
+We also explored techniques for saving and restoring data structures,
+and concluded with a study of vectored execution using \bf{DOER}/\bf{MAKE}.
+
+\section{References}
+
+%!! there's certainly some better way to do ordered lists in TeX
+1. Michael Ham, ``Why Novices Use So Many Variables,'' \emph{FORTH
+   Dimensions}, vol. 5, no. 4, November/December 1983.
+2. Daniel Slater, ``A State Space Approach to Robotics,'' \emph{The Journal
+   of FORTH Application and Research}, 1, 1 (September 1983), 17.
+
