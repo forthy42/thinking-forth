@@ -30,9 +30,12 @@
 %% options
 
 \newif\ifeightyfour
+\newif\ifofour
 \eightyfourfalse
+\ofourfalse
 
 \DeclareOption{1984}{\eightyfourtrue}
+\DeclareOption{2004}{\ofourtrue}
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -556,8 +559,10 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
 
 %% Names are often typeset in small caps
 
+\ifofour
+\let\person\textsc
+\else
 \let\person\relax
-
-%\let\person\textsc
+\fi
 
 \makeatother

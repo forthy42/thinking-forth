@@ -4,8 +4,7 @@
 %% provided by John Hogerhuis
 %%
 %\chapternum{THREE}
-\chapter{Preliminary Design/\hy Decomposition}\Chapmark{3}
-
+\chapter{Preliminary Design/\hy Decomposition}\Chapmark{3}%
 \index{P!Preliminary Design|(}
 Assuming you have some idea of what your program should accomplish,
 it's time to begin the design. The first stage, preliminary design, focuses
@@ -14,10 +13,10 @@ on shrinking your mountainous problem into manageable molehills.
 In this chapter we'll discuss two ways to decompose your \Forth{}
 application.
 
-\section{Decomposition by Component}
-\index{C!Components:!decomposition by|(}
-\index{D!Decomposition!by component|(}
-\index{P!Preliminary Design!decomposition by component|(}
+\section{Decomposition by Component}%
+\index{C!Components:!decomposition by|(}%
+\index{D!Decomposition!by component|(}%
+\index{P!Preliminary Design!decomposition by component|(}%
 \index{P!Programming cycle:!preliminary
 design/decomposition|see{Prelimiary design}}
 
@@ -563,7 +562,7 @@ By decomposing our application into components which use one another,
 we achieved not only \emph{elegance} but a more direct path to
 \emph{correctness}.
 
-\section{The Interface Component}
+\section{The Interface Component}%
 \index{I!Interface component|(}
 
 In computer science terminology, interfacing between modules has two
@@ -589,7 +588,7 @@ of the opposite module.
 There's more to good interface design than that. Allow me to introduce
 a design element which I call the ``interface component.'' The purpose
 an interface component is to implement, and
-\emph{hide information about},
+\emph{hide information about},%
 \index{I!Information-hiding}
 the data interface between two or more other components
 (\fig{fig3-9}).
@@ -710,15 +709,15 @@ For example:
 The information of global interest is the temperature of the oven,
 expressed objectively in degrees. While Module A might receive a value
 representing the voltage from a heat sensor, it should convert this
-value to degrees before presenting it to the rest of the application.
-\index{C!Components:!decomposition by|)}
-\index{D!Decomposition!by component|)}
-\index{I!Interface component|)}
+value to degrees before presenting it to the rest of the application.%
+\index{C!Components:!decomposition by|)}%
+\index{D!Decomposition!by component|)}%
+\index{I!Interface component|)}%
 \index{P!Preliminary Design!decomposition by component|)}
 
-\section{Decomposition by Sequential Complexity}
-\index{D!Decomposition!by sequential complexity|(}
-\index{P!Preliminary Design!decomposition by sequential complexity|(}
+\section{Decomposition by Sequential Complexity}%
+\index{D!Decomposition!by sequential complexity|(}%
+\index{P!Preliminary Design!decomposition by sequential complexity|(}%
 \index{S!Sequential complexity, decomposition by|(}
 
 We've been discussing one way to do decomposition: according to
@@ -783,15 +782,15 @@ You can organize the listing by degree of complexity using a technique
 called ``vectoring.'' You can allow the root function to invoke (point
 to) any of various routines that have been defined after the root
 function itself. In our example, only the \emph{name} of the routine
-\forth{?HOLDOVER} need be created early; its definition can be given later.
+\forth{?HOLDOVER} need be created early; its definition can be given later.%
 \index{V!Vectored execution|)}
 
-\Chap{7} treats the subject of vectoring in \Forth{}.
-\index{D!Decomposition!by sequential complexity|)}
-\index{P!Preliminary Design!decomposition by sequential complexity|)}
+\Chap{7} treats the subject of vectoring in \Forth{}.%
+\index{D!Decomposition!by sequential complexity|)}%
+\index{P!Preliminary Design!decomposition by sequential complexity|)}%
 \index{S!Sequential complexity, decomposition by|)}
 
-\section{The Limits of Level Thinking}
+\section{The Limits of Level Thinking}%
 \index{L!Level@``Level'' thinking, limits of|(}
 
 Most of us are guilty of over-emphasizing the difference between
@@ -843,7 +842,7 @@ number of large boxes would appear on the screen.
 	details later, that's the price I pay.
 \end{tfquot}
 
-\noindent Are you advocating a ``fun-down'' approach?
+\noindent Are you advocating a ``fun-down'' approach?%
 \index{F!Fun@``Fun-down'' approach|(}
 
 \begin{tfquot}
@@ -863,7 +862,7 @@ number of large boxes would appear on the screen.
 	to which level you are on---assembler level, first integration
 	level, last integration level---it's just tedious and not
 	helpful. My levels get all mixed up hopelessly.
-\end{tfquot}\index{M!Moore, Charles|)}
+\end{tfquot}\index{M!Moore, Charles|)}%
 \index{F!Fun@``Fun-down'' approach|)}
 \end{interview}
 Designing by components makes where you start less important. You
@@ -900,7 +899,7 @@ In deciding where to start designing, look for:
 \end{itemize}
 \end{tip}
 
-\subsection{No Segregation Without Representation}
+\subsection{No Segregation Without Representation}%
 \index{O!Object|(}
 The second way in which levels can interfere with optimal solutions is by
 encouraging segregation of the levels. A popular design construct called
@@ -936,7 +935,7 @@ shameless waste of time and energy!
 Finally, because the object is constructed to recognize a finite set
 of possibilities, it's difficult to make additions to the row of
 buttons when a new function is needed. The tools inside the object
-have not been designed for reuse.
+have not been designed for reuse.%
 \index{O!Object|)}
 
 The idea of levels pervades the design of my own personal computer,
@@ -1021,7 +1020,7 @@ in theory, look no more intimidating than the code to format a report.
 
 Even machine code should be readable. A true \Forth{}-based
 engine would enjoy a syntax and dictionary identical and continuous
-with the ``high-level'' dictionary we know today.
+with the ``high-level'' dictionary we know today.%
 \index{L!Level@``Level'' thinking, limits of|)}
 
 \section{Summary}
@@ -1034,7 +1033,7 @@ interfaces between other components.
 
 Now, if you've done preliminary design correctly, your problem is
 lying at your feet in a heap of manageable pieces. Each piece represents a
-problem to solve. Grab your favorite piece and turn to the next chapter.
+problem to solve. Grab your favorite piece and turn to the next chapter.%
 \index{P!Preliminary Design|)}
 
 \section{For Further Thinking}
