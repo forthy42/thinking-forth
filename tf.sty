@@ -51,8 +51,7 @@
 \newenvironment{tip}{\list{}{
 \parsep\z@ \@plus\p@\small}%
 \item\relax\leavevmode\samepage\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\nopagebreak\\[0.75ex]\nopagebreak{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}
-{\par\nopagebreak\vspace{0.75ex}
-\nopagebreak\kern-1ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
+{\nopagebreak\par\nopagebreak\kern-.25ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
 \endlist}
 
 \newenvironment{tfquot}
@@ -111,7 +110,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
   #1}}
   \vspace*{1em plus 1fill}
   \pagebreak
-  \vspace*{1.7in}\hrule\vspace{10pt}
+  \vspace*{1.7in}\hrule\@height 1pt\vspace{10pt}
 }}
 
 \def\ps@headings{\let\@mkboth\markboth
