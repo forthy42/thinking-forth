@@ -175,20 +175,20 @@ Two commands make it easy to control what gets loaded in each screen
 and what gets ignored.  They are:
 %!!<ENUMERATION>
 \begin{description}
-\item[\emph{\forth{\backslash}}]
-\item[\emph{\forth{\backslash S}}] also called \forth{EXIT}
+\item[\emph{\forth{\bs}}]
+\item[\emph{\forth{\bs S}}] also called \forth{EXIT}
 \end{description}
 %!!</ENUMERATION>
-\forth{\backslash} is pronounced ``skip-line.'' It causes the \Forth{}
+\forth{\bs} is pronounced ``skip-line.'' It causes the \Forth{}
 interpreter to ignore everything to the right of it on the same line.
-(Since \forth{\backslash} is a \Forth{} word, it must be followed by a
+(Since \forth{\bs} is a \Forth{} word, it must be followed by a
 space.) It does not require a delimiter.
 
-In \Fig{fig5-1}, you see \forth{\backslash} used in two ways: to begin
+In \Fig{fig5-1}, you see \forth{\bs} used in two ways: to begin
 the screen-comment line (Line 0), and to begin comments on individual
 lines which have no more code to the right of the comment.
 
-During testing, \forth{\backslash} also serves to temporarily ``paren
+During testing, \forth{\bs} also serves to temporarily ``paren
 out'' lines that already contain a right parenthesis in a name or
 comment.  For instance, these two ``skip-line''s keep the definition
 of NUTATE from being compiled without causing problems in encountering
@@ -197,9 +197,9 @@ either right parenthesis:
 \ : NUTATE ( x y z )
 \   SWAP ROT  (NUTATE) ;
 \end{Code}
-\forth{\backslash S} is pronounced ``skip-screen.'' It causes the
+\forth{\bs S} is pronounced ``skip-screen.'' It causes the
 \Forth{} interpreter to stop interpreting the screen entirely, as
-though there were nothing else in the screen beyond \forth{\backslash
+though there were nothing else in the screen beyond \forth{\bs
 S}.
 
 In many \Forth{} systems, this function is the same as \forth{EXIT}, which
@@ -207,7 +207,7 @@ is the run-time routine for semicolon.  In these systems the use of \forth{EXIT}
 acceptable.  Some \Forth{} systems, however, require for internal reasons
 a different routine for the ``skip-screen'' function.
 
-Definitions for \forth{\backslash} and \forth{\backslash S} can be found in \App{C}.
+Definitions for \forth{\bs} and \forth{\bs S} can be found in \App{C}.
 
 \subsection{Chapter-load Screens}
 
@@ -567,7 +567,7 @@ This form requires fewer characters than
 \end{Code}
 and eliminates possible confusion between dates and months.
 
-If your system has \forth{\backslash} (``skip-line''-see \App{C}), you can write
+If your system has \forth{\bs} (``skip-line''-see \App{C}), you can write
 the comment line like this:
 \begin{Code}
 \ Chapter name          Screen Name -- pg.#         JPJ 06/10/83
@@ -752,7 +752,7 @@ The last position of each line should be blank except for:
 \end{enumerate}
 %\end{enumerate}
 %!!</ENUMERATION>
-A comment that begins with $\backslash$ may continue right to the end of the line.
+A comment that begins with \forth{\bs} may continue right to the end of the line.
 Also, a comment that begins with ( may have its delimiting right parenthesis
 in the last column.
 
