@@ -34,7 +34,7 @@ for the preferences.  In other words:
 \begin{Code}
 : TIP  VALUE JUDGEMENT ;
 \end{Code}
-I'd especially like to thank Kim Harris,\index{H!Harris, Kim} who
+I'd especially like to thank \person{Kim Harris},\index{H!Harris, Kim} who
 proposed many of the conventions described in this chapter, for his
 continuing efforts at unifying divergent views on good \Forth{} style.
 
@@ -162,7 +162,7 @@ testing (necessary for the iterative approach).  Like pages of a book,
 each screen can be accessed individually and quickly.  It's a ``random
 access'' approach to source-code maintenance.
 
-You can also replace any passage of code with anew, trial version by
+You can also replace any passage of code with a new, trial version by
 simply changing the screen numbers in the load screen.  You don't have to
 move large passages of source code around within a file.
 
@@ -203,7 +203,7 @@ For instance, these two ``skip-line''s keep the definition of
 encountering either right parenthesis:
 \begin{Code}
 \ : NUTATE  ( x y z )
-\   SWAP ROT  ( NUTATE) ;
+\   SWAP ROT  (NUTATE) ;
 \end{Code}
 \forthb{\bs S} is pronounced ``skip-screen.'' It causes the \Forth{}
 interpreter to stop interpreting the screen entirely, as though there
@@ -267,7 +267,7 @@ relative screen numbers in the chapter- or section-load screens.
 There are two ways to implement relative loading.
 The most common is to define:
 \begin{Code}
-: +LOAD  ( offset -- )  BLK @ +  LOAD;
+: +LOAD  ( offset -- )  BLK @ +  LOAD ;
 \end{Code}
 and
 \begin{Code}
@@ -282,7 +282,7 @@ The phrase
 1 FH LOAD
 \end{Code}
 is read ``1 from here \forth{LOAD},'' and is equivalent
-to \forth{1 + LOAD}.
+to \forth{1 +LOAD}.
 
 Similarly,
 \begin{Code}
@@ -546,8 +546,8 @@ thirty.
 \subsection{Electives}%
 \index{E!Electives|(}
 Vendors of \Forth{} systems have a problem.  If they want to include
-every command that the customer might expect-words to control
-graphics, printers, and other niceties-they often find that the system
+every command that the customer might expect---words to control
+graphics, printers, and other niceties---they often find that the system
 has swollen to more than half the memory capacity of the computer,
 leaving less room for serious programmers to compile their
 applications.
@@ -620,7 +620,7 @@ and eliminates possible confusion between dates and months.%
 \index{S!Stamp|)}%
 \index{D!Dates, representation of|)}
 
-If your system has \forth{\bs} (``skip-line''-see \App{C}), you can
+If your system has \forth{\bs} (``skip-line''---see \App{C}), you can
 write the comment line like this:
 \begin{Code}
 \ Chapter name        Screen Name -- pg.#       JPJ 06/10/83
@@ -730,7 +730,7 @@ BASE !              \ restore it
 \noindent Sometimes an argument is passed on the stack from screen to
 screen, such as the value returned by \forthb{BEGIN} or \forthb{IF} in a
 multiscreen assembler definition, or the base address passed from one
-defining word to another-see ``Compile-Time Factoring'' in \Chap{6}.
+defining word to another---see ``Compile-Time Factoring'' in \Chap{6}.
 In these cases, it's best to save the value of \forth{BASE} on the
 return stack like this:
 \begin{Code}
@@ -826,12 +826,12 @@ Here are some common errors of spacing and indentation:
 \end{Code}
 \emph{Bad} (subsequent lines not indented three spaces):
 \begin{Code}
-: RIDDANCE  (thing-never-to-darken-again -- )
+: RIDDANCE  ( thing-never-to-darken-again -- )
 DARKEN  NEVER AGAIN ;
 \end{Code}
 \emph{Good:}
 \begin{Code}
-: RIDDANCE  (thing-never-to-darken-again -- )
+: RIDDANCE  ( thing-never-to-darken-again -- )
    DARKEN  NEVER AGAIN ;
 \end{Code}
 \emph{Bad} (lack of phrasing):
@@ -1064,7 +1064,7 @@ acf           &  address of code field \\
 apf           &  address of parameter field \\
 '             &  (as prefix) address of \\
 s d           &  (as a pair) source destination \\
-lo hi         &  lower-limit upper-limit (inclusive, \\
+lo hi         &  lower-limit upper-limit (inclusive) \\
 \#            &   count \\
 0             &  offset \\
 i             &  index \\
@@ -1270,7 +1270,7 @@ line.  For example:
 : COLD   \ restore system to start condition
     ... ;
 \end{Code}
-use the imperative mood: ``set Foreground color,'' not ``sets
+Use the imperative mood: ``set Foreground color,'' not ``sets
 Foreground color.''
 
 On the other hand, a word's purpose can often be described in terms of
@@ -1471,7 +1471,7 @@ The vertical format is preferred when a large team of programmers are
 coding and maintaining the application.  Typically, such a team will
 include several junior-level programmers responsible for minor
 corrections.  In such an environment, diligent commenting can save a
-lot of time and upset.  As Johnson\index{J!Johnson, Dave} of Moore
+lot of time and upset.  As \person{Johnson}\index{J!Johnson, Dave} of Moore
 Products Co.  says: ``When maintaining code you are usually interested
 in just one small section, and the more information written there the
 better your chances for a speedy fix.''
@@ -1524,7 +1524,7 @@ Despite these cautions, many companies find the vertical format
 necessary.  Certainly a team that is newly exposed to \Forth{} should
 adopt it, as should any very large team.
 
-What about the horizontal format? Perhaps it's an issue of art vs.
+What about the horizontal format? Perhaps it's an issue of art vs.\@
 practicality, but I feel compelled to defend the horizontal format as
 equally valid and in some ways superior.
 
