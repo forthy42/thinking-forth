@@ -2,6 +2,7 @@
 
 SOURCES = thinking-forth.tex \
 	chapter1.tex \
+	chapter2.tex \
 	chapter3.tex \
 	chapter4.tex \
 	chapter5.tex \
