@@ -76,7 +76,7 @@ LINKCOLOR = blue
 # 17x24 for 17cm x 24cm format (one of the standard metric formats)
 # splitcover: if you only choose front and back, and the spine is done for you
 
-VERSION = 1.0
+VERSION = 1.1
 CP = cp
 TAR = tar jcf
 MD = mkdir

@@ -547,7 +547,7 @@ word using nested \forthb{IF }\forthb{ELSE }\forthb{THEN}s, like this:
 
 \begin{Code}
 : .SUIT ( suit -- )
-  DUP  O=  IF ." HEARTS "   ELSE
+  DUP  0=  IF ." HEARTS "   ELSE
   DUP  1 = IF ." SPADES "   ELSE
   DUP  2 = IF ." DIAMONDS " ELSE
               ." CLUBS "
@@ -562,7 +562,7 @@ gentleman who proposed it \cite{eaker}.
 \begin{Code}
 : .SUIT ( suit -- )
   CASE
-  O OF   ." HEARTS "    ENDOF
+  0 OF   ." HEARTS "    ENDOF
   1 OF   ." SPADES "    ENDOF
   2 OF   ." DIAMONDS "  ENDOF
   3 OF   ." CLUBS "     ENDOF     ENDCASE ;
@@ -736,7 +736,7 @@ example, found in many \Forth{} systems:
 
 \begin{Code}
 : S>D  ( n -- d)  \ sign extend s to d
-     DUP O<  IF -1  ELSE  O THEN ;
+     DUP O<  IF -1  ELSE  0 THEN ;
 \end{Code}
 (The purpose of this definition is to convert a single-length number to
 double-length. A double-length number is represented as two 16-bit
@@ -779,7 +779,7 @@ In the case of a decision that produces either zero or a non-zero ``$n$,''
 the traditional phrase
 
 \begin{Code}
-( ? ) IF  n  ELSE  O  THEN
+( ? ) IF  n  ELSE  0  THEN
 \end{Code}
 is equivalent to the simpler statement
 
@@ -793,7 +793,7 @@ produce ``$n$'' (all bits intact) or ``$0$'' (all bits cleared).
 To restate with an example:
 
 \begin{Code}
-( ? )  IF  200  ELSE  O  THEN
+( ? )  IF  200  ELSE  0  THEN
 \end{Code}
 is the same as
 
@@ -830,8 +830,8 @@ In books you often see a lot of piece-wise linear approximations that fail to
 express things clearly. For instance the expression
 
 \begin{Code}[commandchars=\&\{\}]
-x = O for t < O
-x = 1 for t &(&ge&) O
+x = 0 for t < 0
+x = 1 for t &(&ge&) 0
 \end{Code}
 This would be equivalent to
 \begin{Code}
@@ -905,12 +905,12 @@ Suppose we want to decrement the contents of the variable \forth{VALUE}, but
 we don't want the value to go below zero:
 
 \begin{Code}
--1 VALUE +!  VALUE @  -1 = IF  O VALUE !  THEN
+-1 VALUE +!  VALUE @  -1 = IF  0 VALUE !  THEN
 \end{Code}
 This is more simply written:
 
 \begin{Code}
-VALUE @  1-  O MAX  VALUE !
+VALUE @  1-  0 MAX  VALUE !
 \end{Code}
 In this case the conditional is factored within the word \forthb{MAX}.
 
@@ -1017,14 +1017,14 @@ VARIABLE RATE   \ points to FULL, LOWER or LOWEST
 FULL RATE !  \ for instance
 : CHARGE   ( o -- ) CREATE ,
    DOES>  ( -- rate )  @  RATE @ +  @ ;
-O CHARGE 1MINUTE   \ rate for first minute
+0 CHARGE 1MINUTE   \ rate for first minute
 2 CHARGE +MINUTES  \ rate for each additional minute
 4 CHARGE /MILES    \ rate per each 100 miles
 \end{Screen}
 
 \begin{Screen}
 \ Telephone rates                                       03/30/84
-VARIABLE OPERATOR?  \ 90 if operator assisted; else O
+VARIABLE OPERATOR?  \ 90 if operator assisted; else 0
 VARIABLE #MILES  \ hundreds of miles
 : ?ASSISTANCE  ( direct-dial charge -- total charge)
    OPERATOR? @  + ;
@@ -1148,7 +1148,7 @@ CREATE FUNCTIONS
 60 ,  ( left arrow)     IS BACKWARD        IS INSERT-OFF
 62 ,  ( right arrow)    IS FORWARD         IS INSERT-OFF
 27 ,  ( return)         IS ESCAPE          IS INSERT-OFF
- O ,  ( no match)       IS OVERWRITE       IS INSERT
+ 0 ,  ( no match)       IS OVERWRITE       IS INSERT
 HERE /KEY -  CONSTANT 'NOMATCH  \ adr of no-match key
 
 
@@ -1389,7 +1389,7 @@ compute the character:
 CREATE PIXELS  6 ALLOT
 : PIXEL  ( i -- a )  PIXELS + ;
 : CHARACTER  ( -- graphics character)
-   160   6 O DO  I PIXEL C@  I 2** AND  +  LOOP ;
+   160   6 0 DO  I PIXEL C@  I 2** AND  +  LOOP ;
 \end{Code}
 (We introduced \forth{2**} a few tips back.)
 
@@ -1664,7 +1664,7 @@ different than for slapping a character onto a video display. A poor
 implementation would define:
 
 \begin{Code}
-VARIABLE DEVICE  ( O=video | 1=printer)
+VARIABLE DEVICE  ( 0=video | 1=printer)
 : VIDEO   FALSE DEVICE ! ;
 : PRINTER   TRUE DEVICE ! ;
 : TYPE  ( a # -- ) DEVICE @ IF
@@ -1704,7 +1704,7 @@ time doing it. The best solution here might be to set the function of
 
 \begin{Code}
 DOER TYPE
-: VIDEO   O DEVICE !  MAKE TYPE
+: VIDEO   0 DEVICE !  MAKE TYPE
      ( ...code for video...) ;
 : PRINTER   1 DEVICE !  MAKE TYPE
      ( ...code for printer...) ;
@@ -1800,7 +1800,7 @@ remember the code to implement that version? Compare it with the
 simplicity of this approach:
 
 \begin{Code}
-O CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
+0 CONSTANT BLACK    1 CONSTANT BLUE    2 CONSTANT GREEN
 3 CONSTANT CYAN     4 CONSTANT RED     5 CONSTANT MAGENTA
 6 CONSTANT BROWN    7 CONSTANT GRAY
 : LIGHT   ( color -- color )  8 OR ;

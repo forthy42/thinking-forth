@@ -1622,7 +1622,7 @@ offset into the table:
 
 \begin{Code}
 VARIABLE COLUMN#  ( current offset)
-: ONES        O COLUMN# ! ;
+: ONES        0 COLUMN# ! ;
 : TENS        2 COLUMN# ! ;
 : HUNDREDS    4 COLUMN# ! ;
 : THOUSANDS   6 COLUMN# ! ;
@@ -1679,7 +1679,7 @@ from the rest of the definitions:
 Now we can define:
 
 \begin{Code}
-: ONER    O .SYMBOL ;
+: ONER    0 .SYMBOL ;
 : FIVER   1 .SYMBOL ;
 : TENER   2 .SYMBOL ;
 \end{Code}
@@ -1733,7 +1733,7 @@ CREATE ROMANS    ( ones)  ASCII I  C,   ASCII V  C,
              ( hundreds)  ASCII C  C,   ASCII D  C,
             ( thousands)  ASCII M  C,
 VARIABLE COLUMN#  ( current_offset)
-: ONES       O COLUMN# ! ;
+: ONES       0 COLUMN# ! ;
 : TENS       2 COLUMN# ! ;
 : HUNDREDS   4 COLUMN# ! ;
 : THOUSANDS  6 COLUMN# ! ;
@@ -1745,12 +1745,12 @@ VARIABLE COLUMN#  ( current_offset)
 \begin{Screen}
 \ Roman numerals cont'd                                  8/18/83
 : .SYMBOL  ( offset -- )  COLUMN +  C@ EMIT ;
-: ONER    O .SYMBOL ;
+: ONER    0 .SYMBOL ;
 : FIVER   1 .SYMBOL ;
 : TENER   2 .SYMBOL ;
 
 : ONERS  ( #-of-oners -- )
-   ?DUP  IF  O DO  ONER  LOOP  THEN ;
+   ?DUP  IF  0 DO  ONER  LOOP  THEN ;
 : ALMOST  ( quotient-of-5/ -- )
    ONER  IF  TENER  ELSE  FIVER  THEN ;
 : DIGIT  ( digit -- )

@@ -1094,7 +1094,7 @@ bar ( \forth{|} ) to mean ``or.'' The following stack-effect comment
 describes a word that returns either the address of a file or, if the
 requested file is not found, zero:
 \begin{Code}
-( -- address|O=undefined-file)
+( -- address|0=undefined-file)
 \end{Code}
 If the number of items in a stack picture can vary---in either the
 ``before'' or ``after'' picture---you must write out both versions of

@@ -442,7 +442,7 @@ You'll find stack manipulation easier, though, if you redesign the interface
 to look like this:
 
 \begin{Code}
-( -- error-code | O=no-error)
+( -- error-code | 0=no-error)
 \end{Code}
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
@@ -817,7 +817,7 @@ suppose we have written:
 \begin{Code}
 : LONG   18 #HOLES ! ;
 : SHORT   9 #HOLES ! ;
-: GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
+: GAME   #HOLES @  0 DO  I HOLE PLAY  LOOP ;
 \end{Code}
 The current \forth{GAME} is either \forth{LONG} or \forth{SHORT}.
 
@@ -834,7 +834,7 @@ seemed to be of greater complexity; we built \forth{HOLES} around
 in order:
 
 \begin{Code}
-: HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
+: HOLES ( n)  0 DO  I HOLE PLAY  LOOP ;
 : GAME   #HOLES @ HOLES ;
 \end{Code}
 We can build \forth{GAME} around \forth{HOLES} and avoid all this
@@ -981,7 +981,7 @@ We define:
 
 \begin{Code}
 VARIABLE 'INVISIBLE?  ( t=invisible)
-: DISPLAY   'INVISIBLE? @  O= IF [DISPLAY] THEN ;
+: DISPLAY   'INVISIBLE? @  0= IF [DISPLAY] THEN ;
 : INVISIBLE   1 'INVISIBLE? +! ;
 : VISIBLE    -1 'INVISIBLE? +! ;
 \end{Code}
@@ -1008,7 +1008,7 @@ command usage: two \forth{VISIBLE}s yields invisible. That is, unless
 \forth{VISIBLE} clips the counter:
 
 \begin{Code}
-: VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
+: VISIBLE   'INVISIBLE? @  1-  0 MAX  'INVISIBLE? ! ;
 \end{Code}
 \index{C!Components:!sharing|)}%
 \index{S!Sharing components|)}
@@ -1298,7 +1298,7 @@ contents of a specified region of memory.
 
 \begin{Code}[commandchars=\&\{\}]
 : DUMP  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   0 DO  I 16 MOD 0= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{@ 6 U.R  2 +LOOP}  DROP ;
 \end{Code}
 The problem arises when you write a definition called \forth{CDUMP},
@@ -1306,7 +1306,7 @@ designed to format the output according to bytes, not cells:
 
 \begin{Code}[commandchars=\&\{\}]
 : CDUMP  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   0 DO  I 16 MOD 0= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I +  &poorbf{C@  4 U.R  LOOP} DROP ;
 \end{Code}
 
@@ -1323,7 +1323,7 @@ behavior is vectored by the code in \forth{DUMP} and \forth{CDUMP}.
 \begin{Code}[commandchars=\&\{\}]
 DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
-   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   0 DO  I 16 MOD 0= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
    DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
 : DUMP   ( a #)  MAKE .UNIT  @  6 U.R  2 ;AND <DUMP> ;
 : CDUMP ( a #)   MAKE .UNIT C@  4 U.R  1 ;AND <DUMP> ;
@@ -1396,10 +1396,10 @@ VARIABLE CAR
 : ORDER  \  specify search order
    MAKE WHERE  SHIRT   MAKE WHERE  PANTS
    MAKE WHERE  DRESSER   MAKE WHERE CAR
-   MAKE WHERE  O ;
+   MAKE WHERE  0 ;
 
-: HUNT  ( -- a|O )  \  find location containing 17
-   ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
+: HUNT  ( -- a|0 )  \  find location containing 17
+   ORDER  5 0 DO  WHERE  DUP 0=  OVER @  17 =  OR  IF
       LEAVE  ELSE  DROP  THEN  LOOP ;
 \end{Code}
 In this code we've created a list of variables, then defined an
@@ -1420,7 +1420,7 @@ DOER SPEECH
 : ALTERNATE
    BEGIN  MAKE SPEECH ." HELLO "
    MAKE SPEECH ." GOODBYE "
-   O UNTIL ;
+   0 UNTIL ;
 \end{Code}
 \item To implement a forward reference. A forward reference is usually
 needed as a ``hook,'' that is, a word invoked in a low-level definition
@@ -1445,8 +1445,8 @@ Direct recursion occurs when a word invokes itself. A good example is the
 recursive definition of greatest-common-denominator:
 
 \begin{Code}
-GCD of a, b =  a                     if b = O
-               GCD of b, a mod b     if b > O
+GCD of a, b =  a                     if b = 0
+               GCD of b, a mod b     if b > 0
 \end{Code}
 This translates nicely into:
 
