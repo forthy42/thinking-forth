@@ -114,8 +114,8 @@ footskip=0pt}%
 \end{minipage}}%
 \ifsplitcover\eject\fi
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
-\llap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
-\llap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
+%\llap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
+%\llap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
 \begin{minipage}{\spine}%
 \vbox to\pheight{%
 \ifthinker\else\smash{\lower\pheight\vbox{\hbox to \spine{\hss\lower8pt\hbox to 1.2in{\includegraphics{head}\hss}}}}\fi
@@ -135,8 +135,9 @@ footskip=0pt}%
 \fi\hspace{0.5in}%
 }\vss}}%
 }\end{minipage}%
-\rlap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
-\rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}}%
+%\rlap{\smash{\gray\vline height -.5\pheight depth.55\pheight}}%
+%\rlap{\smash{\gray\vline height .55\pheight depth-.51\pheight}}%
+}%
 \ifsplitcover\eject\fi
 \psframebox*[fillcolor=black,framesep=\lborder]{\noindent\white
 \begin{minipage}{\oldpwidth}%
@@ -181,10 +182,11 @@ footskip=0pt}%
 100010000100100101010110110000101010101001011100011111110101111011110111001001111010000010001101}}}}\fi
 \vbox to\pheight{\vspace{0.5in}%
     \fontfamily{phv}\selectfont
-  \vbox{\hrule \@height 3pt
+  \vbox{\advance\textwidth\cborder\hrule \@height 3pt
   \HUGE
     \vspace*{0.2ex}\hbox to \textwidth{\hspace{\evenmargin}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
-    \hrule \@height 3pt}%
+    \hrule \@height 3pt%
+    \advance\textwidth-\cborder}%
   \vspace*{50pt}
 %%if you want the thinker on the cover, use that:
 \ifthinker
