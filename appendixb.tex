@@ -6,7 +6,9 @@
 \Chapmark{B}
 \chapter{Defining
 DOER/MAKE}
-If your system doesn't have DOER and MAKE already defined, this appendix
+\index{D!DOER/MAKE|(}
+If your system doesn't have DOER and MAKE
+already defined, this appendix
 is meant to help you install them and, if necessary, understand
 how they work.  Because by its nature this construct is system
 dependent, I've included several different implementations at the end of
@@ -115,7 +117,8 @@ Here's the definition of {\bf ;AND}:
 \begin{verbatim}
     : ;AND   COMPILE  EXIT  HERE MARKER @ ! ;   IMMEDIATE
 \end{verbatim}
-We can see that {\bf ;AND} has compiled an {\bf EXIT}, just as semicolon would.
+We can see that {\bf ;AND} has compiled an {\bf EXIT}\index{E!EXIT},
+just as semicolon would.
 
 Next, recall that {\bf MAKE} saved the address of that cell in a variable
 called {\bf MARKER}.  Now {\bf ;AND} stores {\bf HERE} (the location of the second
@@ -277,3 +280,4 @@ DOER WHY?
   F UNTIL ;
 : WHY?   CR  WHY?  QUIT ;
 \end{Screen}
+\index{D!DOER/MAKE|)}

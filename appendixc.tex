@@ -11,7 +11,7 @@ This appendix is here to help you define some of the words referred to in
 this book that may not exist in your system.  Definitions are given in
 FORTH-83 Standard.
 \section{From \Chap{4}}
-A definition of {\bf ASCII} that will work in '83 Standard is:
+A definition of {\bf ASCII}\index{A!ASCII} that will work in '83 Standard is:
 \begin{verbatim}
     : ASCII  ( -- c)  \  Compile:  c  ( -- )
     \ Interpret:   c   ( -- c)
@@ -19,7 +19,7 @@ A definition of {\bf ASCII} that will work in '83 Standard is:
          IF [COMPILE] LITERAL  THEN ; IMMEDIATE
 \end{verbatim}
 \section{From \Chap{5}}
-The word {\bf $\backslash$} can be defined as:
+The word {\bf $\backslash$}\index{S!Skip commands} can be defined as:
 \begin{verbatim}
     : \  ( skip rest of line)
          >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
@@ -49,11 +49,11 @@ you just listed (SCR):
     : FH   \   ( offset -- offset-block)   "from here"
          BLK @  ?DUP 0= IF  SCR @  THEN  + ;
 \end{verbatim}
-{\bf BL} is a simple constant:
+{\bf BL}\index{B!Blank space(BL)} is a simple constant:
 \begin{verbatim}
     32 CONSTANT BL
 \end{verbatim}
-{\bf TRUE} and {\bf FALSE} can be defined as:
+{\bf TRUE}\index{T!TRUE} and {\bf FALSE}\index{F!FALSE} can be defined as:
 \begin{verbatim}
     0 CONSTANT FALSE
     -1 CONSTANT TRUE
@@ -64,13 +64,15 @@ was to indicate ``true'' with the value 1.  Starting with FORTH '83,
 however, ``true'' is indicated with hex FF, which is the signed number --1
 (all bits set).
 
-{\bf WITHIN} can be defined in high level like this:
-\begin{verbatim}
+{\bf WITHIN}\index{W!WITHIN} can be defined in high level like this:
+\begin{Code}
     : WITHIN  ( n lo hi+1 -- ?)
          >R  1- OVER <  SWAP R>  < AND ;
-\end{verbatim}
+\end{Code}
+
 \section{From \Chap{8}}
-The implementation of {\bf LEAP} will depend on how your system 
+
+The implementation of {\bf LEAP}\index{L!LEAP} will depend on how your system 
 implement {\bf DO LOOP}s.  If {\bf DO} keeps two items on the return stack (the
 index and the limit), {\bf LEAP} must drop both of them plus one more
 return-stack item to exit:
