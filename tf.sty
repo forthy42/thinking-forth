@@ -178,12 +178,12 @@
 %% Emulate with printing several times, slightly moving
 
 \newdimen\poormove
-\poormove0.1pt
+\poormove0.0666pt
 \newcommand{\poorbf}[1]{%
 \llap{\hbox to \poormove{#1\hss}}%
-\raise\poormove\hbox to \z@{#1\hss}%
-\lower\poormove\hbox to \poormove{#1\hss}%
-\rlap{\hbox to \poormove{\hss}{#1}}%
+\raise\poormove\rlap{#1\hss}%
+\lower\poormove\rlap{#1\hss}%
+\rlap{\hbox to \poormove{\hss}\hbox{#1}}%
 #1}
 
 %% line for separating is blacker than LaTeX default
@@ -401,6 +401,8 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \renewcommand\@idxitem{\par\Large\sf\bfseries\hangindent 40\p@}
 \renewcommand\subitem{\@idxitem\normalfont\normalsize \hspace*{10\p@}}
 \renewcommand\subsubitem{\@idxitem\normalfont\normalsize \hspace*{20\p@}}
+
+%\renewcommand*\see[2]{(\emph{\seename} #1)}
 
 %% appendix stuff
 
