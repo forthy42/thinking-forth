@@ -15,7 +15,9 @@ SOURCES = thinking-forth.tex \
 	tf.sty lstforth.sty lstlocal.cfg \
 	fig1-1.tex fig1-3.tex fig1-4.tex fig1-6.tex \
 	fig7-7.tex fig7-8.tex fig7-9.tex \
-	Makefile autoscale eps2pdf
+	autoscale eps2pdf
+
+ALL_SOURCES = $(SOURCES) Makefile
 
 PNGSOURCES = \
 	fig1-1.png fig1-2.png fig1-3.png fig1-5.png \
@@ -49,9 +51,9 @@ TOGETHER = 20 # how many pages you bind together - divide by 4
 
 all:	index pspdf ps
 
-dist:	$(SOURCES) $(PNGSOURCES:.png=.eps)
+dist:	$(ALL_SOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)
-	$(CP) $(SOURCES) $(PNGSOURCES:.png=.eps) thinking-forth-$(VERSION)
+	$(CP) $(ALL_SOURCES) $(PNGSOURCES:.png=.eps) thinking-forth-$(VERSION)
 	$(TAR) thinking-forth-$(VERSION).tar.bz2  thinking-forth-$(VERSION)
 	$(RD) thinking-forth-$(VERSION)
 
@@ -73,6 +75,11 @@ bookletter : thinking-forth.ps
 	psnup -c -2 -pletter | \
 	sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
+
+#two pages on one A4/Letter page, for printing with Laser printer and
+#using an A4/Letter binding machine (print with long-edge
+2on1.ps: thinking-forth.ps
+	pstops '2:0L@0.9(21.5cm,0)+1L@0.9(21.5cm,12.5cm)' $< $@
 
 thinking-forth.pdf : thinking-forth.ps
 	ps2pdf thinking-forth.ps thinking-forth.pdf
