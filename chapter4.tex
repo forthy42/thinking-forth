@@ -740,18 +740,18 @@ carcicatured in \Fig{fig4-7}. It has very few rules:
 %!! include Figure 4-7 here
 
 %!! this paragraph should be an indented, unordered list
-\begin{tfquot}
-Scan for the next word in the input stream and look it up in the dictionary.
+\begin{itemize}
+\item Scan for the next word in the input stream and look it up in the dictionary.
 
-If it's an ordinary word, \emph{compile} its address.
+\item If it's an ordinary word, \emph{compile} its address.
 
-If it's an ``immediate'' word, \emph{execute} it.
+\item If it's an ``immediate'' word, \emph{execute} it.
 
-If it's not a defined word, try to convert it to a number and compile it as a
+\item If it's not a defined word, try to convert it to a number and compile it as a
 literal.
 
-If it's not a number, abort with an error message.
-\end{tfquot}
+\item If it's not a number, abort with an error message.
+\end{itemize}
 Nothing is mentioned about compiling-words such as \forthb{IF}, \forthb{ELSE},
 \forthb{THEN}, etc. The colon compiler doesn't know about these words. It merely
 recognizes certain words as ``immediate'' and executes them, letting

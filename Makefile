@@ -124,9 +124,9 @@ fig%.pdf:	fig%.eps
 
 AUTOTRACE = autotrace --despeckle-level 8 --error-threshold 4
 
-#fig%.eps:	fig%.png
-#	$(AUTOTRACE) $< >$@
-#	./autoscale $@
+fig%.eps:	fig%.png
+	$(AUTOTRACE) $< >$@
+	./autoscale $@
 
 #img%.eps:	img%.png
 #	$(AUTOTRACE) $< >$@

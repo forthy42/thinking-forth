@@ -31,11 +31,17 @@
 
 \newif\ifeightyfour
 \newif\ifofour
+\newif\iftipno
+\newif\iftip
 \eightyfourfalse
 \ofourfalse
+\tipnofalse
+\tipfalse
 
 \DeclareOption{1984}{\eightyfourtrue}
 \DeclareOption{2004}{\ofourtrue}
+\DeclareOption{tipno}{\tipnotrue}
+\DeclareOption{tip}{\tiptrue}
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -190,14 +196,26 @@
 
 %% TIP environment
 
+\newcounter{tipc}[chapter]
+
 \newenvironment{tip}{
 \ifhmode\unskip\unskip \par\bigskip\else\bigskip\fi
 \advance\linewidth-2.5em
-\noindent\hbox to 2.5em{\hss}\begin{minipage}{\linewidth}
+\noindent
+\stepcounter{tipc}%
+\hbox to 2.5em{\hss
+\iftip\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}\else%
+\hbox to 1in{\iftipno\thechapter.\arabic{tipc}~\fi\smash{\lower1ex\hbox{\includegraphics{pointing-r}}}\hss}\fi\fi
+}\begin{minipage}{\linewidth}
 \blackline{1.5ex}
-TIP\\[1ex]\small
+\iftip\else TIP\iftipno{} \thechapter.\arabic{tipc}\fi\\[1ex]\small\fi
 }{\par\normalsize\vspace{1.5ex}\blackline{0pt}
-\end{minipage}\\[\bigskipamount]
+\end{minipage}%
+\hbox to 0pt{\iftip\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+\hbox to .66in{\hss\smash{\lower1ex\hbox{\includegraphics{pointing-l}}}\iftipno~\thechapter.\arabic{tipc}\fi}\fi\fi
+}%\iftip
+%\marginpar{\textsc{Tip} \thechapter.\arabic{tipc}}\fi
+\label{tip-\thechapter.\arabic{tipc}}\par\bigskip
 \advance\linewidth2.5em
 }
 
@@ -377,13 +395,8 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
          {\string\newlabel{#1}{\arabic{page}}}%
   \@esphack}
 
-\newcounter{@sectionlrpage}
-\def\setlrcounter#1{%
-\setcounter{@sectionlrpage}{\ifsectionlabel #1\else\arabic{page}\fi}}
 \def\raggedlr{\noindent
-\expandafter\setlrcounter{%
-\expandafter\pagerefpp{s@ctionlr-\arabic{sectionlr}}}%
-\ifodd\c@@sectionlrpage\raggedleft\else\raggedright\fi
+\ifodd\pagerefpp{s@ctionlr-\arabic{sectionlr}}\raggedleft\else\raggedright\fi
 \stepcounter{sectionlr}}
 \def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
 \def\raggedr{\noindent
