@@ -4,8 +4,9 @@ SOURCES = thinking-forth.tex \
 	appendixd.tex appendixe.tex \
 	tf.sty lstforth.sty lstlocal.cfg
 
-thinking-forth.pdf : thinking-forth.ps
-	ps2pdf $< $@
+pdf thinking-forth.pdf : $(SOURCES)
+	pdflatex thinking-forth.tex
+	pdflatex thinking-forth.tex
 
 thinking-forth.ps : thinking-forth.dvi
 	dvips $< -o $@
