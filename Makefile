@@ -2,6 +2,7 @@
 
 SOURCES = thinking-forth.tex \
 	preface.tex \
+	preface94.tex \
 	chapter1.tex \
 	chapter2.tex \
 	chapter3.tex \
@@ -53,7 +54,7 @@ PSLET = sed -e 's/%%BoundingBox:.*/%%PageSize: letter\n%%Orientation: Landscape/
 
 all:	index pspdf ps
 
-dist:	$(ALL_SOURCES) $(PNGSOURCES:.png=.eps)
+dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(MD) thinking-forth-$(VERSION)
 	$(CP) $(ALL_SOURCES) $(PNGSOURCES:.png=.eps) thinking-forth-$(VERSION)
 	$(TAR) thinking-forth-$(VERSION).tar.bz2  thinking-forth-$(VERSION)
