@@ -228,6 +228,11 @@ samepage=true,xleftmargin=0em,xrightmargin=0em}
   \fi
   \vskip\belowcaptionskip}
 
+%% description style
+
+\renewcommand*\descriptionlabel[1]{\hspace{2.5em}
+                                \normalfont\itshape #1}
+
 %% original table of contents style
 
 \renewcommand\numberline[1]{}
