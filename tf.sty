@@ -299,9 +299,9 @@
 \def\@makechapterhead#1{{\HUGE
 %    \sffamily
     \fontfamily{phv}\selectfont\bfseries\slshape
-  \vbox{\advance\textwidth1em\hrule \@height 3pt
-    \vspace*{0.2ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{0.2ex}
-    \hrule \@height 3pt}
+  \vbox{\advance\textwidth1em\hrule \@height 2pt
+    \vspace*{0.25ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{0.25ex}
+    \hrule \@height 2pt}
   \vspace*{100pt}
   \hbox{\hbox to .1\linewidth{}
   \vbox{\hsize.9\linewidth
@@ -452,7 +452,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 \DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
 label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
 labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
-samepage=true,xleftmargin=0em,xrightmargin=0em}
+samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% caption style
 

@@ -11,76 +11,76 @@ This appendix is here to help you define some of the words referred to in
 this book that may not exist in your system.  Definitions are given in
 \Forth{}-83 Standard.
 \section{From \Chap{4}}
-A definition of {\bf ASCII}\index{A!ASCII} that will work in '83 Standard is:
-\begin{verbatim}
-    : ASCII  ( -- c)  \  Compile:  c  ( -- )
-    \ Interpret:   c   ( -- c)
-         BL WORD 1+ C@  STATE @
-         IF [COMPILE] LITERAL  THEN ; IMMEDIATE
-\end{verbatim}
+A definition of \forthb{ASCII}\index{A!ASCII} that will work in '83 Standard is:
+\begin{Code}
+: ASCII  ( -- c)  \  Compile:  c  ( -- )
+\ Interpret:   c   ( -- c)
+     BL WORD 1+ C@  STATE @
+     IF [COMPILE] LITERAL  THEN ; IMMEDIATE
+\end{Code}
 \section{From \Chap{5}}
-The word {\bf $\backslash$}\index{S!Skip commands} can be defined as:
-\begin{verbatim}
-    : \  ( skip rest of line)
-         >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
-\end{verbatim}
-If you decide not to use {\bf EXIT} to terminate a screen, you can define {\bf \S}
+The word \forthb{\bs}\index{S!Skip commands} can be defined as:
+\begin{Code}
+: \  ( skip rest of line)
+     >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
+\end{Code}
+If you decide not to use \forthb{EXIT} to terminate a screen, you can define \forthb{\bs S}
 as:
-\begin{verbatim}
-    : \S   1024 >IN ! ;
-\end{verbatim}
-The word {\bf FH} can be defined simply as:
-\begin{verbatim}
-    : FH   \   ( offset -- offset-block)   "from here"
-        BLK @ + ;
-\end{verbatim}
-This factoring allows you to use FH in many ways, e.g.:
-\begin{verbatim}
-    : TEST   [ 1 FH ] LITERAL LOAD ;
-\end{verbatim}
+\begin{Code}
+: \S   1024 >IN ! ;
+\end{Code}
+The word \forthb{FH} can be defined simply as:
+\begin{Code}
+: FH   \   ( offset -- offset-block)   "from here"
+    BLK @ + ;
+\end{Code}
+This factoring allows you to use \forth{FH} in many ways, e.g.:
+\begin{Code}
+: TEST   [ 1 FH ] LITERAL LOAD ;
+\end{Code}
 or
-\begin{verbatim}
-    : SEE   [ 2 FH ] LITERAL LIST ;
-\end{verbatim}
-A slightly more complicated version of FH also lets you edit or load a 
-screen with a phrase such as ``14 FH LIST'', relative to the screen that 
-you just listed (SCR):
-\begin{verbatim}
-    : FH   \   ( offset -- offset-block)   "from here"
-         BLK @  ?DUP 0= IF  SCR @  THEN  + ;
-\end{verbatim}
-{\bf BL}\index{B!Blank space(BL)} is a simple constant:
-\begin{verbatim}
-    32 CONSTANT BL
-\end{verbatim}
-{\bf TRUE}\index{T!TRUE} and {\bf FALSE}\index{F!FALSE} can be defined as:
-\begin{verbatim}
-    0 CONSTANT FALSE
-    -1 CONSTANT TRUE
-\end{verbatim}
-(\Forth{}'s control words such as IF and UNTIL interpret zero as ``false'' 
+\begin{Code}
+: SEE   [ 2 FH ] LITERAL LIST ;
+\end{Code}
+A slightly more complicated version of \forth{FH} also lets you edit or load a 
+screen with a phrase such as ``\forth{14 FH LIST}'', relative to the screen that 
+you just listed (\forth{SCR}):
+\begin{Code}
+: FH   \   ( offset -- offset-block)   "from here"
+     BLK @  ?DUP 0= IF  SCR @  THEN  + ;
+\end{Code}
+\forthb{BL}\index{B!Blank space(BL)} is a simple constant:
+\begin{Code}
+32 CONSTANT BL
+\end{Code}
+\forthb{TRUE}\index{T!TRUE} and \forthb{FALSE}\index{F!FALSE} can be defined as:
+\begin{Code}
+0 CONSTANT FALSE
+-1 CONSTANT TRUE
+\end{Code}
+(\Forth{}'s control words such as \forth{IF} and \forth{UNTIL} interpret zero as ``false'' 
 and any non-zero value as ``true.''  Before \Forth{} '83, the convention
 was to indicate ``true'' with the value 1.  Starting with \Forth{} '83,
-however, ``true'' is indicated with hex FF, which is the signed number --1
+however, ``true'' is indicated with hex \code{FF}, which is the signed number $-1$
 (all bits set).
 
-{\bf WITHIN}\index{W!WITHIN} can be defined in high level like this:
+\forthb{WITHIN}\index{W!WITHIN} can be defined in high level like this:
 \begin{Code}
-    : WITHIN  ( n lo hi+1 -- ?)
-         >R  1- OVER <  SWAP R>  < AND ;
+: WITHIN  ( n lo hi+1 -- ?)
+     >R  1- OVER <  SWAP R>  < AND ;
 \end{Code}
 
 \section{From \Chap{8}}
 
-The implementation of {\bf LEAP}\index{L!LEAP} will depend on how your system 
-implement {\bf DO LOOP}s.  If {\bf DO} keeps two items on the return stack (the
-index and the limit), {\bf LEAP} must drop both of them plus one more
-return-stack item to exit:
-\begin{verbatim}
-    : LEAP   R> R> 2DROP  R> DROP ;
-\end{verbatim}
-If {\bf DO} keeps \emph{three} items on the return stack, it must be defined: 
-\begin{verbatim}
-    : LEAP   R> R> 2DROP  R> R> 2DROP ;
-\end{verbatim}
+The implementation of \forthb{LEAP}\index{L!LEAP} will depend on how
+your system implements \forthb{DO} \forthb{LOOP}s.  If \forthb{DO} keeps two
+items on the return stack (the index and the limit), \forthb{LEAP}
+must drop both of them plus one more return-stack item to exit:
+\begin{Code}
+: LEAP   R> R> 2DROP  R> DROP ;
+\end{Code}
+If \forthb{DO} keeps \emph{three} items on the return stack, it must be defined: 
+\begin{Code}
+: LEAP   R> R> 2DROP  R> R> 2DROP ;
+\end{Code}
 

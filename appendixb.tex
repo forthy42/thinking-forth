@@ -7,7 +7,7 @@
 \chapter{Defining
 DOER/MAKE}
 \index{D!DOER/MAKE|(}
-If your system doesn't have DOER and MAKE
+If your system doesn't have \forth{DOER} and \forth{MAKE}
 already defined, this appendix
 is meant to help you install them and, if necessary, understand
 how they work.  Because by its nature this construct is system
@@ -17,19 +17,19 @@ this section doesn't give you enough information to get them running,
 you probably have an unusual system.  Please don't ask me for help; ask
 your \Forth{} vendor.
 
-Here's how it works.  {\bf DOER} is a defining word that creates an entry
+Here's how it works.  \forthb{DOER} is a defining word that creates an entry
 with one cell in its parameter field. That cell contains the vector address,
-and is initialized to point to a no-op word called {\bf NOTHING}.
+and is initialized to point to a no-op word called \forthb{NOTHING}.
 
-Children of {\bf DOER} will execute that {\bf DOES> } code of {\bf DOER}, which
+Children of \forthb{DOER} will execute that \forthb{DOES>} code of \forthb{DOER}, which
 does only two things:  fetch the vector address and place it on the return
 stack.  That's all.  \Forth{} execution then continues with this address on
 the return stack, which will cause the vectored function to be performed.
 It's like saying (in '83-Standard)
-\begin{verbatim}
-    ' NOTHING >BODY >R <return>
-\end{verbatim}
-which executes NOTHING.  (This trick only works with colon definitions.)
+\begin{Code}
+' NOTHING >BODY >R <return>
+\end{Code}
+which executes \forth{NOTHING}.  (This trick only works with colon definitions.)
 
 Here's an illustration of the dictionary entry created when we enter
 
@@ -46,127 +46,133 @@ DOER JOE & \\
 \bigskip
 }
 
+\noindent Now suppose we define:
+\begin{Code}
+: TEST   MAKE JOE  CR ;
+\end{Code}
+that is, we define a word that can vector \forth{JOE} to do a carriage return.
 
-Now suppose we define:
-\begin{verbatim}
-    : TEST   MAKE JOE  CR ;
-\end{verbatim}
-that is, we define a word that can vector JOE to do a carriage return.
-
-Here's a picture of the compiled definition of TEST:
+Here's a picture of the compiled definition of \forth{TEST}:
 %! This is supposed to be the cell diagram on p. 277, but I just 
 %! couldn't figure out how to do it.
 
-{\sf\samepage
-\begin{tabbing}
-XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= XXXXXX \= \kill
-	\> adr of \>	\> adr of \> adr of \> adr of \\
- TEST	\> (MAKE) \> 0  \>  JOE   \>   CR   \>  EXIT \\
-header \> \>  MARKER\\
-\end{tabbing}
-} 
+{\sf\bigskip\begin{tabular}{|c|c|c|c|c|c|}\hline
+& adr of & & adr of & adr of & adr of \\
+TEST & (MAKE) & 0 & JOE & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{MARKER} & \multicolumn{3}{c}{} \\
+\end{tabular}
+\bigskip}
 
-Let's look at the code for {\bf MAKE}.  Since we're using {\bf MAKE} inside a colon
-definition, {\bf STATE} will be true, and we'll execut the phrase:
-\begin{verbatim}
-    COMPILE (MAKE)  HERE MARKER !  0 ,
-\end{verbatim}
-We can see how {\bf MAKE} has compiled the address of the run-time routine,
-{\bf (MAKE)}, followed by a zero.  (We'll explain what the zero is for, and why
-we save its address in a the variable {\bf MARKER}, later).  % should probably be "save its address in the variable..."
+\noindent Let's look at the code for \forthb{MAKE}.  Since we're using \forthb{MAKE} inside a colon
+definition, \forthb{STATE} will be true, and we'll execut the phrase:
+\begin{Code}
+COMPILE (MAKE)  HERE MARKER !  0 ,
+\end{Code}
+We can see how \forthb{MAKE} has compiled the address of the run-time routine,
+\forthb{(MAKE)}, followed by a zero.  (We'll explain what the zero is for, and why
+we save its address in a the variable \forthb{MARKER}, later).  % should probably be "save its address in the variable..."
 
-Now let's look at what {\bf (MAKE)} does when we execute our new 
-definition {\bf TEST}:
+Now let's look at what \forthb{(MAKE)} does when we execute our new 
+definition \forthb{TEST}:
 
 \bigskip{
-\begin{tabular}{lp{.5\textwidth}}
-\verb%   R>%		& \parindent-1ex Gets an address from the return stack.
+\begin{tabular}{l@{\hspace{4ex}}>{\parindent-2ex}p{.5\textwidth}}
+\verb%R>%		& Gets an address from the return stack.
 			  This address points to the cell just
-			  past {\bf (MAKE)}, where the zero is.\\ 
-\verb%   DUP 2+%	& \parindent-1ex Gets the address of the second cell after
-			  {\bf (MAKE)}, where the address of {\bf JOE} is.\\
-\verb%   DUP 2+%	& \parindent-1ex Gets the address of the third cell after
-			  {\bf (MAKE)}, where the cod we want to
-			  execute begins.  The stack now has:\\
-			& \ (~'marker,~'joe,~'code~--{}--~)\\
-\verb%SWAP @ >BODY%	& \parindent-1ex Fetches the contents of the address
-			  pointing to JOE (i.e., gets the address 
-			  of JOE) and computes JOE's pfa, where
+			  past \forthb{(MAKE)}, where the zero is.\\ 
+\verb%DUP 2+%		& Gets the address of the second cell after
+			  \forthb{(MAKE)}, where the address of \forthb{JOE} is.\\
+\verb%DUP 2+%		& Gets the address of the third cell after
+			  \forthb{(MAKE)}, where the cod we want to
+			  execute begins.  The stack now has:
+
+			  \parindent2ex (~'marker,~'joe,~'code~--{}--~)\\
+\verb%SWAP @ >BODY%	& Fetches the contents of the address
+			  pointing to \forth{JOE} (i.e., gets the address 
+			  of \forth{JOE}) and computes \forth{JOE}'s pfa, where
 			  the vector address goes.\\
-\verb%!%		& \parindent-1ex Stores the address where the new code
-			  begins ({\bf CR}, etc.) into the vector
-			  address of JOE.
-			  Now JOE points inside the definition of
-			  TEST.  When we type JOE, we'll do a
+\verb%!%		& Stores the address where the new code
+			  begins (\forthb{CR}, etc.) into the vector
+			  address of \forth{JOE}.
+			  Now \forth{JOE} points inside the definition of
+			  \forth{TEST}.  When we type \forth{JOE}, we'll do a
 			  carriage return.\\
-\verb%@ ?DUP IF >R THEN%& \parindent-1ex Fetches the contents of the cell
+\verb%@ ?DUP IF >R THEN%& Fetches the contents of the cell
 			  containing zero.  Since the cell does
-			  contain zero, the IF THEN statement is
+			  contain zero, the \forth{IF THEN} statement is
 			  not performed.\\
 \end{tabular}}
 \bigskip
 
 That's the basic idea.  But what about that cell containing zero?  That's
-for the use of {\bf ;AND}.  Suppose we changed TEST to read:
+for the use of \forthb{;AND}.  Suppose we changed \forth{TEST} to read:
 
-\begin{verbatim}
-    : TEST   MAKE JOE  CR ;AND SPACE ;
-\end{verbatim}
-That is, when we invoke TEST we'll vector JOE to do a {\bf CR}, and we'll do a
-{\bf SPACE} right now.  Here's what this new version of TEST will look like:
+\begin{Code}
+: TEST   MAKE JOE  CR ;AND SPACE ;
+\end{Code}
+That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a \forthb{CR}, and we'll do a
+\forthb{SPACE} right now.  Here's what this new version of \forth{TEST} will look like:
 %! The diagram from page 278 is supposed to be here -- I didn't have a 
 %! clue, so I just omitted it.
 
-Here's the definition of {\bf ;AND}:
-\begin{verbatim}
-    : ;AND   COMPILE  EXIT  HERE MARKER @ ! ;   IMMEDIATE
-\end{verbatim}
-We can see that {\bf ;AND} has compiled an {\bf EXIT}\index{E!EXIT},
+\begin{center}\vspace{10pt}\sf\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+& adr of & \smash{\rnode{M1}{~\large\strut}} & adr of & adr of & adr of & \rnode{M2}{adr of\large\strut} & adr of \\
+TEST & (MAKE) & adr & JOE & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2pt}}
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{MARKER} & \multicolumn{5}{c}{} \\
+\end{tabular}
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=90,angleB=90}
+\ncangle{M1}{M2}
+\end{center}
+Here's the definition of \forthb{;AND}:
+\begin{Code}
+: ;AND   COMPILE  EXIT  HERE MARKER @ ! ;   IMMEDIATE
+\end{Code}
+We can see that \forthb{;AND} has compiled an \forthb{EXIT}\index{E!EXIT},
 just as semicolon would.
 
-Next, recall that {\bf MAKE} saved the address of that cell in a variable
-called {\bf MARKER}.  Now {\bf ;AND} stores {\bf HERE} (the location of the second
-string of code beginning with {\bf SPACE}) into the cell previously containing
-zero.  Now {\bf (MAKE)} has a pointer to the place to resume execution.  The
+Next, recall that \forthb{MAKE} saved the address of that cell in a variable
+called \forthb{MARKER}.  Now \forthb{;AND} stores \forthb{HERE} (the location of the second
+string of code beginning with \forthb{SPACE}) into the cell previously containing
+zero.  Now \forthb{(MAKE)} has a pointer to the place to resume execution.  The
 phrase
-\begin{verbatim}
-    IF >R THEN
-\end{verbatim}
+\begin{Code}
+IF >R THEN
+\end{Code}
 will leave on the return stack the address of the code beginning with 
-{\bf SPACE}.  Thus execution will skip over the code between {\bf MAKE} and 
-{\bf ;AND} and continue with the remainder of the definition up to semicolon.
+\forthb{SPACE}.  Thus execution will skip over the code between \forthb{MAKE} and 
+\forthb{;AND} and continue with the remainder of the definition up to semicolon.
 
-The word {\bf UNDO} ticks the name of a {\bf DOER} word, and stores the
-address of {\bf NOTHING} into it.
+The word \forthb{UNDO} ticks the name of a \forthb{DOER} word, and stores the
+address of \forthb{NOTHING} into it.
 
 One final note:  on some systems you may encounter a problem.  If
-you use {\bf MAKE} outside of a colon definition to create a forward reference,
+you use \forthb{MAKE} outside of a colon definition to create a forward reference,
 you may not be able to find the most recently defined word.  For instance,
 if you have:
-\begin{verbatim}
-    : REFRAIN   DO-DAH  DO-DAH ;
-    MAKE SONG  CHORUS  REFRAIN ;
-\end{verbatim}
+\begin{Code}
+: REFRAIN   DO-DAH  DO-DAH ;
+MAKE SONG  CHORUS  REFRAIN ;
+\end{Code}
 your system might think that refrain has not been defined.  The problem
-is due to the placement of SMUDGE.  As a solution, try rearranging
-the order of definitions or, if necessary, put MAKE code inside a 
+is due to the placement of \forth{SMUDGE}.  As a solution, try rearranging
+the order of definitions or, if necessary, put \forth{MAKE} code inside a 
 definition which you then execute:
-\begin{verbatim}
-    : SETUP   MAKE SONG  CHORUS  REFRAIN ;   SETUP
-\end{verbatim}
-In Laboratory Microsystems PC/FORTH 2.0, the UNSMUDGE on line 9 
+\begin{Code}
+: SETUP   MAKE SONG  CHORUS  REFRAIN ;   SETUP
+\end{Code}
+In Laboratory Microsystems PC/FORTH 2.0, the \forth{UNSMUDGE} on line 9 
 handles the problem.  This problem does not arrize with the Laxen/Perry/Harris
 model.
 
-The final screen is an example of using {\bf DOER/MAKE}.  After loading 
+The final screen is an example of using \forthb{DOER/MAKE}.  After loading 
 the block, enter
-\begin{verbatim}
-    RECITAL
-\end{verbatim}
+\begin{Code}
+RECITAL
+\end{Code}
 then enter 
-\begin{verbatim}
-    WHY?
-\end{verbatim}
+\begin{Code}
+WHY?
+\end{Code}
 followed by return, as many times as you like (you'll get a different
 reason each time).
 
@@ -268,7 +274,7 @@ VARIABLE MARKER
 \end{Screen}
 \vfill
 \begin{Screen}
-( TODDLER: Example of DOER/MAKE                     12/01/83 )
+( TODDLER: Example of DOER/MAKE                      12/01/83 )
 DOER WHY?
 : RECITAL
   CR ." Your daddy is standing on the table.  Ask him 'WHY?' "

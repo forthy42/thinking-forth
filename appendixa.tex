@@ -8,74 +8,74 @@
 \chapter{Overview
 of~\Forth{}
 (For~Newcomers)}
-\section{The Dictionary}\index{D!Dictionary:!defined|(}
+\section{The Dictionary}\index{D!Dictionary:!defined|(}%
 \Forth{}\index{F!\Forth{}!overview of|(} is expressed in words (and numbers) and is separated by spaces:
-\begin{verbatim}
-    HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
-\end{verbatim}
+\begin{Code}
+HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
+\end{Code}
 Such commands may be typed directly from the keyboard, or edited onto 
-mass storage then ``{\bf LOAD}''ed.
+mass storage then ``\forthb{LOAD}''ed.
 
 All words, whether included with the system or user-defined,
 exist in the ``dictionary,'' a linked list.  A ``defining word,'' is used to add
-new names to the dictionary.  One defining word is {\bf :} (pronounced
+new names to the dictionary.  One defining word is \forthb{:} (pronounced
 ``colon''), which is used to define a new word in terms of previously-
-defined words.  Here is how one might define a new word called LIFT:
-\begin{verbatim}
-    : LIFT   HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE ;
-\end{verbatim}
-The {\bf ;} terminates the definition.  The new word LIFT may now be used
+defined words.  Here is how one might define a new word called \forth{LIFT}:
+\begin{Code}
+: LIFT   HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE ;
+\end{Code}
+The \forthb{;} terminates the definition.  The new word \forth{LIFT} may now be used
 instead of the long sequence of words that comprise its definition.
 
 \Forth{} words can be nested like this indefinitely.  Writing a 
 \Forth{} application consists of building increasingly powerful definitions,
 such as this one, in terms of previously defined ones.
 
-Another defining word is {\bf CODE},\index{C!CODE} which is used in place of colon to
+Another defining word is \forthb{CODE},\index{C!CODE} which is used in place of colon to
 define a command in terms of machine instructions for the native processor.
-Words defined with {\bf CODE} are indistinguishable to the user from 
-words defined with colon.  {\bf CODE} definitions are needed only for the most
+Words defined with \forthb{CODE} are indistinguishable to the user from 
+words defined with colon.  \forthb{CODE} definitions are needed only for the most
 time-critical portions of an applications, if at all.
-\subsection{Data Structures}
-\index{D!Data structures:!operators}
-Still another defining word is {\bf CONSTANT},\index{C!CONSTANT} which
+\section{Data Structures}%
+\index{D!Data structures:!operators}%
+Still another defining word is \forthb{CONSTANT},\index{C!CONSTANT} which
 is used like this:
-\begin{verbatim}
-    17 CONSTANT SEVENTEEN
-\end{verbatim}
-The new word SEVENTEEN can now be used in place of the actual number 17.
+\begin{Code}
+17 CONSTANT SEVENTEEN
+\end{Code}
+The new word \forth{SEVENTEEN} can now be used in place of the actual number 17.
 
-The defining word VARIABLE\index{V!VARIABLE} creates a location
-for temporary data. VARIABLE is used like this:
-\begin{verbatim}
-    VARIABLE BANANAS
-\end{verbatim}
-This reserves a location which is identified by the name BANANAS.
+The defining word \forth{VARIABLE}\index{V!VARIABLE} creates a location
+for temporary data. \forth{VARIABLE} is used like this:
+\begin{Code}
+VARIABLE BANANAS
+\end{Code}
+This reserves a location which is identified by the name \forth{BANANAS}.
 
-Fetching the contents of this location is the job of the word {\bf @}
+Fetching the contents of this location is the job of the word \forthb{@}
 (pronounced ``fetch'').  For instance,
-\begin{verbatim}
-    BANANAS @
-\end{verbatim}
-fetches the contents of the variable BANANAS.  Its counterpart is {\bf !}
+\begin{Code}
+BANANAS @
+\end{Code}
+fetches the contents of the variable \forth{BANANAS}.  Its counterpart is \forthb{!}
 (pronounced ``store''), which stores a value into the location, as in:
-\begin{verbatim}
-    100 BANANAS !
-\end{verbatim}
+\begin{Code}
+100 BANANAS !
+\end{Code}
 \Forth{} also provides a word to increment the current value by the given
 value; for instance, the phrase
-\begin{verbatim}
-    2 BANANAS +!
-\end{verbatim}
+\begin{Code}
+2 BANANAS +!
+\end{Code}
 increments the count by two, making it 102.
 
 \Forth{} provides many other
 data structure operators\index{D!Data structures:!operators}, but more
 importantly, it provides the tools necessary for the programmer to
-create any time of data structure needed for the application.
-\index{D!Dictionary:!defined|)}
+create any time of data structure needed for the application.%
+\index{D!Dictionary:!defined|)}%
 
-\subsection{The Stack}
+\section{The Stack}
 In \Forth{}, variables and arrays are used for saving values that may be
 required by many other routines and/or at unpredictable times.  They are {\em not}
 used for the local passing of data between the definitions.  For this, \Forth{}
@@ -84,66 +84,70 @@ employs a much simpler mechanism: the data stack.
 When you type a number, it goes on the stack.  When you invoke a 
 word which has numeric input, it will take it from the stack.  Thus the
 phrase
-\begin{verbatim}
-    17 SPACES
-\end{verbatim}
+\begin{Code}
+17 SPACES
+\end{Code}
 will display seventeen blanks on the current output device.  ``17'' pushes
-the binary value 17 onto the stack; the word {\bf SPACES} consumes it.
+the binary value 17 onto the stack; the word \forthb{SPACES} consumes it.
 
 A constant also pushes its value onto the stack; thus the phrase:
-\begin{verbatim}
-    SEVENTEEN SPACES
-\end{verbatim}
+\begin{Code}
+SEVENTEEN SPACES
+\end{Code}
 has the same effect.
 
 The stack operates on a ``last-in, first-out'' (LIFO) basis.  This means
 that data can be passed between words in an orderly, modular way, consistent
 with the nesting of colon definitions.
 
-For instance, a defintion called GRID might invoke the phrase 17 SPACES.  
-This temporary activity on the stack will be transmparent to any
-other definition that invokes GRID because the value placed on the stack
-is removed before the defintion of GRID ends.  The calling definition 
-might have placed some numbers of its own on the stack prior to calling 
-GRID.  These will remain on the stack, unharmed, until GRID has been 
-executed  and calling definition continues.   % probably should be the calling..
-\subsection{Control Structures}
-\Forth{} provides all the control structures\index{C!Control structures:!defined}
+For instance, a defintion called \forth{GRID} might invoke the phrase
+\forth{17 SPACES}.  This temporary activity on the stack will be
+transmparent to any other definition that invokes \forth{GRID} because
+the value placed on the stack is removed before the defintion of
+\forth{GRID} ends.  The calling definition might have placed some
+numbers of its own on the stack prior to calling \forth{GRID}.  These
+will remain on the stack, unharmed, until \forth{GRID} has been
+executed and the calling definition continues.
+% original ``and calling definition continues.
+
+\section{Control Structures}
+\Forth{} provides all the control structures%
+\index{C!Control structures:!defined}%
 needed for structured, GOTO-less programming.
 
-The syntax of the {\bf IF THEN} construct is as follows:
-\begin{verbatim}
-    ... ( flag ) IF  KNOCK  THEN  OPEN ...
-\end{verbatim}
+The syntax of the \forthb{IF THEN} construct is as follows:
+\begin{Code}
+... ( flag ) IF  KNOCK  THEN  OPEN ...
+\end{Code}
 The ``flag''\index{F!Flags} is a value on the stack, consumed by IF. A non-zero value
-indicates true, zero indicates false.  A true flag causes the code after {\bf IF} (in
-this case, the word KNOCK) to be executed.  The word {\bf THEN} marks the
-end of the conditional phrase; execution resumes with the word OPEN.  A
-false flag causes the code between {\bf IF} and {\bf THEN} to {\em not} be executed.  In
-either case, OPEN will be performed.
+indicates true, zero indicates false.  A true flag causes the code after \forthb{IF} (in
+this case, the word \forth{KNOCK}) to be executed.  The word \forthb{THEN} marks the
+end of the conditional phrase; execution resumes with the word \forth{OPEN}.  A
+false flag causes the code between \forthb{IF} and \forthb{THEN} to {\em not} be executed.  In
+either case, \forth{OPEN} will be performed.
 
-The word {\bf ELSE}\index{E!ELSE} allows an alternate phrase to be executed
+The word \forthb{ELSE}\index{E!ELSE} allows an alternate phrase to be executed
 in the false case. In the phrase:
-\begin{verbatim}
-    ( flag ) IF KNOCK  ELSE  RING  THEN  OPEN ...
-\end{verbatim}
-the word KNOCK will be performed if the flag is true, otherwise the word
-RING will be performed.  Either way, execution will continue starting
-with OPEN.
+\begin{Code}
+( flag ) IF KNOCK  ELSE  RING  THEN  OPEN ...
+\end{Code}
+the word \forth{KNOCK} will be performed if the flag is true, otherwise the word
+\forth{RING} will be performed.  Either way, execution will continue starting
+with \forth{OPEN}.
 
 \Forth{} also provides for indexed loops\index{L!Loops} in the form
-\begin{verbatim}
-    ( limit) ( index) DO ... LOOP
-\end{verbatim}
+\begin{Code}
+( limit) ( index) DO ... LOOP
+\end{Code}
 and indefinite loops in the forms:
-\begin{verbatim}
-    ... BEGIN  ...  ( flag) UNTIL
-\end{verbatim}
+\begin{Code}
+... BEGIN  ...  ( flag) UNTIL
+\end{Code}
 and
-\begin{verbatim}
-    ... BEGIN  ...  ( flag) WHILE ... REPEAT ;
-\end{verbatim}
-\subsection{For the Whole Story}
+\begin{Code}
+... BEGIN  ...  ( flag) WHILE ... REPEAT ;
+\end{Code}
+\section{For the Whole Story}
 For a complete instroduction to the \Forth{} command set, read {\em Starting
-\Forth{}}, published by Prentice-Hall.
-\index{F!\Forth{}!overview of|)}
+\Forth{}}, published by Prentice-Hall.%
+\index{F!\Forth{}!overview of|)}%
