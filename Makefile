@@ -50,11 +50,12 @@ WIDTH = 6.8125in
 HEIGHT = 9.125in
 
 # original Prentice Hall paperback ISBN
-ISBN = 0-13-917568-7
+#ISBN = 0-13-917568-7
 # FIG ISBN
 #ISBN = 0-93-553300-1
 # a new ISBN needs to be purchased from the BoD publisher
 # if the ISBN should make any sense.
+ISBN = 0-9764587-0-5
 
 # dummy price
 PRICE = 90000
@@ -166,7 +167,7 @@ cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex head.eps 
 
 # get bookland.py from http://www.cgpp.com/bookland/
 
-isbn.eps:
+isbn.eps:	Makefile
 	bookland.py $(ISBN) $(PRICE) >$@
 
 pagecount.tex:	tfoptions.tex
