@@ -439,7 +439,7 @@ Instead, you can nest the conditionals, like this:
 \begin{tip}
 Combine booleans of similar weight.
 \end{tip}
-Many instances of doubly-nested \forthb{IF} \forthb{THEN} structures can be simplified
+Many instances of doubly-nested \forthb{IF }\forthb{THEN} structures can be simplified
 by combining the flags with logical operators before making the decision.
 Here's a doubly-nested test:
 
@@ -457,7 +457,7 @@ let's combine the conditions logically and make a single decision:
 \end{Code}
 It's simpler and more readable.
 
-The logical ``or'' situation, when implemented with \forthb{IF} \forthb{THEN}s, is
+The logical ``or'' situation, when implemented with \forthb{IF }\forthb{THEN}s, is
 even clumsier:
 
 \begin{Code}
@@ -537,7 +537,7 @@ A particular class of problem involves selecting one of several possible
 paths of execution according to a numeric argument. For instance, we
 want the word \forth{.SUIT} to take a number representing a suit of playing
 cards, 0 through 3, and display the name of the suit. We might define this
-word using nested \forthb{IF} \forthb{ELSE} \forthb{THEN}s, like this:
+word using nested \forthb{IF }\forthb{ELSE }\forthb{THEN}s, like this:
 
 \begin{Code}
 : .SUIT ( suit -- )
@@ -564,13 +564,13 @@ it \cite{eaker}.
 The case statement's value lies exclusively in its readability and
 writeability. There's no efficiency improvement either in object memory
 or in execution speed. In fact, the case statement compiles much the
-same code as the nested \forthb{IF} \forthb{THEN} statements. A case statement is a
+same code as the nested \forthb{IF }\forthb{THEN} statements. A case statement is a
 good example of compile-time factoring.
 
 Should all \Forth{} systems include such a case statement? That's
 a matter of controversy. The problem is twofold. First, the instances in
 which a case statement is actually needed are rare---rare enough to
-question its value. If there are only a few cases, a nested \forthb{IF} \forthb{ELSE} \forthb{THEN}
+question its value. If there are only a few cases, a nested \forthb{IF }\forthb{ELSE }\forthb{THEN}
 construct will work as well, though perhaps not as readably. If there are
 many cases, a decision table is more flexible.
 
@@ -608,7 +608,7 @@ poly\Forth{} but hasn't percolated up to \Forth{} '83. It's a simple way of
 defining multiple \forthb{WHILE}s in the same \forthb{REPEAT}.
 
 Also \person{Dean Sanderson} [of \Forth{}, Inc.] has invented a new construct that
-introduces two exit points to a \forthb{DO} \forthb{LOOP}.\index{D!DO LOOP}
+introduces two exit points to a \forthb{DO }\forthb{LOOP}.\index{D!DO LOOP}
 Given that construction you'll have fewer tests. Very often I leave a
 truth value on the stack, and if I'm leaving a loop early, I change
 the truth value to remind myself that I left the loop early. Then
@@ -631,7 +631,7 @@ Or, depending on the needs of your application, consider adding
 your own conditional constructs. It's not that hard in \Forth{}.
 
 I'm not even sure whether this use of multiple exits doesn't violate
-the doctrine of structured programming. In a \forthb{BEGIN} \forthb{WHILE} \forthb{REPEAT}
+the doctrine of structured programming. In a \forthb{BEGIN }\forthb{WHILE }\forthb{REPEAT}
 loop with multiple \forthb{WHILE}s, all the exits bring you to a common
 ``continue'' point: the \forthb{REPEAT}. But with \person{Sanderson}'s construct, you
 can exit the loop by jumping \emph{past} the end of the loop, continuing
@@ -753,7 +753,7 @@ moment's (in)decision.
      DUP  O< NEGATE ;
 \end{Code}
 See \App{C}.)%
-\index{B!Booleans, as hybrid values|)}
+\index{B!Booleans, as hybrid values|)}\medbreak
 
 \index{H!Hybrid values|(}%
 We can do even more with ``hybrid values'':
@@ -921,13 +921,13 @@ has a flag called \forth{'FREEWAY?} which is true when we're referring to
 freeways, false when we're referring to city streets.
 
 Let's construct the word \forth{SPEED-LIMIT}, which returns the speed
-limit depending on the current state. Using \forthb{IF} \forthb{THEN} we would write:
+limit depending on the current state. Using \forthb{IF }\forthb{THEN} we would write:
 
 \begin{Code}
 : SPEED-LIMIT  ( -- speed-limit)
      'FREEWAY? @  IF  55  ELSE  25  THEN ;
 \end{Code}
-We might eliminate the \forthb{IF} \forthb{THEN} by using a hybrid value with \forthb{AND}:
+We might eliminate the \forthb{IF }\forthb{THEN} by using a hybrid value with \forthb{AND}:
 
 \begin{Code}
 : SPEED-LIMIT   25  'FREEWAY? @  30 AND + ;
@@ -948,7 +948,7 @@ the data table:
 : SPEED-LIMIT  ( -- speed-limit)
      LIMITS  'FREEWAY? @  2 AND  +  @ ;
 \end{Code}
-Have we gained anything over the \forthb{IF} \forthb{THEN} approach? Probably not,
+Have we gained anything over the \forthb{IF }\forthb{THEN} approach? Probably not,
 with so simple a problem.
 
 What we have done, though, is to factor out the decision-making
@@ -1416,8 +1416,8 @@ simplify code, and thereby improve readability and maintainability.
 \person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 More and more I've come to favor \forth{R> DROP} to alter the flow of control.
-It's similar to the effect of an \forthb{ABORT"}, which has an \forthb{IF} \forthb{THEN}
-built in it. But that's only one \forthb{IF} \forthb{THEN} in the system, not at every
+It's similar to the effect of an \forthb{ABORT"}, which has an \forthb{IF }\forthb{THEN}
+built in it. But that's only one \forthb{IF }\forthb{THEN} in the system, not at every
 error.
 
 I either abort or I don't abort. If I don't abort, I continue. If I do abort, I
@@ -1447,7 +1447,7 @@ The phrase \forthb{R> DROP} terminates the definition that called the
 definition in which the phrase appears; thus it has the same effect but can
 be used one level down. Here are some examples of both approaches.
 
-If you have an \forthb{IF} \forthb{ELSE} \forthb{THEN} phrase in which no code follows
+If you have an \forthb{IF }\forthb{ELSE }\forthb{THEN} phrase in which no code follows
 \forthb{THEN}, like this:
 
 \begin{Code}
@@ -1492,7 +1492,7 @@ problem. There wasn't any better scheme to handle it. The \forthb{EXIT} and
 \end{interview}
 Programmers sometimes also use \forthb{EXIT} to get out of a complicated
 \forthb{BEGIN} loop in a graceful way. Or we might use a related technique in the
-\forthb{DO} \forthb{LOOP} that we wrote for \forth{'FUNCTION} in our Tiny Editor, earlier in
+\forthb{DO }\forthb{LOOP} that we wrote for \forth{'FUNCTION} in our Tiny Editor, earlier in
 this chapter. In this word, we are searching through a series of locations
 looking for a match. If we find a match, we want to return the address
 where we found it; if we don't find a match, we want the address of the

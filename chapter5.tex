@@ -1244,7 +1244,7 @@ To avoid confusion, here are the terms:
 \item[Scanning-for]\index{S!Scanning-for}%
 means looking ahead in the input stream, either for a word or number
 as in the case of tick, or for a delimiter as in the case of
-\forth{.''} and \forth{(} .
+\forth{."} and \forth{(} .
 \item[Expecting]\index{E!Expecting}%
 means waiting for. \forth{EXPECT} and \forth{KEY}, and definitions
 that invoke them, are ones that ``expect'' input.
@@ -1513,7 +1513,7 @@ reviews code and ensures the accuracy of comments.
 
 Finally, line-by-line commenting can allow a false sense of security.
 Don't assume that because each \emph{line} has a comment, the
-\emph{application} is well-commented.  Line-by-line commenting doesn't
+\emph{application} is well-com\-men\-ted.  Line-by-line commenting doesn't
 address the significant aspects of a definition's operation.  What,
 for instance, is the thinking behind the checksum algorithm used? Who
 knows, from the narrative comments?%
@@ -1825,7 +1825,7 @@ Hyphenated names may be a sign of bad factoring.
 \end{tip}%
 \index{A!Abbreviations|)}
 %Page 168 in first edition.
-\bigbreak
+
 \begin{interview}
 \person{Moore}:\index{M!Moore, Charles|(}
 
@@ -1838,7 +1838,7 @@ quite readable.
 But I immediately suspect that the programmer didn't think out the words
 carefully enough, that the hyphen should be broken and the words defined
 separately.  That isn't always possible, and it isn't always advantageous.
-But I suspect a hyphenated word of mixing two concepts.
+But I suspect a hyphenated word of mixing two concepts.%
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 Compare the following two strategies for saying the same thing:
@@ -1972,7 +1972,7 @@ Here are some final suggestions to make your code more readable.
 (Definitions appear in \App{C}.)
 
 One constant that pays for itself in most applications is
-\forth{BL}\index{B!Blank space(BL)}
+\forth{BL}\index{B!Blank space (BL)}
 (the ASCII value for ``blank-space'').
 
 The word \forthb{ASCII} is used primarily within colon definitions to
@@ -2033,7 +2033,7 @@ where ``n'' is the value to be tested and ``lo'' and ``hi'' represent
 the range. \forthb{WITHIN} returns true if ``n'' is
 \emph{greater-than or equal-to} ``lo'' and \emph{less-than}
 ``hi.'' This use of the non-inclusive upper limit parallels the syntax
-of \forthb{DO} \forthb{LOOP}s.
+of \forthb{DO }\forthb{LOOP}s.
 
 \person{Moore}\index{M!Moore, Charles} recommends the word \forthb{UNDER+}.
 It's useful for adding a value to the number just under the top stack

@@ -19,8 +19,8 @@ will take.\\
 
 %!! right-justify paragraph
 \begin{flushright}
----\emph{Operating philosophy developed at the Laboratory
-Automation and Instrumentation Design Group,
+---\emph{Operating philosophy developed at the Laboratory\\
+Automation and Instrumentation Design Group,\\
 Chemistry Dept., Virginia Polytechnic Institute and State University}
 \end{flushright}
 \end{tfquot}
@@ -50,11 +50,12 @@ techniques.
 
 \person{G. Polya} has written several books on problem solving, especially of
 the mathematical problem. The most accessible of these is
-\emph{How to Solve It} \cite{polya}.
+\emph{How to Solve It} \cite{polya}.%
 \index{P!Polya, G.}%
 \index{H!\emph{How to Solve It} (Polya)}
 Although solving a mathematical problem isn't quite the same as
 solving a software problem, you'll find some valuable suggestions there.
+
 The following series of tips summarize several techniques recommended by
 the science of problem solving:
 
@@ -179,11 +180,8 @@ There are only two possibilities (\Fig{fig4-3}):
 \begin{enumerate}
 \item The four-gallon container was full, and we just added it to the large
    container. This implies that we already had two gallons in the large
-   container.
-%!! line break?
-\suspend{enumerate}
-Or\dots{}
-\resume{enumerate}
+   container. Or\dots{}
+%!! line break? % enumerate suspend/resume?
 \item The nine gallon container was full, and we just poured off three gallons
    into the small container.
 \end{enumerate}
@@ -447,6 +445,7 @@ Each component should be designed with components that use it in mind.
 You must design the syntax of the lexicon so that the words make sense
 when they appear in context. Hiding interrelated information within the
 component will ensure maintainability, as we've seen.
+
 At the same time, observe \Forth{}'s own syntax. Rather than insisting
 on a certain syntax because it seems familiar, you may save
 yourself from writing a lot of unnecessary code by choosing a syntax that
@@ -476,6 +475,7 @@ arguments, as in
 \end{Code}
 \index{P!Postfix notation|(}
 This ordering, in which values precede operators, is called ``postfix.''
+
 \Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
 You could redefine \forth{+} to expect one number in the input stream, like this:
 
@@ -486,9 +486,9 @@ by defining it so:
 \begin{Code}
 : +   BL WORD  NUMBER DROP  + ;
 \end{Code}
-(where \forth{WORD} is 79/83 Standard, returning an address, and \forth{NUMBER}
-returns a double-length value as in the 83 Standard Uncontrolled
-Reference Words).
+(where \forthb{WORD} is 79/83 Standard, returning an address, and
+\forthb{NUMBER} returns a double-length value as in the 83 Standard
+Uncontrolled Reference Words).
 
 Fine. But you wouldn't be able to use this definition inside other
 colon definitions or pass it arguments, thereby defeating one of \Forth{}'s
@@ -501,14 +501,14 @@ pointer) as a stack argument to ``verb'' type words. The \Forth{}-like syntax of
 {\sf ``noun'' ``verb''}
 \end{quote}
 \wepsfigxx{img4-110}
-will generally prove easiest to implement because of the stack.  In
-some cases this word order\index{W!Words:!ordering} sounds unnatural.
-For instance, suppose we have a file named \forth{INVENTORY}. One thing we can
-do with that file is \forth{SHOW} it; that is, format the information in
-pretty columns. If
+will generally prove easiest to implement because of the stack.\medbreak
 
-\forth{INVENTORY} passes a pointer to \forth{SHOW}, which acts upon it, the syntax
-becomes
+In some cases this word order\index{W!Words:!ordering} sounds
+unnatural.  For instance, suppose we have a file named
+\forth{INVENTORY}. One thing we can do with that file is \forth{SHOW}
+it; that is, format the information in pretty columns. If
+\forth{INVENTORY} passes a pointer to \forth{SHOW}, which acts upon
+it, the syntax becomes
 \begin{Code}
 INVENTORY SHOW
 \end{Code}
@@ -529,7 +529,7 @@ we have several options. \forth{SHOW} might set a flag and \forth{INVENTORY} wou
 according to the flag. Such an approach has certain disadvantages,
 especially that \forth{INVENTORY} must be ``smart'' enough to know all the
 possible actions that might be taken on it. (We'll treat these
-problems in Chapters Seven and Eight.)
+problems in Chapters \ref{chapter-7} and \ref{chapter-8}.)%
 \index{P!Postfix notation|)}
 
 Or, \forth{SHOW} might look ahead at the next word in the input stream.
@@ -548,7 +548,7 @@ If the \Forth{} interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
 reason, an undefined string must be preceded by a defined word.
 
-An example is \forthb{."} (dot-quote), which precedes the text it will later
+An example is \forth{."} (dot-quote), which precedes the text it will later
 print. Another example is \forthb{CREATE} (as well as all defining words), which
 precedes the name that is, at the moment, still undefined.
 
@@ -584,7 +584,7 @@ out of \forth{LAUNCH}, as in the definition above. If you leave them out of
 \end{Code}
 By convention, the latter version is preferable, because \forth{LOAD} and \forth{AIM}
 are cleaner. They do what you expect them to do. Should you have to
-define READY, you can do it so:
+define \forth{READY}, you can do it so:
 \begin{Code}
 : READY  ( pad#)  DUP LOAD  AIM ;
 \end{Code}
@@ -610,7 +610,7 @@ of the ``second'' record, we add ``8'' to \forth{TABLE}.
 \wepsfiga{fig4-6}{A table of 8-byte records.}
 
 %!! include Figure 4-6 here
-
+\medbreak
 It's easy to derive a formula to achieve these results:
 %!! should be two columns, right-hand side sans-serif
 
@@ -622,6 +622,7 @@ It's easy to derive a formula to achieve these results:
 \end{tabular}
 \bigskip
 
+\noindent
 We can easily write a word which converts a record\# into the address
 where that record begins:
 
@@ -629,7 +630,7 @@ where that record begins:
 : RECORD  ( record# -- adr )
    8 *  TABLE + ;
 \end{Code}
-Thus in computer terms it makes sense to call the ``first record'' the Oth
+Thus in computer terms it makes sense to call the ``first record'' the 0th
 record.
 
 If your requirements demand that numbering start at one, that's
@@ -644,7 +645,6 @@ include the conversion from zero-to one-relative numbering:
 \begin{tip}
 Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
 \end{tip}
-
 Again, this is a convention, not a requirement of \Forth{}, but such conventions
 are essential for readable code. You'll find examples of this rule
 in the words \forthb{TYPE}, \forthb{ERASE}, and \forthb{BLANK}.
@@ -653,7 +653,6 @@ in the words \forthb{TYPE}, \forthb{ERASE}, and \forthb{BLANK}.
 Let sources precede destinations.
 \index{S!Source-precede-destination syntax rule}
 \end{tip}
-
 Another convention for readability. For instance, in some systems, the
 phrase
 \begin{Code}
@@ -670,7 +669,6 @@ source destination count &poorbf{CMOVE}
 \begin{tip}
 Avoid expectations (in the input stream).
 \end{tip}
-
 Generally try to avoid creating words that presume there will be other
 words in the input stream.
 
@@ -692,8 +690,8 @@ apparent when we visit this example again, later in the book):
      ' EXECUTE  8 OR ;
 \end{Code}
 (in fig-\Forth{}:
-\begin{Code}
-: LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;)
+\begin{Code}[commandchars=\&\{\}]
+: LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;&textrm{)}
 \end{Code}
 %!! The closing paren at the end of this code is a bit misleading.
 %!! At least a leading space and a different font should be used.
@@ -714,8 +712,10 @@ colon definition, as in:
 \end{Code}
 Even in the input stream, the use of \forth{EXECUTE} here will cause
 a crash if \forth{LIGHT} is accidentally followed by something other than a
-defined word.  The preferred technique, if you're forced to use this
-particular syntax, is to have \forth{LIGHT} set a flag, and have \forth{BLUE}
+defined word.
+
+The preferred technique, if you're forced to use this particular
+syntax, is to have \forth{LIGHT} set a flag, and have \forth{BLUE}
 determine whether that flag was set, as we'll see later on.
 
 There will be times when looking ahead in the input stream is desirable,
@@ -729,7 +729,8 @@ disappointment.
 \begin{tip}
 Let commands perform themselves.
 \end{tip}%
-\index{C!Compilers|(}
+
+\index{C!Compilers|(}%
 This rule is a corollary to ``Avoid expectations.'' It's one of
 \Forth{}'s philosophical quirks to let words do their own work. Witness
 the \Forth{} compiler (the function that compiles colon definitions),
@@ -816,7 +817,8 @@ etc.
 \end{Code}
 %!! 'etc.' should not be part of the code, should it?
 The commands of this game-building language can simply be \Forth{}
-WORDS, with \Forth{} as the interpreter.
+words, with \Forth{} as the interpreter.
+% typo: originally, ``WORDS'' was upper case. Doesn't make sense here.
 
 \item If you're working with Programmable Array Logic (PAL) devices,
 \index{P!Programmable Array Logic (PAL)}
@@ -1008,8 +1010,8 @@ etc. & &
 \end{tabular}
 \medskip
 
+\medbreak\noindent
 We could have achieved this same result with logic:
-
 \begin{Code}
 CASE
    CNTRL-D    OF  'INSERTING @  IF
@@ -1088,7 +1090,7 @@ an algorithm.
 So, let's look at the first ten Roman numerals:
 
 %!! paragraph should be sans-serif + indented
-\bigskip
+\medskip
 {\sf\begin{tabular}{r}
 I \\
 II \\
@@ -1101,7 +1103,7 @@ VIll \\
 IX \\
 X \\
 \end{tabular}}
-\bigskip
+\medskip
 
 \noindent We make a few observations. First, there's the idea of a
 tally, where we represent a number by making that many marks (3 =
@@ -1123,7 +1125,7 @@ have the whole picture yet.
 Let's study what happens above ten:
 
 %!! paragraph should be sans-serif + indented
-\bigskip
+\medskip
 {\sf\begin{tabular}{r}
 XI \\
 XII \\
@@ -1137,7 +1139,7 @@ XIX \\
 XX \\
 \end{tabular}}
 
-\bigskip
+\medskip
 \noindent This is exactly the pattern as before, with an extra ``X''
 in front. So there's a repeating cycle of ten, as well.
 
@@ -1206,25 +1208,25 @@ data structure.
 
 %!! see table on pg 123
 \bigskip
-\begin{tabular}{crccr}
-\multicolumn{2}{c}{\underline{\emph{Ones' Table}}} &
-\hbox to 3em{\hss} & \multicolumn{2}{c}{\underline{\emph{Tens' Table}}} \\
- 0 &          & &     0 & \\
- 1 &       I  & &     1 &      X \\
- 2 &      II  & &     2 &     XX \\
- 3 &     III  & &     3 &    XXX \\
- 4 &      IV  & &     4 &     XL \\
- 5 &       V  & &     5 &      L \\
- 6 &      VI  & &     6 &     LX \\
- 7 &     VII  & &     7 &    LXX \\
- 8 &    VIII  & &     8 &   LXXX \\
- 9 &      IX  & &     9 &     XC \\
+\begin{tabular}{lcrclcr}
+\multicolumn{3}{c}{\underline{\emph{Ones' Table}}} &
+\hbox to 3em{\hss} & \multicolumn{3}{c}{\underline{\emph{Tens' Table}}} \\
+& 0 &          & &    & 0 & \\
+& 1 &       I  & &    & 1 &      X \\
+& 2 &      II  & &    & 2 &     XX \\
+& 3 &     III  & &    & 3 &    XXX \\
+& 4 &      IV  & &    & 4 &     XL \\
+& 5 &       V  & &    & 5 &      L \\
+& 6 &      VI  & &    & 6 &     LX \\
+& 7 &     VII  & &    & 7 &    LXX \\
+& 8 &    VIII  & &    & 8 &   LXXX \\
+& 9 &      IX  & &    & 9 &     XC \\
 \end{tabular}
 \bigskip
 
 \subsection{Algorithm}
 
-Divide n by 10. The quotient is the tens' column digit; the remainder is
+Divide $n$ by 10. The quotient is the tens' column digit; the remainder is
 the ones' column digit. Look up the ten's digit in the tens' table and print
 the corresponding symbol pattern. Look up the ones' digit in the one's
 table and print that corresponding symbol pattern.
@@ -1334,6 +1336,7 @@ can't just say,
 Do a, b, and c. \emph{But} in such and such a case, do something different.
 \end{tfquot}
 because the computer will do a, b, and c before it knows any better.
+\medbreak
 
 Instead, we have to check whether the exceptions apply \emph{before} we
 do anything else.
@@ -1361,7 +1364,7 @@ done here.
 In \Forth{} we try to minimize our dependence on logic. But in this
 case we need the conditional \forthb{IF} because we have an exception we need to
 eliminate. Still, we've minimized the complexity of the control structure
-by limiting the number of \forthb{IF THEN}s in this definition to one.
+by limiting the number of \forthb{IF }\forthb{THEN}s in this definition to one.
 
 Yes, we still have to distinguish between the 4-case and the 9-case,
 but we've deferred that structural dimension to lower-level
@@ -1395,6 +1398,7 @@ But this approach needlessly complicates the definition by adding new
 control structures. We'll leave it like it was.
 
 Now we have a general idea of the structure of our main definition.
+
 We stated, ``If the digit is 5 or more, begin with a \forth{FIVER} and subtract
 five from the value; otherwise do nothing. Then, print as many
 \forth{ONERS} as necessary to add up to the value.''
@@ -1522,8 +1526,10 @@ thousands & M  & \\
 \end{tabular}}
 \bigskip
 
-We've observed that we also need a ``\forth{TENER}''---which is the \forth{ONER} in
-the next row below. It's as if the table should really be written:
+\noindent
+We've observed that we also need a ``\forth{TENER}''---which is the
+\forth{ONER} in the next row below. It's as if the table should really
+be written:
 
 %!! Here comes above table again, but this time with
 %!! some circles and lines in it. I have no clue how
@@ -1600,6 +1606,7 @@ or if it is not state-dependent, use:
 CREATE ROMANS  73 C,  86 C,  88 C,  76 C,
    67 C,  68 C,  77 C,
 \end{Code}
+
 We can select a particular symbol from the table by applying two
 different offsets at the same time. One dimension represents the decimal
 place: ones, tens, hundreds, etc. This dimension is made ``current,'' that

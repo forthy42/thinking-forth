@@ -173,7 +173,7 @@ as opposed to \forth{FALSE BLETCHES}?
 \index{C!Control structures:!factoring out|(}
 \index{C!Control structures:!factoring out code from within|(}
 
-Be alert to repetitions on either side of an \forthb{IF} \forthb{ELSE} \forthb{THEN}
+Be alert to repetitions on either side of an \forthb{IF }\forthb{ELSE }\forthb{THEN}
 statement. For instance:
 
 \index{E!EMIT|(}
@@ -198,10 +198,10 @@ to factor out the half-fragments. In this case, use stack arguments,
 variables, or even vectoring. We'll see how vectoring can be used in a
 section of \Chap{7} called ``Using DOER/MAKE.''
 
-Here's a reminder about factoring code from out of a \forthb{DO} \forthb{LOOP}:
+Here's a reminder about factoring code from out of a \forthb{DO }\forthb{LOOP}:
 
 \begin{tip}
-In factoring out the contents of a \forthb{DO} \forthb{LOOP} into a new
+In factoring out the contents of a \forthb{DO }\forthb{LOOP} into a new
 definition, rework the code so that \forth{I} (the index) is not
 referenced within the new definition, but rather passed as a stack
 argument to it.
@@ -245,9 +245,9 @@ discuss this technique---pros and cons---in \Chap{8}.
 
 More benign examples of factoring-out control structures include case
 statements,\index{C!Case statements} which eliminate nested
-\forthb{IF} \forthb{ELSE} \forthb{THEN}s, and multiple exit loops (the
-\forthb{BEGIN} \forthb{WHILE} \forthb{WHILE} \forthb{WHILE}
-\forthb{\dots{}} \forthb{REPEAT} construct). We'll also discuss these
+\forthb{IF }\forthb{ELSE }\forthb{THEN}s, and multiple exit loops (the
+\forthb{BEGIN }\forthb{WHILE }\forthb{WHILE }\forthb{WHILE}
+\forthb{\dots{} }\forthb{REPEAT} construct). We'll also discuss these
 topics in \Chap{8}.  \index{C!Control structures:!factoring out code
 from within|)}
 
@@ -289,7 +289,7 @@ words.
 
 Here's an improved rendition. The similar variable names have been
 factored into three data structures, and the lengthy recital of
-\forth{INIT-CH} words has been factored into a \forthb{DO} \forthb{LOOP}:
+\forth{INIT-CH} words has been factored into a \forthb{DO }\forthb{LOOP}:
 
 \begin{Code}
 : ARRAY  ( #cells -- )  CREATE  2* ALLOT
@@ -450,9 +450,9 @@ Don't let your ego take over with an ``I can lick this!'' attitude.
 
 \begin{tfquot}
 Feeling like you might have introduced a bug is one reason for
-factoring. Any time you see a doubly-nested \forthb{DO} \forthb{LOOP}, that's a
+factoring. Any time you see a doubly-nested \forthb{DO }\forthb{LOOP}, that's a
 sign that something's wrong because it will be hard to debug. Almost
-always take the inner \forthb{DO} \forthb{LOOP} and make a word.
+always take the inner \forthb{DO }\forthb{LOOP} and make a word.
 
 And having factored out a word for testing, there's no reason for
 putting it back. You found it useful in the first place. There's no
@@ -716,7 +716,7 @@ remember you are doing so only because you may want to change the
 location of the editing frame. Don't blindly replace all occurrences
 of the phrase with the new word \forth{FRAME,} because you may change the
 definition of \forth{FRAME} and there will certainly be times when you really
-want \forthb{SCR} \forthb{@} \forthb{BLOCK}.
+want \forthb{SCR }\forthb{@ }\forthb{BLOCK}.
 
 \begin{tip}
 If a repeated code fragment is likely to change in some cases but not
@@ -1105,7 +1105,7 @@ HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
 \end{figure*}
 The phrase ``\forth{HERE POINTS -}'' computes the number of x--y
 coordinates in the table: this value becomes the constant
-\forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forthb{DO} \forthb{LOOP}.
+\forth{\#POINTS}, used as the limit in \forth{DRAW}'s \forthb{DO }\forthb{LOOP}.
 \index{D!DO LOOP}
 
 This construct lets you add or subtract points from the table without
@@ -1264,7 +1264,7 @@ another untried, untested aspect of your code.
 Don't change too much at once.
 \end{tip}
 While you're editing your application---adding a new feature or fixing
-something---it's often tempting to go and fix several other things at
+something\hy---it's often tempting to go and fix several other things at
 the same time. Our advice: Don't.
 
 Make as few changes as you can each time you edit-compile. Be sure to

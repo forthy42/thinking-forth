@@ -391,7 +391,7 @@ phone bill) stack commentaries serve as nice auxiliary documentation.
 Make sure that stack effects balance out under all possible control flows.
 \end{tip}
 In the stack commentary for \forthb{CMOVE>} in \Fig{fig7-1}, the inner brace
-represents the contents of the \forthb{DO} \forthb{LOOP}. The stack depth upon exiting
+represents the contents of the \forthb{DO }\forthb{LOOP}. The stack depth upon exiting
 the loop is the same as upon entering it: one element. Within the outer
 braces, the stack result of the \forthb{IF} clause is the same as that of the
 \forthb{ELSE} clause: one element left over. (What that leftover element
@@ -472,7 +472,7 @@ foot:
    conditions.
 \item In factoring definitions, watch out that one part doesn't contain one
    return stack operator, and the other its counterpart.
-\item If used inside a \forthb{DO} \forthb{LOOP}, return stack operators must by symmetrical
+\item If used inside a \forthb{DO }\forthb{LOOP}, return stack operators must by symmetrical
    within the loop, and \forthb{I} is no longer valid in code bounded by
    \forthb{>R} and \forthb{R>}.
 \end{enumerate}
@@ -537,7 +537,7 @@ arguments are passed via the stack.
 Suppose we are implementing a word-processor editor. We need a
 routine that calculates the number of characters between the current cursor
 position and the previous carriage-return/line-feed sequence. So we
-write a word that employs a \forthb{DO} \forthb{LOOP} starting at the current position
+write a word that employs a \forthb{DO }\forthb{LOOP} starting at the current position
 (\forth{CURSOR @}) and ending at the zeroth position, searching for the line
 feed character.
 
@@ -763,10 +763,10 @@ yet many variables must somehow be restored to a natural condition.
 \person{Moore} responds to this example:
 
 \begin{tfquot}
-You really get tied up in a knot. You're creating problems for yourself. If I
-want a hex dump I say \forthb{HEX DUMP}. If I want a decimal dump I say
-\forthb{DECIMAL DUMP}. I don't give \forthb{DUMP} the privilege of messing around
-with my environment.
+You really get tied up in a knot. You're creating problems for
+yourself. If I want a hex dump I say \forthb{HEX }\forthb{DUMP}. If I
+want a decimal dump I say \forthb{DECIMAL }\forthb{DUMP}. I don't give
+\forthb{DUMP} the privilege of messing around with my environment.
 
 There's a philosophical choice between restoring a situation when you
 finish and establishing the situation when you start. For a long time I felt
@@ -900,7 +900,7 @@ execute \forth{VISIBLE} to restore things to the normal state.
 This works fine.
 
 Later I add the table-of-contents feature. First the code executes
-\forth{INVISIBLE}, then runs through the document determining page
+\forth{IN\-VI\-SI\-BLE}, then runs through the document determining page
 numbers etc.; then finally executes \forth{VISIBLE} to restore things
 to normal.
 
@@ -1241,14 +1241,14 @@ When you invoke \forth{LEFTWING}, for example, \forth{MAKE} redirects
 to be printed. \Fig{fig7-7} demonstrates this point, using a
 conceptualized illustration of the dictionary.
 
-\wtexfigt{fig7-7}{DOER and MAKE.}
+\wtexfigt{fig7-7}{\forth{DOER} and \forth{MAKE}.}
 
 If you want to \emph{continue} execution, you can use the word \forthb{;AND} in
 place of semicolon. \forthb{;AND} terminates the code that the \forthb{DOER} word
 points to, and resumes execution of the definition in which it appears, as
 you can see in \Fig{fig7-8}.
 
-\wtexfigt{fig7-8}{Multiple MAKEs in parallel using ;AND.}
+\wtexfigt{fig7-8}{Multiple \forth{MAKE}s in parallel using \forth{;AND}.}
 
 %!! include \Fig{fig7-7 here
 
@@ -1257,7 +1257,7 @@ Finally, you can chain the ``making'' of \forthb{DOER} words in series by
 not using \forthb{;AND}. \Fig{fig7-9} explains this better than I could write about it.%
 \index{V!Vectored Execution|)}
 
-\wtexfigt{fig7-9}{Multiple MAKEs in series.}
+\wtexfigt{fig7-9}{Multiple \forth{MAKE}s in series.}
 
 \section{Using DOER/MAKE}
 
@@ -1299,12 +1299,12 @@ format the output according to bytes, not cells:
 
 The code within these two definitions is identical except for the fragments
 in boldface. But factoring is difficult because the fragments occur inside the
-\forthb{DO} \forthb{LOOP}.
+\forthb{DO }\forthb{LOOP}.
 
 Here's a solution to this problem, using
 \forthb{DOER}/\forthb{MAKE}. The code that changes has been replaced
 with the word \forth{.UNIT}, whose behavior is vectored by the code in
-\forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forthb{1} \forthb{+LOOP}''
+\forth{DUMP} and \forth{CDUMP}. (Recognize that ``\forthb{1 }\forthb{+LOOP}''
 has the same effect as ``\forthb{LOOP}''.)
 
 %!! does \textbf{} work inside verbatim blocks? It better should...
