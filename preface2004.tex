@@ -36,14 +36,14 @@ derived from classes that each had their own implementation of common
 methods. The objects ``knew'' information about themselves, which made
 code that called them simpler. But these were still just \Forth{}
 constructs, and the syntax was still \Forth{}. It wasn't Java written
-in \Forth{}. There was no need for garbage collection, etc. So I won't
+in \Forth{}. There was no need for garbage collection, etc. I won't
 apologize now for my apology then, but please know that I didn't mean
 to sell out in favor of full-blown object oriented languages.
 
-In the past few years, some people have noted parallels between
-\emph{Thinking \Forth{}} and Extreme Programming. For example, emphasis on
-iterative development, incrementally enhancing code that ``works'', and
-not over-solving the problem, and so on.
+Some people have noted parallels between \emph{Thinking \Forth{}} and
+Extreme Programming. For example, emphasis on iterative development,
+incrementally enhancing code that ``works'', and not over-solving the
+problem, and so on.
 
 But in my opinion, Extreme Programming seems to miss an important step
 in the software development lifecycle: the design of the conceptual
@@ -56,12 +56,14 @@ I define the conceptual model as the representation of how the
 software \emph{appears} to work. The conceptual model is not just a
 restatement of the requirements. It is the result of carefully
 analyzing the top-level requirements and creatively addressing them in
-a design that will make sense to the user. An example is the ``shopping
-basket'' construct in a commerce application. The conceptual design
-forms the basis for a second tier of requirements and drives use cases
-describing user/system interactions. This second tier of requirements
-definitions then drives the technical design and implementation, or how
-the software actually works.
+a design that will make sense to the user. An example is the
+``shopping basket'' construct in a commerce application. The
+conceptual design forms the basis for a second tier of requirements
+and drives use cases describing user/system interactions. This second
+tier of requirements then drives the technical design and
+implementation, or how the software actually works. The conceptual
+model is designed collaboratively by the program manager, developers,
+and business owners.
 
 What I've read about Extreme Programming seems to instead assume that
 requirements directly drive the implementation. In my career, I've

@@ -345,8 +345,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
                 \item\relax}
                {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
 \newenvironment{interview*}
-               {\ifhmode\unskip\unskip\par\medskip\else\medskip\fi
-		 \list{}{\listparindent 2.5em%
+               {\list{}{\listparindent 2.5em%
                         \itemindent    0pt
                         \leftmargin    0pt
 			\topsep        0pt
@@ -419,8 +418,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
   \pagebreak
   \vspace*{1.7in}\blackline{10pt}
 }\stepcounter{appendix}}
-\def\@makeschapterhead#1{{\HUGE
-%    \sffamily
+\def\@makeschapterhead#1{\ifofour\thispagestyle{headings}\fi{\HUGE
     \fontfamily{phv}\selectfont\bfseries\slshape
     \parindent 0pt
   \vbox{{\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}%

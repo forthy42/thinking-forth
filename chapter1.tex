@@ -7,11 +7,12 @@
 
 \chapter{The~Philosophy of~\Forth{}}\Chapmark{1}
 
-\expandafter\initial\Forth{} is a language and an operating system. But that's not all;
-It's also the embodiment of a philosophy. The philosophy is not
-generally described as something apart from \Forth{}. It did not
-precede \Forth{}, nor is it described anywhere apart from discussions
-of \Forth{}, nor does it even have a name other than ``\Forth{}.''
+\expandafter\initial\Forth{} is a language and an operating
+system. But that's not all: It's also the embodiment of a
+philosophy. The philosophy is not generally described as something
+apart from \Forth{}. It did not precede \Forth{}, nor is it described
+anywhere apart from discussions of \Forth{}, nor does it even have a
+name other than ``\Forth{}.''
 
 What is this philosophy? How can you apply it to solve your software
 problems?
@@ -85,7 +86,7 @@ contents of Register C into the contents of Register A.''
 This proved a bit tedious.
 
 Tedium being the stepmother of invention, some clever programmers
-realized that the computer itself could be used to help.  so they
+realized that the computer itself could be used to help.  So they
 wrote a program that translated easy-to-remember
 abbreviations\index{M!Mnemonics|(} into the hard-to-remember bit
 patterns. The new language looked something like this:
@@ -312,7 +313,7 @@ starting with the most general, overall module and working down to the
 nitty-gritty modules.
 
 Proponents of top-down design have witnessed shameful wastes of time
-due to lack of planning, They've learned through painful experience
+due to lack of planning. They've learned through painful experience
 that trying to correct programs after they've been written---a
 practice known as ``patching''\hy---is like locking the barn door after
 the horse has bolted.
@@ -675,13 +676,13 @@ Programs that ignore this maxim are guilty of redundancy. While
 hardware redundancy (backup computers, etc.) can make a system more
 secure, redundancy of information is dangerous.
 
-As any knowledgeable programmer will tell you, a number that a program
-uses and that might conceivably change should be made into a ``constant''
-and referred to throughout the program by name, not by value. For
-instance, the number of columns representing the width of your computer
-paper forms should be expressed as a constant. Even assembly languages
-provide ``\code{EQU}''s and labels for associating values such as
-addresses and bit-patterns with names.
+As any knowledgeable programmer will tell you, a number that might
+conceivably change in future versions of the program should be made
+into a ``constant'' and referred to throughout the program by name,
+not by value. For instance, the number of columns representing the
+width of your computer paper forms should be expressed as a
+constant. Even assembly languages provide ``\code{EQU}''s and labels
+for associating values such as addresses and bit-patterns with names.
 
 Any good programmer will also apply the concept of information-hiding to
 the development of subroutines, ensuring that each module knows as little
