@@ -303,7 +303,7 @@ Keep definitions short.
 \end{tip}
 
 \begin{interview}
-We asked Moore,\index{M!Moore, Charles|(}
+We asked \person{Moore},\index{M!Moore, Charles|(}
 ``How long should a \Forth{} definition be?''
 
 \begin{tfquot}
@@ -315,7 +315,7 @@ Short words give you a good feeling.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
 
-An informal examination of one of Moore's applications shows that he averages seven references, including both words and numbers, per definition. These are remarkably short definitions. (Actually his code was divided about 50-50 between one-line and two-line definitions.)
+An informal examination of one of \person{Moore}'s applications shows that he averages seven references, including both words and numbers, per definition. These are remarkably short definitions. (Actually his code was divided about 50-50 between one-line and two-line definitions.)
 
 Psychological tests have shown that the human mind can only focus its conscious attention on seven things, plus or minus two, at a time \cite{miller56}. Yet all the while, day and night, the vast amounts of data, making connections and associations and solving problems.
 
@@ -335,7 +335,7 @@ Factor at the point where you feel unsure about your code (where complexity appr
 Don't let your ego take over with an ``I can lick this!'' attitude. \Forth{} code should never feel uncomfortably complex. Factor!
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 Feeling like you might have introduced a bug is one reason for factoring. Any time you see a doubly-nested \textbf{DO LOOP}, that's a sign that something's wrong because it will be hard to debug. Almost always take the inner \textbf{DO LOOP} and make a word.
@@ -371,7 +371,7 @@ The second reason for factoring, to eliminate repeated fragments of cade, is eve
 \end{tip}
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 When a word is just a piece of something, it's useful for clarity or debugging, but not nearly as good as a word that is used multiple times. Any time a word is used only once you want to question its value.
@@ -427,7 +427,7 @@ Be sure you can name what you factor.
 \end{tip}
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 If you have a concept that you can't assign a single name to , not a hyphenated name, but a name, it's not a well-formed concept. The ability to assign a name is a necessart part of decomposition. Certainly you get more confidence in the idea.
@@ -715,7 +715,7 @@ Another commonly seen phrase is
 It's a little tempting to seize upon these phrases and turn them into words, such as (for the first phrase RANGE.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 That particular phrase \textbf{[OVER + SWAP]} is one that's right on the margin of being a useful word. Often, though if you define something as a word, it turns out you use it only once. If you name such a phrase, you have trouble knowing exactly what RANGE does. You can't see the manipulation in your mind. \textbf{OVER + SWAP} has greater mnemonic value than RANGE.
@@ -963,7 +963,7 @@ Don't try to anticipate ways to factor too early.
 Some people wonder why most \Forth{} systems don't include the defintion word ARRAY. This rule is the reason.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 I often have a class of things called arrays. The simplest arrray
 merely adds a subscript to an address and gives you back an
@@ -1019,7 +1019,7 @@ Today, make it work. Tomorrow, optimize it.
 \end{tip}
 
 \begin{interview}
-Again Moore.\index{M!Moore, Charles|(} On the day of this interview, Moore had been completing work on the design of a board-level \Forth{} computer, using commercially available ICs. As part of his toolkit for designing the board, he created a simulator in \Forth{}, to test the board's logic:
+Again \person{Moore}.\index{M!Moore, Charles|(} On the day of this interview, \person{Moore} had been completing work on the design of a board-level \Forth{} computer, using commercially available ICs. As part of his toolkit for designing the board, he created a simulator in \Forth{}, to test the board's logic:
 
 \begin{tfquot}
 This morning I realized I've been mixing the descriptions of the chips with the placement of the chips on the board. This perfectly convenient for my purposes at the moment, but when I come up with another board that I want to use the same chips for, I have arranged things very badly.

@@ -48,6 +48,8 @@ MD = mkdir
 RD = rm -rf
 
 TOGETHER = 20 # how many pages you bind together - divide by 4
+PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
+PSLET = sed -e 's/%%BoundingBox:.*/%%PageSize: letter\n%%Orientation: Landscape/'
 
 all:	index pspdf ps
 
@@ -66,20 +68,22 @@ booka4 : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
 	psnup -c -2 -w$(WIDTH)in -h$(HEIGHT)in | \
 	psresize -W$(WIDTH)in -H$(HEIGHT)in -w210mm -h297mm | \
-	sed -e 's/%%BoundingBox:.*/%%PageSize: a4/' >tf-a4.ps
+	$(PSA4) >tf-a4.ps
 	ps2pdf tf-a4.ps tf-a4.pdf
 
 bookletter : thinking-forth.ps
 	psbook -s$(TOGETHER) <$< | \
 	psnup -2 -w$(WIDTH)in -h$(HEIGHT) | \
 	psresize -W$(WIDTH)in -H$(HEIGHT)in -w8.5in -h11in | \
-	sed -e 's/%%BoundingBox:.*/%%PageSize: letter/' >tf-letter.ps
+	$(PSLET) >tf-letter.ps
 	ps2pdf tf-letter.ps tf-letter.pdf
 
 #two pages on one A4/Letter page, for printing with Laser printer and
 #using an A4/Letter binding machine (print with long-edge
 2on1.ps: thinking-forth.ps
-	pstops '2:0L@0.9(21.5cm,0)+1L@0.9(21.5cm,12.5cm)' $< $@
+	psselect -p2- $< | \
+	pstops '2:0L@0.9(21.5cm,-0.5cm)+1L@0.9(21.5cm,14.5cm)' | \
+	$(PSA4) >$@
 
 thinking-forth.pdf : thinking-forth.ps
 	ps2pdf thinking-forth.ps thinking-forth.pdf

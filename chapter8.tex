@@ -44,7 +44,7 @@ breaking down. And the harder it is for someone to fix.
 
 %!! horizontal line
 \begin{interview}
-Moore\index{M!Moore, Charles|(} tells this story:
+\person{Moore}\index{M!Moore, Charles|(} tells this story:
 \begin{tfquot}
 I recently went back to a company we had done some work for several years
 ago. They called me in because their program is now five years old, and it's
@@ -283,7 +283,7 @@ The \Forth{} dictionary is a giant string case statement. The match and
 execute functions are hidden within the \Forth{} system.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 In my accounting package, if you receive a check from somebody, you type
 the amount, the check number, the word FROM, and the person's name:
@@ -582,7 +582,7 @@ but not part of the system.
 The right looping structure can eliminate extra conditionals.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 Many times conditionals are used to get out of loops. That particular use
 can be avoided by having loops with multiple exit points.
@@ -773,7 +773,7 @@ We can rid ourselves of a decision, and simply compute:
 n  a b <  45 AND  +
 \end{Code}
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 The ``45 AND'' is faster than the IF, and certainly more graceful. It's
 simpler. If you form a habit of looking for instances where you're
@@ -1156,7 +1156,7 @@ simple addition to offset into the table and get the answer.
 In general, addition is much faster than multiplication.
 
 \begin{interview}
-Moore\index{M!Moore, Charles|(} provides another example:
+\person{Moore}\index{M!Moore, Charles|(} provides another example:
 \begin{tfquot}
 If you want to compute trig functions, say for a graphics display, you don't
 need much resolution. A seven-bit trig function is probably plenty. A table
@@ -1172,7 +1172,7 @@ and avoiding the table lookup.
 \begin{tip}
 One change at the bottom can save ten decisions at the top.
 \end{tip}
-In our interview with Moore\index{M!Moore, Charles} at
+In our interview with \person{Moore}\index{M!Moore, Charles} at
 the beginning of the chapter, he mentioned
 that much conditional testing could have been eliminated from an
 application if it had been redesigned so that there were two words instead
@@ -1215,7 +1215,7 @@ responsibility for not exceeding the limits of the called component.
 Reexamine the algorithm.
 \end{tip}
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 A lot of conditionals arise from fuzzy thinking about the problem. In
 servo-control theory, a lot of people think that the algorithm for the servo
@@ -1243,7 +1243,7 @@ trouble you won't have to continually test whether the user has gotten
 into trouble.
 
 \begin{interview}
-Moore:
+\person{Moore}:
 \begin{tfquot}
 Another good example is writing assemblers. Very often, even though an
 opcode may not have a register associated with it, pretending that it has a
@@ -1315,7 +1315,7 @@ only way to produce the ASCII value is by matching patterns in a lookup
 table.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 The 68000 assembler is another example you can break your heart over,
 looking for a good way to express those op-codes with the minimal number
@@ -1349,7 +1349,7 @@ side effect. But the disciplined use of the structured exit can actually
 simplify code, and thereby improve readability and maintainability.
 
 \begin{interview}
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 \begin{tfquot}
 More and more I've come to favor R> DROP to alter the flow of control.
 It's similar to the effect of an \textbf{ABORT"}, which has an \textbf{IF THEN}
@@ -1400,7 +1400,7 @@ The use of \textbf{EXIT} here is more efficient, saving two bytes and extra
 code to perform, but it is not as readable.
 
 \begin{interview}
-Moore\index{M!Moore, Charles|(} comments on the value, and danger, of this technique:
+\person{Moore}\index{M!Moore, Charles|(} comments on the value, and danger, of this technique:
 \begin{tfquot}
 Especially if your conditionals are getting elaborate, it's handy to jump out
 in the middle without having to match all your \textbf{THEN}s at the end. In one
@@ -1710,10 +1710,10 @@ code is so simple it's impossible not to understand.
 
 When I first wrote these commands, I took the English-like approach.
 ``BLUE LIGHT'' sounded backwards, not at all acceptable. That
-was before my conversations with Chuck Moore\index{M!Moore, Charles|(}.
+was before my conversations with \person{Chuck Moore}\index{M!Moore, Charles|(}.
 
 \begin{interview}
-Moore's philosophy is persuasive:
+\person{Moore}'s philosophy is persuasive:
 \begin{tfquot}
 I would distinguish between reading nicely in English and reading nicely.
 In other languages such as Spanish, adjectives follow nouns. We should be
@@ -1725,7 +1725,7 @@ not such a superb language that we should follow it slavishly.
 \end{interview}
 If I were selling my ``colors'' words in a package for graphic artists, I
 would take the trouble to create the flag. But writing these words for my
-own use, if I had to do it over again, I'd favor the Moore-ish influence,
+own use, if I had to do it over again, I'd favor the \person{Moore}-ish influence,
 and use ``BLUE LIGHT.''
 
 \section{Summary}
@@ -1763,8 +1763,8 @@ Dimensions} II/3, p. 37.
 \section{For Further Thinking}
 
 \begin{enumerate}
-\item You have the word CHOOSE which takes an argument ``n'' and returns a
-random number between 0 and n-1. The result is always positive or zero.
+\item You have the word CHOOSE which takes an argument ``$n$'' and returns a
+random number between 0 and $n-1$. The result is always positive or zero.
 You can use CHOOSE to produce a flag; the phrase
 \begin{Code}
 2 CHOOSE
@@ -1772,5 +1772,5 @@ You can use CHOOSE to produce a flag; the phrase
 produces a random flag of zero or one (false or true).
 
 \item Write a phrase to choose a number at random between 0 and 19 (inclusive)
-\emph{or} between -20 and 0.
+\emph{or} between $-20$ and 0.
 \end{enumerate}

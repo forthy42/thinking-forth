@@ -594,7 +594,7 @@ change in plan won't have so disastrous an effect.
 \index{F!\Forth{}!information-hiding|(}
 \index{I!Information-hiding|(}
 \index{S!Structured programming!information-hiding|(}
-In a paper \cite{parnas72} published back in 1972, Dr. David L. Parnas
+In a paper \cite{parnas72} published back in 1972, Dr. \person{David L. Parnas}
 \index{P!Parnas, David} showed
 that the criteria for decomposing modules should not be steps in the
 process, but rather pieces of information that might possibly change.
@@ -646,7 +646,7 @@ To apply the principle of information-hiding to software, certain
 details of the program should be confined to a single location, and
 any useful piece of information should be expressed only once.
 Programs that ignore this maxim are guilty of redundancy. While
-hardware redundancy (backup computers, etc. ) can make a system more
+hardware redundancy (backup computers, etc.) can make a system more
 secure, redundancy of information is dangerous.
 
 As any knowledgeable programmer will tell you, a number that a program
@@ -663,7 +663,7 @@ little as possible about the insides of other modules. Contemporary
 programming languages such as C, Modula 2, and Edison apply this
 concept to the architecture of their procedures.
 
-But Parnas
+But \person{Parnas}
 \index{P!Parnas, David}
 takes the idea much further. He suggests that the concept should be
 extended to algorithms and data structures.  In fact, hiding
@@ -676,7 +676,7 @@ the primary basis for design!
 
 \section{The Superficiality of Structure}
 \index{S!Structured programming!new view of|(}
-Parnas\index{P!Parnas, David} proposes two criteria for decomposition:
+\person{Parnas}\index{P!Parnas, David} proposes two criteria for decomposition:
 
 \begin{enumerate}
 \item[a.] possible (though currently unplanned) reuse, and
@@ -699,7 +699,7 @@ the application. The procedures are considered to be a single module
 because they are interdependent. You can't change the method for
 pushing a value without also changing the method for popping a value.
 
-The word \emph{uses} plays an important role in this concept.  Parnas
+The word \emph{uses} plays an important role in this concept.  \person{Parnas}
 \index{P!Parnas, David|(}
 writes in a later paper \cite{parnas79}:
 
@@ -810,7 +810,7 @@ while providing a simple mechanism for passing local arguments.
 invoked and \emph{how} data are passed. What's left? Only the words
 that describe our problem.
 
-Having words, we can fully exploit the recommendations of Parnas---
+Having words, we can fully exploit the recommendations of \person{Parnas}---
 \index{P!Parnas, David}
 to decompose problems according to things that may change, and have
 each ``module'' consist of many small functions, as many as are needed
@@ -1009,7 +1009,7 @@ each component.
 control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to \Forth{} has been implemented, in only three lines
-of code, by Dewey Val Shorre \cite{shorre71}.)
+of code, by\person{ Dewey Val Shorre} \cite{shorre71}.)
 \index{I!Information-hiding|)}
 \index{F!\Forth{}!information-hiding|)}
 
@@ -1155,7 +1155,7 @@ Before we answer, let's explore the advantages of the \Forth{} approach.
 
 %ARN - the original didn't have the inteview bar here
 \begin{interview}
-Here's what Charles Moore,
+Here's what \person{Charles Moore},
 \index{M!Moore, Charles}
 the inventor of \Forth{}, has to say:
 
@@ -1453,31 +1453,31 @@ language, if such a thing is possible, will more closely resemble
 
 
 \begin{references}{99}
-\bibitem{dahl72} O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare,
+\bibitem{dahl72} \person{O.J. Dahl},\person{ E.W. Dijkstra}, and \person{C.A.R. Hoare},
 \emph{Structured Programming,} London, Academic Press, 1972.
-\bibitem{wirth71} Niklaus Wirth, ``Program Development by Stepwise
+\bibitem{wirth71} \person{Niklaus Wirth}, ``Program Development by Stepwise
 Refinement,'' \emph{Communications of ACM,} 14, No. 4 (1971), 221-27.
-\bibitem{stevens74-1} W.P. Stevens, G.J. Myers, and L.L. Constantine,
+\bibitem{stevens74-1} \person{W.P. Stevens}, \person{G.J. Myers}, and \person{L.L. Constantine},
 ``Structured Design,'' \emph{IBM Systems Journal,} Vol. 13, No. 2, 1974.
-\bibitem{parnas72} David L. Parnas, ``On the Criteria To Be Used in
+\bibitem{parnas72} \person{David L. Parnas}, ``On the Criteria To Be Used in
 Decomposing Systems into Modules,'' \emph{Communications of the ACM,}
 December 1972.
-\bibitem{liskov75} Barbara H. Liskov and Stephen N. Zilles,
+\bibitem{liskov75} \person{Barbara H. Liskov} and \person{Stephen N. Zilles},
 ``Specification Techniques for Data Abstractions,'' \emph{IEEE
 Transactions on Software Engineering,} March 1975.
-\bibitem{parnas79} David L. Parnas, ``Designing Software for Ease of
+\bibitem{parnas79} \person{David L. Parnas}, ``Designing Software for Ease of
 Extension and Contraction,'' \emph{IEEE Transactions on Software
 Engineering,} March 1979.
-\bibitem{shorre71} Dewey Val Shorre, ``Adding Modules to FORTH,''
+\bibitem{shorre71} \person{Dewey Val Shorre}, ``Adding Modules to FORTH,''
 1980 FORML Proceedings, p. 71.
-\bibitem{bern83} Mark Bernstein, ``Programming in the Laboratory,''
+\bibitem{bern83} \person{Mark Bernstein}, ``Programming in the Laboratory,''
   unpublished paper, 1983.
-\bibitem{bell72} James R. Bell, ``Threaded Code,'' \emph{Communications
+\bibitem{bell72} \person{James R. Bell}, ``Threaded Code,'' \emph{Communications
 of ACM,} Vol. 16, No. 6, 370-72.
-\bibitem{dewar} Robert B.K. DeWar, ``Indirect Threaded Code,''
+\bibitem{dewar} \person{Robert B.K. DeWar}, ``Indirect Threaded Code,''
 \emph{Communications of ACM,} Vol. 18, No. 6, 331.
-\bibitem{kogge82} Peter M. Kogge, ``An Architectural Trail to
+\bibitem{kogge82} \person{Peter M. Kogge}, ``An Architectural Trail to
 Threaded-Code Systems,'' \emph{Computer,} March, 1982.
-\bibitem{dumse} Randy Dumse, ``The R65F11 FORTH Chip,'' \emph{FORTH
+\bibitem{dumse} \person{Randy Dumse}, ``The R65F11 FORTH Chip,'' \emph{FORTH
 Dimensions,} Vol. 5, No. 2, p. 25.
 \end{references}

@@ -339,9 +339,9 @@ HISTORY  -
 %!!</Figure>
 %Page 142 in first edition.
 
-Charles Moore\index{M!Moore, Charles|(} (no relation to Moore Products
+\person{Charles Moore}\index{M!Moore, Charles|(} (no relation to Moore Products
 Co.) places less importance on the well-organized hierarchical listing
-than I do.  Moore:
+than I do.  \person{Moore}:
 
 \begin{tfquot}
 I structure \emph{applications} hierarchically, but not necessarily
@@ -690,7 +690,7 @@ R> BASE !
 Some folks make it a policy to use this approach on any screen that
 changes BASE\index{B!BASE}, so they don't have to worry about it.
 
-Moore\index{M!Moore, Charles} prefers to define LOAD to
+\person{Moore}\index{M!Moore, Charles} prefers to define LOAD to
 invoke DECIMAL after loading.
 This approach simplifies the screen's contents because you don't have to
 worry about resetting.
@@ -744,13 +744,16 @@ definitions
 
 The last position of each line should be blank except for:
 %!!<ENUMERATION>
-%% special case: uses a) and b), despite top level
-\makeatletter\advance\@enumdepth\@ne
+%% special case: uses second level without outer level
+\begin{enumerate}
+%%!!!this is to avoid an error for a
+\makeatletter\@newlistfalse\makeatother
+%%!!!
 \begin{enumerate}
 \item quoted strings that continue onto the next line, or
 \item the end of a comment.
 \end{enumerate}
-\advance\@enumdepth\m@ne\makeatother
+\end{enumerate}
 %!!</ENUMERATION>
 A comment that begins with $\backslash$ may continue right to the end of the line.
 Also, a comment that begins with ( may have its delimiting right parenthesis
@@ -758,7 +761,8 @@ in the last column.
 
 Here are some common errors of spacing and indentation:
 
-\emph{Bad}(name not separated from the body of the definition):
+\bigskip\noindent
+\emph{Bad} (name not separated from the body of the definition):
 \begin{Code}
 : PUSH HEAVE HO ;
 \end{Code}
@@ -1524,7 +1528,7 @@ or
 \begin{Code}
 ASSEMBLER WORDS
 \end{Code}
-On the other hand, Moore\index{M!Moore, Charles} points out that inappropriate names can
+On the other hand, \person{Moore}\index{M!Moore, Charles} points out that inappropriate names can
 become a simple technique for encryption.  If you need to provide security
 when you're forced to distribute source, you can make your code very
 unreadable by deliberately choosing misleading names.  Of course, maintenance
@@ -1557,7 +1561,7 @@ SAY HELLO
 %!!<INDENT3LEVELS>
 SAY is the perfect choice for vectoring HELLO into an
 execution variable.  (When I first wrote this example
-for Starting \Forth{}, I called it VERSION.  Moore\index{M!Moore, Charles|(}
+for Starting \Forth{}, I called it VERSION.  \person{Moore}\index{M!Moore, Charles|(}
 reviewed the manuscript and suggested SAY, which is
 clearly much better.)
 %!!</INDENT3LEVELS>
@@ -1569,7 +1573,7 @@ The word I'M seems more natural than LOGON HARRY,
 LOGIN HARRY or SESSION HARRY, as often seen.
 %!!</INDENT3LEVELS>
 %!!<SMALLPRINT>
-The choice of I'M is another invention of Moore, who says:
+The choice of I'M is another invention of \person{Moore}, who says:
 
 I detest the word LOGON.  There is no such word in English.  I was looking
 for a word that said, ``I'm. ...'' It was a natural.  I just stumbled across it.
@@ -1582,7 +1586,7 @@ you think of the right word, it is obviously the right word.
 If you have a wide recall vocabulary, you're in a better position to come up
 with the right word.
 %!!</SMALLPRINT>
-Another of Moore's favorite words is TH, which he uses as an array indexing
+Another of \person{Moore}'s favorite words is TH, which he uses as an array indexing
 word.  For instance, the phrase
 \begin{Code}
 5 TH
@@ -1659,7 +1663,7 @@ Hyphenated names may be a sign of bad factoring.
 \end{tip}
 %Page 168 in first edition.
 
-Moore:\index{M!Moore, Charles|(}
+\person{Moore}:\index{M!Moore, Charles|(}
 
 \begin{tfquot}
 There are diverging programming styles in the \Forth{} community.  One
@@ -1852,7 +1856,7 @@ WITHIN returns true if ``n'' is \emph{greater-than} or \emph{equal-to} ``lo'' an
 %% Note: AH : the original text has greater-then not slanted. Considered a typo.
 of DO LOOPs.
 
-Moore\index{M!Moore, Charles} recommends the word UNDER+.  It's useful for adding a
+\person{Moore}\index{M!Moore, Charles} recommends the word UNDER+.  It's useful for adding a
 value to the number just under the top stack item, instead of to the top
 stack item.  It could be implemented in high level as:
 \begin{Code}
