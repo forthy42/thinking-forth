@@ -424,12 +424,12 @@ Here are our revised procedure names. The commands just added
 are in boldface:
 
 %!! "KEY# EMIT" and "RETYPE" in boldface
-\begin{Code}
-: OVERWRITE KEY# POSITION C! KEY# EMIT FORWARD ;
-: RETYPE ( type from current position to
-   end of field and reset cursor) ;
-: INSERT SLIDE> RETYPE OVERWRITE ;
-: DELETE SLIDE< BLANK-END RETYPE ;
+\begin{Code}[commandchars=\&\{\}]
+: OVERWRITE  KEY# POSITION C!  &poorbf{KEY# EMIT}  FORWARD ;
+: &poorbf{RETYPE  ( type from current position to}
+   &poorbf{end of field and reset cursor) ;}
+: INSERT   SLIDE>  &poorbf{RETYPE}  OVERWRITE ;
+: DELETE   SLIDE<  BLANK-END  &poorbf{RETYPE} ;
 \end{Code}
 Since these are the only three functions that change memory, they are
 the only three functions that need to refresh the screen. This idea is
@@ -647,8 +647,8 @@ buffers are defined with \forthb{CREATE}, the count is an ordinary
 \forthb{VARIABLE}, and the attribute patterns are defined as
 \forthb{CONSTANT}s, such as:
 \begin{Code}
-1 CONSTANT UNDERNESS ( bit mask for underlining)
-2 CONSTANT BOLDNESS ( bit mask for boldface)
+1 CONSTANT UNDERNESS  ( bit mask for underlining)
+2 CONSTANT BOLDNESS  ( bit mask for boldface)
 \end{Code}
 The formatting component uses phrases like \forth{UNDERNESS SET-FLAG}
 to set bits in the attribute buffer. The output component uses phrases
