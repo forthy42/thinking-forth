@@ -705,16 +705,23 @@ and indenting style.  Whitespace, appropriately used, lends readability.
 There's no penalty for leaving space in source screens except disk
 memory, which is cheap.
 
-For those who like their conventions in black and white, \ref{tab-5-1} is
+For those who like their conventions in black and white, Table \ref{tab-5-1} is
 a list of guidelines.  (But remember, \Forth{}'s interpreter couldn't care
 less about spacing or indentation.)
+
 %!!<TABLE>
-\begin{table}
+\begin{table}[bbbb]
 \caption{Indentation and spacing guidelines}
 \label{tab-5-1}
-
+\medskip\blackline{0pt}\medskip
+\begin{minipage}{\textwidth}
+\begin{quote}
 1 space between the colon and the name\\
-2 spaces between the name and the comment\footnotemark[1]\\
+2 spaces between the name and the comment\footnote{An often-seen
+alternative calls for 1 space between the name and comment and 3
+between the comment and the definition.  A more liberal technique uses
+3 spaces before and after the comment.  Whatever you choose, be
+consistent.}\\
 2 spaces, or a carriage return, after the comment and before the definition\footnotemark[1]\\
 3 spaces between the name and definition if no comment is used\\
 3 spaces indentation on each subsequent line (or multiples of 3 for nested
@@ -722,31 +729,32 @@ indentation)\\
 1 space between words/numbers within a phrase\\
 2 or 3 spaces between phrases\\
 1 space between the last word and the semicolon\\
-1 space between semicolon and IMMEDIATE (if invoked)\\
-
+1 space between semicolon and IMMEDIATE (if invoked)
+\end{quote}
 No blank lines between definitions, except to separate distinct groups of
 definitions
 
 %% Note: AH: Again type writer style footnotes.
+\end{minipage}
+\medskip\blackline{0pt}
 \end{table}
 %!!</TABLE>
+
 %Page 149 in first edition.
 
 The last position of each line should be blank except for:
 %!!<ENUMERATION>
+%% special case: uses a) and b), despite top level
+\makeatletter\advance\@enumdepth\@ne
 \begin{enumerate}
-\item[(a)] quoted strings that continue onto the next line, or
-\item[(b)] the end of a comment.
+\item quoted strings that continue onto the next line, or
+\item the end of a comment.
 \end{enumerate}
+\advance\@enumdepth\m@ne\makeatother
 %!!</ENUMERATION>
 A comment that begins with $\backslash$ may continue right to the end of the line.
 Also, a comment that begins with ( may have its delimiting right parenthesis
 in the last column.
-
-\footnotetext[1]{An often-seen alternative calls for 1 space between
-the name and comment and 3 between the comment and the definition.  A
-more liberal technique uses 3 spaces before and after the comment.
-Whatever you choose, be consistent.}
 
 Here are some common errors of spacing and indentation:
 

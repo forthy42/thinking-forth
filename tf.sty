@@ -72,12 +72,12 @@
 \caption{#2}\labelfig{#1}eps file missing\end{figure}}
 
 \newcommand{\wepsfiga}[2]{
-\begin{figure*}[hhhh]
+\begin{figure}[hhhh]
 \caption{#2}
 \vspace{1ex}
 \centerline{\includegraphics{#1}}\vspace{1ex}
 \labelfig{#1}
-\end{figure*}
+\end{figure}
 }
 \newcommand{\wepsfigt}[2]{
 \begin{figure*}[tttt]
@@ -142,6 +142,11 @@
 \labelfig{#1}
 \end{figure*}
 }
+
+%% footnotes
+
+\renewcommand\thefootnote{\fnsymbol{footnote}} 
+\renewcommand\thempfootnote{*} 
 
 %% Only caption and label for figures with code
 
