@@ -64,7 +64,7 @@
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Chapmark}[1]{{\def\@currentlabel{\refchapter}\label{chapter-#1}}}
 \newcommand{\Chap}[1]{Chapter \ref{chapter-#1}}
-\newcommand{\App}[1]{\ref{chapter-#1}}
+\newcommand{\App}[1]{Appendix \ref{chapter-#1}}
 
 % Hurenkinder und Schusterjungen verbieten
 
@@ -198,25 +198,46 @@
 
 \newcounter{tipc}[chapter]
 
+\def\tipno{\thechapter.\arabic{tipc}}
+
+\iftip
+\newrgbcolor{midgreen}{.25 .62 .25}
+\newrgbcolor{lightgreen}{.9 .95 .9}
+\newgray{lightgrey}{.7}
+
+\def\tipbox{\@tempdima\ht\@tempboxa
+\hbox to \linewidth{\leavevmode%
+\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+\else\hss\hbox{\hss
+\vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\vss}~}\fi
+\psshadowbox*[fillcolor=lightgreen,linecolor=midgreen,shadowcolor=lightgrey,cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,shadowsize=3pt]{\unhbox\@tempboxa}%
+\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+~\vbox to \@tempdima{\hbox{\includegraphics{pointing-l}}\vss}\hss%
+\else
+\hbox to 2.5em{\hss}%
+\fi
+}
+}
+
+\else
+
+\def\tipbox{\indent\begin{minipage}{\linewidth}\blackline{1.5ex}
+\unhbox\@tempboxa
+\vspace{1.5ex}\blackline{0pt}\end{minipage}}
+
+\fi
+
 \newenvironment{tip}{
-\ifhmode\unskip\unskip \par\bigskip\else\bigskip\fi
-\advance\linewidth-2.5em
-\noindent
+\list{}{\listparindent 0pt\itemindent 0pt}
+\item\relax
 \stepcounter{tipc}%
-\hbox to 2.5em{\hss
-\iftip\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}\else%
-\hbox to 1in{\iftipno\thechapter.\arabic{tipc}~\fi\smash{\lower1ex\hbox{\includegraphics{pointing-r}}}\hss}\fi\fi
-}\begin{minipage}{\linewidth}
-\blackline{1.5ex}
-\iftip\else TIP\iftipno{} \thechapter.\arabic{tipc}\fi\\[1ex]\small\fi
-}{\par\normalsize\vspace{1.5ex}\blackline{0pt}
-\end{minipage}%
-\hbox to 0pt{\iftip\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
-\hbox to .66in{\hss\smash{\lower1ex\hbox{\includegraphics{pointing-l}}}\iftipno~\thechapter.\arabic{tipc}\fi}\fi\fi
-}%\iftip
-%\marginpar{\textsc{Tip} \thechapter.\arabic{tipc}}\fi
-\label{tip-\thechapter.\arabic{tipc}}\par\bigskip
-\advance\linewidth2.5em
+\setbox\@tempboxa\hbox\bgroup\begin{minipage}{\linewidth}
+TIP\iftipno{} \tipno\fi\\[1ex]\small
+}{\par
+\end{minipage}\egroup%
+\leavevmode\label{tip-\thechapter.\arabic{tipc}}%
+\tipbox
+\endlist
 }
 
 %\newenvironment{tip}{\list{}{
@@ -361,7 +382,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
   \setcounter{appendix}{1}%
   \setcounter{section}{0}%
   \gdef\thechapter{\@Alph\c@appendix}%
-  \gdef\refchapter{Appendix \@Alph\c@appendix}%
+  \gdef\refchapter{\@Alph\c@appendix}%
   \gdef\wordchapter{APPENDIX \thechapter}%
   \gdef\chapter@upper\relax}
 
