@@ -96,7 +96,7 @@ anything below that.
 
 To stretch our analogy to the limit, perhaps three elements on the
 stack corresponds to the three English pronouns ``this,'' ``that,'' and
-``th'other.''%
+``t'other.''%
 \index{D!Data stacks!concept of|)}
 
 \subsection{Redesign}
@@ -315,7 +315,7 @@ any two points, diagonally, if necessary.
 In drawing our box, we may only need perfectly vertical and horizontal
 lines. In this case we can write the more powerful, but less specific,
 words \forth{VERTICAL} and \forth{HORIZONTAL} to draw these lines. Each
-requires only \emph{three} arguments: the starting position's x and y and
+requires only \emph{three} arguments: the starting position's x and y, and
 the length. This factoring of function simplifies the definition of
 \forth{[BOX].}
 
@@ -386,7 +386,7 @@ Code like this is hard to read and harder to modify.%
 When you do have a cumbersome stack situation to solve, it's best to work
 it out with paper and pencil. Some people even make up forms, such as the
 one in \Fig{fig7-1}. Done formally like this (instead of on the back of your
-phone bill) stack commentaries serve as nice auxiliary documentation.
+phone bill), stack commentaries serve as nice auxiliary documentation.
 
 \subsection{Stack Tips}
 
@@ -1369,9 +1369,9 @@ We write:
 DOER ANNOUNCE
 : LONG MAKE ANNOUNCE
    CR ." You're in a large hall with a huge throne"
-   CR  ." covered with a red velvet canopy. "
+   CR ." covered with a red velvet canopy."
          MAKE ANNOUNCE
-   CR ." You' re in the throne room. " ;
+   CR ." You're in the throne room." ;
 \end{Code}
 The word \forth{ANNOUNCE} will display either message. First we say
 \forth{LONG}, to initialize \forth{ANNOUNCE} to the long message. Now we

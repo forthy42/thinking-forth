@@ -896,7 +896,7 @@ code we get:
 Now we've achieved a nicer syntax, and at the same time greatly
 reduced the size of the object code. With only two commands, as in
 this example, the benefits may be marginal. But with larger sets of
-commands the benefits increase geometrical.
+commands the benefits increase geometrically.
 
 Our final example is a set of words to represent colors on a
 particular system. Names like \forth{BLUE} and \forth{RED} are nicer
@@ -969,7 +969,7 @@ The phrase
 \begin{Code}
 OVER + SWAP
 \end{Code}
-may seem commonly in certain applications. (I converts an address and
+may be seen commonly in certain applications. (It converts an address and
 count into an ending address and starting address appropriate for a
 \forthb{DO LOOP}.)\index{D!DO LOOP}
 
@@ -989,7 +989,7 @@ words, such as (for the first phrase) \forth{RANGE}.
 
 \begin{tfquot}
 That particular phrase [\forthb{OVER}\forthb{ +}\forthb{ SWAP}] is one
-that's right on the margin of being a useful word. Often, though if
+that's right on the margin of being a useful word. Often, though, if
 you define something as a word, it turns out you use it only once. If
 you name such a phrase, you have trouble knowing exactly what
 \forth{RANGE} does. You can't see the manipulation in your
@@ -1214,7 +1214,7 @@ defining all the ports to get rid of the port address that's still on
 the stack.
 
 One final comment. The base-port address is very likely to change, and
-therefor should be defined in only one place. This does \emph{not}
+therefore should be defined in only one place. This does \emph{not}
 mean it has to be defined as a constant. Provided that the base-port
 address won't be used outside of this lexicon of port names, it's just
 as well to refer to it by number here.
