@@ -181,8 +181,9 @@ There are only two possibilities (\Fig{fig4-3}):
    container. This implies that we already had two gallons in the large
    container.
 %!! line break?
-
-   Or\dots{}
+\suspend{enumerate}
+Or\dots{}
+\resume{enumerate}
 \item The nine gallon container was full, and we just poured off three gallons
    into the small container.
 \end{enumerate}
@@ -460,14 +461,14 @@ Let numbers precede names.
 %!! include cartoon of page 110 here
 Words that require a numeric argument will naturally expect to find that
 number on the stack. Syntactically speaking, then, the number should
-precede the name. For instance, the syntax of the word \textbf{SPACES}, which
-emits ``n'' number of spaces, is
+precede the name. For instance, the syntax of the word \forth{SPACES}, which
+emits ``$n$'' number of spaces, is
 
 \begin{Code}
 20 SPACES
 \end{Code}
 Sometimes this rule violates the order that our ear is accustomed to
-hearing. For instance, the \Forth{} word \textbf{+} expects to be preceded by both
+hearing. For instance, the \Forth{} word \forth{+} expects to be preceded by both
 arguments, as in
 
 \begin{Code}
@@ -476,7 +477,7 @@ arguments, as in
 \index{P!Postfix notation|(}
 This ordering, in which values precede operators, is called ``postfix.''
 \Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
-You could redefine \textbf{+} to expect one number in the input stream, like this:
+You could redefine \forth{+} to expect one number in the input stream, like this:
 
 \begin{Code}
 3 + 4
@@ -485,7 +486,7 @@ by defining it so:
 \begin{Code}
 : +   BL WORD  NUMBER DROP  + ;
 \end{Code}
-(where \textbf{WORD} is 79/83 Standard, returning an address, and \textbf{NUMBER}
+(where \forth{WORD} is 79/83 Standard, returning an address, and \forth{NUMBER}
 returns a double-length value as in the 83 Standard Uncontrolled
 Reference Words).
 
@@ -502,11 +503,11 @@ pointer) as a stack argument to ``verb'' type words. The \Forth{}-like syntax of
 \wepsfigxx{img4-110}
 will generally prove easiest to implement because of the stack.  In
 some cases this word order\index{W!Words:!ordering} sounds unnatural.
-For instance, suppose we have a file named INVENTORY. One thing we can
-do with that file is SHOW it; that is, format the information in
+For instance, suppose we have a file named \forth{INVENTORY}. One thing we can
+do with that file is \forth{SHOW} it; that is, format the information in
 pretty columns. If
 
-INVENTORY passes a pointer to SHOW, which acts upon it, the syntax
+\forth{INVENTORY} passes a pointer to \forth{SHOW}, which acts upon it, the syntax
 becomes
 \begin{Code}
 INVENTORY SHOW
@@ -524,19 +525,19 @@ If the requirements insist on the syntax
 \begin{Code}
 SHOW INVENTORY
 \end{Code}
-we have several options. SHOW might set a flag and INVENTORY would act
+we have several options. \forth{SHOW} might set a flag and \forth{INVENTORY} would act
 according to the flag. Such an approach has certain disadvantages,
-especially that INVENTORY must be ``smart'' enough to know all the
+especially that \forth{INVENTORY} must be ``smart'' enough to know all the
 possible actions that might be taken on it. (We'll treat these
 problems in Chapters Seven and Eight.)
 \index{P!Postfix notation|)}
 
-Or, SHOW might look ahead at the next word in the input stream.
+Or, \forth{SHOW} might look ahead at the next word in the input stream.
 We'll discuss this approach in a tip, ``Avoid expectations,'' later in this
 chapter.
 
-Or, the recommended approach, SHOW might set an ``execution
-variable'' that INVENTORY will then execute. (We'll discuss vectored
+Or, the recommended approach, \forth{SHOW} might set an ``execution
+variable'' that \forth{INVENTORY} will then execute. (We'll discuss vectored
 execution in \Chap{7}.)
 
 \begin{tip}

@@ -225,37 +225,40 @@ exception-handling in the present discussion):
 
 \begin{description}
 %!!small layout differences between the '84 and '94 edition; using '94 layout
-\item[To Overwrite:]~\\
-\begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
-Store new character into byte pointer to by pointer Advance pointer (unless at end of field)
-& \parbox[t]{2in}{
+\item[To Overwrite:]~\\[\smallskipamount]
+\begin{tabular}{@{}p{2.1in}>{\ttfamily}p{2.1in}}
+Store new character into byte pointer to by pointer.
+Advance pointer (unless at end of field).
+& \parbox[t]{2.1in}{
   F U N \fwbox{\pointto{K}} T I O N A L I T Y\\
   F U N \fwbox{\pointto{C}} T I O N A L I T Y\\
   F U N C \pointto{T} I O N A L I T Y}\\
 \end{tabular}
 
-\item[To Delete:]~\\
-\begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
+\item[To Delete:]~\\[\smallskipamount]
+\begin{tabular}{@{}p{2.1in}>{\ttfamily}p{2.1in}}
 Copy leftwards, by one place, the string
 beginning one place to the right of the pointer.
+
 Store a ``blank'' into the last
 position on the line.
-& \parbox[t]{2in}{
+& \parbox[t]{2.1in}{
   F U N C T I O N \pointto{S} \fwbox{A L I T Y}\\
   F U N C T I O N \fwbox{\pointto{A} L I T Y} Y\\
   F U N C T I O N \pointto{A} L I T Y \fwbox{\newlength{\charheight}\settoheight{\charheight}{K}\rule{0cm}{\charheight} }}\\
 \end{tabular}
 
 % Note, pointers-and-boxes omitted in this diagram for some reason.
-\item[To Insert:]~\\
-\begin{tabular}{>{\raggedright}p{2in}>{\ttfamily}p{2in}}
+\item[To Insert:]~\\[\smallskipamount]
+\begin{tabular}{@{}p{2.1in}>{\ttfamily}p{2.1in}}
 Copy rightwards, by one place,
-the string beginning at the pointer
+the string beginning at the pointer.
 %!!'84 ed: the string beginning one place\\ to the right of the pointer.
+
 Store new character into
 byte pointed to by pointer.
-Advance pointer (unless at end of field)
-& \parbox[t]{2in}{
+Advance pointer (unless at end of field).
+& \parbox[t]{2.1in}{
   F U N T I O N A L I T Y\\
   F U N T T I O N A L I T Y\\
   F U N C T I O N A L I T Y\\
@@ -348,10 +351,12 @@ left-arrow     & BACKWARD            & INSERT-OFF\\
 right-arrow    & FORWARD             & INSERT-OFF\\
 return         & ESCAPE              & INSERT-OFF\\
 any printable  & OVERWRITE           & INSERT    \\
-\end{tabular}\bigskip
-We've placed the possible types of keys in the left column, what they do
-normally in the middle column, and what they do in ``insert mode'' in the
-right column.
+\end{tabular}
+\bigskip
+
+\noindent We've placed the possible types of keys in the left column,
+what they do normally in the middle column, and what they do in
+``insert mode'' in the right column.
 
 To implement what happens when ``backspace'' is pressed while in
 Insert Mode, we add a new procedure:
@@ -698,13 +703,13 @@ Express in objective units any data to be shared by components.
 \end{tip}
 For example:
 
-\begin{quotation}
-	Module A measures the temperature of the oven.
+\begin{itemize}
+\item	Module A measures the temperature of the oven.
 
-	Module B controls the burner.
+\item	Module B controls the burner.
 
-	Module C makes sure the door is locked if the oven is too hot.
-\end{quotation}
+\item	Module C makes sure the door is locked if the oven is too hot.
+\end{itemize}
 The information of global interest is the temperature of the oven,
 expressed objectively in degrees. While Module A might receive a value
 representing the voltage from a heat sensor, it should convert this
@@ -760,8 +765,8 @@ next executed, it will format the deferred figure at the top of the
 new page:
 
 \begin{Code}
-: NEWPAGE ... ( terminate page with footer)
-( start new page with header) ... ?HOLDOVER ... ;
+: NEWPAGE  ... ( terminate page with footer)
+   ( start new page with header)  ...  ?HOLDOVER ... ;
 \end{Code}
 How can \forth{NEWPAGE} invoke \forth{?HOLDOVER}, if \forth{?HOLDOVER} is not
 defined until much later?
@@ -1141,7 +1146,7 @@ throughout our application.
 
 Now, the problem: Somehow the architecture of our system changes and
 we decide that we must allocate this memory such that it \emph{ends}
-at HEX address EFFF. In other words, we must start at the end,
+at \forth{HEX} address \forth{EFFF}. In other words, we must start at the end,
 allocating arrays backwards. We still want each array name to return
 its \emph{starting} address, however.
 
