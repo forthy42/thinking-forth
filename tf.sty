@@ -44,6 +44,7 @@
 \newcommand{\Fig}[1]{Figure~\figref{#1}}
 \newcommand{\sect}[1]{Section~\ref{sect-#1}}
 \newcommand{\Sect}[1]{Section~\ref{sect-#1}}
+\newcommand{\Chap}[1]{Chapter~\enumchap{#1}} % really should use a label!!!
 
 %% Images
 
@@ -213,7 +214,6 @@ TIP\\[1ex]\small
 %\code{text}
 \newcommand{\code}[1]{\texttt{#1}}
 
-%\chapternum{THREE}
 \newcommand{\chapternum}[1]{}
 
 %\lstloadaspects{labels}
@@ -225,10 +225,11 @@ TIP\\[1ex]\small
 %% chapter style, chapters without name like Preface are chapter*
 
 \newcommand\HUGE{\@setfontsize\HUGE{40}{50}}
+\newcounter{appendix}
 
 \def\@makechapterhead#1{{\HUGE\sffamily\bfseries\slshape
   \vbox{\advance\textwidth1em\hrule \@height 2pt
-    \vspace*{1ex}\hbox to \textwidth{\wordchapter}\vspace*{1ex}
+    \vspace*{1ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{1ex}
     \hrule \@height 2pt}
   \vspace*{100pt}
   \hbox{\hbox to .1\linewidth{}
@@ -238,7 +239,7 @@ TIP\\[1ex]\small
   \vspace*{1em plus 1fill}
   \pagebreak
   \vspace*{1.7in}\blackline{10pt}
-}}
+}\stepcounter{appendix}}
 \def\@makeschapterhead#1{{\HUGE\sffamily\bfseries\slshape
   \vbox{\advance\textwidth1em\hrule \@height 2pt
     \vspace*{1ex}\hbox to \textwidth{\uppercase{#1}\hss}\vspace*{1ex}
@@ -246,15 +247,18 @@ TIP\\[1ex]\small
   \vspace*{100pt}
 }}
 
-\def\wordchapter{\ifcase\c@chapter\or ONE\or TWO\or THREE\or FOUR\or
-FIVE\or SIX\or SEVEN\or EIGHT\or NINE\or TEN\fi\hss}
+\def\enumchap#1{\ifcase#1\or One\or Two\or Three\or Four\or
+Five\or Six\or seven\or Eight\or Nine\or Ten\fi}
+\def\wordchapter{\MakeUppercase{\enumchap\c@chapter}}
+\def\refchapter{\enumchap\c@chapter}
 
 \def\epilog{\gdef\wordchapter{EPILOGUE}}
 \renewcommand\appendix{\par
-  \setcounter{chapter}{0}%
+  \setcounter{appendix}{1}%
   \setcounter{section}{0}%
-  \gdef\thechapter{\@Alph\c@chapter}%
-  \gdef\wordchapter{APPENDIX \@Alph\c@chapter\hss}%
+  \gdef\thechapter{\@Alph\c@appendix}%
+  \gdef\refchapter{\@Alph\c@appendix}%
+  \gdef\wordchapter{APPENDIX \thechapter}%
   \gdef\chapter@upper\relax}
 
 %% headings style
