@@ -1,4 +1,4 @@
-\part{The Philosophy of FORTH}
+\chapter{The Philosophy of FORTH}
 
 FORTH is a language and an operating system. But that's not all; It's
 also the embodiment of a philosophy. The philosophy is not generally
@@ -14,7 +14,7 @@ we'll compare---and contrast---FORTH with these state-of-the-art progamming
 principles.
 
 
-\section*{An Armchair History of Software Elegance}
+\section{An Armchair History of Software Elegance}
 
 In the prehistoric days of programming, when computers were dinosaurs,
 the mere fact that some genius could make a program run correctly
@@ -29,17 +29,15 @@ outline a history of the tools and techniques for writing more elegant
 programs.
 
 
-\subsection*{Memorability}
+\subsection{Memorability}
 
 The first computer programs looked something like this:
 
-\begin{lyxcode}
+\begin{verbatim}
 00110101
-
 11010011
-
 11011001
-\end{lyxcode}
+\end{verbatim}
 Programmers entered these programs by setting rows of switches---``on''
 if the digit was {}``1,'' ``off'' if the digit was ``0.'' These
 values were the {}``machine instructions'' for the computer, and
@@ -52,13 +50,11 @@ so they wrote a program that translated easy-to-remember abbreviations
 into the hard-to-remember bit patterns. The new language looked something
 like this:
 
-\begin{lyxcode}
-MOV~B,A
-
-ADD~C,A
-
-JMC~REC1
-\end{lyxcode}
+\begin{verbatim}
+MOV B,A
+ADD C,A
+JMC REC1
+\end{verbatim}
 The translator program was called an \emph{assembler}, the new language
 \emph{assembly language}. Each instruction {}``assembled'' the appropriate
 bit pattern for that instruction, with a one-to-one correspondence
@@ -67,7 +63,7 @@ easier for programmers to remember. For this reason the new instructions
 were called \emph{mnemonics}.
 
 
-\subsection*{Power}
+\subsection{Power}
 
 Assembly-language programming is characterized by a one-for-one correspondence
 between each command that the programmer types and each command that
@@ -84,17 +80,16 @@ assembles the five or ten machine instructions represented by the
 name, just as though the programmer had written them out in full.
 
 
-\subsection*{Abstraction}
+\subsection{Abstraction}
 
 A major advance was the invention of the {}``high-level language.\char`\"{}
 Again this was a translator program, but a more powerful one. High-level
 languages make it possible for programmers to write code like this:
 
-\begin{lyxcode}
-X~=~Y~(456/A)~-~2
-\end{lyxcode}
-\includegraphics[%
-  clip]{images/ch1_004_img.eps}
+\begin{verbatim}
+X = Y (456/A) - 2
+\end{verbatim}
+\wepsfigx{img1-004}
 
 which looks a lot like algebra. Thanks to high-level langages, engineers,
 not just bizarre bit-jockeys, could start writing programs. BASIC
@@ -113,7 +108,7 @@ methodology. But as we'll see, the approach ultimately offers more
 restriction than freedom.
 
 
-\subsection*{Manageability}
+\subsection{Manageability}
 
 Most computer programs involve much more than lists of instructions
 to work down from start to finish. They also involve testing for various
@@ -125,7 +120,7 @@ provide branching and looping capabilities. In assembly languages
 you use {}``jump instructions''; in some high-level languages you
 use {}``GO TO'' commands. When these capabilities are used in the
 most brute-force way, programs tend to look like the jumble you see
-in Figure 1--1. This approach, still widely used in languages like
+in \Fig{fig1-1}. This approach, still widely used in languages like
 FORTRAN and BASIC, suffers from being difficult to write and difficult
 to change if corrections need to be made. In this {}``bowl-of-spaghetti''
 school of programming, it's impossible to test a single part of the
@@ -139,7 +134,7 @@ back by hand. Many programmers found old-fashioned flow charts less
 than useful.
 
 
-\subsection*{Modularity}
+\subsection{Modularity}
 
 A significant advance arose with the invention of {}``Structured
 Programming,'' a methodology based on the observation that large problems
@@ -147,31 +142,20 @@ are more easily solved if treated as collections of smaller problems
 {[}1{]}. Each piece is called a module. Programs consist of modules
 within modules.
 
-%
-\begin{figure}
 
-\caption{\emph{Unstructured code, using jumps or {}``GOTOs.''}}
-
-\includegraphics{images/ch1_006_img.eps}
-\end{figure}
+\wepsfigpp{fig1-1}{Unstructured code, using jumps or {}``GOTOs.''}
 
 
 Structured programming eliminates spaghetti coding by insisting that
 control flow can be diverted only within a module. You can't jump
 out from the middle of one module into the middle of another module.
-For example, Figure l--2 shows a structured diagram of a module to
+For example, \Fig{fig1-2} shows a structured diagram of a module to
 {}``Make Breakfast,'' which consists of four submodules. Within each
-sub- module you'll find a whole new level of complexity which needn't
+submodule you'll find a whole new level of complexity which needn't
 be shown at this level.
 
-%
-\begin{figure}
-
-\caption{\emph{Design for a structured program}}
-
-\includegraphics{images/ch1_007_img.eps}
-\end{figure}
-A branching decision occurs in this module to choose between the {}``cold
+\wepsfiga{fig1-2}{Design for a structured program}
+i branching decision occurs in this module to choose between the {}``cold
 cereal'' module and the {}``eggs'' module, but control f1ow stays
 within the outer module. Structured programming has three premises:
 
@@ -202,36 +186,26 @@ both. And you'll always clean up. (Some programmers I know circumvent
 this last module by renting a new apartment every three months.)
 
 %
-\begin{figure}
-
-\caption{\emph{Structured programming with a non-structured language}}
-
-\includegraphics{images/ch1_008_img_1.eps}
-\end{figure}
+\wepsfiga{fig1-3}{Structured programming with a non-structured language}
 Structured programming was originally conceived as a design approach.
 Modules were imaginary entities that existed in the mind of the programmer
 or designer, not actual units of source code. When structured programming
 design techniques are applied to non-structured languages like BASIC,
-the result looks something like Figure 1--3.
+the result looks something like \Fig{fig1-3}.
 
 
-\subsection*{Writeability}
+\subsection{Writeability}
 
 Yet another breakthrough encouraged the use of structured programs:
 structured programming languages. These languages include control
 structures in their command sets, so you can write programs that have
 a more modular appearance. Pascal is such a language, invented by
 Niklaus Wirth to teach the principles of structured programming to
-his students. Figure 1--4 shows how this type of language would allow
+his students. \Fig{fig1-4} shows how this type of language would allow
 {}``Make Breakfast'' to be written.
 
 %
-\begin{figure}
-
-\caption{\emph{Using a structured language.}}
-
-\includegraphics{images/ch1_008_img_2.eps}
-\end{figure}
+\wepsfiga{fig1-4}{Using a structured language.}
 Structured programming languages include control structure operators
 such as IF and THEN to ensure a modularity of control flow. As you
 can see, indentation is important for readability, since all the instructions
@@ -240,7 +214,7 @@ to by name (e.g., ''i''). The finished program might take ten pages,
 with the ELSE on page five.
 
 
-\subsection*{Designing from the Top}
+\subsection{Designing from the Top}
 
 How does one go about designing these modules? A methodology called
 ''top-down design'' proclaims that modules should be designed in order
@@ -262,7 +236,7 @@ top-down design, Otherwise, man-years of effort may be wasted writing
 code that cannot be used.
 
 
-\subsection*{Subroutines}
+\subsection{Subroutines}
 
 We've been discussing {}``modules'' as abstract entities only. But
 all high-level programming languages incorporate techniques that allow
@@ -273,48 +247,34 @@ on the particular high-level language and on how they happen to be
 implemented. Suppose we write {}``MAKE-CEREAL'' as a subroutine.
 It might look something like this:
 
-\begin{lyxcode}
-procedure~make-cereal
-
-~~~get~clean~bowl
-
-~~~open~cereal~box
-
-~~~pour~cereal
-
-~~~open~milk
-
-~~~pour~milk
-
-~~~get~spoon
-
+\begin{verbatim}
+procedure make-cereal
+   get clean bowl
+   open cereal box
+   pour cereal
+   open milk
+   pour milk
+   get spoon
 end
-\end{lyxcode}
+\end{verbatim}
 We can also write {}``MAKE-EGGS'' and {}``CLEANUP'' as subroutines.
 Elsewhere we can define {}``MAKE-BREAKFAST'' as a simple routine
 that invokes, or calls, these subroutines:
 
-\begin{lyxcode}
-procedure~make-breakfast
+\medskip{\noindent\tt
+procedure make-breakfast \\
+\strut~~~var~h:~boolean~(indicates~hurried) \\
+\strut~~~\textit{test~for~hurried}~ \\
+\strut~~~if~h~=~true~then \\
+\strut~~~~~~\textbf{call~make-cereal}~ \\
+\strut~~~else \\
+\strut~~~~~~\textbf{call~make-eggs} \\
+\strut~~~end \\
+\strut~~~\textbf{call~cleanup} \\
+end}
 
-~~~var~h:~boolean~(indicates~hurried)
+\medskip
 
-~~~\textit{test~for~hurried}~
-
-~~~if~h~=~true~then
-
-~~~~~~\textbf{call~make-cereal}~
-
-~~~else
-
-~~~~~~\textbf{call~make-eggs}
-
-~~~end
-
-~~~\textbf{call~cleanup}
-
-end
-\end{lyxcode}
 The phrase {}``call make-cereal'' causes the subroutine named {}``make-cereal''
 to be executed. When the subroutine has finished being executed, control
 returns back to the calling program at the point following the call.
@@ -324,8 +284,7 @@ As you can see, the effect of the subroutine call is as if the sub-routine
 code were written out in full within the calling module. But unlike
 the code produced by the macro assembler, the subroutine can be compiled
 elsewhere in memory and merely referenced. It doesn't necessarily
-have to be compiled within the object code of the main program (Figure
-1---5).
+have to be compiled within the object code of the main program (\Fig{fig1-5}).
 
 Over the years computer scientists have become more forceful in favoring
 the use of many small subroutines over long-winded, continuous programs.
@@ -355,7 +314,7 @@ In practice subroutines are usually fairly large between a half page
 to a full page of source code in length.
 
 
-\subsection*{Successive Refinement}
+\subsection{Successive Refinement}
 
 An approach that relies heavily on subroutines is called {}``Successive
 Refinement'' {[}2{]}. The idea is that you begin by writing a skeletal
@@ -382,7 +341,7 @@ of control structure on each level before proceeding to the next lower
 level.
 
 
-\subsection*{Structured Design}
+\subsection{Structured Design}
 
 By the middle of late '70s, the computing industry had tried all the
 concepts we've described, and it was still unhappy. The cost of maintaining
@@ -417,7 +376,7 @@ But what is a module, and on what basis does one make the divisions?
 {}``Structured Design'' outlines three factors for designing modules.
 
 
-\subsection*{Functional Strength}
+\subsection{Functional Strength}
 
 One factor is something called {}``functional strength,'' which
 is a measure of the uniformity of purpose of all the statements within
@@ -459,7 +418,7 @@ it can be thought of as doing one thing, even though it consists of
 several subordinate tasks.
 
 
-\subsection*{Coupling}
+\subsection{Coupling}
 
 A second tenet of structured design concerns {}``coupling,'' a measure
 of how modules influence the behavior of other modules. Strong coupling
@@ -488,7 +447,7 @@ As we said, conventional languages that support subroutines include
 elaborate methods of passing arguments from one module to another.
 
 
-\subsection*{Hierarchical lnput-Process-Output Designing}
+\subsection{Hierarchical lnput-Process-Output Designing}
 
 A third precept of structured design concerns the design process.
 Designers are advised to use a top-down approach, but to pay less
@@ -504,7 +463,7 @@ form is calledthe {}``HIPO chart,'' which stands for {}``hierarchical
 input-process-output.'') Structure charts include two parts, a hierarchy
 chart and an input-output chart.
 
-Figure 1--6 shows these two parts. The main program, called DOIT,
+\Fig{fig1-6} shows these two parts. The main program, called DOIT,
 consists of three subordinate modules, which in turn invoke the other
 modules shown below them. As you can see, the design emphasizes the
 transformation of input to output. 
@@ -523,7 +482,7 @@ But if programs aredesigned around other concerns, such as the flow
 of data, t hen a change in plan won' t have so disastrous an effect.
 
 
-\subsection*{lnformation-Hiding }
+\subsection{lnformation-Hiding }
 
 In a paper {[}4{]} published back in 1972, Dr. David L. Parnas showed
 that the criteria for decomposing modules should not be steps in the
@@ -592,7 +551,7 @@ and data structures. In fact, hiding information---not decision-structure
 or calling- hierarchy---should be the primary basis for design!
 
 
-\section*{The Superficiality of Structure}
+\section{The Superficiality of Structure}
 
 Parnas proposes two criteria for decomposition:
 
@@ -638,17 +597,16 @@ A design in which modules are grouped according to things that may
 change can readily accommodate change.
 
 
-\section*{Looking Back, and FORTH}
+\section{Looking Back, and FORTH}
 
 In this section we'll review the fundamental features of FORTH and
 relate them to what we've seen about traditional methodologies. Here's
 an example of FORTH code;
 
-\begin{lyxcode}
-:~BREAKFAST
-
-~~~HURRIED?~~IF~~CEREAL~~ELSE~~EGGS~~THEN~CLEAN~;
-\end{lyxcode}
+\begin{verbatim}
+: BREAKFAST
+   HURRIED?  IF  CEREAL  ELSE  EGGS  THEN CLEAN ;
+\end{verbatim}
 This is structurally identical to the procedure MAKE-BREAKFAST on
 page 8. (If you're new to FORTH, refer to Appendix A for an explanation.)
 The words HURRIED?, CEREAL, EGGS, and CLEAN are (most likely) also
@@ -668,7 +626,7 @@ in FORTH is a word. Before we explore the significance of a word-based
 environment, let's first study two FORTH inventions that make it poss;ble.
 
 
-\subsection*{Implicit Calls}
+\subsection{Implicit Calls}
 
 First, calls are implicit. You don't have to say CALL CEREAL, you
 simply say CEREAL. In FORTH, the definition of CEREAL {}``knows''
@@ -679,7 +637,7 @@ as any user-defined commands or data structures can all be {}``called''
 simply by name.
 
 
-\subsection*{Implicit Data Passing}
+\subsection{Implicit Data Passing}
 
 Second, data passing is implicit. The mechanism that produces this
 effect is FORTH's data stack. FORTH automatically pushes numbers onto
@@ -690,11 +648,10 @@ FORTH.
 
 Thus we can write
 
-\begin{lyxcode}
-:~DOIT
-
-~~~~GETC~~TRANSFORM-TO-DO~~PUT-D~;
-\end{lyxcode}
+\begin{verbatim}
+: DOIT
+    GETC  TRANSFORM-TO-DO  PUT-D ;
+\end{verbatim}
 confident that GETC will get {}``C'', and leave it on the stack.
 TRANSFORM-TO-D will pick up {}``C'' from the stack, transform it,
 and leave {}``D'' on the stack. Finally, PUT-D will pick up {}``D''
@@ -722,9 +679,9 @@ be.
 
 A line from a typical FORTH application might read:
 
-\begin{lyxcode}
-20~ROTATE~LEFT~TURRET
-\end{lyxcode}
+\begin{verbatim}
+20 ROTATE LEFT TURRET
+\end{verbatim}
 Few other languages would encourage you to concoct a subroutine called
 LEFT, merely as a modifier, or a subroutine called TURRET, merely
 to name part of the hardware. Since a FORTH word is easier to invoke
@@ -733,7 +690,7 @@ FORTH program is likely to be decomposed into more words than a conventional
 program would be into subroutines.
 
 
-\section*{Component Programming}
+\section{Component Programming}
 
 Having a larger set of simpler words makes it easy to use a technique
 we'll call ``component programming.'' To explain, let's first reexamine
@@ -761,7 +718,7 @@ or abstract (such as a stack location or a field in a data base).
 It doesn't matter whether the algorithm is described in machine code
 or in problem- oriented words such as CEREAL and EGGS.
 
-Figure l--7 contrasts the results of structured design with the results
+\Fig{fig1-7} contrasts the results of structured design with the results
 of designing by components. Instead of \emph{modules} called READ--RECORD,
 EDIT--RECORD, and WRITE--RECORD, we're con- cerned with components
 that describe the structure of records, provide a set of editor commands,
@@ -787,7 +744,7 @@ as well as to software design.
 We'll call the set of words which describe a component a {}``lexicon.''
 (One meaning of lexicon is {}``a set of words pertaining to a particular
 field of interest.'') The lexicon is your interface with the component
-from the outside (Figure 1--8).
+from the outside (\Fig{fig1-8}).
 
 In this book, the term {}``lexicon'' refers only to those words
 of a component that are used by name outside of a component. A component
@@ -806,7 +763,7 @@ and algorithms of components written at a a higher level. The {}``what''
 of one component becomes the {}``how'' of a higher component.
 
 Written in FORTH, an entire application consists of nothing but components.
-Figure 1--9 show show a robotics application might be decomposed.
+\Fig{fig1-9} show show a robotics application might be decomposed.
 
 You could even say that each lexicon is a special-purpose compiler,
 written solely for the purpose of supporting higher-level application
@@ -835,14 +792,14 @@ This availability of commands also makes the process of testing and
 debugging a whole lot easier. Because FORTH is interactive, the programmer
 can type and test the primitive commands, such as
 
-\begin{lyxcode}
-RIGHT~SHOULDER~20~PIVOT
-\end{lyxcode}
+\begin{verbatim}
+RIGHT SHOULDER 20 PIVOT
+\end{verbatim}
 from the {}``outside'' as easily as the more powerful ones like
 
-\begin{lyxcode}
-LIFT~COFFEE-POT
-\end{lyxcode}
+\begin{verbatim}
+LIFT COFFEE-POT
+\end{verbatim}
 At the same time, the programmer can (if he or she wants) deliberately
 seal any commands, including FORTH itself, from being accessed by
 the end user, once the application is complete.
@@ -863,7 +820,7 @@ do is write your own language in FORTH (lexicons) to model your understanding
 of the problem, in which you can elegantly describe its solution.
 
 
-\section*{Hide From Whom?}
+\section{Hide From Whom?}
 
 Because modern mainstream languages give a slightly different meaning
 to the phrase {}``information-hiding,'' we should clarify. From
@@ -888,7 +845,7 @@ Modula-type modules to FORTH has been implemented, in only three lines
 of code, by Dewey Val Shorre {[}7{]}.)
 
 
-\section*{Hiding the Construction of Data Structures}
+\section{Hiding the Construction of Data Structures}
 
 We've noted two inventions of FORTH that make possible the methodology
 we've described---implicit calls and implicit data passing. A third
@@ -898,25 +855,25 @@ access memory.
 
 Suppose we define a variable called APPLES, like this:
 
-\begin{lyxcode}
-VARIABLE~APPLES
-\end{lyxcode}
+\begin{verbatim}
+VARIABLE APPLES
+\end{verbatim}
 We can store a number into this variable to indicate how many apples
 we currently have:
 
-\begin{lyxcode}
-20~APPLES~!
-\end{lyxcode}
+\begin{verbatim}
+20 APPLES !
+\end{verbatim}
 We can display the contents of the variable:
 
-\begin{lyxcode}
-APPLES~?~20~ok
-\end{lyxcode}
+\begin{verbatim}
+APPLES ? 20 ok
+\end{verbatim}
 We can up the count by one:
 
-\begin{lyxcode}
-1~APPLES~+!
-\end{lyxcode}
+\begin{verbatim}
+1 APPLES +!
+\end{verbatim}
 (The newcomer can study the mechanics of these phrases in Appendix
 A.)
 
@@ -941,37 +898,32 @@ supply two different addresses depending on which kind of apple we're
 currently talking about. So we define a more complicated version of
 APPLES as follows:
 
-\begin{lyxcode}
-VARIABLE~COLOR~~(~pointer~to~current~tally)
-
-VARIABLE~REDS~~(~tally~of~red~apples)
-
-VARIABLE~GREENS~~(~tally~of~green~apples)
-
-:~RED~~(~set~apples-type~to~RED)~~REDS~COLOR~!~;
-
-:~GREEN~~(~set~apple-type~to~GREEN)~~GREENS~COLOR~!~;
-
-:~APPLES~~(~-{}-~adr~of~current~apple~tally)~~COLOR~@~;
-\end{lyxcode}
+\begin{verbatim}
+VARIABLE COLOR  ( pointer to current tally)
+VARIABLE REDS  ( tally of red apples)
+VARIABLE GREENS  ( tally of green apples)
+: RED  ( set apples-type to RED)  REDS COLOR ! ;
+: GREEN  ( set apple-type to GREEN)  GREENS COLOR ! ;
+: APPLES  ( -{}- adr of current apple tally)  COLOR @ ;
+\end{verbatim}
 Here we've redefined APPLES. Now it fetches the contents of a variable
 called COLOR. COLOR is a pointer, either to the variable REDS or to
 the variable GREENS. These two variables are the real tallies.
 
 If we first say RED, then we can use APPLES to refer to red apples.
-If we say GREEN, we can use it to refer to green apples (Figure 1--10).
+If we say GREEN, we can use it to refer to green apples (\Fig{fig1-10}).
 
 We didn't need to change the syntax of any existing code that uses
 APPLES. We can still say
 
-\begin{lyxcode}
-20~APPLES~!
-\end{lyxcode}
+\begin{verbatim}
+20 APPLES !
+\end{verbatim}
 and
 
-\begin{lyxcode}
-1~APPLES~+!
-\end{lyxcode}
+\begin{verbatim}
+1 APPLES +!
+\end{verbatim}
 Look again at what we did. We changed the definition of APPLES from
 that of a variable to a colon definition, without affecting its usage.
 FORTH allows us to hide the details fo how APPLES is defined from
@@ -996,21 +948,21 @@ an obvious action is a {}``verb.''
 Words such as RED and GREEN in our example can only be called {}``adjectives''
 since they modify the function of APPLES. The phrase
 
-\begin{lyxcode}
-RED~APPLES~?
-\end{lyxcode}
+\begin{verbatim}
+RED APPLES ?
+\end{verbatim}
 is different from
 
-\begin{lyxcode}
-GREEN~APPLES~?
-\end{lyxcode}
+\begin{verbatim}
+GREEN APPLES ?
+\end{verbatim}
 FORTH words can also serve as adverbs and prepositions. There's little
 value in trying to determine what part of speech a particular word
 is, since FORTH doesn't care anyway. We need only enjoy the ease of
 describing an application in natural terms.
 
 
-\section*{But Is It a High-Level Language?}
+\section{But Is It a High-Level Language?}
 
 In our brief technical overview, we noted that traditional high-level
 languages broke away from assembly-language by eliminating not only
@@ -1107,7 +1059,7 @@ at an output port to business applications.
 You decide. (FORTH doesn't care.)
 
 
-\section*{The Language of Design}
+\section{The Language of Design}
 
 FORTH is a design language. To the student of traditional computer
 science, this statement is self-contradictory. {}``One doesn't design
@@ -1151,7 +1103,7 @@ As we'll see in the next chapter, experimentation proves more reliable
 in arriving at the truth than the guesswork of planning.
 
 
-\section*{The Language of Performance}
+\section{The Language of Performance}
 
 Although performance is not the main topic of this book, the newcomer
 to FORTH should be reassured that its advantages aren't purely philosophical.
@@ -1159,7 +1111,7 @@ Overall, FORTH outdoes all other high-level languages in speed, capability
 and compactness.
 
 
-\subsection*{Speed}
+\subsection{Speed}
 
 Although FORTH is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC.
@@ -1201,7 +1153,7 @@ FORTH doesn't guarantee fast applications. It does give the programmer
 a creative environment in which to design fast applications.
 
 
-\subsection*{Capability}
+\subsection{Capability}
 
 FORTH can do anything any other language can do---usually easier.
 
@@ -1227,7 +1179,7 @@ to the needs of your application. Or you can transport streamlined
 versions of applications over to embedded systems. 
 
 
-\subsection*{Size}
+\subsection{Size}
 
 There are two considerations here: the size of the root FORTH system,
 and the size of compiled FORTH applications.
@@ -1253,7 +1205,7 @@ applications. Only FORTH's architecture and compactness make FORTH-based
 micros possible.
 
 
-\section*{Summary}
+\section{Summary}
 
 FORTH has often been characterized as offbeat, totally unlike any
 other popular language in structure or in philosophy, On the contrary,
@@ -1281,7 +1233,7 @@ language, if such a thing is possible, will more closely resemble
 FORTH than any other contemporary language.
 
 
-\section*{References}
+\section{References}
 
 \begin{enumerate}
 \item O.J. Dahl, E.W. Dijkstra, and C.A.R. Hoare, Structured Progromming,
