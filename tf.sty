@@ -196,6 +196,9 @@
 \renewcommand\bottomfraction{.5}
 %\renewcommand\floatpagefraction{.05}
 
+\setlength\textfloatsep{12\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\intextsep   {8\p@ \@plus 2\p@ \@minus 2\p@}
+
 %% TIP environment
 
 \newcounter{tipc}[chapter]
@@ -272,7 +275,7 @@
                         \leftmargin    0pt
 			\topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\goodbreak\blackline{1ex}\nopagebreak
+		\bigbreak\blackline{1ex}\nopagebreak
                 \item\relax}
                {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
 \newenvironment{interview*}

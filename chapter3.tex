@@ -160,7 +160,7 @@ the screen might look like this:
 
 %!! no bf cmtt font (use Courier?)
 \begin{quote}
-\texttt{\textbf{Name of Member}\hspace{4em}Justine Time}
+\textsf{\textbf{Name of Member}\quad Justine Time}
 \end{quote}
 The editor will provide three modes for users to change the contents of
 the input field:
@@ -211,7 +211,7 @@ screen. For the sake of simplicity, let's plan on creating one word only,
 \forth{REDISPLAY}, to redisplay the entire field after each key is pressed.
 
 \begin{Code}
-: EDITOR BEGIN KEY REVISE REDISPLAY ... UNTIL ;
+: EDITOR  BEGIN  KEY  REVISE  REDISPLAY  ... UNTIL ;
 \end{Code}
 This approach separates revising the buffer from updating the display.
 For now, we'll only concentrate on revising the buffer.
@@ -228,6 +228,7 @@ exception-handling in the present discussion):
 \item[To Overwrite:]~\\[\smallskipamount]
 \begin{tabular}{@{}p{2.1in}>{\ttfamily}p{2.1in}}
 Store new character into byte pointer to by pointer.
+
 Advance pointer (unless at end of field).
 & \parbox[t]{2.1in}{
   F U N \fwbox{\pointto{K}} T I O N A L I T Y\\
@@ -257,6 +258,7 @@ the string beginning at the pointer.
 
 Store new character into
 byte pointed to by pointer.
+
 Advance pointer (unless at end of field).
 & \parbox[t]{2.1in}{
   F U N T I O N A L I T Y\\
@@ -287,8 +289,9 @@ function will perform some computation).
 \item to advance the pointer
 
 %!!next line not part of enumeration (not indented in '94 edition).
+\suspend{enumerate}
 Wait, three procedures:
-
+\resume{enumerate}
 \item to move the pointer backwards
 \end{enumerate}
 because we will want ``cursor keys'' to move the cursor forward and back
@@ -362,7 +365,7 @@ To implement what happens when ``backspace'' is pressed while in
 Insert Mode, we add a new procedure:
 
 \begin{Code}
-: INSERT< BACKWARD SLIDE< ;
+: INSERT<   BACKWARD  SLIDE< ;
 \end{Code}
 (move the cursor backwards on top of the last character typed, then slide
 everything to the right leftward, covering the mistake).
@@ -476,6 +479,7 @@ keyboard, editing the data, and finally refreshing the display to match
 the data.
 
 Clearly most of the work will go on inside ``Process a Keystroke.''
+
 Applying the notion of successive refinement, \fig{fig3-4} shows the
 editor problem redrawn with ``Process a Keystroke'' expanded. We find it
 takes several attempts before we arrive at this configuration. Designing
@@ -511,8 +515,10 @@ most important modules---the ones that do the work of overwriting,
 inserting, and deleting. Take another look at our expansion of
 ``Process a Character'' in \fig{fig3-4}. Let's consider just one of the
 seven possible execution paths, the one that happens if a printable
-character is pressed.  In \fig{fig3-6}(a) we see the original structural
-path for a printable character.
+character is pressed.
+
+In \fig{fig3-6}(a) we see the original structural path for a printable
+character.
 
 Once we figure out the algorithms for overwriting and inserting
 characters, we might refine it as shown in \fig{fig3-6}(b). But look at
@@ -544,17 +550,17 @@ add refresh. Part (b) shows our ``optimized'' design with the refresh
 modules expanded. Notice that we're now testing the Insert flag twice
 within this single leg of the outer loop.
 
-But worse, there's a bug in this design. Can you find it?  In both
-cases, overwriting and inserting, the pointer is incremented before
-the refresh. In the case of overwrite, we're displaying the new
-character in the wrong position. In the case of insert, we're typing
-the remainder of the line but not the new character.
+But worse, there's a bug in this design. Can you find it?
+
+In both cases, overwriting and inserting, the pointer is incremented
+\emph{before} the refresh. In the case of overwrite, we're displaying
+the new character in the wrong position. In the case of insert, we're
+typing the remainder of the line but not the new character.
 
 Granted, this is an easy problem to fix. We need only move the refresh
-modules up before ``Increment Pointer.'' The point here is: How did
-we miss it? By getting preoccupied with control flow structure, a super-
-ficial element of program design.
-
+modules up before ``Increment Pointer.'' The point here is: How did we
+miss it? By getting preoccupied with control flow structure, a
+superficial element of program design.
 
 \wepsfigt{fig3-7}{Adding refresh.}
 
@@ -573,6 +579,7 @@ In computer science terminology, interfacing between modules has two
 aspects. First, there's the way other modules invoke the module; this is
 the control interface. Second, there's the way other modules pass and
 receive data to and from the module; this is the data interface.
+
 Because of \Forth{}'s dictionary structure, control is not an issue.
 Definitions are invoked by being named. In this section, when we use the
 term ``interface'' we're referring to data.
@@ -636,8 +643,8 @@ number of valid characters, and finally a ``knowledge'' of what all those
 attribute patterns mean.
 
 In \Forth{} I've defined these elements together in a single screen.
-The buffers are defined with \forth{CREATE}, the count is an ordinary
-\forth{VARIABLE}, and the attribute patterns are defined as \forth{CONSTANTs},
+The buffers are defined with \forthb{CREATE}, the count is an ordinary
+\forthb{VARIABLE}, and the attribute patterns are defined as \forthb{CONSTANT}s,
 such as:
 \begin{Code}
 1 CONSTANT UNDERNESS ( bit mask for underlining)
@@ -669,7 +676,7 @@ changing the value of \forth{WALL} proportionately.  (Actually, this
 turns out to be a mistake in itself. I should be using a finer unit of
 measurement, the number of which remains constant for the line.
 Changing type widths would mean changing the number of units per
-character. But getting back to the mistake at hand . . .)
+character. But getting back to the mistake at hand\dots)
 
 Alas, I was also using \forth{WALL} inside the output component to determine
 how many characters to display. My reasoning was that this value would
@@ -687,10 +694,10 @@ formatter had to leave a separate variable for the output component,
 to indicate how many valid characters were in the buffers. This would
 leave any subsequent font commands free to change \forth{WALL}.
 
-It was important that the two buffers, the attribute commands, and
-the new variable were the only elements that could be shared between the
-two modules. Reaching into either module from the other one spells
-trouble.
+It was important that the two buffers, the attribute commands, and the
+new variable were the \emph{only} elements that could be shared
+between the two modules. Reaching into either module from the other
+one spells trouble.
 
 The moral of this story is that we must distinguish between data
 structures that are validly used only within a single component and those
@@ -738,10 +745,9 @@ Like a textbook, the elementary stuff comes first. A newcomer to
 the project would be able to read the elementary parts of the code before
 moving on the advanced stuff.
 
-But in many large applications, the extra capabilities are best
-
 \wepsfigt{fig3-10}{Two ways to add advanced capabilities.}
 
+But in many large applications, the extra capabilities are best
 implemented as an enhancement to some private, root function in the
 elementary part of the application (\fig{fig3-10}b). By being able to
 change the root's capability, the user can change the capability of all the
@@ -885,7 +891,7 @@ might want to substitute something available, such as displaying an
 asterisk, just to get into the problem. Thinking in terms of lexicons is like
 painting a huge mural that spans several canvases. You work on all the
 canvases at once, first sketching in the key design elements, then adding
-splashes of color here and there . . . until the entire wall is complete.
+splashes of color here and there\dots{} until the entire wall is complete.
 
 \begin{tip}
 In deciding where to start designing, look for:\medskip
@@ -927,7 +933,6 @@ you to invoke directly.
 
 Second, the object is usually designed to stand alone. It can't take
 advantage of tools provided by supporting components. As a result, it
-
 tends to duplicate code inside itself that will appear elsewhere in
 the application. Some objects are even required to parse text in order
 to interpret their parameters. Each may even use its own syntax. A
@@ -959,8 +964,8 @@ those that handle the video screen, disk drives, and keyboard. You
 invoke them by placing a control code in a certain register and
 generating the appropriate software interrupt.
 
-For instance, software interrupt 10H causes entry to the video
-routines. There are 16 of these routines. You load register AH with the
+For instance, software interrupt \code{10H} causes entry to the video
+routines. There are 16 of these routines. You load register \code{AH} with the
 number of the video routine you want.
 
 Unfortunately, in all 16 routines there is not one that displays a text
@@ -975,6 +980,7 @@ because you can't reuse any of the information within the video routines
 except for what's provided on the outside. The stated reason for this is to
 ``insulate'' the programmer from device addresses and other details of
 the hardware. After all, these could change with future upgrades.
+
 The only way to efficiently implement video I/O on this machine is
 to move strings directly into video memory. You can do this easily,
 because the reference manual tells you the address at which video
@@ -1042,7 +1048,7 @@ problem to solve. Grab your favorite piece and turn to the next chapter.%
 
 \section{For Further Thinking}
 
-(Answers appear in \App{D}.)
+\emph{(Answers appear in \App{D}.)}
 
 %!! use enumeration?
 \begin{enumerate}
@@ -1091,7 +1097,7 @@ DECIMAL
 
 Let's suppose we have a region of memory outside of the \Forth{}
 dictionary which we want to allocate for data structures (for whatever
-reason). The region of memory begins at \forth{HEX} address \code{0000}. We want to
+reason). The region of memory begins at \forth{HEX} address \code{C000}. We want to
 define a series of arrays which will reside in that memory.
 
  We might do something like this:
