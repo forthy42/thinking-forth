@@ -278,6 +278,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 %% TIP environment
 
 \newcounter{tipc}[chapter]
+\newcounter{notec}[chapter]
 
 \def\tipno{\thechapter.\arabic{tipc}}
 
@@ -332,6 +333,42 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \end{minipage}\egroup%
 \leavevmode\label{tip-\thechapter.\arabic{tipc}}%
 \tipbox
+\endlist
+}
+
+%% ``Post-it note''
+
+\newrgbcolor{lightyellow}{1 1 .4}
+
+\def\notebox{\@tempdima\ht\@tempboxa\@tempdimb\dp\@tempboxa
+\advance\@tempdimb\ht\@tempboxa
+\hbox to \linewidth{\leavevmode%
+\ifodd\hypergetpageref{note-\thechapter.\arabic{notec}}%
+\else\hss\hbox{\hss
+\vbox to \@tempdima{\vss}~}\fi
+\psshadowbox[fillcolor=lightyellow,
+cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,
+linecolor=midgreen,linewidth=0.3pt,
+shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
+\ifodd\hypergetpageref{note-\thechapter.\arabic{notec}}%
+~\vbox to \@tempdima{%
+vss}\hss%
+\else
+\hbox to 2.5em{\hss}%
+\fi
+}
+}
+
+\newenvironment{tfnote}[1]{
+\list{}{\listparindent 0pt\itemindent 0pt}
+\item\relax
+\stepcounter{notec}%
+\setbox\@tempboxa\hbox\bgroup\begin{minipage}[t]{\linewidth}
+{\sc Note from #1}\par\medskip\small
+}{\par
+\end{minipage}\egroup%
+\leavevmode\label{note-\thechapter.\arabic{notec}}%
+\notebox
 \endlist
 }
 
