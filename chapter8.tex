@@ -11,7 +11,7 @@
 
 \chapter{Minimizing Control~Structures}\Chapmark{8}%
 \index{C!Control structure minimization|(}%
-\index{C!Control structures:!minimization of|see{Control structure minimiation}}
+\index{C!Control structures:!minimization of|see{Control structure minimization}}
 
 Control structures aren't as important in \Forth{} as they are in other
 languages. \Forth{} programmers tend to write very complex applications
@@ -188,7 +188,7 @@ PROCEDURE DEPOSIT
 \end{center}
 \end{figure*}
 The second version, \Fig{fig8-2}, shows the improvement that using
-many small, named procedures can have on readibility. The user's card is
+many small, named procedures can have on readability. The user's card is
 eaten if the owner is not valid.
 
 But even with this improvement, the design of each word depends
@@ -259,7 +259,7 @@ become dependent on hardware. Details of the interface to the keypad
 may be hidden within the keypad lexicon, \code{READ-BUTTON} and
 \code{BUTTON}.)
 
-Of course, \Forth{} will allow you to take any of the three approachs.
+Of course, \Forth{} will allow you to take any of the three approaches.
 Which do you prefer?
 
 \section{How to Eliminate Control Structures}
@@ -424,7 +424,7 @@ Take this example, please:
 \end{Code}
 This version is inefficient because all four tests must be made regardless
 of the outcome of any of them. If the key pressed was the left-arrow key,
-threre's no need to check if it was some other key.
+there's no need to check if it was some other key.
 
 Instead, you can nest the conditionals, like this:
 
@@ -515,7 +515,7 @@ determine that the alarm clock was ringing. We could write
 If the first condition is true, we don't waste time evaluating the second.
 We have to get up to answer the phone anyway.
 
-The repetition of \forth{UP GET} is ugly---not nearly as readible as the
+The repetition of \forth{UP GET} is ugly---not nearly as readable as the
 solution using \forth{OR}---but in some cases desirable.%
 \index{C!Conditionals, nesting and combining|)}%
 \index{C!Control structure minimization!nesting and combining conditionals|)}
@@ -853,7 +853,7 @@ Screen 150, or if testing, the next screen past it.%
 \section{A Note on Tricks}%
 \index{C!Control structure minimization!tricks|(}
 
-This sort of approach is often labelled a ``trick.'' In the computing
+This sort of approach is often labeled a ``trick.'' In the computing
 industry at large, tricks have a bad rep.
 
 A trick is simply taking advantage of certain properties of operation.
@@ -1029,7 +1029,7 @@ LOWER RATE !
 \end{Code}
 etc.\goodbreak
 
-The current charge, either first minute, additional minute, or permile,
+The current charge, either first minute, additional minute, or per mile,
 is expressed as an offset into the table (0, 2, or 4).
 
 An optimization note: we've implemented the two-dimensional table
@@ -1115,7 +1115,7 @@ VARIABLE ESCAPE?      \ t=time-to-leave-loop
 CREATE FUNCTIONS
 \ keys                  normal mode        insert mode
  4 ,  ( ctrl-D)         IS DELETE          IS INSERT-OFF
- 9 ,  ( etrl-I)         IS INSERT-ON       IS INSERT-OFF
+ 9 ,  ( ctrl-I)         IS INSERT-ON       IS INSERT-OFF
  8 ,  ( backspace)      IS BACKWARD        IS INSERT<
 60 ,  ( left arrow)     IS BACKWARD        IS INSERT-OFF
 62 ,  ( right arrow)    IS FORWARD         IS INSERT-OFF
@@ -1567,7 +1567,7 @@ decisions for you. For instance (as already previewed in another context):
 \end{tip}
 Sometimes you need a flag to indicate whether or not a previous piece of
 code was invoked. The following definition leaves a flag which indicates
-that DO-IT was done:
+that \forth{DO-IT} was done:
 
 \begin{Code}
 : DID-I?  ( -- t=I-did)
@@ -1712,7 +1712,7 @@ DOER HESITATE  ( the exit hook)
 \end{Code}
 By default, \forth{HESITATE} does nothing. If we invoke \forth{DISSOLVE}, we'll
 end up in court. But if we \forth{RELENT} before we \forth{DISSOLVE}, we'll send
-flowers, then jump clear to the semicolon, cancelling that court order
+flowers, then jump clear to the semicolon, canceling that court order
 before our partner ever finds out.
 
 This approach is especially appropriate when the cancellation must
@@ -1844,7 +1844,7 @@ You can use \forth{CHOOSE} to produce a flag; the phrase
 \end{Code}
 produces a random flag of zero or one (false or true).
 
-%%!!! this is not the second question, there is no questin above
+%%!!! this is not the second question, there is no question above
 \ifeightyfour\item\fi
 Write a phrase to choose a number at random between 0 and 19 (inclusive)
 \emph{or} between $-20$ and 0.

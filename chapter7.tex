@@ -92,7 +92,7 @@ data-passing, not acrobatics.
 So how deep is ``too deep?'' Generally, three elements on the stack is
 the most you can manage within a single definition. (In double-length
 arithmetic, each ``element'' occupies two stack positions but is logically
-treated as a single element by operators such as \forthb{2DUP}, \forthb{20VER},
+treated as a single element by operators such as \forthb{2DUP}, \forthb{2OVER},
 etc.)
 
 In your ordinary lexicon of stack operators, \forthb{ROT} is the only one
@@ -194,7 +194,7 @@ BLK @  + 1+  SWAP BLK @ +
 Now it's more readable, but it's still rather long, and redundant too.
 \forthb{BLK @ +} appears twice.
 
-``\forthb{BLK @ +}''? That sounds famililar. Finally our neurons connect.
+``\forthb{BLK @ +}''? That sounds familiar. Finally our neurons connect.
 
 We look back at the source for \forth{+LOAD} just defined:
 
@@ -424,7 +424,7 @@ possible cases.
 \end{tip}%
 \index{E!Error-code|(}
 You'll often find a definition which does some job and, if something goes
-wrong, returns an error-code indentifying the problem. Here's one way
+wrong, returns an error-code identifying the problem. Here's one way
 the stack interface might be designed:
 
 \begin{Code}
@@ -580,7 +580,7 @@ a \Forth{} programmer usually tries quite hard to avoid defining any but
 the most essential global variables (I have a friend who has the sign ``Help
 stamp out variables'' above his desk), and tries to write words with what is
 called ``referential transparency,'' i.e., given the same stack inputs a word
-will always give the same stack ouputs regardless of the more global
+will always give the same stack outputs regardless of the more global
 context in which it is executed.
 
 In fact this property is exactly what we use when we test words in isolation.
@@ -947,7 +947,7 @@ original definition was renamed \forth{[DISPLAY]}, thus adding a level
 of complexity backward without changing any of the code that used
 \forth{DISPLAY}.
 
-Finally, when the talbe-of-contents feature was added, a new
+Finally, when the table-of-contents feature was added, a new
 \forth{DISPLAY} was defined to include the table-of-contents check,
 and the previous \forth{DISPLAY} was renamed \forth{<DISPLAY>}.
 

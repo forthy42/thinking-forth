@@ -123,7 +123,7 @@ before, or how you solved something like it.
 \begin{tip}
 Work forward.
 \end{tip}
-The normal, obvious way to attack a problem is by begining with the
+The normal, obvious way to attack a problem is by beginning with the
 known, and proceeding to the unknown. In deciding which horse to bet
 on, you'd begin with their recent histories, their current health, and so on,
 apply weights to these various factors and arrive at a favorite.
@@ -542,7 +542,7 @@ execution in \Chap{7}.)
 
 \begin{tip}
 Let text follow names.
-\index{T!Text-follows-nams syntax rule}
+\index{T!Text-follows-names syntax rule}
 \end{tip}
 If the \Forth{} interpreter finds a string of text that is neither a number
 nor a predefined word, it will abort with an error message. For this
@@ -734,7 +734,7 @@ Let commands perform themselves.
 This rule is a corollary to ``Avoid expectations.'' It's one of
 \Forth{}'s philosophical quirks to let words do their own work. Witness
 the \Forth{} compiler (the function that compiles colon definitions),
-carcicatured in \Fig{fig4-7}. It has very few rules:
+caricatured in \Fig{fig4-7}. It has very few rules:
 
 \wepsfigt{fig4-7}{The traditional compiler vs. the \Forth{} compiler.}
 
@@ -984,7 +984,7 @@ problem the rates appeared to be arbitrary, so we designed a data
 structure:
 
 \bigskip
-%!! this shoulde be a table; see pg 119
+%!! this should be a table; see pg 119
 \begin{tabular}{lccc}
           & \emph{Full Rate} & \emph{Lower Rate} & \emph{Lowest Rate} \\ \hline
 First Min.  &       .30        &        .22        &          .12 \\ \hline
@@ -999,12 +999,14 @@ wrong later. In this case, table-driven code is easier to maintain.
 In \Chap{3} we designed a keystroke interpreter for our Tiny
 Editor using a decision table:
 
-%!! this shoulde be a table; see pg 119
+%!! this should be a table; see pg 119
+%%typo: The original has here ``Cntrl''. Usually, it's Ctrl, and other chapters
+%%use that name, too.
 \medskip
 \begin{tabular}{lll}
 \emph{Key}         & \emph{Not-Inserting} & \emph{Inserting} \\
-\texttt{Cntrl-D}   & \texttt{DELETE}      & \texttt{INSERT-OFF} \\
-\texttt{Cntrl-I}   & \texttt{INSERT-ON}   & \texttt{INSERT-OFF} \\
+\texttt{Ctrl-D}    & \texttt{DELETE}      & \texttt{INSERT-OFF} \\
+\texttt{Ctrl-I}    & \texttt{INSERT-ON}   & \texttt{INSERT-OFF} \\
 \texttt{backspace} & \texttt{BACKWARD}    & \texttt{INSERT<} \\
 etc. & &
 \end{tabular}
@@ -1014,12 +1016,12 @@ etc. & &
 We could have achieved this same result with logic:
 \begin{Code}
 CASE
-   CNTRL-D    OF  'INSERTING @  IF
+   CTRL-D     OF  'INSERTING @  IF
       INSERT-OFF   ELSE DELETE     THEN   ENDOF
-   CNTRL-I    OF  'INSERTING @  IF
+   CTRL-I     OF  'INSERTING @  IF
       INSERT-OFF   ELSE INSERT-ON  THEN   ENDOF
    BACKSPACE  OF  'INSERTING @  IF
-      INSERT<      ELSE BACKWARD   THEN   ENDDF
+      INSERT<      ELSE BACKWARD   THEN   ENDOF
 ENDCASE
 \end{Code}
 but the logic is more confusing. And the use of logic to express such a
@@ -1027,7 +1029,7 @@ multi-condition algorithm gets even more convoluted when a table was
 not used in the original design.
 
 The use of logic becomes advisable when the result is not calculable,
-or when the decision is not complicated enough to warrent a decision
+or when the decision is not complicated enough to warrant a decision
 table. \Chap{8} is devoted to the issue of minimizing the use of logic
 in your programs.
 
@@ -1099,7 +1101,7 @@ IV \\
 V \\
 VI \\
 VII \\
-VIll \\
+VIII \\
 IX \\
 X \\
 \end{tabular}}
@@ -1165,7 +1167,7 @@ number into decimal digits, and treat each digit separately. For instance,
 
 \noindent It may be premature, but we can already see a method by
 which \Forth{} will let us decompose a number into decimal digits---with
-modulo divison by ten. For instance, if we say
+modulo division by ten. For instance, if we say
 
 \begin{Code}
 37 10 /MOD
@@ -1409,7 +1411,7 @@ A direct translation of these rules into \Forth{} would look like this:
 ( n)  DUP  4 > IF  FIVER 5 -  THEN  ONERS
 \end{Code}
 This is technically correct, but if we're familiar with the technique of
-modulo divison, we'll see this as a natural situation for modulo division
+modulo division, we'll see this as a natural situation for modulo division
 by 5. If we divide the number by five, the quotient will be zero (false)
 when the number is less than five, and one (true) when it's between 5 and
 9. We can use it as the boolean flag to tell whether we want the leading

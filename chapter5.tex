@@ -711,7 +711,7 @@ All screens must leave \forthb{BASE} set to \forthb{DECIMAL}.
 \end{tip}
 Even if you have three screens in a row in which the code is written
 in \forthb{HEX} (three screens of assembler code, for instance), each
-screen must set \forth{bBASE} to \forthb{HEX} at the top, and restore
+screen must set \forth{BASE} to \forthb{HEX} at the top, and restore
 base to \forthb{DECIMAL} at the bottom.  This rule ensures that each
 screen could be loaded separately, for purposes of testing, without
 mucking up the state of affairs.  Also, in reading the listing you
@@ -724,8 +724,8 @@ it was at the beginning.} This extra bit of insurance can be
 accomplished in this fashion:
 \begin{Code}
 BASE @       HEX    \ save original BASE on stack
-OA2 CONSTANT BELLS
-OA4 CONSTANT WHISTLES
+0A2 CONSTANT BELLS
+0A4 CONSTANT WHISTLES
 ... etc. ...
 BASE !              \ restore it
 \end{Code}

@@ -18,7 +18,7 @@ application.
 \index{D!Decomposition!by component|(}%
 \index{P!Preliminary Design!decomposition by component|(}%
 \index{P!Programming cycle:!preliminary
-design/decomposition|see{Prelimiary design}}
+design/decomposition|see{Preliminary design}}
 
 Has this sort of thing ever happened to you? You've been planning for
 three months to take a weekend vacation to the mountains. You've been
@@ -347,8 +347,8 @@ about the implementation later):
 \bigskip
 \begin{tabular}{>{\ttfamily}l>{\ttfamily}l>{\ttfamily}l}
 \emph{\textrm{Key}} &\emph{\textrm{Not-inserting}}& \emph{\textrm{Inserting}}\\
-Cntrl-D        & DELETE              & INSERT-OFF\\
-Cntrl-I        & INSERT-ON           & INSERT-OFF\\
+Ctrl-D        & DELETE              & INSERT-OFF\\
+Ctrl-I        & INSERT-ON           & INSERT-OFF\\
 backspace      & BACKWARD            & INSERT<	 \\
 left-arrow     & BACKWARD            & INSERT-OFF\\
 right-arrow    & FORWARD             & INSERT-OFF\\
@@ -491,7 +491,7 @@ till later in the previous try.
 For instance, we must determine all the keys that might be pressed.
 More significantly, we must consider the problem of ``insert mode.'' This
 realization forces us to invent a flag called \forth{INSERT-MODE} which gets
-toggled by the ``Cntrl I'' key. It's used within several of the structural
+toggled by the ``Ctrl I'' key. It's used within several of the structural
 lines to determine how to process a type of key.
 
 A second flag, called \forth{ESCAPE}, seems to provide a nice structured
@@ -928,7 +928,7 @@ application, making revision easier.
 There are several problems, though. First, the object must contain a
 complicated decision structure to determine which function it must
 perform. This increases object size and decreases performance. A
-lexicon, on the other hand, provides all useable functions by name for
+lexicon, on the other hand, provides all usable functions by name for
 you to invoke directly.
 
 Second, the object is usually designed to stand alone. It can't take
@@ -1117,7 +1117,7 @@ set the pointer to the beginning of the RAM space:
 
 \begin{Code}
 VARIABLE >RAM
-COOO >RAM !
+C000 >RAM !
 \end{Code}
 Now we can define each array like this:
 x\begin{Code}
