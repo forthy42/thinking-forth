@@ -49,10 +49,9 @@
 }
 
 \newenvironment{tip}{\list{}{
-\hbox{\hbox to\leftmargin{}{\advance\linewidth-1\leftmargin\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}}\nopagebreak
-\vspace{1ex}{\parindent 2.5em\Large TIP} \nopagebreak}%
-  \nopagebreak\item\relax}
-{\par\nopagebreak\vspace{1ex}
+\parsep\z@ \@plus\p@\small}%
+\item\relax\leavevmode\samepage\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\nopagebreak\\[0.75ex]\nopagebreak{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}
+{\par\nopagebreak\vspace{0.75ex}
 \nopagebreak\kern-1ex\hbox{\hbox to\leftmargin{}\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}
 \endlist}
 
