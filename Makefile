@@ -5,6 +5,7 @@ SOURCES = thinking-forth.tex \
 	bio.tex copyright.tex quotation.tex tocpages.tex title.tex title2.tex \
 	preface.tex \
 	preface94.tex \
+	preface2004.tex \
 	chapter1.tex \
 	chapter2.tex \
 	chapter3.tex \
