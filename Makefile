@@ -64,7 +64,7 @@ PRICE = 90000
 # pages rounded up to 4, last page empty.
 
 PRINTING = insert your printer here
-OPTIONS = 2004,tip,tipno,leo,thinker,isbn,preliminary
+OPTIONS = 2004,tip,tipno,leo,isbn,preliminary
 LANG = american
 LINKCOLOR = blue
 # for a printed version, use
