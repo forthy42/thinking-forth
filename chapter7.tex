@@ -28,7 +28,6 @@ even below the level of awareness of the programmer, simply because it
 doesn't have to be referred to explicitly.
 \end{tfquot}\index{M!Moore, Charles|)}
 \end{interview}
-
 One important result of this approach: Arguments are unnamed. They
 reside on the stack, not in named variables. This effect is one of the
 reasons for \Forth{}'s elegance. At the same time it's one of the reasons
@@ -604,13 +603,13 @@ hurtling between the blades of a windmill, and expecting to grab a
 trapeze dangling from a hot-air balloon\dots{} I told you Ace, there were
 too many variables!''}
 
-Earlier we suggested the use of local variables especially during the
-design phase, to eliminate stack traffic. It's important to note that in
-doing so, the variables were referred to only within the one definition.
-In our example, \forth{[BOX]} receives four arguments from the stack and
-immediately loads them into local variables for its own use. The four
-variables are not referred to outside of this definition, and the word
-behaves safely as a function.
+\noindent Earlier we suggested the use of local variables especially
+during the design phase, to eliminate stack traffic. It's important to
+note that in doing so, the variables were referred to only within the one
+definition.  In our example, \forth{[BOX]} receives four arguments from
+the stack and immediately loads them into local variables for its own use.
+The four variables are not referred to outside of this definition, and the
+word behaves safely as a function.
 
 Programmers unaccustomed to a language in which data can be passed
 implicitly don't always utilize the stack as fully as they should.
@@ -1030,9 +1029,9 @@ When the application requires handling a group of conditions
 simultaneously, use a state table, not separate variables.
 \end{tip}
 
-The simple case requires saving and restoring a state. Suppose we initially
-have six variables representing the state of a particular component, as
-shown in \Fig{fig7-2}.
+\noindent The simple case requires saving and restoring a state. Suppose
+we initially have six variables representing the state of a particular
+component, as shown in \Fig{fig7-2}.
 \begin{figure*}[hhhh]
 \caption{A collection of related variables.}
 \labelfig{fig7-2}
@@ -1048,8 +1047,8 @@ VARIABLE OUT
 \end{center}
 \end{figure*}
 
-Now suppose that we need to save all of them, so that further processing
-can take place, and later restore all of them. We could define:
+\noindent Now suppose that we need to save all of them, so that further
+processing can take place, and later restore all of them. We could define:
 
 \begin{Code}
 : @STATE ( -- top bottom left right inside out)
@@ -1133,10 +1132,8 @@ clobbering the conditions in each state when we jump to the other state.
 
 \wepsfiga{fig7-5}{Conceptual model for alternating-states tables.}
 
-%!! include \Fig{fig7-5 here
-
-In this model, the names \forth{TOP}, \forth{BOTTOM}, etc., can be
-made to point into either of two tables, \forth{REAL} or
+\noindent In this model, the names \forth{TOP}, \forth{BOTTOM}, etc., can
+be made to point into either of two tables, \forth{REAL} or
 \forth{PSEUDO}. By making the \forth{REAL} table the current one, all
 the pointer names reference addresses in the \forth{REAL} table; by
 making the \forth{PSEUDO} table current, they address the

@@ -727,9 +727,8 @@ BASE @       HEX    \ save original BASE on stack
 BASE !              \ restore it
 \end{Code}
 %Page 148 in first edition.
-
-Sometimes an argument is passed on the stack from screen to screen,
-such as the value returned by \forthb{BEGIN} or \forthb{IF} in a
+\noindent Sometimes an argument is passed on the stack from screen to
+screen, such as the value returned by \forthb{BEGIN} or \forthb{IF} in a
 multiscreen assembler definition, or the base address passed from one
 defining word to another-see ``Compile-Time Factoring'' in \Chap{6}.
 In these cases, it's best to save the value of \forth{BASE} on the
@@ -739,7 +738,6 @@ BASE @ >R     HEX
 ... etc. ...
 R> BASE !
 \end{Code}
-
 Some folks make it a policy to use this approach on any screen that
 changes \forthb{BASE}, so they don't have to worry about it.%
 \index{B!BASE|)}

@@ -694,15 +694,14 @@ become apparent when we visit this example again, later in the book):
 \end{Code}
 %!! The closing paren at the end of this code is a bit misleading.
 %!! At least a leading space and a different font should be used.
-
-(For novices: The apostrophe in the definition of \forth{LIGHT} is a
-\Forth{} word called ``tick.'' Tick is a dictionary-search word; it takes
-a name and looks it up in the dictionary, returning the address where the
-definition resides. Used in this definition, it will find the address of
-the word following \forth{LIGHT}---for instance, \forth{BLUE}---and pass
-this address to the word \forthb{EXECUTE}, which will execute
-\forth{BLUE}, pushing a one onto the stack.  Having ``sucked up'' the
-operation of \forth{BLUE}, \forth{LIGHT} now ``or''s an 8 into
+\noindent (For novices: The apostrophe in the definition of \forth{LIGHT}
+is a \Forth{} word called ``tick.'' Tick is a dictionary-search word; it
+takes a name and looks it up in the dictionary, returning the address
+where the definition resides. Used in this definition, it will find the
+address of the word following \forth{LIGHT}---for instance,
+\forth{BLUE}---and pass this address to the word \forthb{EXECUTE}, which
+will execute \forth{BLUE}, pushing a one onto the stack.  Having ``sucked
+up'' the operation of \forth{BLUE}, \forth{LIGHT} now ``or''s an 8 into
 the 1, producing a 9.)
 
 This definition will work when invoked in the input stream, but special
@@ -730,7 +729,6 @@ disappointment.
 \begin{tip}
 Let commands perform themselves.
 \end{tip}%
-
 \index{C!Compilers|(}%
 This rule is a corollary to ``Avoid expectations.'' It's one of
 \Forth{}'s philosophical quirks to let words do their own work. Witness
@@ -993,9 +991,9 @@ Add'1 Mins. &       .12        &        .10        &          .06 \\ \hline
 \end{tabular}
 \bigskip
 
-Using a data structure was simpler than trying to invent a formula by
-which these values could be calculated. And the formula might prove
-wrong later. In this case, table-driven code is easier to maintain.
+\noindent Using a data structure was simpler than trying to invent a
+formula by which these values could be calculated. And the formula might
+prove wrong later. In this case, table-driven code is easier to maintain.
 
 In \Chap{3} we designed a keystroke interpreter for our Tiny
 Editor using a decision table:
@@ -1198,9 +1196,9 @@ LXXX &  (80) &          "        &  VIII & (8) \\
 \end{tabular}}
 \bigskip
 
-Apparently the same patterns apply for any decimal digit---only the
-symbols themselves change. Anyway, it's clear now that we're dealing with
-an essentially decimal system.
+\noindent Apparently the same patterns apply for any decimal digit---only
+the symbols themselves change. Anyway, it's clear now that we're dealing
+with an essentially decimal system.
 
 If pressed to do so, we could even build a model for a system to display
 Roman numerals from 1 to 99, using a combination of algorithm and
@@ -1268,11 +1266,11 @@ M & \\
 \end{tabular}}
 \bigskip
 
-In listing the symbols, we've also \emph{organized} them in a way that
-seems right. The symbols in the left column are all multiples of ten; the
-symbols in the right column are multiples of five. Furthermore, the
-symbols in each row have ten times the value of the symbols directly above
-them.
+\noindent In listing the symbols, we've also \emph{organized} them in a
+way that seems right. The symbols in the left column are all multiples of
+ten; the symbols in the right column are multiples of five. Furthermore,
+the symbols in each row have ten times the value of the symbols directly
+above them.
 
 Another difference, the symbols in the first column can all be combined in
 multiples, as ``XXXIII.'' But you can't have multiples of any of the
@@ -1609,7 +1607,6 @@ or if it is not state-dependent, use:
 CREATE ROMANS  73 C,  86 C,  88 C,  76 C,
    67 C,  68 C,  77 C,
 \end{Code}
-
 We can select a particular symbol from the table by applying two
 different offsets at the same time. One dimension represents the decimal
 place: ones, tens, hundreds, etc. This dimension is made ``current,'' that
