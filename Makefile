@@ -8,13 +8,16 @@ SOURCES = thinking-forth.tex \
 PDFGEN = fig7-7.pdf fig7-8.pdf fig7-9.pdf
 EPSGEN = fig7-7.eps fig7-8.eps fig7-9.eps
 
-all:	pdf ps
+all:	pspdf ps
+
+pspdf thinking-forth.pdf : thinking-forth.ps
+	ps2pdf thinking-forth.ps thinking-forth.pdf
 
 pdf thinking-forth.pdf : $(SOURCES) $(PDFGEN)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
 
-ps thinking-forth.ps : thinking-forth.dvi $(EPSGEN)
+ps thinking-forth.ps : thinking-forth.dvi
 	dvips $< -o $@
 
 dvi thinking-forth.dvi : $(SOURCES)
