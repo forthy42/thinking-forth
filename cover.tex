@@ -35,7 +35,7 @@
 \newdimen\pwidth
 \newdimen\spine
 \pthick0.0041in
-\spine314\pthick
+\spine162\pthick
 \pwidth6.8125in
 \advance\pwidth6.8125in
 \advance\pwidth\spine
@@ -69,16 +69,16 @@ footskip=0pt}
 \rlap{\psframe[fillcolor=black,fillstyle=solid](-100,-100)(100,100)}
 \white
 \begin{minipage}{6.8125in}
-\begin{center}
-\begin{minipage}{4.8125in}
+\hbox{\hspace{1.4in}
+\begin{minipage}{4.7125in}
+\parindent2.5em
 \input{backpage}
-\end{minipage}
-\end{center}
+\end{minipage}}
 \vspace{20pt}
 \vspace{1.5in}
-\leavevmode\hspace{0.5in}\psframe[fillcolor=white,fillstyle=solid](0,0)(5.08,3.81)
+\leavevmode\hspace{1.4in}\psframe[fillcolor=white,fillstyle=solid](0,0)(5.08,3.81)
 \end{minipage}
-
+\vline
 \begin{minipage}{\spine}
 \rotateleft{\vbox to \spine{\vss\hbox to 9.125in{
     \fontfamily{phv}\selectfont
@@ -88,17 +88,17 @@ footskip=0pt}
     \hspace{0.5in}
 }\vss}}
 \end{minipage}
-
+\vline
 \begin{minipage}{6.8125in}
 \makeatletter
 \HUGE
     \fontfamily{phv}\selectfont
   \vbox{\advance\textwidth1em\hrule \@height 3pt
-    \vspace*{0.2ex}\hbox to \textwidth{\hspace{0.5in}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
+    \vspace*{0.2ex}\hbox to \textwidth{\hspace{0.7in}\bfseries Leo Brodie\hss}\vspace*{0.2ex}
     \hrule \@height 3pt}
   \vspace*{100pt}
-  \begin{center}
-  \begin{minipage}{5.8125in}
+  \hbox{\hspace{0.7in}
+  \begin{minipage}{4.7125in}
   \vbox{\hsize\textwidth
     \parindent\z@\hyphenpenalty 10000\raggedright
   {\THUGE\bfseries\slshape THINKING FORTH\\[1em]}
@@ -106,8 +106,7 @@ footskip=0pt}
    \vspace*{100pt}
    \Large\noindent Includes interviews with \Forth{}'s inventor, \person{Charles H. Moore},
 and other \Forth{} thinkers
-  \end{minipage}
-  \end{center}
+  \end{minipage}}
 \end{minipage}}
 
 
