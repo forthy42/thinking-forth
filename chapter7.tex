@@ -6,10 +6,10 @@
 %% Chapter: Seven - Handling Data: Stacks and States
 
 %!! horizontal line
-SEVEN
+%SEVEN
 %!! horizontal line
 
-\chapter{Handling Data: Stacks and States}
+\chapter{Handling~Data: Stacks~and~States}
 
 %!! horizontal line
 FORTH handles data in one of two ways: either on the stack or in data
@@ -23,14 +23,18 @@ via the stack. The process is ``simple'' because all the work of pushing
 and popping values to and from the stack is implicit.
 
 %!! horizontal line
-Moore:
+\bigskip\blackline{2ex}
+\noindent Moore:
 
+\begin{tfquot}
 The data stack uses this idea of ``hidden information.'' The arguments
 being passed between subroutines are not explicit in the calling sequence.
 The same argument might ripple through a whole lot of words quite invisibly,
 even below the level of awareness of the programmer, simply because it
 doesn't have to be referred to explicitly.
+\end{tfquot}
 %!! horizontal line
+\blackline{1ex}
 
 One important result of this approach: Arguments are unnamed. They
 reside on the stack, not in named variables. This effect is one of the
@@ -42,8 +46,9 @@ The invention of the stack is analogous to that of pronouns in
 English. Consider the passage:
 
 %!! indent paragraph
+\begin{tfquot}
 Take this gift, wrap it in tissue paper and put it in a box.
-
+\end{tfquot}
 Notice the word ``gift'' is mentioned only once. The gift is referred to
 henceforth as ``it.''
 
@@ -57,32 +62,32 @@ The spoken language gets confusing when too many things are
 referred to with pronouns.
 
 %!! indent paragraph
+\begin{tfquot}
 Take off the wrapping and open the box. Remove the gift and throw it
 away.
-
+\end{tfquot}
 The problem with this passage is that we're using ``it'' to refer to too
 many things at once. There are two solutions to this error. The easiest
 solution is to supply a real name instead of ``it'':
 
 %!! indent paragraph
+\begin{tfquot}
 Remove the wrapping and open the box. Take out the gift and throw
 \emph{the box} away.
-
+\end{tfquot}
 Or we can introduce the words ``former'' and ``latter.'' But the best
 solution is to redesign the passage:
 
 %!! indent paragraph
+\begin{tfquot}
 Remove the wrapping and open the present. Throw away the box.
-
+\end{tfquot}
 So in FORTH we have analogous observations:
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Simplify code by using the stack. But don't stack too deeply within any
 single definition. Redesign, or, as a last resort, use a named variable.
-%!! horizontal line
-
+\end{tip}
 Some newcomers to FORTH view the stack the way a gymnast views a
 trampoline: as a fun place to bounce around on. But the stack is meant for
 data-passing, not acrobatics.
@@ -90,12 +95,12 @@ data-passing, not acrobatics.
 So how deep is ``too deep?'' Generally, three elements on the stack is
 the most you can manage within a single definition. (In double-length
 arithmetic, each ``element'' occupies two stack positions but is logically
-treated as a single element by operators such as \bf{2DUP}, \bf{20VER},
+treated as a single element by operators such as \textbf{2DUP}, \textbf{20VER},
 etc.)
 
-In your ordinary lexicon of stack operators, \bf{ROT} is the only one
-that gives you access to the third stack item. Aside from \bf{PICK} and
-\bf{ROLL} (which we'll comment on soon), there's no easy way to get at
+In your ordinary lexicon of stack operators, \textbf{ROT} is the only one
+that gives you access to the third stack item. Aside from \textbf{PICK} and
+\textbf{ROLL} (which we'll comment on soon), there's no easy way to get at
 anything below that.
 
 To stretch our analogy to the limit, perhaps three elements on the
@@ -113,7 +118,7 @@ subsection). We've decided that our loop body will be
 ...  DO  I LOAD  LOOP ;
 \end{verbatim}
 
-that is, we'll put \bf{LOAD} in a loop, then arrange for the index and limit
+that is, we'll put \textbf{LOAD} in a loop, then arrange for the index and limit
 to correspond to the absolute screens being loaded.
 
 On the stack initially we have:
@@ -122,15 +127,15 @@ On the stack initially we have:
 lo hi
 \end{verbatim}
 
-where ``lo'' and ``hi'' are the \emph{offsets} from \bf{BLK}.
+where ``lo'' and ``hi'' are the \emph{offsets} from \textbf{BLK}.
 
-We need to permute them for \bf{DO}, like this:
+We need to permute them for \textbf{DO}, like this:
 
 \begin{verbatim}
 hi+1+blk lo+blk
 \end{verbatim}
 
-Our biggest problem is adding the value of \bf{BLK} to both offsets.
+Our biggest problem is adding the value of \textbf{BLK} to both offsets.
 
 We've already taken a wrong turn but we don't know it yet. So let's
 proceed. We try:
@@ -182,23 +187,23 @@ At this point, the first resort is usually the return stack:
 BLK @  DUP >R  + 1+  SWAP R> + +
 \end{verbatim}
 
-(See ``The Stylish Return Stack,'' coming up next.) Here we've \bf{DUP}ed
+(See ``The Stylish Return Stack,'' coming up next.) Here we've \textbf{DUP}ed
 ``blk,'' saving one copy on the return stack and adding the other copy to
 ``hi.''
 
 Admittedly an improvement. But readable?
 
 Next we think, ``Maybe we need a named variable.'' Of course, we
-have one already: \bf{BLK}. So we try:
+have one already: \textbf{BLK}. So we try:
 
 \begin{verbatim}
 BLK @  + 1+  SWAP BLK @ +
 \end{verbatim}
 
 Now it's more readable, but it's still rather long, and redundant too.
-\bf{BLK @ +} appears twice.
+\textbf{BLK @ +} appears twice.
 
-``\bf{BLK @ +}''? That sounds famililar. Finally our neurons connect.
+``\textbf{BLK @ +}''? That sounds famililar. Finally our neurons connect.
 
 We look back at the source for +LOAD just defined:
 
@@ -213,7 +218,7 @@ This word, +LOAD, should be doing the work. All we have to write is:
 \end{verbatim}
 
 We haven't created a more efficient version here, because the work of
-\bf{BLK @ +} will be done on every pass of the loop. But we have created a
+\textbf{BLK @ +} will be done on every pass of the loop. But we have created a
 cleaner, conceptually simpler, and more readable piece of code. In this
 case, the inefficiency is unnoticeable because it only occurs as each block
 is loaded.
@@ -279,21 +284,18 @@ are three reasons to avoid this cockiness.
 First, it's a pain to code that way. Second, the result is unreadable.
 Third, all your work becomes useless when a design change becomes
 necessary, and the order of two arguments changes on the stack. The
-\bf{DUP}s, \bf{OVER}s and \bf{ROT}s weren't really solving the problem,
+\textbf{DUP}s, \textbf{OVER}s and \textbf{ROT}s weren't really solving the problem,
 just jockeying things into position.
 
 With this third reason in mind, I recommend the following:
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Especially in the design phase, keep on the stack only the arguments you're
 using immediately. Create local variables for any others. (If necessary,
 eliminate the variables during the optimization phase.)
-%!! horizontal line
-
+\end{tip}
 Fourth, if the definition is extremely time-critical, those tricky stack
-manipulators, (e.g., \bf{ROT ROT}) can really eat up clock cycles. Direct
+manipulators, (e.g., \textbf{ROT ROT}) can really eat up clock cycles. Direct
 access to variables is faster.
 
 If it's \emph{really} time-critical, you may need to convert to assembler
@@ -301,7 +303,7 @@ anyway. In this case, all your stack problems fly out the door, because all
 your data will be referenced either in registers or indirectly through
 registers. Luckily, the definitions with the messiest stack arguments are
 often the ones written in code. Our [BOX] primitive is a case in point.
-\bf{CMOVE>} is another.
+\textbf{CMOVE>} is another.
 
 The approach we took with [BOX] certainly beats spending half an
 hour juggling items on the stack, but it is by no means the best solution.
@@ -344,21 +346,18 @@ draws a box 30 units high and 30 units wide, relative to the origin.
 This approach reduces the number of stack arguments to BOX as
 part of the design.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 When determining which arguments to handle via data structures rather
 than via the stack, choose the arguments that are the more permanent or
 that represent a current state.
-%!! horizontal line
-
+\end{tip}
 \subsection{On PICK and ROLL}
 
-Some folks like the words \bf{PICK} and \bf{ROLL}. They use these words to
+Some folks like the words \textbf{PICK} and \textbf{ROLL}. They use these words to
 access elements from any level on the stack. We don't recommend them.
-For one thing, \bf{PICK} and \bf{ROLL} encourage the programmer to think
+For one thing, \textbf{PICK} and \textbf{ROLL} encourage the programmer to think
 of the stack as an array, which it is not. If you have so many elements on
-the stack that you need \bf{PICK} and \bf{ROLL}, those elements should be in
+the stack that you need \textbf{PICK} and \textbf{ROLL}, those elements should be in
 an array instead.
 
 Second, they encourage the programmer to refer to arguments that
@@ -388,35 +387,29 @@ Code like this is hard to read and harder to modify.
 
 When you do have a cumbersome stack situation to solve, it's best to work
 it out with paper and pencil. Some people even make up forms, such as the
-one in Figure 7-1. Done formally like this (instead of on the back of your
+one in \Fig{fig7-1}. Done formally like this (instead of on the back of your
 phone bill) stack commentaries serve as nice auxiliary documentation.
 
 \subsection{Stack Tips}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Make sure that stack effects balance out under all possible control flows.
-%!! horizontal line
-
-In the stack commentary for \bf{CMOVE>} in Figure 7-1, the inner brace
-represents the contents of the \bf{DO LOOP}. The stack depth upon exiting
+\end{tip}
+In the stack commentary for \textbf{CMOVE>} in \Fig{fig7-1}, the inner brace
+represents the contents of the \textbf{DO LOOP}. The stack depth upon exiting
 the loop is the same as upon entering it: one element. Within the outer
-braces, the stack result of the \bf{IF} clause is the same as that of the
-\bf{ELSE} clause: one element left over. (What that leftover element
-represents doesn't matter, as symbolized by the ``x'' next to \bf{THEN}.)
+braces, the stack result of the \textbf{IF} clause is the same as that of the
+\textbf{ELSE} clause: one element left over. (What that leftover element
+represents doesn't matter, as symbolized by the ``x'' next to \textbf{THEN}.)
 
-\bf{Figure 7-1.} \emph{Example of a stack commentary.}
+\wepsfiga{fig7-1}{Example of a stack commentary.}
 
-%!! include Figure 7-1 here
+%!! include \Fig{fig7-1} here
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 When doing two things with the same number, perform the function that
 will go underneath first.
-%!! horizontal line
-
+\end{tip}
 For example:
 
 \begin{verbatim}
@@ -431,13 +424,10 @@ For example:
 
 (where you first compute the address).
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Where possible, keep the number of return arguments the same in all
 possible cases.
-%!! horizontal line
-
+\end{tip}
 You'll often find a definition which does some job and, if something goes
 wrong, returns an error-code indentifying the problem. Here's one way
 the stack interface might be designed:
@@ -468,7 +458,7 @@ it good style or what?
 
 Some people take great offense to its use. But the return stack
 offers the simplest solution to certain gnarly stack jams. Witness the
-definition of \bf{CMOVE>} in the previous section.
+definition of \textbf{CMOVE>} in the previous section.
 
 If you decide to use the return stack for this purpose, remember
 that you are using a component of FORTH for a purpose other than that
@@ -478,21 +468,20 @@ chapter.)
 Here's some suggestions to keep you from shooting yourself in the
 foot:
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 %!! there's certainly some better way to do ordered lists in TeX
-1. Keep return stack operators symmetrical.
-2. Keep return stack operators symmetrical under all control flow
+\begin{enumerate}
+\item Keep return stack operators symmetrical.
+\item Keep return stack operators symmetrical under all control flow
    conditions.
-3. In factoring definitions, watch out that one part doesn't contain one
+\item In factoring definitions, watch out that one part doesn't contain one
    return stack operator, and the other its counterpart.
-4. If used inside a \bf{DO LOOP}, return stack operators must by symmetrical
-   within the loop, and \bf{I} is no longer valid in code bounded by
-   \bf{>R} and \bf{R>}.
-%!! horizontal line
-
-For every \bf{>R} there must be a \bf{R>} in the same definition. Sometimes
+\item If used inside a \textbf{DO LOOP}, return stack operators must by symmetrical
+   within the loop, and \textbf{I} is no longer valid in code bounded by
+   \textbf{>R} and \textbf{R>}.
+\end{enumerate}
+\end{tip}
+For every \textbf{>R} there must be a \textbf{R>} in the same definition. Sometimes
 the operators will appear to be symmetrical, but due to the control structure
 they aren't. For instance:
 
@@ -503,7 +492,7 @@ they aren't. For instance:
 If this construction is used in the outer loop of your application,
 everything will run fine until you exit (perhaps hours later) when you'll
 suddenly blow up. The problem? The last time through the loop, the
-resolving \bf{R>} has been skipped.
+resolving \textbf{R>} has been skipped.
 
 \section{The Problem With Variables}
 
@@ -526,7 +515,7 @@ are available for anyone who cares to look---like graffiti.
 Thus variables can be used to reflect the current state of affairs.
 
 Using currentness can simplify problems. In the Roman numeral example
-of Chapter Four, we used the variable COLUMN# to represent the
+of Chapter Four, we used the variable COLUMN\# to represent the
 current decimal-place; the words ONER, FIVER, and TENER depended
 on this information to determine which type of symbol to display. We
 didn't have to specify both descriptions every time, as in TENS ONER,
@@ -540,7 +529,7 @@ chance to set it.
 
 A more serious problem with variables is that they are not ``reentrant.''
 On a multi-tasked FORTH system, each task which requires
-local variables must have its own copies. FORTH's \bf{USER} variables
+local variables must have its own copies. FORTH's \textbf{USER} variables
 serve this purpose. (See \emph{Starting FORTH}, Chapter Nine, ``FORTH
 Geography.'')
 
@@ -551,7 +540,7 @@ arguments are passed via the stack.
 Suppose we are implementing a word-processor editor. We need a
 routine that calculates the number of characters between the current cursor
 position and the previous carriage-return/line-feed sequence. So we
-write a word that employs a \bf{DO LOOP} starting at the current position
+write a word that employs a \textbf{DO LOOP} starting at the current position
 (CURSOR @) and ending at the zeroth position, searching for the line
 feed character.
 
@@ -583,16 +572,15 @@ argument on the stack, resulting in:
 By factoring-out the reference to the variable, we made the definition
 more useful.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 Unless it involves cluttering up the stack to the point of unreadability, try
 to pass arguments via the stack rather than pulling them out of variables.
+\end{tip}
 %!! horizontal line
-
-%!! horizontal line
-Kogge:
-
+\bigskip
+\blackline{2ex}
+\noindent Kogge:
+\begin{tfquot}
 Most of the modularity of FORTH comes from designing and treating
 FORTH words as ``functions'' in the mathematical sense. In my experience
 a FORTH programmer usually tries quite hard to avoid defining any but
@@ -606,13 +594,15 @@ In fact this property is exactly what we use when we test words in isolation.
 Words that do not have this property are significantly harder to test. In a
 sense a ``named variable'' whose value changes frequently is the next worst
 thing to the now ``forbidden'' GOTO.
+\end{tfquot}
 %!! horizontal line
+\blackline{1ex}
 
 %!! include cartoon of page 211 here
-
-``\emph{Shot from a cannon on a fast-moving train, hurtling between the
-blades of a windmill, and expecting to grab a trapeze dangling from a
-hot-air balloon... I told you Ace, there were too many variables!}''
+\wepsfigp{img7-211}{``Shot from a cannon on a fast-moving train,
+hurtling between the blades of a windmill, and expecting to grab a
+trapeze dangling from a hot-air balloon\dots{} I told you Ace, there were
+too many variables!''}
 
 Earlier we suggested the use of local variables especially during the
 design phase, to eliminate stack traffic. It's important to note that in
@@ -632,7 +622,7 @@ might happen with all that thrashing about on the stack,'' he felt.
 It took some time for him to appreciate that ``if words keep properly
 to themselves, using the stack only for their expected input and output
 and cleaning up after themselves, they can be looked upon as sealed
-systems ... I could put the count on the stack at the beginning of the
+systems \dots{} I could put the count on the stack at the beginning of the
 loop, go through the complete routine for each group, and at the end the
 count would emerge, back on top of the stack, not a hair out of place.''
 
@@ -649,8 +639,10 @@ FORTH makes no distinction between local and global variables.
 But FORTH programmers do.
 
 %!! horizontal line
-Moore:
+\bigskip\blackline{2ex}
+\noindent Moore:
 
+\begin{tfquot}
 We should be writing for the reader. If something is referred to only locally,
 a temporary variable just for accumulating a sum in, we should define it
 locally. It's handier to define it in the block where it's used, where you can
@@ -676,7 +668,9 @@ It can get much more elaborate. I've defined variables in ROM where the
 variables were all off in an array in high memory, and the initial values are
 in ROM, and I copy up the initial values at initialization time. But usually
 you're only initializing a few variables to anything other than zero.
+\end{tfquot}
 %!! horizontal line
+\blackline{1ex}
 
 \section{Saving and Restoring a State}
 
@@ -684,7 +678,7 @@ Variables have the characteristic that when you change their contents,
 you clobber the value that was there before. Let's look at some of the
 problems this can create, and some of the things we can do about them.
 
-\bf{BASE} is a variable that indicates the current number radix for all
+\textbf{BASE} is a variable that indicates the current number radix for all
 numeric input and output. The following words are commonly found in
 FORTH systems:
 
@@ -704,7 +698,7 @@ we work in decimal mode, but we want the dump in hexadecimal. So we write:
 This works---most of the time. But there's a presumption that we want to
 come back to decimal mode. What if it had been working in hexadecimal,
 and wants to come back to hexadecimal? Before we change the base to
-\bf{HEX}, we have to save its current value. When we're done dumping, we
+\textbf{HEX}, we have to save its current value. When we're done dumping, we
 restore it.
 
 This means we have to tuck away the saved value temporarily,
@@ -751,28 +745,31 @@ Use BURY and EXHUME to save and restore the original value:
 
 BURY saves the ``old'' version of condition at CONDITION 2+.
 
-You still have to be careful. Going back to our \bf{DUMP} example, suppose
+You still have to be careful. Going back to our \textbf{DUMP} example, suppose
 you decided to add the friendly feature of letting the user exit the
 dump at any time by pressing the ``escape'' key. So inside the loop you
-build the test for a key being pressed, and if so execute \bf{QUIT}. But what
+build the test for a key being pressed, and if so execute \textbf{QUIT}. But what
 happens?
 
-The user starts in decimal, then types \bf{DUMP}. He exits \bf{DUMP} midway
+The user starts in decimal, then types \textbf{DUMP}. He exits \textbf{DUMP} midway
 through and finds himself, strangely, in hexadecimal.
 
-In the simple case at hand, the best solution is to not use \bf{QUIT}, but
-rather a controlled exit from the loop (via \bf{LEAVE}, etc.) to the end of the
-definition where \bf{BASE} is reset.
+In the simple case at hand, the best solution is to not use \textbf{QUIT}, but
+rather a controlled exit from the loop (via \textbf{LEAVE}, etc.) to the end of the
+definition where \textbf{BASE} is reset.
 
 In very complex applications a controlled exit is often impractical,
 yet many variables must somehow be restored to a natural condition.
 
 %!! horizontal line
-Moore responds to this example:
+\bigskip
+\blackline{2ex}
+\noindent Moore responds to this example:
 
+\begin{tfquot}
 You really get tied up in a knot. You're creating problems for yourself. If I
-want a hex dump I say \bf{HEX DUMP}. If I want a decimal dump I say
-\bf{DECIMAL DUMP}. I don't give \bf{DUMP} the privilege of messing around
+want a hex dump I say \textbf{HEX DUMP}. If I want a decimal dump I say
+\textbf{DECIMAL DUMP}. I don't give \textbf{DUMP} the privilege of messing around
 with my environment.
 
 There's a philosophical choice between restoring a situation when you
@@ -786,16 +783,20 @@ somebody else changes them, they don't have to worry about resetting
 them.
 
 There are more exits than there are entrances.
+\end{tfquot}
 %!! horizontal line
+\blackline{1ex}
 
 In cases in which I need to do the resetting before I'm done, I've found it
 useful to have a single word (which I call PRISTINE) to perform this
 resetting. I invoke PRISTINE:
 
 %!! '*'s should be bullets
-* at the normal exit point of the application
-* at the point where the user may deliberately exit (just before QUIT)
-* at any point where a fatal error may occur, causing an abort.
+\begin{itemize}
+\item at the normal exit point of the application
+\item at the point where the user may deliberately exit (just before QUIT)
+\item at any point where a fatal error may occur, causing an abort.
+\end{itemize}
 
 Finally, when you encounter this situation of having to save/restore a
 value, make sure it's not just a case of bad factoring. For example,
@@ -810,7 +811,7 @@ suppose we have written:
 The current GAME is either LONG or SHORT.
 
 Later we decide we need a word to play \emph{any} number of holes. So we
-invoke GAME making sure not to clobber the current value of #HOLES:
+invoke GAME making sure not to clobber the current value of \#HOLES:
 
 \begin{verbatim}
 : HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
@@ -856,20 +857,19 @@ and POP to better match their conceptual purposes.
 
 \section{Sharing Components}
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 It's legal to use a component for an additional purpose besides its intended
 one, provided:
 
 %!! there's certainly some better way to do ordered lists in TeX
-1. All uses of the component are mutually exclusive
-2. Each interrupting use of the component restores the component to
+\begin{enumerate}
+\item All uses of the component are mutually exclusive
+\item Each interrupting use of the component restores the component to
    its previous state when finished.
+\end{enumerate}
 
 Otherwise you need an additional component or level of complexity.
-%!! horizontal line
-
+\end{tip}
 We've seen a simple example of this principle with the return stack. The
 return stack is a component of the FORTH system designed to hold
 return addresses, and thereby serve as an indication of where you've been
@@ -978,8 +978,8 @@ The subsequent invocation of INVISIBLE decrements the counter to
 one, so we're still invisible, and will remain invisible until the table of
 contents has been run.
 
-(Note that we must substitute \bf{0=} for \bf{NOT}. The '83 Standard has
-changed \bf{NOT} to mean one's complement, so that \bf{1 NOT} yields true. By
+(Note that we must substitute \textbf{0=} for \textbf{NOT}. The '83 Standard has
+changed \textbf{NOT} to mean one's complement, so that \textbf{1 NOT} yields true. By
 the way, I think this was a mistake.)
 
 This use of a counter may be dangerous, however. It requires parity
@@ -1000,14 +1000,11 @@ application or of a particular component [2]. Some applications require the
 ability to save a current state, then later restore it, or perhaps to have a
 number of alternating states.
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 When the application requires handling a group of conditions
 simultaneously, use a state table, not separate variables.
-%!! horizontal line
-
-\bf{Figure 7-2.} \emph{A collection of related variables.}
+\end{tip}
+\wepsfiga{fig7-2}{A collection of related variables.}
 
 \begin{verbatim}
 VARIABLE TOP
@@ -1020,7 +1017,7 @@ VARIABLE OUT
 
 The simple case requires saving and restoring a state. Suppose we initially
 have six variables representing the state of a particular component, as
-shown in Figure 7-2.
+shown in \Fig{fig7-2}.
 
 Now suppose that we need to save all of them, so that further processing
 can take place, and later restore all of them. We could define:
@@ -1038,19 +1035,21 @@ which to save each value separately.
 
 But a preferred technique involves creating a table, with each
 element of the table referred to by name. Then creating a second table of
-the same length. As you can see in Figure 7-3, we can save the state by
+the same length. As you can see in \Fig{fig7-3}, we can save the state by
 copying the table, called POINTERS, into the second table, called
 SAVED.
 
-\bf{Figure 7-3.} \emph{Conceptual model for saving a state table.}
+\wepsfiga{fig7-3}{Conceptual model for saving a state table.}
 
-%!! include Figure 7-3 here
+%!! include \Fig{fig7-3} here
 
-We've implemented this approach with the code in Figure 7-4.
+We've implemented this approach with the code in \Fig{fig7-4}.
 
-\bf{Figure 7-4.} \emph{Implementation of save/restorable state table.}
-
-\begin{verbatim}
+\begin{figure*}[tttt]
+\labelfig{fig7-4}
+\caption{Implementation of save/restorable state table.}
+\begin{center}
+\begin{BVerbatim}
 O CONSTANT POINTERS  \ address of state table PATCHED LATER
 : POSITION   ( o -- o+2 ) CREATE DUP ,  2+
    DOES>  ( -- a )  @  POINTERS + ;
@@ -1067,7 +1066,9 @@ HERE ' POINTERS >BODY !  /POINTERS ALLOT  \ real table
 CREATE SAVED  /POINTERS ALLOT  \ saving place
 : SAVE     POINTERS  SAVED  /POINTERS CMOVE ;
 : RESTORE  SAVED  POINTERS  /POINTERS CMOVE ;
-\end{verbatim}
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 
 Notice in this implementation that the names of the pointers, TOP,
 BOTTOM, etc., always return the same address. There is only one location
@@ -1082,7 +1083,7 @@ table must be and can actually ALLOT it.
 As soon as we create the field names, we define the size of the table
 as a constant /POINTERS. At last we reserve room for the table itself,
 patching its beginning address (HERE) into the constant POINTERS.
-(The word \bf{>BODY} converts the address returned by tick into the
+(The word \textbf{>BODY} converts the address returned by tick into the
 address of the constant's value.) Thus POINTERS returns the address of
 the table allotted later, just as a name defined by CREATE returns the
 address of a table allotted directly below the name's header.
@@ -1090,21 +1091,18 @@ address of a table allotted directly below the name's header.
 Although it's valid to patch the value of a CONSTANT at compile
 time, as we do here, there is a restriction of style:
 
-%!! horizontal line
-TIP
-
+\begin{tip}
 A CONSTANT's value should never be changed once the application is
 compiled.
-%!! horizontal line
-
+\end{tip}
 The case of alternating states is slightly more involved. In this situation
 we need to alternate back and forth between two (or more) states, never
 clobbering the conditions in each state when we jump to the other state.
-Figure 7-5 shows the conceptual model for this kind of state table.
+\Fig{fig7-5} shows the conceptual model for this kind of state table.
 
-\bf{Figure 7-5.} \emph{Conceptual model for alternating-states tables.}
+\wepsfiga{fig7-5}{Conceptual model for alternating-states tables.}
 
-%!! include Figure 7-5 here
+%!! include \Fig{fig7-5 here
 
 In this model, the names TOP, BOTTOM, etc., can be made to point
 into either of two tables, REAL or PSEUDO. By making the REAL table
@@ -1112,12 +1110,14 @@ the current one, all the pointer names reference addresses in the REAL
 table; by making the PSEUDO table current, they address the PSEUDO
 table.
 
-The code in Figure 7-6 implements this alternating states
+The code in \Fig{fig7-6} implements this alternating states
 mechanism. The words WORKING and PRETENDING change the
 
-\bf{Figure 7-6.} \emph{Implementation of alternating-states mechanism.}
-
-\begin{verbatim}
+\begin{figure*}
+\labelfig{fig7-6}
+\caption{Implementation of alternating-states mechanism.}
+\begin{center}
+\begin{BVerbatim}
 VARIABLE 'POINTERS  \ pointer to state table
 : POINTERS ( -- adr of current table)   'POINTERS @ ;
 : POSITION   ( o -- o+2 ) CREATE DUP ,  2+
@@ -1134,29 +1134,30 @@ CREATE REAL    /POINTERS ALLOT  \ real state table
 CREATE PSEUDO  /POINTERS ALLOT  \ temporary state table
 : WORKING      REAL 'POINTERS ! ;     WORKING
 : PRETENDING   PSEUDO 'POINTERS ! ;
-\end{verbatim}
-
+\end{BVerbatim}
+\end{center}
+\end{figure*}
 pointer appropriately. For instance:
 
-\begin{verbatim}
+\begin{Verbatim}[commandchars=&\{\}]
 WORKING
 10 TOP !
-TOP ? 10	%!! underline '? 10'
+TOP &underline{? 10}
 PRETENDING
 20 TOP !
-TOP ? 20	%!! underline '? 20'
+TOP &underline{? 20}
 WORKING
-TOP ? 10	%!! underline '? 10'
+TOP &underline{? 10}
 PRETENDING
-TOP ? 20	%!! underline '? 20'
-\end{verbatim}
+TOP &underline{? 20}
+\end{Verbatim}
 
 The major difference with this latter approach is that names go through
 an extra level of indirection (POINTERS has been changed from a
 constant to a colon definition). The field names can be made to point to
 either of two state tables. Thus each name has slightly more work to do.
 Also, in the former approach the names refer to fixed locations; a
-\bf{CMOVE} is required each time we save or restore the values. In this
+\textbf{CMOVE} is required each time we save or restore the values. In this
 approach, we have only to change a single pointer to change the current
 table.
 
@@ -1175,7 +1176,7 @@ circumstances more elegantly than the traditional methods.
 The syntax is called DOER/MAKE. (If your system doesn't include
 these words, refer to Appendix B for code and implementation details.) It
 works like this: You define the word whose behavior will be vectorable
-with the defining word \bf{DOER}, as in
+with the defining word \textbf{DOER}, as in
 
 \begin{verbatim}
 DOER PLATFORM
@@ -1222,26 +1223,28 @@ will display another.
 The ``MAKE'' code can be any FORTH code, as much or as long as
 you want; just remember to conclude it with semicolon. The semicolon at
 the end of LEFTWING serves for both LEFTWING and for the bit of
-code after MAKE. When MAKE redirects execution of the \bf{DOER} word,
+code after MAKE. When MAKE redirects execution of the \textbf{DOER} word,
 it also \emph{stops} execution of the word in which it appears.
 
-When you invoke LEFTWING, for example, \bf{MAKE} redirects
+When you invoke LEFTWING, for example, \textbf{MAKE} redirects
 PLATFORM and exits. Invoking LEFTWING does not cause ``proponent''
-to be printed. Figure 7-7 demonstrates this point, using a
+to be printed. \Fig{fig7-7} demonstrates this point, using a
 conceptualized illustration of the dictionary.
 
-If you want to \emph{continue} execution, you can use the word \bf{;AND} in
-place of semicolon. \bf{;AND} terminates the code that the \bf{DOER} word
+If you want to \emph{continue} execution, you can use the word \textbf{;AND} in
+place of semicolon. \textbf{;AND} terminates the code that the \textbf{DOER} word
 
-\bf{Figure 7-7.} \emph{DOER and MAKE.}
+\wepsfigt{fig7-7}{DOER and MAKE.}
+\wepsfigpp{fig7-8}{Multiple MAKEs in parallel using ;AND.}
+\wepsfigpp{fig7-9}{Multiple MAKEs in series.}
 
-%!! include Figure 7-7 here
+%!! include \Fig{fig7-7 here
 
 points to, and resumes execution of the definition in which it appears, as
-you can see in Figure 7-8.
+you can see in \Fig{fig7-8}.
 
-Finally, you can chain the ``making'' of \bf{DOER} words in series by
-not using \bf{;AND}. Figure 7-9 explains this better than I could write about
+Finally, you can chain the ``making'' of \textbf{DOER} words in series by
+not using \textbf{;AND}. \Fig{fig7-9} explains this better than I could write about
 it.
 
 \section{Using DOER/MAKE}
@@ -1252,65 +1255,61 @@ beneficial. They are:
 %!! there's certainly some better way to do ordered lists in TeX
 %!! This list has seven items and spans several pages;
 %!! I have marked its end using ---End-Of-List---
-
-1. To change the state of a function (when external testing of the state is not
+\begin{enumerate}
+\item To change the state of a function (when external testing of the state is not
 necessary). The words LEFTWING and RIGHTWING change the state of
 the word PLATFORM.
 
-2. To factor out internal phrases from similar definitions, but within control
+\item To factor out internal phrases from similar definitions, but within control
 structures such as loops.
 
 Consider the definition of a word called DUMP, designed to reveal the
 contents of a specified region of memory.
 
-\bf{Figure 7-8.} \emph{Multiple MAKEs in parallel using ;AND.}
+%!! include \Fig{fig7-8 here
 
-%!! include Figure 7-8 here
-
-%!! does \bf{} work inside verbatim blocks? It better should...
-\begin{verbatim}
+%!! does \textbf{} work inside verbatim blocks? It better should...
+\begin{Verbatim}[commandchars=\&\{\}]
 : DUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  \bf{@ 6} U.R  \bf{2 +LOOP}  DROP ;
-\end{verbatim}
+   DUP I +  &textbf{@ 6} U.R  &textbf{2 +LOOP}  DROP ;
+\end{Verbatim}
 
 The problem arises when you write a definition called CDUMP, designed to
 format the output according to bytes, not cells:
 
-%!! does \bf{} work inside verbatim blocks? It better should...
-\begin{verbatim}
+%!! does \textbf{} work inside verbatim blocks? It better should...
+\begin{Verbatim}[commandchars=\&\{\}]
 : CDUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  \bf{C@  4} U.R  \bf{LOOP} DROP ;
-\end{verbatim}
+   DUP I +  &textbf{C@  4} U.R  &textbf{LOOP} DROP ;
+\end{Verbatim}
 
-\bf{Figure 7-9.} \emph{Multiple MAKEs in series.}
-
-%!! include Figure 7-9 here
+%!! include \Fig{fig7-9 here
 
 The code within these two definitions is identical except for the fragments
 in boldface. But factoring is difficult because the fragments occur inside the
-\bf{DO LOOP}.
+\textbf{DO LOOP}.
 
-Here's a solution to this problem, using \bf{DOER/MAKE}. The code that
+Here's a solution to this problem, using \textbf{DOER/MAKE}. The code that
 changes has been replaced with the word .UNIT, whose behavior is vectored
-by the code in DUMP and CDUMP. (Recognize that ``\bf{1 +LOOP}'' has
-the same effect as ``\bf{LOOP}''.)
+by the code in DUMP and CDUMP. (Recognize that ``\textbf{1 +LOOP}'' has
+the same effect as ``\textbf{LOOP}''.)
 
-%!! does \bf{} work inside verbatim blocks? It better should...
-\begin{verbatim}
+%!! does \textbf{} work inside verbatim blocks? It better should...
+\begin{Verbatim}[commandchars=\&\{\}]
 DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I + \bf{.UNIT}  +LOOP  DROP ;
-: DUMP   ( a #)  MAKE .UNIT \bf{ @  6} U.R  \bf{2} ;AND <DUMP> ;
-: CDUMP ( a #)   MAKE .UNIT \bf{C@  4} U.R  \bf{1} ;AND <DUMP> ;
-\end{verbatim}
+   DUP I + &textbf{.UNIT}  +LOOP  DROP ;
+: DUMP   ( a #)  MAKE .UNIT &textbf{ @  6} U.R  &textbf{2} ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT &textbf{C@  4} U.R  &textbf{1} ;AND <DUMP> ;
+\end{Verbatim}
 
 Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to
 \emph{execute} the shell (the word <DUMP>).
 
-3. To change the state of related functions by invoking a single command. For
+\item To change the state of related functions by invoking a single command. For
 instance:
 
 \begin{verbatim}
@@ -1334,7 +1333,7 @@ INVISIBLE makes them no-ops, eating up the arguments that would normally
 be passed to them. Say INVISIBLE and any words defined in terms
 of these four output operators will \emph{not} produce any output.
 
-4. To change the state for the next occurrence only, then change the state (or
+\item To change the state for the next occurrence only, then change the state (or
 reset it) again.
 
 Suppose we're writing an adventure game. When the player first arrives at
@@ -1389,7 +1388,7 @@ address of the correct variable, or a zero if none have the value.
 It does this by simply executing WHERE five times. Each time, WHERE
 returns a different address, as defined in ORDER, then finally zero.
 
-We can even define a \bf{DOER} word that toggles its own behavior endlessly:
+We can even define a \textbf{DOER} word that toggles its own behavior endlessly:
 
 \begin{verbatim}
 DOER SPEECH
@@ -1399,26 +1398,24 @@ DOER SPEECH
    O UNTIL ;
 \end{verbatim}
 
-5. To implement a forward reference. A forward reference is usually needed as
+\item To implement a forward reference. A forward reference is usually needed as
 a ``hook,'' that is, a word invoked in a low-level definition but reserved for
 use by a component defined later in the listing.
 
-To implement a forward reference, build the header of the word with \bf{DOER},
+To implement a forward reference, build the header of the word with \textbf{DOER},
 before invoking its name.
 
 \begin{verbatim}
 DOER STILL-UNDEFINED
 \end{verbatim}
-
 Later in the listing, use MAKE;
 
 \begin{verbatim}
 MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
 \end{verbatim}
-
 (Remember, MAKE can be used outside a colon definition.)
 
-6. Recursion, direct or indirect.
+\item Recursion, direct or indirect.
 
 Direct recursion occurs when a word invokes itself. A good example is the
 recursive definition of greatest-common-denominator:
@@ -1427,14 +1424,12 @@ recursive definition of greatest-common-denominator:
 GCD of a, b =  a                     if b = O
                GCD of b, a mod b     if b > O
 \end{verbatim}
-
 This translates nicely into:
 
 \begin{verbatim}
 DOER GCD ( a b -- gcd)
 MAKE GCD  ?DUP  IF  DUP ROT ROT  MOD  GCD  THEN ;
 \end{verbatim}
-
 Indirect recursion occurs when one word invokes a second word, while the
 second word invokes the first. This can be done using the form:
 
@@ -1444,17 +1439,17 @@ DOER B
 MAKE B  ... A ... ;
 \end{verbatim}
 
-7. Debugging. I often define:
+\item Debugging. I often define:
 
 \begin{verbatim}
 DOER SNAP
 \end{verbatim}
-
 (short for SNAPSHOT), then edit SNAP into my application at a point
 where I want to see what's going on. For instance, with SNAP invoked inside
 the main loop of a keystroke interpreter, I can set it up to let me watch
 what's happening to a data structure as I enter keys. And I can change
 what SNAP does without having to recompile the loop.
+\end{enumerate}
 
 %%! ---End-Of-List---
 
@@ -1471,13 +1466,15 @@ preferable for testing and reusability, but too many values manipulated
 on the stack by a single definition hurts readability and writeability.
 
 We also explored techniques for saving and restoring data structures,
-and concluded with a study of vectored execution using \bf{DOER}/\bf{MAKE}.
+and concluded with a study of vectored execution using \textbf{DOER}/\textbf{MAKE}.
 
 \section{References}
 
 %!! there's certainly some better way to do ordered lists in TeX
-1. Michael Ham, ``Why Novices Use So Many Variables,'' \emph{FORTH
+\begin{enumerate}
+\item Michael Ham, ``Why Novices Use So Many Variables,'' \emph{FORTH
    Dimensions}, vol. 5, no. 4, November/December 1983.
-2. Daniel Slater, ``A State Space Approach to Robotics,'' \emph{The Journal
+\item Daniel Slater, ``A State Space Approach to Robotics,'' \emph{The Journal
    of FORTH Application and Research}, 1, 1 (September 1983), 17.
+\end{enumerate}
 

@@ -17,7 +17,9 @@ pdf thinking-forth.pdf : $(SOURCES) $(PDFGEN)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
 
-ps thinking-forth.ps : thinking-forth.dvi
+ps :	thinking-forth.ps
+
+thinking-forth.ps : thinking-forth.dvi
 	dvips $< -o $@
 
 dvi thinking-forth.dvi : $(SOURCES)
