@@ -3,7 +3,6 @@
 %% Initial transcription by Ed Beroset
 %% 
 %% Chapter: Appendix E, Summary of Style Conventions
-appendix{}
 \chapter{
 Summary of
 Style Conventions
@@ -74,59 +73,58 @@ Follow ``text'' with the actual delimiter required; e.g., text'' or text).
 
 Here are two sample screens to illustrate good commenting style.
 
-\begin{verbatim}
-Screen # 126
-  O \ Formatter         Data Structures -- p.2             06/06/83
-  1  6 CONSTANT TMARGIN \ line# where body of text begins)
-  2 55 CONSTANT BMARGIN \ line# where body of text ends)
-  3
-  4 CREATE HEADER 82 ALLOT
-  5   { 1left-ent | 1right-cnt | 80header >
-  6 CREATE FOOTER 82 ALLOT
-  7   { 1left-cnt | 1right-ent | 80footer >
-  8
-  9 VARIABLE ACROSS   \ formatter's current horizontal position
- 10 VARIABLE DOWNWARD \ formatter's current vertical position
- 11 VARIABLE LEFT     \ current primary left margin
- 12 VARIABLE WALL     \ current primary right margin
- 13 VARIABLE WALL-WAS \ WALL when curr. line started being formt'd
- 14
- 15
+\setcounter{screen}{126}
+\begin{Screen}
+\ Formatter         Data Structures -- p.2             06/06/83
+ 6 CONSTANT TMARGIN \ line# where body of text begins)
+55 CONSTANT BMARGIN \ line# where body of text ends)
+
+CREATE HEADER 82 ALLOT
+  { 1left-ent | 1right-cnt | 80header >
+CREATE FOOTER 82 ALLOT
+  { 1left-cnt | 1right-ent | 80footer >
+
+VARIABLE ACROSS   \ formatter's current horizontal position
+VARIABLE DOWNWARD \ formatter's current vertical position
+VARIABLE LEFT     \ current primary left margin
+VARIABLE WALL     \ current primary right margin
+VARIABLE WALL-WAS \ WALL when curr. line started being formt'd
 
 
-Screen # 127
-  O \ Formatter          positioning -- p.1               06/06/83
-  1 : SKIP  ( n)  ACROSS +! ;
-  2 : NEWLEFT  \ reset left margin
-  3    LEFT @  PERMANENT @ +  TEMPORARY @ +  ACROSS ! ;
-  4 : \LINE  \ begin new line
-  5    DOOR  CR'  1 DOWNWARD +!  NEWLEFT  WALL @  WALL-WAS ! ;
-  6 : AT-TOP?  ( -- t=at-top)  TMARGIN  DOWNWARD @ = ;
-  7 : >TMARGIN  \ move from crease to TMARGIN
-  8    O DOWNWARD !  BEGIN  \LINE  AT-TOP? UNTIL ;
-  9
- 10
- 11
- 12
- 13
- 14
- 15
-\end{verbatim}
+\end{Screen}
+
+
+\begin{Screen}
+\ Formatter          positioning -- p.1               06/06/83
+: SKIP  ( n)  ACROSS +! ;
+: NEWLEFT  \ reset left margin
+LEFT @  PERMANENT @ +  TEMPORARY @ +  ACROSS ! ;
+: \LINE  \ begin new line
+DOOR  CR'  1 DOWNWARD +!  NEWLEFT  WALL @  WALL-WAS ! ;
+: AT-TOP?  ( -- t=at-top)  TMARGIN  DOWNWARD @ = ;
+: >TMARGIN  \ move from crease to TMARGIN
+O DOWNWARD !  BEGIN  \LINE  AT-TOP? UNTIL ;
+
+
+
+
+
+
+
+\end{Screen}
 
 \section{Naming Conventions}
 %! This table will need to be split across multiple pages, but
 %! I didn't know how to tell it to do that, so I just left it as one
 %! big table.
-\begin{tabular}{lll}
+\begin{longtable}{lll}
 {}{\setlength{\parsep}{0cm}}
-{\em Meaning}&{\em Form}&{\em Example}\\
-\\
+{\em Meaning}&{\em Form}&{\em Example}\\[2ex] \endhead
 \underline{Arithmetic}\\
 integer 1&1name&1+\\
 integer 2&2name&2*\\
 takes relative input parameters&+name&+DRAW\\
-takes scaled input parameters&+name&*DRAW\\
-\\
+takes scaled input parameters&+name&*DRAW\\[1ex]
 \underline{Compilation}\\
 start of ``high-level'' code&name:&CASE:\\
 end of ``high-level'' code&;name&;CODE\\
@@ -139,8 +137,7 @@ compiling word run-time part:\\
  systems with no folding&lower-case&if\\
  systems with folding&(NAME)&(IF)\\
 defining word&:name&:COLOR\\
-block-number where overlay begins&nam{\bf ING}&DISKING\\
-\\
+block-number where overlay begins&nam{\bf ING}&DISKING\\[1ex]
 \underline{Data Structures}\\
 table or array&names&EMPLOYEES\\
 total number of elements&\#name&\#EMPLOYEES\\
@@ -156,19 +153,17 @@ convert address of structure to&\(>\)name&\(>\)BODY\\
 address of item\\
 file index&(name)&(PEOPLE)\\
 file pointer&--name&--JOB\\
-initialize structure&0name&0RECORD\\
-\\
+initialize structure&0name&0RECORD\\[1ex]
 \underline{Direction, Conversion}\\
 backwards&name\(<\)&SLIDE\(<\)\\
 forwards&name \(>\)&CMOVE \(>\)\\
 from&\(<\)name&\(<\)TAPE\\
 to&\(>\)name&\(>\)TAPE\\
 convert to&name\(>\)name&FEET\(>\)METERS\\
-downward&\\name&\\LINE\\
+downward&$\backslash$name&$\backslash$LINE\\
 upward&/name&/LINE\\
 open&\{name&\{FILE\\
-close&\}name&\}FILE\\
-\\
+close&\}name&\}FILE\\[1ex]
 \underline{Logic, Control}\\
 return boolean value&name?&SHORT?\\
 returns reversed boolean&-name?&-SHORT?\\
@@ -178,8 +173,7 @@ operates conditionally&?name&?DUP\\
 enable&+name&+CLOCK\\
 or, absence of symbol&name&BLINKING\\
 disable&-name&-CLOCK\\
-&&-BLINKING\\
-\\
+&&-BLINKING\\[1ex]
 \underline{Memory}\\
 save value of&@name&@CURSOR\\
 restore value of&!name&!CURSOR\\
@@ -188,8 +182,7 @@ fetch from&name@&INDEX@\\
 name of buffer&:name&:INSERT\\
 address of name&'name&'S\\
 address of pointer to name&'name&'TYPE\\
-exchange, especially bytes&\(>\) name\(<\)&\(>\)MOVE\(<\)\\
-\\
+exchange, especially bytes&\(>\) name\(<\)&\(>\)MOVE\(<\)\\[1ex]
 \underline{Numeric Types}\\
 byte length&Cname&C@\\
 2 cell size, 2's complement&Dname&D+\\
@@ -197,26 +190,22 @@ integer encoding\\
 mixed 16 and 32-bit operator&Mname&M*\\
 3 cell size&Tname&T*\\
 4 cell size&Qname&Q*\\
-unsigned encoding&Uname&U.\\
-\\
+unsigned encoding&Uname&U.\\[1ex]
 \underline{Output, Printing}\\
 print item&.name&.S\\
 print numeric (name denotes type)&name.&D. , U.\\
-print right justified&name.R&U.R\\
-\\
+print right justified&name.R&U.R\\[1ex]
 \underline{Quantity}\\
-``per''&/name&/SIDE\\
-\\
+``per''&/name&/SIDE\\[1ex]
 \underline{Sequencing}\\
 start&\(<\) name&\(<\) \#\\
-end&name \(>\)&\# \(>\)\\
-\\
+end&name \(>\)&\# \(>\)\\[1ex]
 \underline{Text}\\
 string follows delimited by ''&name''&ABORT'' text''\\
 text or string operator&``name&``COMPARE\\
 (similar to \$ prefix in BASIC\\
 superstring array&``name''&``COLORS''\\
-\end{tabular}
+\end{longtable}
 
 \subsection{How to Pronounce the Symbols}
 \begin{tabular}{ll}

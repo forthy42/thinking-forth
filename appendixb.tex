@@ -3,7 +3,6 @@
 %% Initial transcription by Ed Beroset
 %% 
 %% Chapter: Appendix B, Defining DOER/MAKE
-appendix{}
 \chapter{
 Defining
 DOER/MAKE}
@@ -164,122 +163,117 @@ then enter
 followed by return, as many times as you like (you'll get a different
 reason each time).
 
-\begin{verbatim}
-Screen # 21
-  0 ( DOER/MAKE   Shadow screen                      LPB 12/05/83 )
-  1 NOTHING   A no-opp
-  2 DOER      Defines a word whose behavior is vectorable.
-  3 MARKER    Saves adr for optional continuation pointer.
-  4 (MAKE)    Stuffs the address of further code into the
-  5            parameter field of a doer word.
-  6 MAKE      Used interpretively:  MAKE doer-name  forth-code ;
-  7           or inside a definition:
-  8              : def   MAKE doer-name  forth-code ;
-  9           Vectors the doer-name word to the forth-code.
- 10 ;AND      Allows continuation of the "making" definition
- 11 UNDO      Usage:  UNDO doer-name ; makes it safe to execute
- 12
- 13
- 14
- 15
-\end{verbatim}
+\setcounter{screen}{21}
+\begin{Screen}
+( DOER/MAKE   Shadow screen                      LPB 12/05/83 )
+NOTHING   A no-opp
+DOER      Defines a word whose behavior is vectorable.
+MARKER    Saves adr for optional continuation pointer.
+(MAKE)    Stuffs the address of further code into the
+          parameter field of a doer word.
+MAKE      Used interpretively:  MAKE doer-name  forth-code ;
+          or inside a definition:
+             : def   MAKE doer-name  forth-code ;
+          Vectors the doer-name word to the forth-code.
+;AND      Allows continuation of the "making" definition
+UNDO      Usage:  UNDO doer-name ; makes it safe to execute
 
-\begin{verbatim}
-Screen # 22
-  0 \ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
-  1 : NOTHING ;
-  2 : DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
-  3 VARIABLE MARKER
-  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
-  5    @ ?DUP IF >R THEN ;
-  6 : MAKE   STATE @ IF ( compiling)
-  7    COMPILE (MAKE)  HERE MARKER !  0 ,
-  8    ELSE  HERE  [COMPILE] '  >BODY !
-  9    [COMPILE] ]  THEN ;   IMMEDIATE
- 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
- 11 : UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
- 12
- 13 \ The code in this screen is in the public domain.
- 14
- 15
-\end{verbatim}
 
-\begin{verbatim}
-Screen # 23
-  0 ( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
-  1 : NOTHING ;
-  2 : DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
-  3 VARIABLE MARKER
-  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
-  5    @ ?DUP IF >R THEN ;
-  6 : MAKE   STATE @ IF ( compiling)
-  7    COMPILE (MAKE)  HERE MARKER !  0 ,
-  8    ELSE  HERE  [COMPILE] '  >BODY !
-  9    [COMPILE] ] UNSMUDGE  THEN ;   IMMEDIATE
- 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
- 11 : UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
- 12
- 13 ( The code in this screen is in the public domain.)
- 14
- 15
-\end{verbatim}
 
-\begin{verbatim}
-Screen # 24
-  0 ( DOER/MAKE   FIG model                          LPB 12/05/83 )
-  1 : NOTHING   ;
-  2 : DOES-PFA  ( pfa -- pfa of child of <BUILD-DOES> )   2+ ;
-  3 : DOER   <BUILDS  ' NOTHING ,  DOES> @ >R ;
-  4 0 VARIABLE MARKER
-  5 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ DOES-PFA !
-  6    @ -DUP IF >R THEN ;
-  7 : MAKE  STATE @ IF ( compiling)
-  8    COMPILE (MAKE)  HERE MARKER !  0 ,
-  9    ELSE  HERE  [COMPILE] '  DOES-PFA !
- 10    SMUDGE    [COMPILE] ] THEN ; IMMEDIATE
- 11 : ;AND   COMPILE ;S  HERE MARKER @ ! ;  IMMEDIATE
- 12 : UNDO   ' NOTHING  [COMPILE] '  DOES-PFA ! ;
- 13 ;S
- 14 The code in this screen is in the public domain.
- 15
-\end{verbatim}
 
-\begin{verbatim}
-Screen # 25
-  0 ( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
-  1 : NOTHING ;
-  2 : DOER   CREATE  ' NOTHING  ,  DOES> @ >R ;
-  3 VARIABLE MARKER
-  4 : (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ ( pfa) !
-  5    @ ?DUP IF >R THEN ;
-  6 : MAKE   STATE @ IF ( compiling)
-  7    COMPILE (MAKE)  HERE MARKER !  0 ,
-  8    ELSE  HERE  [COMPILE] ' !
-  9     [COMPILE] ]  THEN ;   IMMEDIATE
- 10 : ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
- 11 : UNDO   ['] NOTHING  [COMPILE] ' ! ;
- 12
- 13 ( 238 )
- 14 ( The code in this screen is in the public domain.)
- 15
-\end{verbatim}
+\end{Screen}
 
-\begin{verbatim}
-Screen # 26
-  0 ( TODDLER: Example of DOER/MAKE                     12/01/83 )
-  1 DOER WHY?
-  2 : RECITAL
-  3   CR ." Your daddy is standing on the table.  Ask him 'WHY?' "
-  4    MAKE WHY? ." To change the light bulb."
-  5   BEGIN
-  6   MAKE WHY?  ." Because it's burned out."
-  7   MAKE WHY?  ." Because it was old."
-  8   MAKE WHY?  ." Because we put it in there a long time ago."
-  9   MAKE WHY?  ." Because it was dark!"
- 10   MAKE WHY?  ." Because it was night time!!"
- 11   MAKE WHY?  ." Stop saying WHY?"
- 12   MAKE WHY?  ." Because it's driving me crazy."
- 13   MAKE WHY?  ." Just let me change this light bulb!"
- 14   F UNTIL ;
- 15 : WHY?   CR  WHY?  QUIT ;
-\end{verbatim}
+\begin{Screen}
+\ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
+: NOTHING ;
+: DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
+VARIABLE MARKER
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARKER !  0 ,
+   ELSE  HERE  [COMPILE] '  >BODY !
+   [COMPILE] ]  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+: UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+
+\ The code in this screen is in the public domain.
+
+
+\end{Screen}
+
+\begin{Screen}
+( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
+: NOTHING ;
+: DOER   CREATE  ['] NOTHING  >BODY ,  DOES> @ >R ;
+VARIABLE MARKER
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARKER !  0 ,
+   ELSE  HERE  [COMPILE] '  >BODY !
+   [COMPILE] ] UNSMUDGE  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+: UNDO   ['] NOTHING  >BODY  [COMPILE] '  >BODY ! ;
+
+( The code in this screen is in the public domain.)
+
+
+\end{Screen}
+
+\begin{Screen}
+( DOER/MAKE   FIG model                          LPB 12/05/83 )
+: NOTHING   ;
+: DOES-PFA  ( pfa -- pfa of child of <BUILD-DOES> )   2+ ;
+: DOER   <BUILDS  ' NOTHING ,  DOES> @ >R ;
+0 VARIABLE MARKER
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ DOES-PFA !
+   @ -DUP IF >R THEN ;
+: MAKE  STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARKER !  0 ,
+   ELSE  HERE  [COMPILE] '  DOES-PFA !
+   SMUDGE    [COMPILE] ] THEN ; IMMEDIATE
+: ;AND   COMPILE ;S  HERE MARKER @ ! ;  IMMEDIATE
+: UNDO   ' NOTHING  [COMPILE] '  DOES-PFA ! ;
+;S
+The code in this screen is in the public domain.
+
+\end{Screen}
+
+\begin{Screen}
+( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
+: NOTHING ;
+: DOER   CREATE  ' NOTHING  ,  DOES> @ >R ;
+VARIABLE MARKER
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ ( pfa) !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARKER !  0 ,
+   ELSE  HERE  [COMPILE] ' !
+    [COMPILE] ]  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARKER @ ! ;   IMMEDIATE
+: UNDO   ['] NOTHING  [COMPILE] ' ! ;
+
+( 238 )
+( The code in this screen is in the public domain.)
+
+\end{Screen}
+
+\begin{Screen}
+( TODDLER: Example of DOER/MAKE                     12/01/83 )
+DOER WHY?
+: RECITAL
+  CR ." Your daddy is standing on the table.  Ask him 'WHY?' "
+   MAKE WHY? ." To change the light bulb."
+  BEGIN
+  MAKE WHY?  ." Because it's burned out."
+  MAKE WHY?  ." Because it was old."
+  MAKE WHY?  ." Because we put it in there a long time ago."
+  MAKE WHY?  ." Because it was dark!"
+  MAKE WHY?  ." Because it was night time!!"
+  MAKE WHY?  ." Stop saying WHY?"
+  MAKE WHY?  ." Because it's driving me crazy."
+  MAKE WHY?  ." Just let me change this light bulb!"
+  F UNTIL ;
+: WHY?   CR  WHY?  QUIT ;
+\end{Screen}
