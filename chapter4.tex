@@ -657,9 +657,9 @@ phrase
 copies Screen 22 to Screen 37. The syntax of CMOVE incorporates both
 this convention and the previous convention:
 %!! does \bf work inside verbatim blocks?
-\begin{verbatim}
-source destination count CMOVE
-\end{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
+source destination count &poorbf{CMOVE}
+\end{Verbatim}
 %!! horizontal line
 \begin{tip}
 Avoid expectations (in the input stream).
@@ -1356,11 +1356,11 @@ flag, indicating that the exception occurred. If either of these flags is
 true, then we can exclude the normal case:
 
 %!! warning: \textbf{} in verbatim block
-\begin{verbatim}
-: DIGIT  ( n )  4-CASE? DUP IF  ONER FIVER  THEN
-                9-CASE? DUP IF  ONER TENER  THEN
+\begin{Verbatim}[commandchars=\&\{\}]
+: DIGIT  ( n )  4-CASE? &poorbf{DUP} IF  ONER FIVER  THEN
+                9-CASE? &poorbf{DUP} IF  ONER TENER  THEN
                 OR  NOT IF normal case THEN ;
-\end{verbatim}
+\end{Verbatim}
 But this approach needlessly complicates the definition by adding new
 control structures. We'll leave it like it was.
 
@@ -1392,20 +1392,20 @@ can use the remainder directly as the argument to ONERS. We revise our
 phrase to
 
 %!! warning: \textbf{} in verbatim block
-\begin{verbatim}
-( n )  5 /MOD IF FIVER THEN  ONERS
-\end{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
+( n )  5 &poorbf{/MOD} IF FIVER THEN  &poorbf{ONERS}
+\end{Verbatim}
 Getting back to that exception, we now see that we can test for both 4
 and 9 with a single test---namely, if the remainder is 4. This suggests that
 we can do our 5 \textbf{/MOD} first, then test for the exception. Something like
 this:
 
 %!! warning: \textbf{} in verbatim block
-\begin{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
 : DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  special case  ELSE
+     5 /MOD  &poorbf{OVER 4 =  IF  special case  ELSE}
      IF FIVER THEN  ONERS  THEN ;
-\end{verbatim}
+\end{Verbatim}
 (Notice that we \textbf{OVER}ed the remainder so that we could compare it with
 4 without consuming it.)
 
@@ -1442,22 +1442,22 @@ We've assumed that we have a quotient on the stack to use. Let's go back
 to our definition of DIGIT and make sure that we do, in fact:
 
 %!! warning: \textbf{} in verbatim block
-\begin{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
 : DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  ALMOST  ELSE
+     5 /MOD  OVER 4 =  IF  &poorbf{ALMOST}  ELSE
      IF FIVER THEN  ONERS  THEN ;
-\end{verbatim}
+\end{Verbatim}
 It turns out that we have not only a quotient, but a remainder
 underneath as well. We're keeping both on the stack in the event we
 execute the \textbf{ELSE} clause. The word \textbf{ALMOST}, however, only needs the
 quotient. So, for symmetry, we must \textbf{DROP} the remainder like this:
 
 %!! warning: \textbf{} in verbatim block
-\begin{verbatim}
+\begin{Verbatim}[commandchars=\&\{\}]
 : DIGIT  ( n )
-     5 /MOD  OVER 4 =  IF  ALMOST  DROP  ELSE
+     5 /MOD  OVER 4 =  IF  ALMOST  &poorbf{DROP}  ELSE
      IF FIVER THEN  ONERS  THEN ;
-\end{verbatim}
+\end{Verbatim}
 There we have the complete, coded definition for producing a single digit
 of a Roman numeral. If we were desperate to try it out before writing the
 needed auxiliary definitions, we could very quickly define a lexicon of

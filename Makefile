@@ -13,7 +13,7 @@ all:	pspdf ps
 pspdf thinking-forth.pdf : thinking-forth.ps
 	ps2pdf thinking-forth.ps thinking-forth.pdf
 
-pdf thinking-forth.pdf : $(SOURCES) $(PDFGEN)
+pdf : $(SOURCES) $(PDFGEN)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
 

@@ -261,17 +261,19 @@ We can also write {}``MAKE-EGGS'' and {}``CLEANUP'' as subroutines.
 Elsewhere we can define {}``MAKE-BREAKFAST'' as a simple routine
 that invokes, or calls, these subroutines:
 
-\medskip{\noindent\tt
-procedure make-breakfast \\
-\strut~~~var~h:~boolean~(indicates~hurried) \\
-\strut~~~\textit{test~for~hurried}~ \\
-\strut~~~if~h~=~true~then \\
-\strut~~~~~~\textbf{call~make-cereal}~ \\
-\strut~~~else \\
-\strut~~~~~~\textbf{call~make-eggs} \\
-\strut~~~end \\
-\strut~~~\textbf{call~cleanup} \\
-end}
+\begin{Verbatim}[commandchars=\&\{\}]
+procedure make-breakfast
+   var h: boolean (indicates hurried)
+   &textit{test for hurried}
+   if h = true then
+      &poorbf{call make-cereal}
+   else
+      &poorbf{call make-eggs}
+   end
+   &poorbf{call cleanup}
+end
+\end{Verbatim}
+
 
 \medskip
 
@@ -904,7 +906,7 @@ VARIABLE REDS  ( tally of red apples)
 VARIABLE GREENS  ( tally of green apples)
 : RED  ( set apples-type to RED)  REDS COLOR ! ;
 : GREEN  ( set apple-type to GREEN)  GREENS COLOR ! ;
-: APPLES  ( -{}- adr of current apple tally)  COLOR @ ;
+: APPLES  ( -- adr of current apple tally)  COLOR @ ;
 \end{verbatim}
 Here we've redefined APPLES. Now it fetches the contents of a variable
 called COLOR. COLOR is a pointer, either to the variable REDS or to

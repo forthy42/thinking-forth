@@ -1008,14 +1008,14 @@ simultaneously, use a state table, not separate variables.
 \labelfig{fig7-2}
 \caption{A collection of related variables.}
 \begin{center}
-\begin{Verbatim}
+\begin{BVerbatim}
 VARIABLE TOP
 VARIABLE BOTTOM
 VARIABLE LEFT
 VARIABLE RIGHT
 VARIABLE INSIDE
 VARIABLE OUT
-\end{Verbatim}
+\end{BVerbatim}
 \end{center}
 \end{figure*}
 
@@ -1276,7 +1276,7 @@ contents of a specified region of memory.
 \begin{Verbatim}[commandchars=\&\{\}]
 : DUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &textbf{@ 6} U.R  &textbf{2 +LOOP}  DROP ;
+   DUP I +  &poorbf{@ 6} U.R  &poorbf{2 +LOOP}  DROP ;
 \end{Verbatim}
 
 The problem arises when you write a definition called CDUMP, designed to
@@ -1286,7 +1286,7 @@ format the output according to bytes, not cells:
 \begin{Verbatim}[commandchars=\&\{\}]
 : CDUMP  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I +  &textbf{C@  4} U.R  &textbf{LOOP} DROP ;
+   DUP I +  &poorbf{C@  4} U.R  &poorbf{LOOP} DROP ;
 \end{Verbatim}
 
 %!! include \Fig{fig7-9 here
@@ -1305,9 +1305,9 @@ the same effect as ``\textbf{LOOP}''.)
 DOER .UNIT ( a -- increment)  \ display byte or cell
 : <DUMP>  ( a # )
    O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
-   DUP I + &textbf{.UNIT}  +LOOP  DROP ;
-: DUMP   ( a #)  MAKE .UNIT &textbf{ @  6} U.R  &textbf{2} ;AND <DUMP> ;
-: CDUMP ( a #)   MAKE .UNIT &textbf{C@  4} U.R  &textbf{1} ;AND <DUMP> ;
+   DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
+: DUMP   ( a #)  MAKE .UNIT &poorbf{ @  6} U.R  &poorbf{2} ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT &poorbf{C@  4} U.R  &poorbf{1} ;AND <DUMP> ;
 \end{Verbatim}
 
 Notice how DUMP and CDUMP \emph{set-up} the vector, then go on to

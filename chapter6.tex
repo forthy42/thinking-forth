@@ -31,7 +31,7 @@ Deciding how much should go into, or stay out of, a definition is another aspect
 \section{Factoring Techniques}
 
 \begin{tfquot}
-If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\textit{Structured Design}'' [1]).
+If a module seems almost, but not quite, useful form a second place in the system, try to identify and isolate the useful subfunction. The remainder of the module might be incorporated in its original caller (from ``\emph{Structured Design}'' [1]).
 \end{tfquot}
 The ``useful subfunction'' of course becomes the newly factored definition.What about the part that ``isn't quite useful''? That depends on what it is.
 
@@ -46,7 +46,7 @@ To define a word that computes two-thirds of any number, we factor out the argum
 \begin{verbatim}
       : TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
 \end{verbatim}
-When the datum comes in the \textit{middle} of the useful phrase, we have to use stack manipulation. For instance, to center a piece of text ten characters ong on an 80-column screen, we would write:
+When the datum comes in the \emph{middle} of the useful phrase, we have to use stack manipulation. For instance, to center a piece of text ten characters ong on an 80-column screen, we would write:
 
 \begin{verbatim}
       80  10 -  2/ SPACES
@@ -56,7 +56,7 @@ But text isn't always 10 characters long. To make the phrase useful for any stri
 \begin{verbatim}
       : CENTER (length -- ) 80 SWAP - 2/ SPACES ;
 \end{verbatim}
-The data stack can also be used to pass addresses. Therefore what's factored out may be a \textit{pointer} to data rather than the data themselves. The data can be numbers or even strings, and still be factored out through use of the stack.
+The data stack can also be used to pass addresses. Therefore what's factored out may be a \emph{pointer} to data rather than the data themselves. The data can be numbers or even strings, and still be factored out through use of the stack.
 	
 Sometimes the difference appears to be a function, but you can factor it out simply as a number on the stack. For instance:
 
@@ -94,7 +94,7 @@ For simplicity, try to express the difference between similar fragments as a num
 
 \subsection{{Factoring Out Functions}}
 
-On the other hand, the difference sometimes \textit{is} a function. Witness:
+On the other hand, the difference sometimes \emph{is} a function. Witness:
 
 \bigskip
 
@@ -239,7 +239,7 @@ Here's an improved rendition. The similar variable names have been factored into
 
 \noindent That's all the code we need.
 
-Even in the most innocent cases, a little data structure can eliminate extra names. By convention FORTH handles text in ``counted strings'' (i.e., with the count in the first byte). Any word that returns the ``address of a string'' actually returns this beginning address, where the count is. not only does use of this two-element data structure eliminate the need for separate names for string and count, it also makes it easier to move a string in memory, because you can copy the string \textit{and} the count
+Even in the most innocent cases, a little data structure can eliminate extra names. By convention FORTH handles text in ``counted strings'' (i.e., with the count in the first byte). Any word that returns the ``address of a string'' actually returns this beginning address, where the count is. not only does use of this two-element data structure eliminate the need for separate names for string and count, it also makes it easier to move a string in memory, because you can copy the string \emph{and} the count
 with a single \textbf{COMVE}.
 
 When you start finding the same awkwardness here and there, you can combine things and make the awkwardness go away.
@@ -275,13 +275,13 @@ Examine the structure of this code (without worrying about its purpose--you'll s
 \end{verbatim}
 
 \noindent 
-(Defining words are explained in \textit{Starting FORTH}, Chapter Eleven).
+(Defining words are explained in \emph{Starting FORTH}, Chapter Eleven).
 
 By using a defining word, we save memory because each compiled colon defintion needs the address of \textbf{EXIT} to conclude the defintion.(In defining eight words, the use of a defining word saves 14 bytes on a 16-bit FORTH.) Also, in a colon defintion each reference to a nemeric leiteral requires the compilation of \textbf{LIT} (or \textbf{literal}), another2 bytes per definition. (If 1 and 2 are predefined constants, this costs another 10 bytes--24 toatl.)
 
 In terms of readability, the defining word makes it absolutely clear that all the colors it defines belong to the same family of words.
 
-The greatest strength of defining words, however, arises when a series of defintinos share the same \textit{compile-time} behavior. This topic is the subject of a later section, ``Compile-Time Factoring.''
+The greatest strength of defining words, however, arises when a series of defintinos share the same \emph{compile-time} behavior. This topic is the subject of a later section, ``Compile-Time Factoring.''
 
 \section{Factoring Criteria}
 
@@ -433,7 +433,7 @@ Be sure you can name what you factor.
 If you have a concept that you can't assign a single name to , not a hyphenated name, but a name, it's not a well-formed concept. The ability to assign a name is a necessart part of decomposition. Certainly you get more confidence in the idea.
 \end{tfquot}
 \blackline{1ex}
-Compare this view with the criteria for decomposing a module espoused by structured design in Chaper One. According to that method, a module should exhibit ``functional binding,'' Which can be verified by describing its function in a single, non-compound, \textit{sentence}. FORTH's ``atom,'' a textit{name}, is an order of magnitude more refined.
+Compare this view with the criteria for decomposing a module espoused by structured design in Chaper One. According to that method, a module should exhibit ``functional binding,'' Which can be verified by describing its function in a single, non-compound, \emph{sentence}. FORTH's ``atom,'' a textit{name}, is an order of magnitude more refined.
 
 \begin{tip}
 Factor definitions to hide details that may change.
@@ -505,7 +505,7 @@ Here's a better factoring found in some FORTH systems:
 \end{verbatim}
 We find another example of failing to factor the output function from the calculation function in our own Roman numeral example in Chapter Four. Given our solution, we can't store a Roman numeral i8n a buffer or even center it in a field. (A better approach would have been to use \textbf{HOLD} instead of \textbf{EMIT}.)
 
-Information hiding can also be a reason \textit{not} to factor. For instance, if you factor the phrase
+Information hiding can also be a reason \emph{not} to factor. For instance, if you factor the phrase
 
 \begin{verbatim}
      SCR @ BLOCK
@@ -527,7 +527,7 @@ You can never predict everything, though. It would be useless to try, as we';; s
 \begin{tip}
 Simplify the command interface by reducing the number of commands.
 \end{tip}
-It may seem paradoxical, but good factoring can often yield \textit{fewer} names. In Chapter 5 we saw how six simple names (LEFT, RIGHT, MOTOR, SOLENOID, ON, and OFF) could do the work of eight badly-factored, hypenated names.
+It may seem paradoxical, but good factoring can often yield \emph{fewer} names. In Chapter 5 we saw how six simple names (LEFT, RIGHT, MOTOR, SOLENOID, ON, and OFF) could do the work of eight badly-factored, hypenated names.
 
 As another example, I found two definitions circulating in one department in which FORTH had recently introduced. Their purposet was purely instructional, to remind the programmer which vocabulary was CURRENT, and which was CONTEXT:
 
@@ -617,7 +617,7 @@ By factoring to eliminate the repetition, we come up with this version:
      : 80-B&W       80 2 COL-MODE! ;
      : 80-COLOR     80 3 COL-MODE! ;
 \end{verbatim}
-But by attempting to reduce the number of commands, and also by following the injunctions against numerically-prefixed and hyphenated names, we realize that we can use the number of columns as a stack argument, and \textit{calculate} the mode:
+But by attempting to reduce the number of commands, and also by following the injunctions against numerically-prefixed and hyphenated names, we realize that we can use the number of columns as a stack argument, and \emph{calculate} the mode:
 
 \begin{verbatim}
 : B&W    ( #cols -- )  DUP #COLUMNS !  20 /  2-     MODE ;
@@ -865,7 +865,7 @@ The following approach, which is more readable, combines all the repeated code i
      4 PORT FLIPPER-B
      6 PORT WIN-LIGHT
 \end{verbatim}
-In this solution we're performing the offset calculation at \textit{run}-time, every time we invoke one of these names. It would be more efficient to perform the calculation at compile time, like this:
+In this solution we're performing the offset calculation at \emph{run}-time, every time we invoke one of these names. It would be more efficient to perform the calculation at compile time, like this:
 
 \begin{verbatim}
      : PORT  ( offset -- )  BASE.PORT.ADDRESS + CONSTANT ;
@@ -875,7 +875,7 @@ In this solution we're performing the offset calculation at \textit{run}-time, e
      4 PORT FLIPPER-B
      6 PORT WIN-LIGHT
 \end{verbatim}
-Here we've created a defining word, PORT, that has a unique \textit{compile}-timebehavior, namely adding the offset to BASE.PORT.ADDRESS and defining a CONSTANT.
+Here we've created a defining word, PORT, that has a unique \emph{compile}-timebehavior, namely adding the offset to BASE.PORT.ADDRESS and defining a CONSTANT.
 
 We might even go one step further. Suppose that all port addresses are two bytes apart. In this case ther's no reason we should have to specify these offsets. The numeric sequence
 
@@ -928,7 +928,7 @@ At first we focus our attention on the probleem of drawing a box--never mind era
      : BOX   ( upper-left-x  upper-left-y -- )
         HIGH  0 DO  2DUP  I +  XY LAYER  LOOP  2DROP ;
 \end{verbatim}
-Having tested this to make sure it works correctly, we turn now to the problem of using the same code to \textit{un}draw a box. The solution is simple: instead of hard-coding the \textbf{ASCII *} we'd like to change the emitted character from an asterisk to a blank. This requires the addition of a variable, and some readable words for setting the contents of the variable. So:
+Having tested this to make sure it works correctly, we turn now to the problem of using the same code to \emph{un}draw a box. The solution is simple: instead of hard-coding the \textbf{ASCII *} we'd like to change the emitted character from an asterisk to a blank. This requires the addition of a variable, and some readable words for setting the contents of the variable. So:
 
 \begin{verbatim}
      VARIABLE INK
@@ -1052,8 +1052,8 @@ In this chapter we've discussed various techniques and criteria for factoring. W
 \subsection{References}
 	
 \begin{enumerate}
-\item W.P. Stevens, G.J. Myers, and L.L. Constantine, \textit{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by International Business Machines Corporation.
-\item G.A. Miller, ``The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for Processing Information,'' \textit{Psychol. Rev}., vol. 63, pp. 81-97, Mar. 1956.
-\item Kim R. Harris, ``Definition Field Address Conversion Operators,'' \textit{FORTH--83 Standard}, FORTH Standards Team.
+\item W.P. Stevens, G.J. Myers, and L.L. Constantine, \emph{ IBM Systems Journal}, vol. 13, no. 2, 1974, Copyright 1974 by International Business Machines Corporation.
+\item G.A. Miller, ``The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for Processing Information,'' \emph{Psychol. Rev}., vol. 63, pp. 81-97, Mar. 1956.
+\item Kim R. Harris, ``Definition Field Address Conversion Operators,'' \emph{FORTH--83 Standard}, FORTH Standards Team.
 \end{enumerate}
 
