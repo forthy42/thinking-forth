@@ -329,6 +329,41 @@ relative to the origin.
 This approach reduces the number of stack arguments to \forth{BOX} as
 part of the design.
 
+\begin{interview}
+\person{Bernd Paysan}:
+
+\begin{tfquot}
+I prefer turtle graphics. This is a turtle graphics without cursor
+direction, so the direction is explicit (using the same \forth{LINE}
+primitive):
+
+\begin{Code}
+2variable pos
+: setpos ( x y -- )  pos 2! ;
+: p+ ( x y w h -- x' y' )  rot + >r + r> ;
+: moveto ( dx dy -- )  pos 2@ p+ pos 2! ;
+: drawto ( dx dy -- )  pos 2@ 2swap moveto pos 2@ line ;
+
+: right ( dx -- )  0 drawto ;
+: down  ( dy -- )  0 swap drawto ;
+: left  ( dx -- )  negate right ;
+: up    ( dy -- )  negate down ;
+
+: box ( w h -- )  2dup down right up left ;
+: [box] ( x y w h -- )  2swap setpos box ;
+\end{Code}
+
+Now this seems to be a lot of work for a single box, to get rid of the
+long definition and the stack juggling. But usually, it doesn't end
+with a single box. And then the small initial work pays off big.
+
+I think this is a good illustration how \Forth{} code should look
+like. None of the definitions has more than 7 words. Only one has more
+than one stack juggling word. The global variable now is no disguised
+``local,'' but the state (position) of the turtle.
+\end{tfquot}
+\end{interview}
+
 \begin{tip}
 When determining which arguments to handle via data structures rather
 than via the stack, choose the arguments that are the more permanent or
