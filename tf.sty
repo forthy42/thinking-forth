@@ -41,6 +41,8 @@
 \newif\ifisbn
 \newif\ifinitial
 \newif\ifprelim
+\newif\ifbnw
+\bnwfalse
 \isbnfalse
 \latextocfalse
 \splitcoverfalse
@@ -60,6 +62,8 @@
 \newdimen\cborder
 \pthick0.0041in
 \cborder0.125in
+
+\def\linkcolor{blue}
 
 \def\oldgeometry{\global\hangout.66in\global\cborder0.125in
 \geometry{verbose,paperwidth=6.8125in,paperheight=9.125in,tmargin=0.4in,%
@@ -105,6 +109,8 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{isbn}{\isbntrue}
 \DeclareOption{initial}{\initialtrue}
 \DeclareOption{preliminary}{\prelimtrue}
+\DeclareOption{bnw}{\bnwtrue\gdef\linkcolor{black}}
+
 \ExecuteOptions{}
 \ProcessOptions
 
@@ -276,9 +282,15 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \def\tipno{\thechapter.\arabic{tipc}}
 
 \iftip
-\newrgbcolor{midgreen}{.25 .62 .25}
+\ifbnw
+\newgray{midgreen}{0}
+\newgray{lightgreen}{1}
+\newgray{lightgrey}{.7}
+\else
+\newrgbcolor{midgreen}{.9 .95 .9}%{.25 .62 .25}
 \newrgbcolor{lightgreen}{.9 .95 .9}
 \newgray{lightgrey}{.7}
+\fi
 
 \def\tipbox{\@tempdima\ht\@tempboxa\@tempdimb\dp\@tempboxa
 \advance\@tempdimb\ht\@tempboxa
@@ -291,7 +303,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 %fillstyle=gradient,gradangle=0,gradbegin=midgreen,gradend=lightgreen,
 %gradlines=50,gradmidpoint=\pst@tempa,
 cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,
-linecolor=lightgreen,linewidth=0pt,
+linecolor=midgreen,linewidth=0.3pt,
 shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 ~\vbox to \@tempdima{%

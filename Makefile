@@ -65,11 +65,11 @@ PRICE = 90000
 # pages rounded up to 4, last page empty.
 
 PRINTING = "Punchy Printing"
-OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn
+OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn,bnw
 LANG = american
-LINKCOLOR = blue
+#LINKCOLOR = blue
 # for a printed version, use
-#LINKCOLOR = black
+LINKCOLOR = black
 # BoD options:
 # 6x9 for 6" x 9" format (standard US book format)
 # 17x22 for 17cm x 22cm format (one of the standard metric formats)
