@@ -38,6 +38,8 @@
 \newif\ifspineup
 \newif\ifsplitcover
 \newif\iflatextoc
+\newif\ifisbn
+\isbnfalse
 \latextocfalse
 \splitcoverfalse
 \eightyfourfalse
@@ -90,6 +92,7 @@ footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{english}{\spineupfalse}
 \DeclareOption{splitcover}{\splitcovertrue}
 \DeclareOption{latextoc}{\latextoctrue}
+\DeclareOption{isbn}{\isbntrue}
 \ExecuteOptions{}
 \ProcessOptions
 

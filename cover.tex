@@ -100,12 +100,12 @@ footskip=0pt}%
 \input{backpage}%
 \end{minipage}%
 \vss
+\ifisbn
 \psframebox*[fillcolor=white,framesep=.125in]{%
 %\input{ean13}%
 %\black
-%\ISBN 0-113-917568-7 \EAN 9-780-139-175-688
-\includegraphics{isbn}
-}
+%\ISBN 0-13-917568-7 \EAN 9-780-139-175-688
+\includegraphics{isbn}}\fi
 \vspace*{0.5in}}
 \end{minipage}}%
 \ifsplitcover\eject\fi

@@ -50,6 +50,10 @@ HEIGHT = 9.125in
 
 # original Prentice Hall paperback ISBN
 ISBN = 0-13-917568-7
+# FIG ISBN
+#ISBN = 0-93-553300-1
+# a new ISBN needs to be purchased from the BoD publisher
+# if the ISBN should make any sense.
 
 # dummy price
 PRICE = 90000
@@ -58,7 +62,7 @@ PRICE = 90000
 # or 2*($1.56+pages*$0.02+1.2*royalty) for the ISBN plus service.
 # pages rounded up to 4, last page empty.
 
-OPTIONS = 2004,tip,tipno,leo,thinker
+OPTIONS = 2004,tip,tipno,leo,thinker,isbn
 LANG = american
 LINKCOLOR = blue
 # for a printed version, use
