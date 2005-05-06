@@ -1,0 +1,175 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% Translated into Sapanish (es_ES) by Francisco Escobedo
+%% 
+%% Chapter: Appendix A, Overview of \Forth{} (For Newcomers)
+\appendix{}
+\Chapmark{A}
+\chapter{Descripción de ~\Forth{} (para~principiantes)}
+
+\section{El diccionario}%
+\index{D!Diccionario:!definido|(}%
+\index{F!forth@\Forth{}!descripción de|(}%
+
+\expandafter\initialb\Forth{} es expresa con palabras (y números) y
+está separado por espacios:
+\begin{Code}
+MANO ABRIR  BRAZO BAJAR  MANO CERRAR  BRAZO SUBIR
+\end{Code}
+Tales órdenes pueden teclearse directamente en el teclado o editadas en un medio de almacenamiento masivo y luego cargadas con ``\forthb{LOAD}''.
+
+\index{D!definidoras, palabras:!procedimiento|(} 
+Todas las palabras, ya sean incluidas con el sistema o definidas por
+el usuario, existen en el ``diccionario'', una lista enlazada. Se usa
+una ``palabra definidora'' para añadir nuevos nombres al diccionario.
+Una palabra definidora es \forthb{:} (pronunciada ``2 puntos''), que
+se usa para definir una palabra nueva en términos de palabras
+definidas anteriormente. Aquí se ve cómo podría definirse una palabra
+nueva llamada \forth{LEVANTAR}:
+\begin{Code}
+: LEVANTAR   MANO ABRIR  BRAZO BAJAR  MANO CERRAR  BRAZO SUBIR ;
+\end{Code}
+El \forthb{;} concluye la definición. La nueva palabra
+\forth{LEVANTAR} puede usarse en lugar de la larga secuencia de
+palabras que comprenden su definición.
+
+Las palabras de \Forth{} pueden anidarse así indefinidamente. Escribir
+una aplicación en \Forth{} consiste en construir definiciones cada vez
+más potentes, como esta, en términos de las definidas anteriormente.
+
+Otra palabra definidora es \forthb{CODE},\index{C!CODE} que se usa en
+lugar de los 2 puntos para definir una orden en términos de
+instrucciones de máquina para el procesador nativo. Las palabras
+definidas con \forthb{CODE} son indistinguibles para el usuario de las
+palabras definidas con 2 puntos. Las definiciones con \forthb{CODE}
+sólo son necesarias para las partes más críticas en tiempo de una
+aplicación, en todo caso.  \index{D!definidoras,
+  palabras:!procedimiento|)}
+
+\section{Estructuras de datos}%
+\index{D!datos, estructuras:!operadores}%
+
+Otra palabra definidora es \forthb{CONSTANT},\index{C!CONSTANT} que se
+usa así:
+\begin{Code}
+17 CONSTANT DIECISIETE
+\end{Code}
+La nueva palabra \forth{DIECISIETE} puede usarse en lugar del número
+17.
+
+{\sloppy
+  La palabra definidora \forth{VARIABLE}\index{V!VARIABLE} crea una
+  posición para datos temporales. \forth{VARIABLE} se usa así:
+\begin{Code}
+VARIABLE PLATANOS
+\end{Code}
+Esto reserva una posición identificada por el nombre \forth{PLATANOS}.}
+
+Leer el contenido de esta posición es trabajo de la palabra \forthb{@}
+(pronunciado ``leer''\footnote{``fetch'', en el original}). Por
+ejemplo,
+\begin{Code}
+PLATANOS @
+\end{Code}
+lee el contenido de la variable \forth{PLATANOS}. Su complementario es
+\forthb{!} (pronunciado ``escribir''\footnote{``store'', en el
+  original}), que escribe un valor en la posición, como en:
+\begin{Code}
+100 PLATANOS !
+\end{Code}
+\Forth{} también proporciona una palabra para incrementar el valor
+actual en el valor dado; por ejemplo, la frase
+\begin{Code}
+2 PLATANOS +!
+\end{Code}
+incrementa la cuenta en 2, totalizando 102.
+
+\Forth{} proporciona muchos otros operadores de estructuras de
+datos\index{D!datos, estructuras:!operadores}, y lo que es más
+importante, proporciona las herramientas necesarias para que el
+programador cree cualquier tipo de estructura de datos requerida por
+la aplicación.%
+\index{D!Diccionario:!definido|)}%
+
+\section{La pila}
+\index{P!pilas de datos!definidas|(} En \Forth{}, se usan variables y
+matrices para guardar valores que pueden ser necesarios para muchas
+otras rutinas o en momentos impredecibles. \emph{No} se usan para el
+paso de datos entre definiciones. Para esto, \Forth{} emplea un
+mecanismo mucho más sencillo: la pila de datos.
+
+Cuando se teclea un número, va a la pila. Cuando se invoca una palabra
+que tiene entrada numérica, la tomará de la pila. Así la frase
+\begin{Code}
+17 SPACES
+\end{Code}
+mostrará 17 espacios en blanco en el dispositivo de salida actual.
+``17'' pone el valor binario 17 en la pila; la palabra \forthb{SPACES}
+lo consume.
+
+Una constante también pone su valor en la pila; así la frase:
+\begin{Code}
+DIECISIETE SPACES
+\end{Code}
+produce el mismo efecto.
+
+La pila opera según el principio ``último en entrar, primero en
+salir''\footnote{``last-in, first-out'', en el original, abreviado
+  LIFO}. Esto significa que los datos pueden pasarse entre palabras de
+una manera ordenada, modular y consistente con la anidación de las
+definiciones de 2 puntos.
+
+Por ejemplo, una definición llamada \forth{REJILLA} podría invovar la
+frase \forth{17 SPACES}. Esta actividad temporal en la pila será
+transparente para cualquier definición que invoque a \forth{REJILLA}
+porque el valor puesto en la pila se quita antes de que la definición
+de \forth{REJILLA} acabe. La definición que la llama podría haber
+puesto sus propios números en la pila antes de llamar a
+\forth{REJILLA}. Estos permanecerán intactos en la pila hasta que
+\forth{REJILLA} se haya ejecutado y la definición que la llamó
+continúe.
+\index{P!pilas de datos!definidas|)}
+
+\section{Estructuras de control}
+\Forth{} proporciona todas las estructuras de control%
+\index{C!control, estructuras de:!definidas}
+necesarias para la programación estructurada si GO TO.
+
+La sintaxis de \forthb{IF THEN} es como sigue:
+\begin{Code}
+... ( indicador ) IF  PEGAR  THEN  ABRIR ...
+\end{Code}
+El ``indicador''\index{I!indicadores} es un valor en la pila consumido
+por \forthb{IF}. Un valor distinto de cero indica verdadero, y cero
+indica falso. Un indicador verdadero causa que se ejecute el código
+que siga al \forthb{IF} (en este caso, la palabra \forth{PEGAR}). La
+palabra \forthb{THEN} marca el fin de la ejecución de la frase
+condicional; la ejecución continúa con la palabra \forth{ABRIR}. Un
+indicador falso causa que el código entre \forthb{IF} y \forthb{THEN}
+{\em no} se ejecute. En cualquier caso, se ejecuta \forth{ABRIR}.
+
+La palabra \forthb{ELSE}\index{E!ELSE} permite que se ejecuta una frase alternativa en caso de que el indicador sea falso. En la frase:
+\begin{Code}
+( indicador ) IF  PEGAR  ELSE  TIMBRE  THEN  ABRIR ...
+\end{Code}
+la palabra \forth{PEGAR} se ejecutará si el indicador es cierto, en
+caso contrario se ejecutará la palabra \forth{TIMBRE}. En ambos casos,
+la ejecución continuará desde \forth{ABRIR}.
+
+\Forth{} también tiene bucles con índices\index{B!bucles} de la forma
+\begin{Code}
+( límite) ( índice) DO ... LOOP
+\end{Code}
+y bucles indefinidos de las formas:
+\begin{Code}
+... BEGIN  ...  ( indicador) UNTIL
+\end{Code}
+and
+\begin{Code}
+... BEGIN  ...  ( indicador) WHILE ... REPEAT ;
+\end{Code}
+\section{Para saberlo todo}
+Para una introducción completa al juego de órdenes de \Forth{}, lea
+\emph{Starting \Forth{}}, publicado por Prentice-Hall.%
+\index{F!forth@\Forth{}!descripción de|)}%

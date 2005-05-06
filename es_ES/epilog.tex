@@ -1,0 +1,129 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% Translated into Spanish (es_ES) by Francisco Escobedo
+%% 
+%% Chapter: Epilog
+% \epilog{}  - it's not an Appendix, but not a numbered chapter, either
+
+\epilog{}
+\chapter{%
+El efecto de \Forth{}
+en el modo de pensar}%
+\index{F!forth@\Forth{}!efecto en el modo de pensar|(}
+
+\begin{tfquot}
+  \Forth{} es como el Tao: es un Camino, y se comprende al seguirlo.
+  Su fragilidad es su fuerza; su simplicidad es su dirección
+  \emph{(\person{Michael Ham},\index{H!Ham, Michael} texto ganador del
+    concurso de Mountain View Press para describir \Forth{} en 25
+    palabras o menos).}
+\end{tfquot}
+
+Para ayudar a extraer algo de la filosofía de \Forth{}, propuse una
+encuesta a varios usuarios de \Forth{} en la que pregunté: ``¿Cómo ha
+afectado \Forth{} a su manera de pensar? ¿Se ha encontrado aplicando
+los principios de \Forth{} a otros terrenos?''
+
+He aquí algunas de las respuestas:
+
+\index{B!Bernstein, Mark|(}
+\begin{interview}
+  \person{Mark Bernstein} es presidente de Eastgate Systems Inc.\@ en
+  Cambridge, Massachusetts, y tiene un doctorado por el Departamento
+  de Química de la Universidad de Harvard.
+
+\begin{tfquot}
+  Conocí \Forth{} mientras trabajaba en química de láser. Estaba
+  tratando de construir un controlador bastante complicado para un
+  nuevo espectrómetro de láser. Los planes originales pedían una gran
+  caja verde llena de electrónica, ``La Interconexión''. Nadie había
+  hecho esta clase de instrumento antes (por eso lo estábamos
+  haciendo) y la lista de cosas de las que queríamos que se encargara
+  el ordenador cambiaba cada par de semanas.
+
+  Después de algunos meses, tenía cientos de páginas de rutinas en
+  lenguaje ensamblador, 3 placas grandes de circuitos llenos de
+  integrados y un bus del sistema de 70 y pico patas. Día a día, todo
+  se hacía más frágil y difícil de arreglar. El cableado de las placas
+  de circuitos tenía holguras, los conectores se aflojaban, el código
+  en ensamblador se iba enredando.
+
+  \Forth{} era una solución evidente para el problema del programa, ya
+  que proporcionaba un entorno decente en el que construir y mantener
+  un programa complejo y con frecuentes cambios. Pero la esencia de la
+  buena programación en \Forth{} es el arte de descomponer los
+  procedimientos en palabras útiles e independientes. La idea de
+  \Forth{} ha tenido implicaciones inesperadas para el diseño de
+  equipos de laboratorio.
+
+  En lugar de construir una Interconexión grande, monolítica y
+  multifunción, me encontré construyendo montones de cajitas simples
+  que funcionaban muy parecido a las palabras de \Forth{}: tenían un
+  juego fijo de entradas y salidas, realizaban sólo una función,
+  estaban diseñadas para conectarse entre sí sin mucho esfuerzo y eran
+  lo bastante simples para que se pudiera saber qué hacía una caja
+  sólo mirando su etiqueta.
+
+  \dots{} La idea de ``escala humana'' es, creo yo, el concepto
+  fundamental en el diseño de programas. Esto no es logro específico
+  de \Forth{}; la gran delicia de UNIX, al menos en su juventud, era
+  que podía leerse (porque estaba escrito en C), comprenderlo (porque
+  era pequeño) y modificarlo (porque era simple). \Forth{} comparte
+  esas virtudes, aunque está diseñado para tratar con un problema
+  diferente.
+
+  Debido a que \Forth{} es pequeño y a que \Forth{} le de a sus
+  usuarios control sobre sus máquinas, \Forth{} permite que los
+  humanos controlen sus aplicaciones. Es una tontería esperar que los
+  científicos se sienten delante de un ordenador de laboratorio a
+  jugar a las adivinanzas con programas cerrados. \Forth{}, usado
+  adecuadamente, le permite a un científico instruir al ordenador en
+  vez de dejar que el ordenador instruya al científico.
+
+  En el mismo sentido en que en béisbol se supone que un bateador debe
+  sentir el bate como una extensión de sí mismo, \Forth{} está a
+  escala humana, y ayuda a convencerlo a uno de que los logros y
+  fracasos del ordenador son también de uno mismo.
+\end{tfquot}
+\index{B!Bernstein, Mark|)}
+\index{D!Dessy, Raymond E.|(}
+\person{Raymond E. Dessy} es Profesor de Química en el Universidad
+Estatal e Instituo Politécnico de Virginia, Blacksburg, Virginia.
+\begin{tfquot}
+  Al intentar comprender la naturaleza y estructura del C, me hallé
+  basándome en el conocimiento que tenía de la organización y el
+  enfoque de \Forth{}. Esto me permitió comprender secciones confusas
+  o con alto coeficiente de niebla que describían el C.
+
+  He comprobado que el enfoque de \Forth{} es una base ideal sobre la
+  que construir un marco de comprensión y enseñanza para conceptos de
+  otros lenguajes y sistemas operativos.
+\end{tfquot}
+\index{D!Dessy, Raymond E.|)}
+\index{B!Boutelle, Jerry|(}
+\person{Jerry Boutelle} es propietario de Nautilus Systems en Santa
+Cruz, California, que vende el compilador cruzado Nautilus.
+\begin{tfquot}
+  \Forth{} ha cambiado mi manera de pensar de muchas maneras. Desde
+  que aprendí \Forth{} he escrito en otros lenguajes, incluyendo
+  ensamblador, BASIC y FORTRAN. He visto que uso la misma clase de
+  descomposición que hacemos en \Forth{}, en el sentido de crear
+  palabras y agruparlas. Por ejemplo, en la manipulación de cadenas
+  definiría subrutinas análogas a \forth{CMOVE}, \forth{-TRAILING},
+  \forth{FILL}, etc.
+
+  Más fundamentalmente, \Forth{} ha reafirmado mi fe en la
+  simplicidad. La mayoría de la gente ataca los problemas con
+  herramientas complicadas. Pero hay herramientas más simples y
+  útiles.
+
+  Trato de simplificar todos los aspectos de mi vida. Hay una cita que
+  me gusta del \emph{Tao Te Ching} por el filósofo chino \person{Lao
+    Tzu}: ``El que persigue el conocimiento, adquiere tanto como puede
+  cada día; el que persigue el Tao, pierde tanto como puede cada
+  día.''
+\end{tfquot}
+\end{interview}
+\index{B!Boutelle, Jerry|)}
+\index{F!forth@\Forth{}!efecto en el modo de pensar|)}

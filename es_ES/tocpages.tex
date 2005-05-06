@@ -1,0 +1,23 @@
+
+\cleardoublepage
+\pagestyle{headings}
+\setcounter{tocdepth}{1}
+\tableofcontents
+\clearpage
+\begin{tabular}{ll}
+\multicolumn{2}{c}{\sf\textbf{\large Lista de programas de ejemplo}} \\ \hline
+{\Large\strut}\underline{Program} & \underline{Page number} \\
+Manzanas & \pageref{apples1}--\pageref{apples2} \\
+Tarifas telefónicas & \pageref{phone1}--\pageref{phone2}, \pageref{phone3}, \pageref{phone4}--\pageref{phone5} \\
+Mini editor & \pageref{editor1}--\pageref{editor2}, \pageref{editor3}, \pageref{editor4}--\pageref{editor5} \\
+Colores & \pageref{color1}, \pageref{color2}, \pageref{color3}, \pageref{color4}, \pageref{color5} \\
+Números romanos & \pageref{roman1}--\pageref{roman2}, \pageref{roman3}\\
+Dibujo de cuadrados & \pageref{boxes1}--\pageref{boxes2}, \pageref{boxes3}\\
+Cajero automático & \pageref{teller1}--\pageref{teller2}\\
+\end{tabular}
+\makeatletter
+\renewcommand\numberline[1]{\hb@xt@\@tempdima{#1\hfil}}
+\makeatother
+\setcounter{tocdepth}{4}
+%\listoffigures\vfill\pagebreak
+\sectionlabelfalse

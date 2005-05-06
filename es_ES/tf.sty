@@ -1,0 +1,800 @@
+%%  Thinking Forth style 
+%%  this style recreates the original appearence of TF
+%%  Copyright (C) 2004  Bernd Paysan, Anton Ertl
+
+%%  This program is free software; you can redistribute it and/or modify
+%%  it under the terms of the GNU General Public License as published by
+%%  the Free Software Foundation; either version 2 of the License, or
+%%  (at your option) any later version.
+
+%%  This program is distributed in the hope that it will be useful,
+%%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%%  GNU General Public License for more details.
+
+%%  You should have received a copy of the GNU General Public License
+%%  along with this program; if not, write to the Free Software
+%%  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+%%  This program is alternatively licensed under the creative common
+%%  license http://creativecommons.org/licenses/by-nc-sa/2.0/, i.e.
+%%  requires attribution, non-commercial use, and shared-alike.
+%%  If you don't like that, take the GPL as above.
+
+\typeout{Thinking Forth Style [13oct04py]}
+
+%% Some basic things
+
+\makeatletter
+
+%% options
+
+\newif\ifeightyfour
+\newif\ifofour
+\newif\iftipno
+\newif\iftip
+\newif\ifleo
+\newif\ifthinker
+\newif\ifspineup
+\newif\ifsplitcover
+\newif\iflatextoc
+\newif\ifisbn
+\newif\ifinitial
+\newif\ifprelim
+\newif\ifbnw
+\bnwfalse
+\isbnfalse
+\latextocfalse
+\splitcoverfalse
+\eightyfourfalse
+\ofourfalse
+\tipnofalse
+\tipfalse
+\leofalse
+\thinkerfalse
+\spineuptrue
+\initialfalse
+\prelimfalse
+
+\newdimen\hangout
+\newdimen\hangmark
+\newdimen\pthick
+\newdimen\cborder
+\pthick0.0041in
+\cborder0.125in
+
+\def\linkcolor{blue}
+
+\def\oldgeometry{\global\hangout.66in\global\cborder0.125in
+\geometry{verbose,paperwidth=6.8125in,paperheight=9.125in,tmargin=0.4in,%
+bmargin=1.3in,lmargin=0.7in,rmargin=1.3875in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\def\sixbynine{\global\hangout.55in\global\pthick0.0041in
+\geometry{verbose,paperwidth=6in,paperheight=9in,tmargin=0.4in,%
+bmargin=1.175in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\def\seventeenbytwentytwo{\global\hangout.66in\global\pthick0.12mm\global\cborder5mm
+\geometry{verbose,paperwidth=17cm,paperheight=22cm,tmargin=0.4in,%
+bmargin=.83in,lmargin=0.7in,rmargin=1.268in,headheight=0cm,headsep=0cm,%
+footskip=.4in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\def\seventeenbytwentyfour{\global\hangout.66in\global\pthick0.12mm\global\cborder5mm
+\geometry{verbose,paperwidth=17cm,paperheight=24cm,tmargin=0.5in,%
+bmargin=1.52in,lmargin=0.7in,rmargin=1.268in,headheight=0cm,headsep=0cm,%
+footskip=.6in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\def\sixfourteenbyninetwentyone{\global\hangout.55in\global\pthick0.0042in
+\geometry{verbose,paperwidth=6.14in,paperheight=9.21in,tmargin=0.5in,%
+bmargin=1.28501in,lmargin=0.5in,rmargin=.915in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+
+\oldgeometry
+
+\DeclareOption{1984}{\eightyfourtrue\oldgeometry}
+\DeclareOption{2004}{\ofourtrue}
+\DeclareOption{tipno}{\tipnotrue}
+\DeclareOption{tip}{\tiptrue}
+\DeclareOption{6x9}{\sixbynine}
+\DeclareOption{17x22}{\seventeenbytwentytwo}
+\DeclareOption{17x24}{\seventeenbytwentyfour}
+\DeclareOption{6.14x9.21}{\sixfourteenbyninetwentyone}
+\DeclareOption{leo}{\leotrue}
+\DeclareOption{thinker}{\thinkertrue}
+\DeclareOption{american}{\spineupfalse}
+\DeclareOption{english}{\spineupfalse}
+\DeclareOption{splitcover}{\splitcovertrue}
+\DeclareOption{latextoc}{\latextoctrue}
+\DeclareOption{isbn}{\isbntrue}
+\DeclareOption{initial}{\initialtrue}
+\DeclareOption{preliminary}{\prelimtrue}
+\DeclareOption{bnw}{\bnwtrue\newgray{blue}{0}}
+
+\ExecuteOptions{}
+\ProcessOptions
+
+\hangmark\hangout
+\advance\hangmark-2.5em
+
+%% only chapters have section numbers
+
+\setcounter{secnumdepth}{0}
+
+%% If there's something not correctly typesetted, use \fixme
+
+\newcommand{\fixme}[1]{{\tiny$\triangleright$\marginpar{\tiny$\triangleleft$!!#1}}}
+
+%% labels and references
+
+\newcommand{\labelsect}[1]{\label{sect-#1}}
+\newcommand{\labelfig}[1]{\label{fig-#1}}
+\newcommand{\program}[1]{\phantomsection\label{#1}}
+\newcommand{\figref}[1]{\ref{fig-#1}}
+\newcommand{\fig}[1]{Figura~\figref{#1}}
+\newcommand{\Fig}[1]{Figura~\figref{#1}}
+\newcommand{\sect}[1]{Sección~\ref{sect-#1}}
+\newcommand{\Sect}[1]{Sección~\ref{sect-#1}}
+\newcommand{\Chapmark}[1]{{\def\@currentlabel{\refchapter}\label{chapter-#1}}}
+\newcommand{\Chap}[1]{Capítulo \ref{chapter-#1}}
+\newcommand{\App}[1]{Appendice \ref{chapter-#1}}
+
+% Hurenkinder und Schusterjungen verbieten
+
+\clubpenalty=10000          % No orphans, keine Schusterjungen
+\widowpenalty=10000         % No widows, keine Hurenkinder
+\brokenpenalty=10000        % No broken words between pages
+\doublehyphendemerits=10000 % No double hyphens
+
+%% Images
+
+%%\w{eps,tex}fig*{label}{caption}
+% *:
+% ''  missing figure
+% 'a' figure here
+% 't' figure on top of page
+% 'b' figure on bottom of page
+% 'pp' figure on page of figures
+% 'x' image on separate page
+% 'xx' small image on separate page (make sure no other image lands there)
+% tex includes a latex file, should be a minipage there, only available
+%     in t and b flavour
+
+\newcommand{\wepsfig}[2]{\begin{figure}[hhhh]
+\caption{#2}\labelfig{#1}falta fichero eps\end{figure}}
+
+\newcommand{\wepsfiga}[2]{
+\begin{figure}[hhhh]
+\caption{#2}
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\labelfig{#1}
+\end{figure}
+}
+\newcommand{\wepsfigt}[2]{
+\begin{figure*}[tttt]
+\caption{#2}\par
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wepsfigpp}[2]{
+\begin{figure*}[pppp]
+\caption{#2}\par
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wepsfigb}[2]{
+\begin{figure*}[bbbb]
+\caption{#2}\par
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wepsfigx}[1]{
+\begin{figure*}[pppp]
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wepsfigxx}[1]{
+\begin{figure*}[pppp]
+\vspace{20ex}
+\centerline{\includegraphics{#1}}\vspace{20ex}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wepsfigp}[2]{
+\begin{figure*}[pppp]
+\vspace{1ex}
+\centerline{\includegraphics{#1}}\vspace{1ex}
+\begin{center}{\emph{#2}}\end{center}
+\vspace{1ex}
+\label{img-#1}
+\end{figure*}
+}
+\newcommand{\wtexfigt}[2]{
+\begin{figure*}[tttt]
+\caption{#2}
+\smallskip
+\input{#1}
+\labelfig{#1}
+\end{figure*}
+}
+\newcommand{\wtexfigb}[2]{
+\begin{figure*}[bbbb]
+\caption{#2}
+\smallskip
+\input{#1}
+\labelfig{#1}
+\end{figure*}
+}
+
+%% footnotes
+
+\renewcommand\thefootnote{\fnsymbol{footnote}} 
+\renewcommand\thempfootnote{*} 
+
+%% Only caption and label for figures with code
+
+\newcommand\verbfig[2]{
+\caption{#2}
+\labelfig{#1}
+}
+
+%% There's no bold typewriter in Computer Modern.
+%% Emulate with printing several times, slightly moving
+
+\newdimen\poormove
+\poormove0.0666pt
+\newcommand{\poorbf}[1]{%
+\llap{\hbox to \poormove{#1\hss}}%
+\raise\poormove\rlap{#1\hss}%
+\lower\poormove\rlap{#1\hss}%
+\rlap{\hbox to \poormove{\hss}\hbox{#1}}%
+#1}
+
+%\let\poorbf=\textbf
+\renewcommand{\poorbf}[1]{{\fontencoding{OT1}\fontfamily{cmtt}\fontseries{b}\selectfont#1}}
+
+%% line for separating is blacker than LaTeX default
+
+\newcommand{\blackline}[1]{\hrule height 1pt\nopagebreak\vspace{#1}}
+
+%% allow pretty big top fractions for floating placement
+
+\renewcommand\topfraction{.95}
+\renewcommand\bottomfraction{.5}
+%\renewcommand\floatpagefraction{.05}
+
+\setlength\textfloatsep{14\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\intextsep   {8\p@ \@plus 2\p@ \@minus 2\p@}
+
+%% TIP environment
+
+\newcounter{tipc}[chapter]
+
+\def\tipno{\thechapter.\arabic{tipc}}
+
+\iftip
+\ifbnw
+\newgray{midgreen}{0}
+\newgray{lightgreen}{.9}
+\newgray{lightgrey}{.7}
+\else
+\newrgbcolor{midgreen}{.9 .95 .9}%{.25 .62 .25}
+\newrgbcolor{lightgreen}{.9 .95 .9}
+\newgray{lightgrey}{.7}
+\fi
+
+\def\tipbox{\@tempdima\ht\@tempboxa\@tempdimb\dp\@tempboxa
+\advance\@tempdimb\ht\@tempboxa
+\hbox to \linewidth{\leavevmode%
+\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+\else\hss\hbox{\hss
+\vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
+\pst@divide{\@tempdima}{\@tempdimb}{\pst@tempa}%
+\psshadowbox[fillcolor=lightgreen,
+%fillstyle=gradient,gradangle=0,gradbegin=midgreen,gradend=lightgreen,
+%gradlines=50,gradmidpoint=\pst@tempa,
+cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,
+linecolor=midgreen,linewidth=0.3pt,
+shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
+\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+~\vbox to \@tempdima{%
+\hbox{\includegraphics{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
+\else
+\hbox to 2.5em{\hss}%
+\fi
+}
+}
+
+\else
+
+\def\tipbox{\indent\begin{minipage}{\linewidth}\blackline{1.5ex}
+\unhbox\@tempboxa
+\vspace{1.5ex}\blackline{0pt}\end{minipage}}
+
+\fi
+
+\newenvironment{tip}{
+\list{}{\listparindent 0pt\itemindent 0pt}
+\item\relax
+\stepcounter{tipc}%
+\setbox\@tempboxa\hbox\bgroup\begin{minipage}[t]{\linewidth}
+{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\par\medskip\small
+}{\par
+\end{minipage}\egroup%
+\leavevmode\label{tip-\thechapter.\arabic{tipc}}%
+\tipbox
+\endlist
+}
+
+%\newenvironment{tip}{\list{}{
+%\parsep\z@ \@plus\p@\small}%
+%\samepage\setlength{\@topsep}{2pt}%
+%\hbox{\hbox to\leftmargin{}%
+%\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}}%
+%\vspace{1ex}
+%\item\relax{\normalsize TIP}\nopagebreak\\[1ex]\nopagebreak}%
+%{\endlist\nopagebreak\kern-\baselineskip%
+%\hbox{\hbox to\leftmargin{}%
+%\hbox to \linewidth{\leaders\hrule\@height 1pt\hfill}\medskip}
+%\goodbreak}
+
+%% quotation environment for TF
+
+\newenvironment{tfquot}
+               {\list{}{\listparindent 0em%
+                        \itemindent    \listparindent
+                        \leftmargin    2.5em
+                        \parsep        1ex \@plus\p@\small}%
+                \item\relax}
+               {\endlist}
+
+\newenvironment{interview}
+               {\list{}{\listparindent 2.5em%
+                        \itemindent    0pt
+                        \leftmargin    0pt
+			\topsep        0pt
+                        \parsep        0.5ex \@plus\p@}%
+		\bigbreak\blackline{1ex}\nopagebreak
+                \item\relax}
+               {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
+\newenvironment{interview*}
+               {\list{}{\listparindent 2.5em%
+                        \itemindent    0pt
+                        \leftmargin    0pt
+			\topsep        0pt
+                        \parsep        0.5ex \@plus\p@}%
+		\item\relax}
+               {\samepage\par\blackline{0pt}\medskip\endlist\goodbreak}
+
+
+%\pointto{box}
+\newcommand{\pointto}[1]{\raisebox{-1.8ex}[0pt][0pt]{\makebox[0pt][l]{\texttt{\^{ }}}}#1}
+
+\def\hy{\penalty 0\allowhyphens}
+
+%\fwbox{text} %like fbox, but does not create a wider box
+\newcommand{\fwbox}[1]{\framebox[\width]{#1}}
+\def\boxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2\hss}}
+\def\rboxto#1#2{\setbox0\hbox{#1}\hbox to \wd0{\hss #2}}
+
+
+\def\smashlt#1{%
+  \setbox\z@\hbox{\color@begingroup#1\color@endgroup}\finsm@shlt}
+\def\finsm@shlt{\hspace{\wd\z@}\llap{\box\z@}}
+
+
+%!! in the '94 edition (and probably the original) inline Forth words are
+%set in a roman font; if you change \forth to do this, make sure that > and
+%< get the correct glyphs
+%\forth{words} %used within text paragraphs
+%\code text was originally also set in roman font
+%1984 edition uses fat romand for Forth words
+\ifeightyfour
+\newcommand{\forth}[1]{\textrm{#1}}
+\newcommand{\forthb}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\textrm{#1}}
+\else
+%1994 edition uses teletype for Forth words
+\newcommand{\forth}[1]{\texttt{#1}}
+\newcommand{\forthb}[1]{\texttt{\poorbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\fi
+
+{\catcode`\|0\catcode`\\12%
+|gdef|bs{\}}
+
+\newcommand{\chapternum}[1]{}
+
+%\lstloadaspects{labels}
+%\lstset{language=Forth,basicstyle=\ttfamily,keywordstyle=\bfseries,%
+%basewidth=0.5em,frame=tlbr,frameround=tttt,%
+%fancyvrb=true% set this to true if you want fancyvrb use
+%}
+
+%% chapter style, chapters without name like Preface are chapter*
+
+\newcommand\HUGE{\@setfontsize\HUGE{33}{38}}
+\newcommand\THUGE{\@setfontsize\HUGE{65}{70}}
+\newcounter{appendix}
+
+\def\@schapter#1{\if@twocolumn
+                   \@topnewpage[\@makeschapterhead{#1}]%
+                 \else
+                   \@makeschapterhead{#1}%
+                   \@afterheading
+                 \fi
+		 \phantomsection
+                 \addcontentsline{toc}{section}{#1}%
+                 \chaptermark{#1}%
+		 }
+
+\def\@makechapterhead#1{{\HUGE
+%    \sffamily
+    \fontfamily{phv}\selectfont\bfseries\slshape
+  \vbox{\advance\textwidth1em\hrule \@height 2pt
+    \vspace*{0.25ex}\hbox to \textwidth{\wordchapter\hss}\vspace*{0.25ex}
+    \hrule \@height 2pt}
+  \vspace*{100pt}
+  \hbox{\hbox to .1\linewidth{}
+  \vbox{\hsize.9\linewidth
+    \parindent\z@\hyphenpenalty 10000\raggedright
+  #1}}
+  \vspace*{1em plus 1fill}
+  \pagebreak
+  \vspace*{1.7in}\blackline{10pt}
+}\stepcounter{appendix}}
+\def\@makeschapterhead#1{\ifofour\thispagestyle{headings}\fi{\HUGE
+    \fontfamily{phv}\selectfont\bfseries\slshape
+    \parindent 0pt
+  \vbox{{\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}%
+    \vspace*{0.2ex}{\advance\textwidth-1em\sloppy\MakeUppercase{#1}}\vspace*{0.2ex}%
+	    {\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}}%
+  \vspace*{100pt}}}
+
+\def\enumchap#1{\ifcase#1\or Uno\or Dos\or Tres\or Cuatro\or
+Cinco\or Seis\or Siete\or Ocho\or Nueve\or Diez\fi}
+\def\wordchapter{\MakeUppercase{\enumchap\c@chapter}}
+\def\refchapter{\enumchap{\c@chapter}}
+
+%% empty pages should not countain headings
+
+\def\cleardoublepage{\clearpage\thispagestyle{empty}%
+  \if@twoside \ifodd\c@page\else
+    \hbox{}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+%% environments that go into TOC
+
+\renewenvironment{theindex}
+               {\if@twocolumn
+                  \@restonecolfalse
+                \else
+                  \@restonecoltrue
+                \fi
+                \columnseprule \z@
+                \columnsep 35\p@
+                \twocolumn[\@makeschapterhead{\indexname}]%
+                \@mkboth{\MakeUppercase\indexname}%
+                        {\MakeUppercase\indexname}%
+		\phantomsection
+		\addcontentsline{toc}{chapter}{\indexname}%
+                \thispagestyle{plain}\parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem}
+               {\if@restonecol\onecolumn\else\clearpage\fi}
+
+\renewcommand\@idxitem{\par\Large\sf\bfseries\hangindent 40\p@}
+\renewcommand\subitem{\@idxitem\normalfont\normalsize \hspace*{10\p@}}
+\renewcommand\subsubitem{\@idxitem\normalfont\normalsize \hspace*{20\p@}}
+
+%\renewcommand*\see[2]{(\emph{\seename} #1)}
+
+%% appendix stuff
+
+\def\epilog{\gdef\wordchapter{EPILOGUE}}
+\renewcommand\appendix{\par
+  \setcounter{appendix}{1}%
+  \setcounter{section}{0}%
+  \gdef\thechapter{\@Alph\c@appendix}%
+  \gdef\refchapter{\@Alph\c@appendix}%
+  \gdef\wordchapter{APPENDIX \thechapter}%
+  \gdef\chapter@upper\relax}
+
+%% headings style
+
+%\def\iffloatpage#1#2{\if@fcolmade #1\else #2\fi}
+
+\def\prelimtext{\ifprelim{\gray\small\sf Preimpresión: por favor, informe de los fallos}\fi}
+
+\def\ps@headings{\let\@mkboth\markboth
+  \def\@oddhead{}
+  \def\@evenhead{}
+  \def\@evenfoot{\if@fcolmade\else
+      \hss\vbox{\hsize\textwidth
+      \hbox to \textwidth{\hbox to 0pt{\hss\hbox to \hangout{\sf\bfseries\thepage\hss}}%
+        \vrule height0pt depth3.2pt width 0pt%
+        {\kern-\hangmark\small\sf\leftmark}\hfil\prelimtext}}\fi}
+  \def\@oddfoot{\if@fcolmade\else
+      \hss\vbox{\hsize\textwidth
+      \hbox to \textwidth{%
+        \prelimtext\hfil\vrule height0pt depth3.2pt width 0pt{{\small\sf\ifofour\rightmark\else\leftmark\fi}\kern-\hangmark}%
+        \hbox to 0pt{\hbox to \hangout{\hss\sf\bfseries\thepage}\hss}}}\fi}
+  \def\chaptermark##1{\markboth{##1}{##1}}%
+  \def\sectionmark##1{\markright{##1}}%
+  \def\subsectionmark##1{\markright{##1}}%
+  \def\subsubsectionmark##1{}%
+}
+
+\ps@headings
+\def\ps@plain{\ps@empty}
+
+%% section marking
+
+\newif\ifsectionlabel
+\sectionlabelfalse
+
+\newcounter{sectionlr}
+
+\def\@setrefpp#1{\ifx#1\relax0\else#1\fi}
+\def\pagerefpp#1{\expandafter\@setrefpp\csname r@#1\endcsname}
+\def\labelpp#1{\@bsphack%
+  \protected@write\@auxout{}%
+         {\string\newlabel{#1}{\arabic{page}}}%
+  \@esphack}
+
+\def\raggedlr{\noindent
+\ifodd\pagerefpp{s@ctionlr-\arabic{sectionlr}}\raggedleft\else\raggedright\fi
+\stepcounter{sectionlr}}
+\def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
+\def\raggedr{\noindent
+\raggedright
+\stepcounter{sectionlr}}
+
+%% original Thinking Forth placement
+\ifeightyfour
+\let\sectionlr\raggedlr
+\let\subsectionlr\raggedr
+\let\subsubsectionlr\raggedr
+\else
+%% more consistent:
+\let\sectionlr\raggedlr
+\let\subsectionlr\raggedlr
+\let\subsubsectionlr\raggedlr
+\fi
+%%
+
+\def\section#1{\@startsection{section}{1}{-\hangout}{2.5ex plus 1ex 
+    minus .2ex}{2ex plus .2ex}{\Large\sf\bfseries\slshape}[#1]{\sectionlr #1\kern-\hangout}}
+\def\subsection#1{\@startsection{subsection}{2}{0in}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\large\sf\bfseries}[#1]{\subsectionlr #1\kern0in}}
+\def\subsubsection#1{\@startsection{subsubsection}{3}{0in}{2ex plus 1ex
+    minus .2ex}{1.5ex \relax}{\sf\bfseries}[#1]{\subsubsectionlr #1\kern0in}}
+
+%% indentation
+
+\parindent=2.5em
+\DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=\parindent}
+\def\dontbreak{\@nobreaktrue}
+
+%% list indentation
+
+\def\@listi{\leftmargin\leftmargini
+            \parsep 2\p@ \@plus2\p@ \@minus\p@
+            \topsep 8\p@ \@plus2\p@ \@minus4\p@
+            \itemsep2\p@ \@plus2\p@ \@minus\p@}
+\let\@listI\@listi
+\@listi
+\def\@listii {\leftmargin\leftmarginii
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep    4\p@ \@plus2\p@ \@minus\p@
+              \parsep    0\p@ \@plus\p@  \@minus\p@
+              \itemsep   \parsep}
+
+%% screen environment
+
+\newcounter{screen}
+\DefineVerbatimEnvironment{Screen}{Verbatim}{frame=single,framesep=3pt,%
+label=[{\rm Screen \# \arabic{screen}\stepcounter{screen}}],%
+labelposition=topline,numbers=left,firstnumber=0,numbersep=3pt,%
+samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
+
+%% caption style
+
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\bf #1:} {\it #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    \textbf{#1:} \emph{#2}\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+%% description style
+
+\renewcommand*\descriptionlabel[1]{\hspace{2.5em}
+                                \normalfont\itshape #1}
+
+%% table of contents style
+
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+    }
+
+
+\def\@upperskip{1.5em \@plus\p@}
+\def\@lowerskip{1.0em \@plus\p@}
+
+\def\nf{\iflatextoc\else\normalfont\fi}
+\def \doappendix#1{%
+  \if#1A\iflatextoc\else\setcounter{tocdepth}{0}\fi%
+  \gdef\@upperskip{0pt}\gdef\@lowerskip{0pt}\nf Appendix A\quad\fi
+                               \if#1D\nf Appendix D\quad\fi
+  \if#1B\nf Appendix B\quad\fi \if#1E\nf Appendix E\quad\fi
+  \if#1C\nf Appendix C\quad\fi \if#1F\nf Appendix F\quad\fi
+  }
+
+\renewcommand\numberline[1]{\doappendix{#1}}
+\iflatextoc
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      {\sf\bfseries\slshape#1}\nobreak\hfil
+      \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+\def\@dottedtocline#1#2#3#4#5{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+     {#4}\nobreak
+     \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill
+     \nobreak
+     \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+     \par}%
+  \fi%
+  \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
+\else
+\def\@dottedtocline#1#2#3#4#5{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
+     \parindent #2\relax\@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \@tempdima #3\relax
+     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+     {\hfill #4},~\emph{#5}\par}%
+  \fi%
+  \sectionlab{s@ctionlr-\arabic{sectionlr}}{#5}\stepcounter{sectionlr}}
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip\@upperskip
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \leavevmode
+      \hfill {\sf\bfseries\slshape#1},~\emph{#2}\par
+      \penalty\@highpenalty
+    \endgroup
+    \vskip\@lowerskip
+  \fi}
+\fi
+\def\chapter@upper\uppercase
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                       \if@mainmatter
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\protect\numberline{\thechapter}\chapter@upper{#1}}%
+                       \else
+                         \addcontentsline{toc}{chapter}{\chapter@upper{#1}}%
+                       \fi
+                    \else
+                      \addcontentsline{toc}{chapter}{\chapter@upper{#1}}%
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+
+% no indent after section start
+
+\let\@afterindenttrue\@afterindentfalse
+\@afterindentfalse
+
+%% References style
+
+\newenvironment{references}[1]
+     {\section{Referencias}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `references' environment}}%
+      \endlist
+\setcounter{enumiv}{0}% references are counted per chapter
+}
+
+%% initials
+
+\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
+
+\ifinitial
+\def\initial#1{\par
+\setbox0\hbox{\lower2\baselineskip\hbox{\inifont \uppercase{#1}}}%
+\hangindent\wd0\hangafter-3\dp0=0pt\noindent\hbox to 0pt{\hss\box0}}
+\def\initialb#1{\par
+\setbox0\hbox{\lower1\baselineskip\hbox{\inifont \uppercase{#1}}}%
+\hangindent\wd0\hangafter-2\dp0=0pt\noindent\hbox to 0pt{\hss\box0}}
+\else
+\let\initial\relax
+\let\initialb\relax
+\fi
+
+%% Forth ``logo''
+%1984 edition spells ``FORTH''
+\ifeightyfour
+\def\Forth{FORTH}
+\else
+%1994 edition spells ``Forth''
+\def\Forth{Forth}
+\fi
+
+%% Names are often typeset in small caps
+
+\ifofour
+\def\person#1{{\scshape#1}}
+\else
+\let\person\relax
+\fi
+
+\makeatother

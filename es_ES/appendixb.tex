@@ -1,0 +1,306 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% Translated into Spanish (es_ES) by Francisco Escobedo
+%% 
+%% Chapter: Appendix B, Defining DOER/MAKE
+\Chapmark{B}
+\chapter{Definición de
+DOER/MAKE}
+\index{D!DOER/MAKE|(} \initial Si sus sistema no dispone de las
+definiciones de \forth{DOER} y \forth{MAKE}, este apéndice puede
+ayudarle a instalarlas y, si hiciera falta, comprender cómo funcionan.
+Debido a su naturaleza, esta construcción depende del sistema, por lo
+que he incluido varias versiones al final de este apéndice con la
+esperanza de que una de ellas le funcionará. Si no es así, y esta
+sección no le proporciona suficiente información para hacerlas
+funcionar, probablemente su sistema es poco corriente. Por favor, no
+me pida ayuda; pídasela a su proveedor de \Forth{}.
+
+Así es cómo funciona. \forthb{DOER} es una palabra definidora que crea
+una entrada con 1 celda en su campo de parámetros. Dicha celda
+contiene la dirección vector, y se inicia para apuntar a una palabra
+que no tiene función llamada \forthb{NADA}.
+
+Los hijos de \forthb{DOER} ejecutarán la parte \forthb{DOES>} del
+código de \forthb{DOER}, que sólo hace 2 cosas: leer la dirección del
+vector y ponerla en la pila de retorno. Nada más. La ejecución de
+\Forth{} continúa con esta dirección en la pila de retorno, que
+causará que la función vectorizada se ejecute. Es como decir (en la
+norma \Forth{}-83)
+\begin{Code}
+' NADA >BODY >R <return>
+\end{Code}
+que ejecuta \forth{NADA}. (Este truco sólo funciona con
+definiciones de 2 puntos.)
+
+Así es la entrada en el diccionario que se crea cuando entramos
+
+{\sf
+\bigskip
+\begin{tabular}{@{} l l@{}}
+DOER JUAN & \\
+\hline
+\vline\ JUAN & \vline\ dcp\footnote{dirección del campo de parámetros; ``pfa'' en el original, por ``parameter field address''} de NADA \vline \\
+\hline
+\ header &\  campo de parámetros
+\end{tabular}
+\bigskip
+}
+
+\noindent Ahora supongamos que se define:
+\begin{Code}
+: PRUEBA   MAKE JUAN  CR ;
+\end{Code}
+es decir, definimos una palabra que puede vectorizar \forth{JUAN} para
+que haga un retorno de carro.
+
+Esta es la imagen de la definición compilada de \forth{PRUEBA}:
+%! This is supposed to be the cell diagram on p. 277, but I just 
+%! couldn't figure out how to do it.
+
+{\sf\bigskip\begin{tabular}{|c|c|c|c|c|c|}\hline
+& dir de & & dir de & dir de & dir de \\
+PRUEBA & (MAKE) & 0 & JUAN & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\boxto{adr}{MARCADOR}} & \multicolumn{3}{c}{} \\
+\end{tabular}
+\bigskip}
+
+\noindent Examinemos el código de \forthb{MAKE}. Como usamos
+\forthb{MAKE} dentro de una definición de 2 puntos, \forthb{STATE}
+será verdadero, y ejecutaremos la frase:
+\begin{Code}
+COMPILE (MAKE)  HERE MARCADOR !  0 ,
+\end{Code}
+Ahora podemos ver cómo \forthb{MAKE} ha compilado la dirección de la
+rutina de tiempo de ejecución, \forthb{(MAKE)}, seguida de un cero.
+(Luego explicaremos para qué es el cero y por qué guardamos su
+dirección en la variable \forthb{MARCADOR}).
+% should probably be "save its address in the variable..."
+
+Miremos ahora lo que hace \forthb{(MAKE)} cuando ejecutamos nuestra
+nueva definición \forthb{PRUEBA}:
+
+\bigskip{
+\begin{tabular}{l@{\hspace{4ex}}>{\parindent-2ex}p{.5\textwidth}}
+\verb%R>%		& Saca una dirección de la pila de retorno.
+			  Esta dirección apunta a la celda justo
+			  después de \forthb{(MAKE)}, donde está el cero.\\ 
+\verb%DUP 2+%		& Calcula la dirección de la segunda celda después de
+			  \forthb{(MAKE)}, donde está la dirección de \forthb{JUAN}.\\
+\verb%DUP 2+%		& Calcula la dirección de la tercera celda después de
+			  \forthb{(MAKE)}, donde empieza el código que queremos
+			  ejecutar. La pila tiene ahora:
+
+			  \parindent2ex (~'marker,~'juan,~'code~--{}--~)\\
+\verb%SWAP @ >BODY%	& Lee el contenido de la dirección
+			  que apunta a \forth{JUAN} (o sea, toma la dirección 
+			  de \forth{JUAN}) y calcula la dcp de \forth{JUAN},
+			  donde va la dirección del vector.\\
+\verb%!%		& Guarda la dirección donde comienza el nuevo
+			  código (\forthb{CR}, etc.) en la dirección del
+			  vector de \forth{JUAN}. \\
+			& Ahora \forth{JUAN} apunta al interior de la definición de
+			  \forth{PRUEBA}. Cuando tecleemos \forth{JUAN}, haremos un
+			  retorno de carro.\\
+\verb%@ ?DUP IF >R THEN%& Lee el contenido de la celda
+			  que contiene cero. Como la celda
+			  contiene cero, la frase \forth{IF THEN} no se
+			  ejecuta.\\
+\end{tabular}}
+\bigskip
+
+Esa es la idea básica. Pero, ¿y la celda que contiene cero? Es para el
+uso de \forthb{;AND}. Supongamos que cambiamos \forth{PRUEBA} así:
+
+\begin{Code}
+: PRUEBA   MAKE JUAN  CR ;AND SPACE ;
+\end{Code}
+O sea, cuando invoquemos \forth{PRUEBA}, vectorizaremos \forth{JUAN}
+para hacer un \forthb{CR}, y haremos un \forthb{SPACE} en ese momento.
+Este es el aspecto de esta versión de \forth{PRUEBA}:
+%! The diagram from page 278 is supposed to be here -- I didn't have a 
+%! clue, so I just omitted it.
+
+\begin{center}\vspace{10pt}\sf\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+& dir de & \smash{\rnode{M1}{~\large\strut}} & dir de & dir de & dir de & \rnode{M2}{dir de\large\strut} & dir de \\
+PRUEBA & (MAKE) & dir & JUAN & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2pt}}
+\multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\boxto{adr}{MARCADOR}} & \multicolumn{5}{c}{} \\
+\end{tabular}
+\psset{arrows=->,arrowinset=0,arrowsize=5pt,armA=0,angleA=90,angleB=90}
+\ncangle{M1}{M2}
+\end{center}
+Esta es la definición de \forthb{;AND}:
+\begin{Code}
+: ;AND   COMPILE  EXIT  HERE MARCADOR @ ! ;   IMMEDIATE
+\end{Code}
+Podemos ver que \forthb{;AND} ha compilado un \forthb{EXIT}\index{E!EXIT},
+como hubiera hecho el punto y coma.
+
+A continuación, recordemos que \forthb{MAKE} escribió la dirección de
+aquella celta en una variabla llamada \forthb{MARCADOR}. Ahora
+\forthb{;AND} escribe \forthb{HERE} (la posición de la segunda
+secuencia de código que comienza con \forthb{SPACE}) en la celda que
+antes contenía cero. Ahora \forthb{(MAKE)} tiene un puntero al lugar
+donde continuar la ejecución. La frase
+\begin{Code}
+IF >R THEN
+\end{Code}
+dejará en la pila de retorno la dirección del código que comienza con
+\forthb{SPACE}. Así, la ejecución se saltará el código entre
+\forthb{MAKE} y \forthb{;AND} y seguirá con el resto de la definición
+hasta el punto y coma.
+
+La palabra \forthb{UNDO} busca la dirección de una palabra hecha con \forthb{DOER} word, y escribe la dirección de \forthb{NADA} en ella.
+
+Una última nota: en algunos sistemas puede encontrar un problema. Si
+usa \forthb{MAKE} fuera de una definición de 2 puntos para crear una
+referencia adelantada, puede no ser posible encontrar la palabra
+creada más recientemente. Por ejemplo, si tenemos:
+\begin{Code}
+: BORDON   CHIN-PON CHIN-PON %%*** here there was a ``;''!?
+MAKE CANCION  CORO  BORDON ;
+\end{Code}
+su sistema puede creer que \forth{BORDON} no está definido. El
+problema es debido a la activación de \forth{SMUDGE}.  Como solución,
+trate de reordenar las definiciones o, si hiciera falta, poner el
+código para \forth{MAKE} dentro de una definición que pueda luego
+ejecutarse:
+\begin{Code}
+: PREPARA   MAKE SONG  CORO  BORDON ;   PREPARA
+\end{Code}
+En el PC/FORTH 2.0 de Laboratory Microsystems, el \forth{UNSMUDGE} de
+la línea 9 se encarga del problema. Este problema no ocurre con el
+modelo de Laxen/Perry/Harris.
+
+La última pantall es un ejemplo de uso de \forthb{DOER/MAKE}. Después
+de cargar el bloque, teclee
+\begin{Code}
+RECITAL
+\end{Code}
+y luego teclee
+\begin{Code}
+POR-QUE?
+\end{Code}
+seguido de un retorno de carro, tantas veces como le parezca (cada vez
+saldrá una razón diferente).
+
+\vfill
+\setcounter{screen}{21}
+\begin{Screen}
+( DOER/MAKE   Shadow screen                      LPB 12/05/83 )
+NADA      Una palabra nula
+DOER      Define una palabra de comportamiento vectorizable
+MARCADOR  Guarda dir para un puntero de continuación opcional.
+(MAKE)    Rellena la dirección del resto del código en el 
+          campo de parámetros de una palabra hecha con DOER.
+MAKE      En modo intérprete:  MAKE nombre-doer  código-forth ;
+          o dentro de una definición:
+             : def   MAKE nombre-doer  código-forth ;
+          Vectoriza la palabra nombre-doer al código-forth.
+;AND      Permite la continuación de la definición con MAKE
+UNDO      Uso:  UNDO nombre-doer ; hace seguro ejecutarlo
+
+
+
+
+\end{Screen}
+\vfill
+\begin{Screen}
+\ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
+: NADA ;
+: DOER   CREATE  ['] NADA  >BODY ,  DOES> @ >R ;
+VARIABLE MARCADOR
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARCADOR !  0 ,
+   ELSE  HERE  [COMPILE] '  >BODY !
+   [COMPILE] ]  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARCADOR @ ! ;   IMMEDIATE
+: UNDO   ['] NADA  >BODY  [COMPILE] '  >BODY ! ;
+
+\ El código de esta pantalla está en el dominio público.
+
+
+\end{Screen}
+\vfill
+\begin{Screen}
+( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
+: NADA ;
+: DOER   CREATE  ['] NADA  >BODY ,  DOES> @ >R ;
+VARIABLE MARCADOR
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  >BODY !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARCADOR !  0 ,
+   ELSE  HERE  [COMPILE] '  >BODY !
+   [COMPILE] ] UNSMUDGE  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARCADOR @ ! ;   IMMEDIATE
+: UNDO   ['] NADA  >BODY  [COMPILE] '  >BODY ! ;
+
+( El código de esta pantalla está en el dominio público.)
+
+
+\end{Screen}
+\vfill
+\begin{Screen}
+( DOER/MAKE   FIG model                          LPB 12/05/83 )
+: NADA   ;
+: DOES-DCP  ( dcp -- dcp del hijo de <BUILD-DOES> )   2+ ;
+: DOER   <BUILDS  ' NADA ,  DOES> @ >R ;
+0 VARIABLE MARCADOR
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ DOES-DCP !
+   @ -DUP IF >R THEN ;
+: MAKE  STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARCADOR !  0 ,
+   ELSE  HERE  [COMPILE] '  DOES-DCP !
+   SMUDGE    [COMPILE] ] THEN ; IMMEDIATE
+: ;AND   COMPILE ;S  HERE MARCADOR @ ! ;  IMMEDIATE
+: UNDO   ' NADA  [COMPILE] '  DOES-DCP ! ;
+;S
+El código de esta pantalla está en el dominio público.
+
+\end{Screen}
+\vfill
+\begin{Screen}
+( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
+: NADA ;
+: DOER   CREATE  ' NADA  ,  DOES> @ >R ;
+VARIABLE MARCADOR
+: (MAKE)  R>  DUP 2+  DUP 2+  SWAP @  2+ ( pfa) !
+   @ ?DUP IF >R THEN ;
+: MAKE   STATE @ IF ( compiling)
+   COMPILE (MAKE)  HERE MARCADOR !  0 ,
+   ELSE  HERE  [COMPILE] ' !
+    [COMPILE] ]  THEN ;   IMMEDIATE
+: ;AND   COMPILE EXIT  HERE MARCADOR @ ! ;   IMMEDIATE
+: UNDO   ['] NADA  [COMPILE] ' ! ;
+
+
+( The code in this screen is in the public domain.)
+
+\end{Screen}
+\vfill
+\begin{Screen}
+( NIÑO: Ejemplo de DOER/MAKE                         12/01/83 )
+DOER RESPUESTA
+: RECITAL
+  CR ." Tu papá está sobre la mesa. Pregúntale 'POR-QUE?' "
+  MAKE RESPUESTA  ." Para cambiar la bombilla."
+  BEGIN
+  MAKE RESPUESTA  ." Porque está fundida."
+  MAKE RESPUESTA  ." Porque está vieja."
+  MAKE RESPUESTA  ." Porque la pusimos ahí hace mucho."
+  MAKE RESPUESTA  ." ¡Porque estaba oscuro!"
+  MAKE RESPUESTA  ." ¡¡Porque era de noche!!"
+  MAKE RESPUESTA  ." Deja de decir POR-QUE?"
+  MAKE RESPUESTA  ." Porque me está volviendo loco."
+  MAKE RESPUESTA  ." ¡Déjame cambiar esta bombilla!"
+  FALSE UNTIL ;
+: POR-QUE?   CR  RESPUESTA  QUIT ;
+\end{Screen}
+\index{D!DOER/MAKE|)}
+\vfill
+
+% LocalWords:  Example

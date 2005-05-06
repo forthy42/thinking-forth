@@ -1,0 +1,105 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% Translated into Spanish (es_ES) by Francisco Escobedo
+%% 
+%% Chapter: Appendix C, Other Utilities Described in This Book
+\Chapmark{C}
+\chapter{Otras~utilidades descritas en~este~libro}
+
+\initial Este apéndice está aquí para ayudarle a definir algunas de
+las palabras a la que se hace referencia en este libro y que pueden no
+existir en su sistema. Las definiciones se hacen según la norma del
+\Forth{}-83.
+
+\section{Del \Chap{4}}
+
+Una definición of \forthb{ASCII}\index{A!ASCII} que funcionará en
+Forth{}-83 es:
+\begin{Code}
+: ASCII  ( -- c)  \  Compilando:  c  ( -- )
+\ Interpretando:   c   ( -- c)
+     BL WORD 1+ C@  STATE @
+     IF [COMPILE] LITERAL  THEN ; IMMEDIATE
+\end{Code}
+
+\section{Del \Chap{5}}
+
+La palabra \forthb{\bs}\index{S!salto, órdenes de} puede definirse
+como:
+\begin{Code}
+: \  ( salta el resto de la línea)
+     >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
+\end{Code}
+Si decide no usar \forthb{EXIT} para concluir una pantalla, puede
+definir \forthb{\bs S} como:
+\begin{Code}
+: \S   1024 >IN ! ;
+\end{Code}
+\index{F!FH|(}%
+La palabra \forthb{FH} puede definirse simplemente como:
+\begin{Code}
+: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
+    BLK @ + ;
+\end{Code}
+Esta descomposición permite usar \forth{FH} de muchas formas, p.e.:
+\begin{Code}
+: TEST   [ 1 FH ] LITERAL LOAD ;
+\end{Code}
+or
+\begin{Code}
+: SEE   [ 2 FH ] LITERAL LIST ;
+\end{Code}
+Una versión ligeramente más complicada de \forth{FH} también permite
+editar o cargar una pantalla con una frase como ``\forth{14 FH
+  LIST}'', relativa a la pantalla que se acaba de listar
+(\forth{SCR}):
+\begin{Code}
+: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
+     BLK @  ?DUP 0= IF  SCR @  THEN  + ;
+\end{Code}
+\index{F!FH|)}
+\forthb{BL}\index{B!Blank space (BL)} es una simple constante:
+\begin{Code}
+32 CONSTANT BL
+\end{Code}
+\forthb{TRUE}\index{T!TRUE} y \forthb{FALSE}\index{F!FALSE}
+pueden definirse como:
+\begin{Code}
+0 CONSTANT FALSE
+-1 CONSTANT TRUE
+\end{Code}
+(las palabras de control de \Forth{} como \forth{IF} y \forth{UNTIL}
+interpretan cero como ``falso'' y cualquier valor distinto de cero
+como ``verdadero''. Antes de \Forth{}-83, el convenio era indicar
+``verdadero'' con el valor $1$. Desde \Forth{}-83, sin embargo,
+``verdadero'' se indica con hex \code{FFFF}, que es el número con
+signo $-1$ (todos los bits a 1).)
+
+\forthb{WITHIN}\index{W!WITHIN} puede definirse en alto nivel así:
+\begin{Code}
+: WITHIN  ( n bajo alto+1 -- ?)
+     >R  1- OVER <  SWAP R>  < AND ;
+\end{Code}
+o
+\begin{Code}
+: WITHIN ( n bajo alto+1 -- ?)
+   OVER -  >R - R> U< ;
+\end{Code}
+
+\section{Del \Chap{8}}
+
+La manera de hacer \forthb{LEAP}\index{L!LEAP} dependerá de cómo su
+sistema hace los bucles \forthb{DO} \forthb{LOOP}. Si \forthb{DO}
+guarda 2 elementos en la pila de retorno (el índice y el límite),
+\forthb{LEAP} debe descartar ambos además de otro elemento de la pila
+de retorno para salir:
+\begin{Code}
+: LEAP   R> R> 2DROP  R> DROP ;
+\end{Code}
+Si \forthb{DO} guarda \emph{3} elemento en la pila de retorno, debe
+definirse:
+\begin{Code}
+: LEAP   R> R> 2DROP  R> R> 2DROP ;
+\end{Code}
+

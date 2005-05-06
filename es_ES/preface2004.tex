@@ -1,0 +1,228 @@
+\chapter*{Prólogo a la edición de 2004}\label{preface2004}
+\pagestyle{headings}
+
+\initial Es un honor encontrarme escribiendo un prólogo de nuevo, 20
+años después de la publicación original de \emph{Pensando en
+  \Forth{}}. Es grato saber que los conceptos tratados aquí siguen
+teniendo validez después de que tantas olas tecnológicas hayan tenido
+su cresta de popularidad. Estos son simplemente conceptos de buena
+programación, descubiertos y redescubiertos por incontables
+desarrolladores a lo largo de los años, y a los que un genio llamado
+\person{Chuck Moore} les dió un giro inspirado.
+
+Nunca he afirmado ser un experto en estudios comparativos de
+lenguajes. Mi carrera reciente se ha centrado más en los requisitos y
+el diseño funcional que en tecnologías de desarrollo. Pero con el
+honor de escribir otro prólogo a este libro, viene otra oportunidad de
+expresar mi opinión.
+
+En el transcurso del diseño de aplicaciones para Internet, he usado un
+poco de Java y C\#. Suficiente para reconocer destellos de la
+elegancia que Chuck ha abanderado, pero también las limitaciones de su
+herencia. He mirado en algunos de los libros recientes que describen
+modelos de diseño, suponiendo que se encargarían del diseño de código
+recurrente para los fenómenos del mundo real. Algunos de los modelos
+son así, como el modelo de controlador, pero casi todos los demás,
+como el modelo de fábrica, se ocupan de problemas que ha creado el
+lenguaje de programación en sí mismo.
+
+En el prólogo de 1994 pedí disculpas por mi desdén de la programación
+orientada a objetos. Lo que motivó la disculpa fue haber trabajado
+durante un tiempo con una versión orientada a objetos de \Forth{}
+desarrollada por \person{Gary Friedlander} para Digalog Corp. Descubrí
+que los principios de encapsulación podían aplicarse elegantemente a
+``objetos'' de \Forth{} que se derivaran de clases de las que cada una
+tenían sus versiones particulares de los métodos. Los objetos
+``conocían'' información sobre sí mismos, lo cual hacía más simple el
+código que los llamaban. Pero seguían siendo construcciones de
+\Forth{}, y la sintaxis seguía siendo la de \Forth{}. No era Java
+escrito en \Forth{}. No había necesidad de recolección de basuras,
+etc. No pediré ahora disculpas por mis disculpas de entonces, pero
+quiero que se sepa que no quería entonces renunciar en favor de los
+lenguajes originalmente orientados a objetos.
+
+Alguna gente ha notado el paralelismo entre \emph{Pensando en
+  \Forth{}} y la Programación Extrema o PX\footnote{en inglés,
+  \emph{Extreme Programming} o \emph{XP}}. Por ejemplo, el énfasis en
+el desarrollo iterativo, mejorando paulatinamente código que
+``funciona'', y no sobregeneralizando la solución del problema, y
+otras cualidades.
+
+Pero en mi opinión, a la Programación Extrema parece faltarle un paso
+importante en el ciclo de desarrollo de programas: el diseño del
+modelo conceptual. Con sólo 1 o 2 desarrolladores trabajando en un
+proyecto, esta fase no necesita formalizarse porque los buenos
+desarrolladores lo hacen intuitivamente. Pero en los proyectos en los
+que he estado trabajando, implicando 5 o más desarrolladores, es
+crucial.
+
+Yo defino el modelo conceptual como la representación de cómo el
+programa \emph{parece} funcionar. El modelo conceptual no es sólo una
+repetición de los requisitos. Es el resultado de analizar los
+requisitos del nivel más alto y encargarse creativamente de ellos en
+un diseño que tiene sentido para el usuario. Un ejemplo es el
+``carrito de la compra'' de una aplicación de ventas. El diseño
+conceptual forma la base de un segundo nivel de requisitos y
+fundamenta los casos de uso que describen las interacciones entre el
+usuario y el sistema. Este segundo nivel de requisitos fundamenta
+después el diseño técnico y su puesta en práctica, o cómo el programa
+funciona realmente. El modelo conceptual está diseñado en colaboración
+por el director de proyecto, los desarrolladores y los clientes.
+
+Lo que he leído sobre la Programación Extrema parece suponer en su
+lugar que los reguisitos fundamentan directamente la puesta en
+práctica. En mi carrera, he gravitado hasta la posición de Director de
+Programas, el paladín del modelo conceptual. La mayoría de los
+desarrolladores de programas con los que he trabajado valoran mi
+atención al definir el modelo conceptual antes de comprometerme a un
+diseño lógico y técnico. Pero la ironía en comparar \emph{Pensando en
+  \Forth{}} con la Programación Extrema es que algunos desarrolladores
+de la especie de la PX (y que, por supuesto, nunca han oído hablar de
+este libro), ¡ni siquiera ven el valor de una especificación!
+
+En fin...
+
+\begin{flushright}
+\emph{Que la sabiduría, la diversión y el mayor bien brille en toda vuestra obra.}
+
+\vspace{5em}
+\person{Leo Brodie}
+\vspace{2.5em}
+\end{flushright}
+
+\subsection{Agradecimientos para la edición de 2004}
+
+Normalmente, aquí es donde el autor agradece a todos los que han
+ayudado con el libro. En este caso, el al revés. Todo este proyecto
+fue concebido, ejecutado y completado por un grupo de personas
+inspiradas, sin incitación o ayuda significativa por mi parte.
+
+Por esa razón, les he pedido que describan sus contribuciones con sus
+propias palabras:
+
+\begin{interview}
+\person{John R. Hogerhuis}:
+
+\begin{tfquot}
+  Me puse en contacto con \person{Leo Brodie} para discutir las
+  condiciones en las que podría querer permitir la nueva publicación
+  de \emph{Pensando en \Forth{}} en formato electrónico bajo una
+  licencia de contenido abierto. Adquirí una copia de la edición de
+  1984, arranqué la cubierta, y la digitalicé. Luego hice una versión
+  demostrativa y maqueté el primer capítulo del libro con LyX.
+
+  Resultó ser un trabajo que requería mucho más tiempo del que podía
+  decicarle (tengo más ambición que sentido a veces, como mi esposa
+  puede atestiguar), así que pedí ayuda de la comunidad de \Forth{} en
+  {\tt comp.lang.forth}. El torrente de ayuda, basado en el amor a
+  este libro, fue tan tremendo que descubrí, tras haber dividido el
+  trabajo y fundado las reglas básicas (ceñirnos a la versión de 1984,
+  usar \LaTeX{} como lenguaje de maquetación, y que los derechos de
+  autor debían ser asignados a \person{Leo Brodie}), que cuanto más me
+  quitaba de enmedio y evitaba ser un cuello de botella, más rápido
+  iba el trabajo.
+
+  También pasé por el OCR todas las páginas en algún momento usando la
+  herramienta de OCR Transym (otros usaron la misma herramienta en su
+  esfuerzo por la transcripción), e hice el paso de
+  limpieza/vectorización de las imágenes del \Chap{3}.
+\end{tfquot}
+\end{interview}
+\begin{interview*}
+\person{Bernd Paysan}:
+\begin{tfquot}
+  Preparé la infraestructura. Conseguí que Sourceforge aprobara el
+  proyecto, preparé el CVS, las listas de correo y añadí a los
+  desarrolladores. Que lo aprobaran a pesar de la licencia no
+  comercial es debido a \person{Jacob Moorman}, que conocía este libro
+  (``a pesar de las limitaciones de uso, recomiendo su aprobación;
+  este es un recurso excelente y único sobre \Forth{}''). La
+  aprobación definitiva fue procesada por \person{David Burley}.
+
+  Como gurú de \LaTeX{}, creé la mayoría del fichero de estilo, y
+  limpié la mayoría de contribuciones para que funcionasen con el
+  fichero de estilo.
+
+  Limpié imágenes, restaurando semitonos y quitando líneas según
+  hiciera falta. Traduje a \LaTeX{} las imágenes que no estaban hechas
+  a mano.\footnote{Nota de \person{John}: yo añadiría que
+    \person{Bernd} tomó el testigo y corrió con él, empleando el
+    modelo de desarrollo de los ``Programas Libres'' con un efecto
+    impresionante. Por supuesto, una parte importante de la mayoría de
+    proyectos de Programas Libres es un súper desarrollador entregado
+    que abre caminos y logra que se haga un gran porcentaje del
+    trabajo. \person{Bernd} es esa persona.}
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Andrew Nicholson}:
+\begin{tfquot}
+\begin{itemize}
+\item extrajo, rotó y convirtió las imágenes digitalizadas de los
+  \Chap{1}, \Chap{2}, \Chap{7} y \Chap{8} a PNG y puso las imágenes en
+  los sitios correctos.
+
+\item transcribió el \Chap{2} de OCR a \LaTeX{}
+
+\item reconstruyó el índice de 1984
+
+\item revisó y limpió el \Chap{1} y el \Chap{5}
+
+\item limpió el \Chap{6}, el \Chap{7} y el \Chap{8}
+\end{itemize}
+\end{tfquot}
+\end{interview*}
+\begin{interview}
+\person{Nils Holm}:
+\begin{tfquot}
+  Transcripción/maquetación inicial del \Chap{4}, el \Chap{7} y el
+  \Chap{8}
+\end{tfquot}
+\end{interview}
+\begin{interview*}
+\person{Anton Ertl}:
+\begin{tfquot}
+  Maqueté con \LaTeX{} e hice alguna limpieza del \Chap{3}.
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Joseph Knapka}:
+\begin{tfquot}
+  Transcripción del \Chap{3}
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Josef Gabriel}:
+\begin{tfquot}
+  Transcribí el \Chap{6}. Veo mi contribución como una ayuda para
+  difundir \Forth{} a otras personas.  Espero que la gente lea
+  \emph{``Pensando en \Forth{}''} y cambie su código.
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Ed Beroset}:
+\begin{tfquot}
+  Maquetó el epílogo y los apéndices, e hizo algo de la codificación
+  en \LaTeX{}.
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Albert van der Horst}:
+\begin{tfquot}
+  Transcribió/maquetó inicialmente el \Chap{5}
+\end{tfquot}
+\end{interview*}
+\begin{interview*}
+\person{Steve Fisher}:
+\begin{tfquot}
+  Pasó el OCR para el \Chap{7} y el \Chap{8}
+\end{tfquot}
+\end{interview*}
+Estoy profundamente agradecido y en deuda con todos ellos.
+
+
+\begin{flushright}
+   \person{Leo Brodie} \\
+   Seattle, WA \\
+   November 2004
+\end{flushright}

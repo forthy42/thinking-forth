@@ -1,0 +1,1608 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Anton Ertl, based on OCR output
+%% provided by John Hogerhuis
+%% Translated into Spanish (es_ES) by Francisco Escobedo
+
+%Page 001-037 in first edition
+
+\chapter{La~filosofía de~\Forth{}}\Chapmark{1}
+
+\expandafter\initial\Forth{} es un lenguaje y un sistema operativo.
+Pero eso no es todo: es también la encarnación de una filosofía. La
+filosofía no es algo descrito en general como algo separado de
+\Forth{}. No precede a \Forth{}, ni se describe aparte de las
+discusiones sobre \Forth{}, ni tiene otro nombre distinto de
+``\Forth{}''.
+
+¿Cuál es esta filosofía? ¿Cómo puede aplicarse para resolver los
+problemas de programación?
+
+Antes de poder contestar estas preguntas, retrocedamos 100 pasos y
+examinemos algunas de las principales filosofías propuestas por los
+Informáticos a lo largo de los años. Después de trazar la trayectoria
+de tales propuestas, compararemos (y contrastaremos) \Forth{} con
+tales principios de programación avanzados.
+
+% These all need to be on page without the start of
+% a range of the same name.
+\index{E!estructuras de control:!minimización|see{minimización de
+    estructuras de control}}%
+\index{M!manipulación de datos|see{pilas de datos, estructuras de
+    datos}}%
+\index{E!estructuras de datos:|seealso{variables}}%
+\index{D!Diseño|see{diseño detallado; diseño preliminar}}%
+\index{C!ciclo de desarrollo|see{ciclo de vida de un programa}}%
+\index{I!ingeniería|see{diseño detallado, diseño preliminar}}%
+\index{F!forth@\Forth{}!manipulación de datos|see{pilas de datos,
+    estructuras de datos}}%
+\index{F!forth@\Forth{}!ciclo de vida de un programa|see{ciclo de vida
+    de un programa}}%
+\index{F!forth@\Forth{}!estilo|see{puesta en práctica}}%
+\index{P!puesta en práctica!factorización|see{factorización}}%
+\index{M!modularidad|see{programación estructurada}}%
+\index{T!técnicas de resolución de problemas|seealso{diseño
+    detallado}}%
+\index{C!ciclo de vida de un programa:!análisis|see{análisis}}
+\index{C!ciclo de vida de un programa:!diseño detallado|see{diseño
+    detallado}}%
+\index{C!ciclo de vida de un
+  programa:!puesta en práctica|see{puesta en práctica}}%
+\index{C!ciclo de vida de un programa:!diseño y descomposición
+  preliminares|see{diseño preliminar}}%
+\index{P!pantallas!carga|see{carga de pantallas}}%
+\index{C!ciclo de desarrollo de programas|see{ciclo de vida de un
+    programa}}%
+\index{E!elegancia al programar, historia de la!programación
+  estructurada|see{programación estructurada}}%
+\index{P!pilas|see{pilas de datos}}%
+\index{P!palabras:!definidoras|see{palabras definidoras}}%
+
+\section{Historia de la elegancia al programar}
+\index{E!elegancia al programar, historia de la|(}
+
+En los días prehistóricos de la programación, cuando los ordenadores
+eran dinosaurios, el mero hecho de que algún genio pudiera hacer que
+un programa se ejecutara correctamente era causa de asombro. Al ir
+haciéndose más civilizados los ordenadores, el asombro se desvaneció.
+La Dirección exigía más de los programadores y sus programas.
+
+Según fue disminuyendo el coste de las máquinas, el coste de los
+programas se elevó. Ya no bastaba que un programa se ejecutara
+correctamente. Además, tenía que desarrollarse rápidamente y ser fácil
+de mantener. Una nueva exigencia comenzó a competir con la corrección.
+Esta cualidad se llamó ``elegancia''.
+
+En esta sección haremos un recorrido por la historia de las
+herramientas y técnicas para escribir programas más elegantes.
+
+\subsection{Facilidad de recordar}
+Los primeros programas de ordenador tenían el siguiente aspecto:%
+\index{E!elegancia al programar, historia de la!mnemotécnicos|(}
+\begin{Code}
+00110101
+11010011
+11011001
+\end{Code}
+Los programadores introducían tales programas actuando sobre filas de
+conmutadores (``conectado'' si el dígito era un ``1,''
+``desconectado'' si el dígito era un ``0''. Tales valores eran las
+``instrucciones de la máquina'' para el ordenador, y cada una de ellas
+causaba que el ordenador realizara alguna operación mundana como
+``copia el contenido del registro B al registro A,'' o ``suma el
+contenido del registro C al contenido del registro A''.
+
+Esto demostró ser un tanto aburrido.
+
+Siendo el aburrimiento la madrastra de la invención, algunos
+programadores listos se dieron cuenta de que el propio ordenador
+podría ayudar. Así, escribieron un programa que traducía abreviaturas
+fáciles de recordar\index{M!mnemotécnicos|(} en aquellas secuencias de bits difíciles de recordar. El nuevo lenguaje tenía el siguiente aspecto:
+\begin{Code}
+MOV B,A
+ADD C,A
+JMC REC1
+\end{Code}
+El programa traductor se llamó
+\emph{ensamblador},\index{E!ensambladores}
+el nuevo lenguaje,
+\emph{lenguaje ensamblador}\index{E!ensamblador, lenguaje}.
+Cada instrucción ``ensamblaba'' la secuencia de bits adeudada para esa
+instrucción, con una correspondencia ``uno a uno'' entre instrucciones
+en ensamblador e instrucciones de la máquina. Pero los nombres son más
+fáciles de recordar por los programadores. Por esta razón, las nuevas
+instrucciones se llamaron \emph{mnemotécnicos}.\index{M!mnemotécnicos|)}%
+\index{E!elegancia al programar, historia de la!mnemotécnicos|)}
+
+
+\subsection{Potencia}
+La programación en lenguaje ensamblador\index{E!ensamblador, lenguaje}
+está caracterizada por una correspondencia ``uno a uno'' entre cada
+orden que teclea el programador y cada orden que realiza el
+procesador.
+
+En la práctica, los programadores se hallaron repitiendo con
+frecuencia la misma \emph{secuencia} de instrucciones una y otra vez
+para lograr lo mismo en distintas partes del programa. Sería bueno
+tener un nombre con el que representar cada una de esas secuencias
+comunes.
+
+Esta necesidad fue satisfecha por el ``macro ensamblador'',%
+\index{M!macro ensamblador} un ensamblador más complicado que podía
+reconocer no sólo las instrucciones normales, sino también nombres
+especiales (``macros'').  Para cada nombre, el macro ensamblador
+ensambla las 5 o 10 instrucciones de la máquina representadas por el
+nombre, como si el programador las hubiera escrito por sí mismo.
+
+\wepsfigp{img1-004}{Así que tecleé GO TO 500... ¡y aquí estoy!} %Page 004
+
+\subsection{Abstracción}%
+\index{A!abstracción|(}%
+\index{E!elegancia al programar, historia de la!abstracción|(}
+Un gran avance fue la invención del ``lenguaje de alto nivel''.%
+\index{A!alto nivel, lenguajes de:!desarrollo de los} De nuevo se
+trataba de un programa traductor, pero uno más potente%
+\index{E!elegancia al programar, historia de la!potencia}. Los
+lenguajes de alto nivel hacen posible que los programadores escriban
+código como este:
+\begin{Code}
+X = Y (456/A) - 2
+\end{Code}
+que se parece mucho al álgebra. Gracias a los lenguajes de alto nivel,
+los ingenieros, y no sólo unos extraños manipuladores de bits,
+pudieron empezar a escribir programas. BASIC\index{B!BASIC} y
+FORTRAN\index{F!FORTRAN} son ejemplos de lenguajes de alto nivel.
+
+Los lenguajes de alto nivel son claramente más ``potentes'' que los
+lenguajes ensambladores\index{E!ensamblador, lenguaje} en el sentido
+de que cada instrucción puede compilar decenas de instrucciones de la
+máquina. Pero, lo que es más significativo, los lenguajes de alto
+nivel eliminan la correspondencia lineal entre el código fuente y las
+instrucciones de máquina resultantes.
+
+Las instrucciones efectivas depende de cada ``declaración'' completa de
+código fuente tomada en conjunto. Los operadores como $+$ y $=$ no
+tienen sentido por sí mismos. Son meras piezas de una compleja
+simbología que depende de la sintaxis y de la posición del operador en
+la declaración.
+
+Esta correspondencia no lineal y dependiente de la sintaxis entre los
+códigos fuente y objeto es generalmente considerada como un paso
+impagable en el progreso de la metodología de la programación. Pero
+como veremos, el enfoque acaba imponiendo más restricción que
+libertad.%
+\index{A!abstracción|)}%
+\index{E!elegancia al programar, historia de la!abstracción|)}
+
+\subsection{Manejabilidad}%
+\index{M!manejabilidad|(}
+\index{E!elegancia al programar, historia de la!manejabilidad|(}%
+La mayoría de programas de ordenador implican mucho más que listas de
+instrucciones que operan de comienzo a fin. También incluyen pruebas
+de varias condiciones y luego ``saltos'' a partes apropiadas del
+código dependiendo del resultado. También hacen ``bucles'' o
+repeticiones de fragmentos de código, normalmente realizando una
+prueba para saber cuándo salir del bucle.
+
+Tanto el ensamblador como los lenguajes de alto nivel proporcionan la
+posibilidad de hacer saltos\index{S!saltos} y bucles\index{B!bucles}.
+En los lenguajes ensambladores%
+\index{E!ensamblador, lenguaje}
+se usan ``instrucciones de salto'';%
+\index{S!salto, instrucciones de}
+en algunos lenguajes de alto nivel%
+\index{L!lenguajes de alto nivel:!desarrollo de los}
+se usan órdenes de salto absoluto (``GO TO'')%
+\index{S!salto absoluto (GO TO), órdenes de}.
+Cuando estas posibilidades se usan de manera indiscriminada, los
+programas acaban pareciendo el lío que se ve en la \Fig{fig1-1}.
+
+\wtexfigt{fig1-1}{Código no estructurado usando saltos\index{S!salto,
+instrucciones de} o saltos absolutos (``GO TO'').\index{S!salto
+absoluto (GO TO), órdenes de}}
+
+Este enfoque, aún muy utilizado en lenguajes como 
+FORTRAN\index{F!FORTRAN} y BASIC\index{B!BASIC},
+sufre de ser difícil de escribir y difícil de cambiar si es necesario
+hacer correcciones. En esta escuela del ``cuenco de espagueti'', es
+imposible probar una parte del código o hacerse una idea de cómo se
+está ejecutando algo que no debería.
+
+Las dificultades con los programas espagueti%
+\index{E!espagueti@``Spaghetti'', programas}
+llevaron al descubrimiento de los ``diagramas de flujo''.%
+\index{F!flujo, diagramas de}
+Estos eran dibujos a tinta que representaban el ``flujo'' de ejecución
+y que eran usados por los programadores como ayuda a la comprensión
+del código que estaban escribiendo. Desgraciadamente, el programador
+tenía que hacer a mano la traducción del código al diagrama y
+viceversa. Muchos programadores encontraron poco útiles estos diagramas.%
+\index{M!manejabilidad|)}
+\index{E!elegancia al programar, historia de la!manejabilidad|)}%
+
+\subsection{Modularidad}%
+\index{E!estructurada, programación!(modularidad)|(}%
+\index{E!estructurada, programación!características de la|(}%
+Un avance muy significativo tuvo lugar con la invención de la
+``programación estructurada'', una metodología basada en la observación
+de que los problemas grandes se resuelven más fácilmente si es tratan
+como una colección de problemas más pequeños \cite{dahl72}. Cada trozo
+se llama \emph{módulo}. Los programas consisten en módulos dentro de
+módulos.
+
+La programación estructurada elimina el código espagueti al insistir
+en que el flujo de control\index{F!flujo de control} sólo puede
+cambiar dentro de un mismo módulo. No se puede saltar desde el medio
+de un módulo al medio de otro.
+
+Por ejemplo, la \Fig{fig1-2} muestra un diagrama estructurado de un
+módulo de ``hacer desayuno'', que consiste en 4 submódulos. Dentro de
+cada submódulo se encuentra todo un nuevo nivel de complejidad que no
+es necesario mostrar en este nivel.
+
+\wepsfiga{fig1-2}{Diseño de un programa estructurado}
+
+En este módulo hay una decisión de bifurcación para elegir entre el
+módulo de ``cereales fríos'' y el de ``huevos'', pero el flujo de
+control permanece en el módulo externo.
+
+La programación estructurada tiene 3 premisas:%
+\index{E!estructurada, programación!premisas de la}
+
+\begin{enumerate}\parsep=0pt\itemsep=0pt
+\item Cada programa se describe como una secuencia lineal de funciones
+  autocontenidas, denominadas \emph{módulos}. Cada módulo tiene
+  exactamente 1 punto de entrada y 1 punto de salida.
+\item Un módulo puede contener:
+\begin{enumerate}
+\item operaciones u otros módulos
+\item estructuras de decisión (secuencias \forth{IF} \forth{THEN})
+\item estructuras de bucles
+\end{enumerate}
+\end{enumerate}
+La idea de los módulos con ``entrada única, salida única'' es que
+puedes quitar uno, cambiar su interior y volverlo a poner, sin
+estropear las conexiones con el resto del programa. Esto significa que
+se puede probar cada uno de ellos por separado. Esto sólo es posible
+si se sabe exactamente dónde está uno al iniciar el módulo, y dónde
+cuando se sale de él.
+
+En ``hacer desayuno'' se encuentra o bien preparar cereales o hacer
+huevos, pero no ambos. Y al final siempre se limpia. (Algunos
+programadores que conozco se saltan este módulo alquilando un nuevo
+apartamento cada 3 meses.)
+
+\wtexfigt{fig1-3}{Programación estructurada en un lenguaje no estructurado}
+
+La programación estructurada se concibió originalmente como un enfoque
+de diseño. Los módulos eran entidades imaginarias que existían en la
+mente del programador o diseñador, no unidades reales de código
+fuente. Cuando las técnicas de diseño de la programación estructurada
+se aplican a lenguajes no estructurados como BASIC%
+\index{B!BASIC},
+el resultado se parece a algo como la \Fig{fig1-3}.
+\index{E!estructurada, programación!(modularidad)|)}%
+
+
+\subsection{Facilidad de escritura}%
+\index{E!escritura, facilidad de|(}%
+\index{E!estructurada, programación!facilidad de escritura|(}
+Otro hito animó al uso de programas estructurados: los lenguajes de
+programación estructurados. Tales lenguajes incluían estructuras de
+control en sus juegos de órdenes, de modo que se pueden escribir
+programas que tengan un aspecto más modular. Pascal%
+\index{P!Pascal}
+es uno de ellos, inventado por \person{Niklaus Wirth}%
+\index{W!Wirth, Niklaus}
+para enseñar los principios de la programación estructurada a sus
+alumnos.
+
+\wtexfigb{fig1-4}{Uso de un lenguaje estructurado.}
+
+La \Fig{fig1-4} muestra cómo este tipo de lenguaje permitiría escribir
+nuestro ``hacer desayuno''.
+
+Los lenguajes de programación estructurada incluyen operadores de
+estructura de control como \forth{IF} y \forth{THEN} para asegurar una
+modularidad del flujo de control. Como se ve, el sangrado es
+importante para la legibilidad, ya que todas las instrucciones dentro
+de un módulo siguen siendo escritas en lugar de llamarlas por un
+nombre (p.ej., ``\forth{PREPARAR-CEREALES}'').  El programa terminado
+podría ocupar 10 páginas, con el \forth{ELSE} en la página 5.%
+\index{E!escritura, facilidad de|)}%
+\index{E!estructurada, programación!facilidad de escritura|)}%
+\index{E!estructurada, programación!características de la|)}
+
+
+\subsection{Diseñando desde arriba}%
+\index{D!diseño descendente|(}%
+\index{E!estructurada, programación!diseño descendente|(}
+¿Cómo se pone uno a diseñar esos módulos? Una metodología llamada
+``diseño descendente'' (o por descomposición) afirma que los módulos
+deben ser diseñados por orden comenzando por el más general, y bajando
+desde ahí hasta llegar a los módulos que se encargan de los detalles.
+
+Los defensores del diseño descendente han sido testigos de vergonzosas
+pérdidas de tiempo debidas a la falta de planificación. Han aprendido
+a través de esta dolorosa experiencia que tratar de corregir programas
+después de que ya han sido escritos (una técnica conocida como
+``parchear'') es como cerrar la verja después de que el caballo se
+haya escapado.
+
+Así que ofrecen como contramedida esta regla oficial de la
+programación descendente:
+\begin{tfquot}
+No escribir código hasta haber planeado hasta el último detalle.
+\end{tfquot}
+Ya que los programas son tan difíciles de cambiar una vez que han sido
+escritos, cualquier descuido en el diseño en la etapa de planes
+preliminares debería quedar claro antes de que los módulos de código
+reales se escriban, según el diseño descendente. En caso contrario,
+miles de horas-hombre de esfuerzo podrían desperdiciarse escribiendo
+código que no se puede usar.%
+\index{D!diseño descendente|)}%
+\index{E!estructurada, programación!diseño descendente|)}
+
+\wepsfigp{img1-010}{Los parches en los programas son feos y ocultan
+  debilidades estructurales.}
+
+\subsection{Subrutinas}%
+\index{S!Subrutinas|(}%
+\index{E!estructurada, programación!subrutinas|(}
+Hemos discutido sobre los ``módulos'' únicamente como entidades
+abstractas. Pero todos los lenguajes de alto nivel incorporan técnicas
+que permiten que los módulos del diseño se codifiquen como módulos de
+código: unidades discretas que pueden tener nombres y ser
+``invocadas'' por otras partes del código. Tales unidades se llaman
+subrutinas, procedimientos o funciones, dependiendo del lenguaje de
+alto nivel particular y cómo se vayan a plasmar.
+
+Supongamos que escribimos ``\forth{PREPARAR-CEREALES}'' como
+subrutina. Podría tener el siguiente aspecto:
+\begin{Code}[fontfamily=cmss]
+procedure preparar-cereales
+   coger cuenco limpio
+   abrir caja cereales
+   verter cereales
+   abrir leche
+   verter leche
+   coger cuchara
+end
+\end{Code}
+También podemos escribir ``\forth{PREPARAR-HUEVOS}'' y
+``\forth{LIMPIAR}'' como subrutinas. En otro sitio podríamos definir
+``\forth{HACER-DESAYUNO}'' como una rutina simple que invoca o llama a
+las otras subrutinas:
+
+\begin{Code}[fontfamily=cmss,commandchars=\&\{\}]
+procedure hacer-desayuno
+   var p: boolean (indica prisa)
+   &textit{comprueba si tenemos prisa}
+   if p = true then
+      &textbf{call preparar-cereales}
+   else
+      &textbf{call preparar-huevos}
+   end
+   &textbf{call limpiar}
+end
+\end{Code}
+\medskip
+La frase ``call preparar-cereales'' causa que se ejecute la subrutina
+llamada ``preparar-cereales''. Cuando la subrutina ha terminado de
+ejecutarse, devuelve el control al programa que la llamó en el punto
+posterior a la llamada. Las subrutinas obedecen las reglas de la
+programación estructurada.
+
+Como se puede ver, el efecto de la llamada a la subrutina es como si
+el código de la subrutina estuviera escrito en su totalidad dentro del
+módulo que la llama. Pero a diferencia del código producido por el
+macro ensamblador, la subrutina puede compilarse en cualquier parte de
+la memoria y luego simplemente mencionada. No tiene que compilarse
+necesariamente dentro del código objeto del programa principal
+(\Fig{fig1-5}).
+
+\wepsfigb{fig1-5}{Un programa principal y una subrutina en memoria.}
+
+A lo largo de los años, los Informáticos se han reafirmado cada vez
+más en preferir el uso de muchas subrutinas pequeñas en vez de
+larguísimos programas monolíticos. Las subrutinas pueden escribirse y
+verificarse independientemente. Esto hace más fácil reutilizar partes
+de programas escritos anteriormente, y también más fácil asignar
+diferentes partes de un programa a diferentes programadores. Las
+secuencias pequeñas de código son más fáciles de crear y verificar
+luego su corrección.
+
+Cuando se compilan las subrutinas en partes separadas de la memoria y
+asignadas un nombre, pueden ser invocadas muchas veces a lo largo de
+un programa sin desperdiciar espacio en repetir código objeto. Así, el
+uso juicioso de subrutinas puede también reducir el espacio ocupado
+por un programa.
+
+Desgraciadamente, hay un coste en velocidad de ejecución cuando se usa
+una subrutina. Un problema es el tiempo extra para guardar registros
+antes de saltar a una subrutina y recuperarlos luego. Incluso más
+costoso en tiempo es el código invisible pero necesario para pasar
+parámetros a la subrutina y recuperarlos luego.
+
+Las subrutinas también son quisquillosas sobre cómo se las invoca, en
+particular sobre cómo se intercambian datos con ellas. Para probarlas
+independientemente, se necesita escribir un programa de prueba
+especialmente para llamarlas desde él.
+
+Por estas razones, los Informáticos recomiendan su uso en moderación.
+En la práctica, las subrutinas suelen ser bastante grandes, entre
+media y una página de código de longitud.%
+\index{S!Subrutinas|)}%
+\index{E!estructurada, programación!subrutinas|)}
+
+
+\subsection{Refinamiento sucesivo}%
+\index{E!estructurada, programación!refinamiento sucesivo|(}%
+\index{R!refinamiento sucesivo|(}
+Un enfoque que se apoya mucho en las subrutinas se denomina
+``refinamiento sucesivo'' \cite{wirth71}. La idea es que se parte
+escribiendo una versión en esqueleto del programa usando nombres
+naturales para los procedimientos y estructuras de datos. Luego, se
+escriben las versiones de cada unos de los procedimientos mencionados.
+Se continúa este proceso con mayor nivel de detalle hasta que que los
+procedimientos ya pueden escribirse en el lenguaje informático.
+
+En cada paso, el programador debe tomar decisiones sobre los
+algoritmos que se van a usar y las estructuras de datos sobre las que
+operarán aquellos. Las decisiones sobre los algoritmos%
+\index{A!algoritmos}
+y las estructuras de datos asociados deben hacerse en paralelo.
+
+Si un enfoque no funciona, el programador se ve animado a retroceder
+lo necesario y comenzar de nuevo.
+
+Una advertencia sobre el refinamiento sucesivo: no se puede ejecutar
+trozo alguno de programa mientras no estén escritos los componentes de
+niveles inferiores. Normalmente esto significa que no se puede probar
+el programa hasta que está totalmente diseñado.
+
+Otra advertencia: el refinamiento sucesivo lo fuerza a uno a definir
+todos los detalles de la estructura de control de cada nivel antes de
+continuar con el siguiente nivel inferior.%
+\index{E!estructurada, programación!refinamiento sucesivo|)}%
+\index{R!refinamiento sucesivo|)}
+
+\wepsfigp{img1-013}{Tobías, creo que has llevado demasiado lejos el
+  desarrollo sucesivo de ese módulo.}
+
+\subsection{Diseño estructurado}
+A finales de la década de 1970, la industria informática había probado
+todos los conceptos que se han descrito, y aún no estaba contenta. El
+coste de mantener los programas (conservar su funcionalidad ante los
+cambios) llegaba a más de la mitad del coste total, ¡y a veces hasta
+el 90\%!
+
+Todo el mundo estaba de acuerdo en que tales atrocidades podían
+normalmente remontarse a un análisis incompleto del programa o a un
+mal diseño. No es que haya algo malo en la programación estructurada
+\emph{per se}. Cuando los proyectos llegan tarde, incompletos o
+incorrectos, se culpaba a los diseñadores por no anticiparse a lo
+imprevisto.
+
+Los eruditos respondieron, naturalmente, poniendo más énfasis en el
+diseño. ``Pensemos mejor las cosas la próxima vez.''
+
+Por esa época surgió una nueva filosofía, descrita en un artículo
+llamado ``Structured Design'' (``Diseño estructurado'')
+\cite{stevens74-1}. Uno de sus principios queda expuesto en este
+párrafo:
+
+\begin{tfquot}
+  La simplicidad es la medida principal recomendada para evaluar
+  diseños alternativos con relación al tiempo de depuración y
+  modificación. La simplicidad puede ser mejorada al dividir el
+  sistema en trozos separados de tal manera que cada uno pueda ser
+  considerado, escrito, arreglado y cambiado con mínima consideración
+  o efecto sobre los demás trozos del sistema.
+\end{tfquot}
+Al dividir un problema en módulos sencillos, se esperaba que los
+programas fueran más fáciles de escribir, más fáciles de cambiar y más
+fáciles de comprender.
+
+Pero, ¿qué es un módulo, y sobre qué base deben hacerse las divisiones?
+``Structured Design'' señala 3 factores para diseñar módulos.
+
+
+\subsection{Cohesión funcional}%
+\index{F!funcional, cohesión|(}%
+\index{E!estructurada, programación!cohesión funcional|(}
+Un factor es algo llamado ``fuerza funcional'', que es una medida de
+la uniformidad de propósito de todas las sentencias\footnote{*** N.
+  del T.: he traducido ``sentence'' por ``sentencia'', pues la
+  costumbre ha acabado por introducirla en el Diccionario de la Real
+  Academia; pero la traducción correcta, ``frase'', no sólo es más
+  lógica sino más fácil de comprender en el momento en que
+  consideramos que nos estamos moviendo en el contexto de un idioma,
+  aunque sea de programación} dentro de un módulo. Si todas las
+sentencias dentro del módulo pueden entenderse que realizan la misma
+tarea, tienen cohesión funcional.
+
+Generalmente se puede saber si las sentencias de un módulo están
+ligadas funcionalmente haciendo las siguientes preguntas. Lo primero,
+¿puede describirse su propósito en una sóla frase? Si no, el módulo
+probablemente no tiene cohesión funcional. A continuación, hay que
+formular las siguientes 4 preguntas sobre el módulo:
+
+\begin{enumerate}
+\item ¿Es la descripción una frase compuesta?
+\item ¿Usa palabras que implican tiempo, como ``primero'', ``después'', etc?
+\item ¿Usa un objeto general o no específico después del verbo?
+\item ¿Usa palabras como ``iniciar'' que implican muchas funciones
+  diferentes a la vez?
+\end{enumerate}
+Si la respuesta a cualquiera de esas 4 preguntas es ``sí'', el módulo
+presenta una cohesión más débil que la funcional.
+Otras formas de cohesión más débil incluyen:
+
+\begin{description}
+\item [Cohesión~coincidente:]\index{C!coincidente, cohesión}
+  (las sentencias están casualmente en el mismo módulo)
+\item [Cohesión~lógica:]\index{L!lógica, cohesión}
+  (el módulo tiene varias funciones relacionadas y necesita un
+  indicador o parámetro para decidir qué función particular realizar)
+\item [Cohesión~temporal:]\index{T!temporal, cohesión}
+  (el módulo contiene un grupo de sentencias que se ejecutan al mismo
+  tiempo, tal como la iniciación, pero no tiene mayor relación entre
+  sí)
+\item [Cohesión~de~comunicación:]\index{C!comunicación, cohesión de}
+  (el módulo contiene un grupo de sentencias que usan el mismo
+  conjunto de datos)
+\item [Cohesión~secuencial:]\index{S!secuencial, cohesión}
+  (donde la salida de una sentencia sirve como entrada de la
+  siguiente)
+\end{description}
+Nuestro módulo ``\forth{PREPARAR-CEREALES}'' exhibe una cohesión
+funcional, porque puede entenderse como que realiza una función,
+incluso aunque consiste en varias tareas subordinadas.%
+\index{F!funcional, cohesión|)}%
+\index{E!estructurada, programación!cohesión funcional|)}
+
+
+\subsection{Acoplamiento}%
+\index{A!acoplamiento|(}%
+\index{E!estructurada, programación!acoplamiento|(}
+Un segundo principio del diseño estructurado se refiere al
+``acoplamiento'', medida de cómo los módulos influencian el
+comportamiento de otros módulos. Un acoplamiento fuerte se considera
+negativo. El peor caso se produce cuando un módulo modifica el código
+de otro módulo. Incluso pasar indicadores de control a otros módulos
+con la intención de modificar su comportamiento es peligroso.
+
+Una forma aceptable de acoplamiento es el ``acoplamiento de datos'',%
+\index{A!acoplamiento de datos}
+que implica el paso de datos (no información de control) de un módulo
+a otro. Incluso entonces, los sistemas son más fáciles de construir y
+mantener cuando las interconexiones de datos entre módulos son lo más
+simples posible.
+
+Cuando hay datos accesibles por muchos módulos (por ejemplo, variables
+globales), hay un acoplamiento más fuerte entre los módulos. Si un
+programador necesita cambiar un módulo, hay mayor peligro de que los
+otros módulos exhiban ``efectos secundarios''.
+
+La clase más segura de acoplamiento de datos es el paso de variables
+locales como parámetros de un módulo a otro. El módulo llamante le
+dice al módulo subordinado, efectivamente, ``quiero que uses los datos
+que he puesto en estas variables llamadas X e Y, y cuando acabes,
+espero que pongas el resultado en la variable llamada Z. Nadie más
+usará estas variables''.
+
+Como se ha dicho, los lenguajes convencionales que permiten subrutinas
+incluyen métodos elaborados de pasar argumentos de un módulo a otro.%
+\index{A!acoplamiento|)}%
+\index{E!estructurada, programación!acoplamiento|)}
+
+
+\subsection{Diseño jerárquico entrada-proceso-salida}%
+\index{J!jerárquico entrada-proceso-salida, diseño|(}%
+\index{E!entrada-proceso-salida, diseño jerárquico|(}%
+\index{E!estructurada, programación!diseño jerárquico
+  entrada-proceso-salida|(}
+Un tercer precepto del diseño estructurado trata del proceso de diseño.
+Se aconseja a los diseñadores que usen un enfoque descendente, pero a
+prestar menos atención inicialmente a las estructuras de control. El
+``diseño de decisiones'' puede esperar al posterior diseño detallado
+de los módulos. En su lugar, el diseño inicial debe enfocarse en la
+jerarquía del programa (qué módulos llaman a cuáles) y el paso de
+datos entre módulos.
+
+Para ayudar a los diseñadores a pensar en esta línea, se inventó una
+representación gráfica llamada el ``diagrama de estructura''.%
+\index{E!estructura, diagrama de|(}
+(Una gráfica ligeramente diferente se denomina ``diagrama HIPO'', de
+las siglas en inglés ``Hierarchical Input-Process-Output'',
+``entrada-proceso-salida jerárquica''.) Los diagramas de estructura
+incluyen 2 partes, un diagrama de jerarquía u otro de entrada-salida.
+
+\wtexfigt{fig1-6}{La forma de un diagrama de estructura, de
+  ``Structured Design,'' \emph{IBM Systems Journal}.}
+
+La \Fig{fig1-6} muestra esas 2 partes. El programa principal, llamado
+HAZLO, consiste en 3 módulos subordinados, que a su vez invocan a
+los otros módulos inferiores. Como se ve, el diseño enfatiza la
+transformación de la entrada en salida.
+
+Los números pequeños del diagrama de jerarquía se corresponden con las
+líneas del diagrama de entrada-salida. En el punto 1 (el módulo
+LEER), la salida es el valor A. En el punto 2 (el módulo
+TRANSFORMA-A-B), la entrada es A y la salida es B.
+
+Quizá la mayor contribución de este enfoque es reconocer que las
+decisiones sobre el flujo de control no deben dominar el diseño
+resultante. Como se verá, el flujo de control es un aspecto
+superficial del problema. Cambios menores en los requisitos pueden
+cambiar profundamente las estructuras de control del programa, y años
+de trabajo. Pero si los programas están diseñados sobre otros
+aspectos, como el flujo de datos, un cambio de planes no tendrá
+efectos tan desastrosos.%
+\index{J!jerárquico entrada-proceso-salida, diseño|)}%
+\index{E!entrada-proceso-salida, diseño jerárquico|)}%
+\index{E!estructura, diagrama de|)}%
+\index{E!estructurada, programación!diseño jerárquico
+  entrada-proceso-salida|)}
+
+
+\subsection{Ocultación de la información}%
+\index{F!forth@\Forth{}!ocultación de la información|(}%
+\index{I!información, ocultación de la|(}%
+\index{E!estructurada, programación!ocultación de la información|(}
+En un artículo \cite{parnas72} publicado en 1972, el
+Dr.\@ \person{David L.\@ Parnas}%
+\index{P!Parnas, David} mostró
+que el criterio para descomponer módulos no deberían ser pasos en el
+proceso, sino trozos de información que pueden cambiar. Los módulos
+deberían usarse para oculta tal información.
+
+Echemos un vistazo a esta importante idea de la ``ocultación de la
+información'': supongamos que hay que escribir un Manual de
+Procedimiento para una empresa. He aquí un fragmento:
+
+\begin{tfquot}
+El Departamento de Ventas recibe una orden\\
+envía la copia azul a Contabilidad\\
+y la copia naranja a Envíos
+
+Juan registra la copia naranja en la carpeta roja de su mesa, y
+completa la hoja de empaquetado.
+\end{tfquot}
+Todos están de acuerdo en que este procedimiento es correcto, y el manual se distribuye a todo el mundo en la empresa.
+
+Entonces Juan se va y es sustituido por Marina. Los nuevos formularios
+de duplicados tiene hojas verdes y amarillas, no azules y naranjas. La
+carpeta roja se llena y se cambia por otra negra.
+
+El manual entero ha quedado anticuado. Se podría haber evitado usando
+el término ``Encargado de Envíos'' en lugar del nombre ``Juan'', los
+términos ``copia del Departamento de Contabilidad'' y ``copia del
+Departamento de Envíos'' en lugar de ``azul'' y ``naranja'', etc.
+
+Este ejemplo ilustra que para mantener la corrección en un entorno
+cambiante, deben excluirse los detalles arbitrarios de los
+procedimientos. Los detalles pueden ser registrados en otra parte si
+fuera necesario. Por ejemplo, cada semana o así, el Departamento de
+Personal podría generar un listado de empleados y sus puestos, de modo
+que cualquiera que necesitara saber quién es el encargado de los
+envíos pudiera buscarlo en él. Según cambiase el persona, cambiaría el
+listado.
+
+Esta técnica es muy importante al escribir programas. ¿Por qué debería
+cambiar un programa una vez que está funcionando? Por un millón de
+razones. Podría quererse ejecutar un programa antiguo en un equipo
+nuevo; el programa debe cambiar lo necesario para adaptarse a la nueva
+máquina. El programa podría no ser lo bastante rápido, o potente, para
+las necesidades de sus usuarios. La mayoría de grupos de programación
+se hallan escribiendo ``familias'' de programas; es decir, muchas
+versiones de programas relacionados en su campo de aplicación
+particular, cada uno de ellos una variante de un programa anterior.
+
+Para aplicar el principio de ocultación de información a los
+programas, ciertos de talles de los mismos deben estar confinados a un
+único lugar, y cualquier dato útil debe ser expresado sólo 1 vez. Los
+programas que ignoran esta máxima son culpables de redundancia.
+Mientras que la redundancia física (ordenadores duplicados, etc.)
+puede hacer más seguro un sistema, la de la información es peligrosa.
+
+Como cualquier programador experto sabe, un número que puede
+posiblemente cambiar futuras versiones del programa debería ser
+convertido en ``constante'' y llamarla por su nombre en todo el
+programa, no por su valor. Por ejemplo, el número de columnas que
+representa el ancho de los formularios de papel impreso debería
+expresarse como una constante. Incluso los lenguajes ensambladores
+tienen ``\code{EQU}'' y etiquetas para asociar valores como
+direcciones y secuencias de bits con nombres.
+
+Cualquier buen programador aplicará también el concepto de ocultación
+de la información al desarrollo de subrutinas, asegurándose de que
+cada módulo sabe lo menos posible de las interioridades de otros
+módulos. Los lenguajes de programación contemporáneos como C, Modula 2
+y Edison aplican este concepto a la arquitectura de sus
+procedimientos.
+
+Pero \person{Parnas}%
+\index{P!Parnas, David}
+lleva la idea mucho más lejos. Sugiere que el concepto debería
+extenderse a algoritmos y estructuras de datos. De hecho, ¡ocultar la
+información (no la estructura de decisión o la jerarquía de llamadas)
+debería ser la base principal del diseño!%
+\index{I!información, ocultación de la|)}%
+\index{F!forth@\Forth{}!ocultación de la información|)}%
+\index{E!elegancia al programar, historia de la|)}%
+\index{E!estructurada, programación!ocultación de la información|)}
+
+\section{La superficialidad de la estructura}%
+\index{E!estructurada, programación!una nueva visión de la|(}%
+\index{E!estructura!la superficialidad de la|(}
+
+\person{Parnas}\index{P!Parnas, David} propone 2 criterios para la
+descomposición:
+
+%% special case: uses second level without outer level
+\begin{tfquot}
+%%!!!this is to avoid an error
+%% \makeatletter\@newlistfalse\makeatother
+%%!!!
+\ifeightyfour\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
+\else\begin{enumerate}\fi
+\item posible reutilización (aunque no planificada en este momento), y
+\item posibles cambios (aunque no previstos).
+\ifeightyfour\end{list}
+\else\end{enumerate}\fi
+\end{tfquot}
+Esta nueva visión de un ``módulo'' es diferente que la visión
+tradicional. Este ``módulo'' es una colección de rutinas, normalmente
+muy pequeñas, que juntas ocultan la información sobre algún aspecto
+del problema.
+
+Otros 2 autores describen la misma idea de modo distinto, usando el
+término ``abstracción de datos'' \cite{liskov75}%
+\index{A!abstracción de datos}.
+Su ejemplo es una pila de datos. El ``módulo'' de pila consiste en
+rutinas para iniciar la pila, poner un valor en la pila, sacar un
+valor de la pila y determinar si la pila está vacía. Este ``módulo
+multiprocedimento''%
+\index{M!multiprocedimiento, módulo}
+oculta la información de cómo está hecha la pila del resto de la
+aplicación. Los procedimientos se considera un único módulo porque son
+interdependientes. No se puede cambiar el método de poner un valor en
+la pila sin cambiar también el método para sacarlo.
+
+La palabra \emph{usos} juega un papel importante en este concepto.
+\person{Parnas}%
+\index{P!Parnas, David|(}
+escribe en un artículo posterior \cite{parnas79}:
+
+\begin{tfquot}
+  Los sistemas que han alcanzado una cierta ``elegancia''\dots{} lo
+  han logrado haciendo que partes del sistema usen otras partes\dots{}
+
+  Si tal ordenación jerárquica existe, cada nivel ofrece un
+  subconjunto utilizable y verificable del sistema\dots{}
+
+  El diseño de la jerarquía de ``usos'' debe ser uno de los mayores
+  hitos en el esfuerzo del diseño. La división del sistema en
+  subprogramas utilizables independientemente tiene que ir en paralelo
+  con las decisiones sobre los \emph{uses}, porque se influencian
+  entre sí.
+\end{tfquot}\index{P!Parnas, David|)}
+Un diseño en el que los módulos se agrupan de acuerdo con el flujo de
+control o de secuencia, no permitirá cambios fácilmente. La
+estructura, en el sentido de jerarquía de flujo de control, es
+superficial.
+
+Un diseño en el que los módulos se agrupan según cosas que pueden
+cambiar, pueden adaptarse fácilmente al cambio.%
+\index{E!estructurada, programación!una nueva visión de la|)}%
+\index{E!estructura!la superficialidad de la|)}
+
+
+\section{Mirando atrás y al \Forth{}}%
+\index{F!forth@\Forth{}|(}
+En esta sección se repasarán las características fundamentales de
+\Forth{} y se relacionarán con lo que se ha visto sobre las
+metodologías tradicionales.
+
+Un ejemplo de código en \Forth{}:
+\begin{Code}
+: DESAYUNO
+   PRISAS?  IF  CEREALES  ELSE  HUEVOS  THEN LIMPIAR ;
+\end{Code}
+Esto es estructuralmente idéntico al procedimiento
+\forth{HACER-DESAYUNO} de la página \pageref{fig-fig1-4}. (Si no
+conoce usted \Forth{}, consulte la explicación en el \App{A}.)  Las
+palabras \forth{PRISAS?}, \forth{CEREALES}, \forth{HUEVOS}, y
+\forth{LIMPIAR} son (muy probablemente) también definiciones de 2
+puntos.
+
+Hasta cierto punto, \Forth{} exhibe todas los rasgos que se han
+estudiado: valor mnemotécnico, abstracción, potencia, operadores
+estructurados de control, cohesión funcional fuerte, acoplamiento
+limitado y modularidad. Pero es en la modularidad donde se encuentra
+la que puede ser la mayor cualidad de \Forth{}:
+
+\begin{tfquot}
+  El mínimo átomo de un programa \Forth{} no es un módulo o una
+  subrutina o un procedimiento, sino una ``palabra''.
+\end{tfquot}
+Además, no hay subrutinas, programas principales, utilidades o
+sistemas ejecutivos que deban invocarse de forma distinta.
+\emph{Todo} en \Forth{} es una palabra.
+
+Antes de explorar la significancia de un entorno basado en palabras,
+se estudiarán 2 invenciones de \Forth{} que lo hicieron posible.
+
+
+\subsection{Llamadas implícitas}%
+\index{L!llamadas implícitas|(}%
+\index{F!forth@\Forth{}!llamadas implícitas|(}%
+\index{I!implícitas, llamadas|(}
+Primero, las llamadas son implícitas. No hay que decir \forth{CALL
+  CEREALES}, sino simplemente \forth{CEREALES}. En \Forth{}, la
+definición de \forth{CEREALES} ``sabe'' qué clase de palabra es y qué
+procedimiento usar para invocarse a sí misma.
+
+Así, variables y constantes, funciones del sistema, utilidades, así
+como cualquier orden o estructura de datos definida por el usuario,
+pueden todas ellas ser ``llamadas'' simplemente por su nombre.%
+\index{L!llamadas implícitas|)}%
+\index{F!forth@\Forth{}!llamadas implícitas|)}%
+\index{I!implícitas, llamadas|)}
+
+
+\subsection{Paso de datos implícito}%
+\index{F!forth@\Forth{}!paso de datos implícito|(}% 
+\index{P!paso de datos implícito|(}
+Segundo, el paso de datos es implícito%
+\index{I!implícito, paso de datos}.
+El mecanismo que produce este efecto es la pila de datos de \Forth{}%
+\index{P!pila de datos}.
+\Forth{} pone automáticamente números en la pila; las palabras que
+requieren números como entrada los sacan automáticamente de la pila;
+las palabras que producen números como salida, los ponen
+automáticamente en la pila. Las palabras \forth{PUSH} y \forth{POP} no
+existen en \Forth{} de alto nivel.
+
+Así, se puede escribir:
+\begin{Code}
+: HAZLO
+    LEEC  TRANSFORMA-A-D  ESCRIBE-D ;
+\end{Code}
+en la confianza de que \forth{LEEC} leerá ``C'' y lo dejará en la
+pila.  \forth{TRANSFORMA-A-D} recogerá ``C'' de la pila, lo
+transformará y dejará ``D'' en la pila. Finalmente, \forth{ESCRIBE-D}
+recogerá ``D'' de la pila y lo escribirá. \Forth{} elimina el acto de
+pasar datos del código, permitiendo concentrarse en los pasos
+funcionales de la transformación de datos.
+
+Debido a que \Forth{} usa una pila para pasar datos (parámetros y
+resultados), las palabras pueden anidarse dentro de otras. Cualquier
+palabra puede poner números en la pila y quitarlos sin estropear el
+flujo de datos entre palabras a un nivel superior (suponiendo, claro
+está, que la palabra no consume o deja valores inesperados). De esta
+manera, la pila permite la programación modular y estructurada a la
+vez que proporciona un mecanismo sencillo para el paso de argumentos
+locales.
+
+\Forth{} elimina de los programas los detalles de \emph{cómo} se
+invocan las palabras y \emph{cómo} se pasan los datos. ¿Qué
+queda? Sólo las palabras que describen nuestro problema.
+
+Teniendo palabras, podemos explotar completamente las recomendaciones
+de \person{Parnas}:%
+\index{P!Parnas, David}%
+descomponer los problemas según las cosas que pueden cambiar, y hacer
+que cada ``módulo'' consista en muchas funciones pequeñas, tantas como
+se necesiten para ocultar la información sobre ese módulo. En \Forth{}
+podemos escribir tantas palabras como haga falta, no importa lo
+simples que puedan ser.
+
+Una línea de una aplicación típica en \Forth{} podría decir:
+\begin{Code}
+20 ROTAR IZQUIERDA TORRETA
+\end{Code}
+Pocos lenguajes animarían a inventar una subrutina llamada
+\forth{IZQUIERDA}, únicamente como modificador; o una subrutina
+llamada \forth{TORRETA}, únicamente para dar nombre a un componente
+físico.
+
+Ya que una palabra de \Forth{} es más fácil de invocar que una
+subrutina (simplemente dando su nombre, no llamándola), un programa en
+\Forth{} será probablemente descompuesto en más palabras que uno
+convencional en subrutinas.%
+\index{P!paso de datos implícito|)}%
+\index{F!forth@\Forth{}!paso de datos implícito|)}
+
+
+\section{Programación de componentes}%
+\index{C!componentes, programación de|(}%
+\index{F!forth@\Forth{}!programación de componentes|(}
+Tener un conjunto grande de palabras sencillas hace fácil usar una
+técnica que se llamará ``programación de componentes''. Para
+explicarla, se reexaminará esas colecciones de cosas que se
+describieron anteriormente como ``cosas que pueden cambiar''. En un
+sistema típico, casi todo está sujeto a cambio: los dispositivos de
+E/S como terminales e impresoras, interconexiones como circuitos de
+puertos series, el sistema operativo, cualquier estructura o
+representación de datos, cualquier algoritmo, etc.
+
+Las preguntas son: ``¿Cómo se puede minimizar el impacto de tales
+cambios? ¿Cuál es el menor conjunto de otras cosas que deben cambiar a
+la vez junto con dichos cambios?''
+
+La respuesta es: ``El menor conjunto de estructuras de datos y
+algoritmos\index{A!algoritmos} que comparten el conocimiento acerca de
+cómo operan colectivamente.'' Se llamará a esta unidad un
+``componente''.
+
+Un componente es un recurso. Puede ser un dispositivo físico, como un
+puerto serie o una pila de datos física. O el componente puede ser un
+recurso lógico, como una cola, un diccionario o una pila.
+
+Todos los componentes implican objetos de datos y algoritmos%
+\index{A!algoritmos}.
+No importa si el objeto de datos es físico (como un registro) o
+abstracto (como una posición de pila o un campo en una base de datos).
+No importa si el algoritmo está descrito en código de máquina o en
+palabras orientadas al problema, como \forth{CEREALES} y
+\forth{HUEVOS}.
+
+\wepsfigt{fig1-7}{Diseño estructurado contra diseño de componentes.}
+%
+\index{E!estructurada, programación!componentes@contra programación de
+  componentes|(}
+La \Fig{fig1-7} contrasta los resultados del diseño estructurado con
+los del diseño por componentes. En vez de \emph{módulos} llamados
+\forth{LEER-REGISTRO}, \forth{EDITAR-REGISTRO} y
+\forth{GRABAR-REGISTRO}, se ocupa de \emph{componentes} que describen
+la estructura de los registros, proporcionan un juego de órdenes para
+un editor y proporcionan rutinas de lectura/escritura a un medio de
+almacenamiento.
+
+¿Qué se ha hecho? Se ha insertado una etapa nueva en el proceso de
+desarrollo: descomponer en componentes del \emph{diseño}, y después
+describir la secuencia, jerarquía y entrada-proceso-salida en la
+\emph{realización}.  Sí, es un paso extra, pero ahora se dispone de
+una nueva dimensión para la descomposición: no sólo pelar, sino
+también \emph{cortar}\index{C!cortar}.
+
+Supongamos que, una vez escrito el programa, hace falta cambiar la
+estructura de los registros. En el diseño jerárquico secuencial, este
+cambio afectaría a los 3 módulos. En el diseño por componentes, el
+cambio quedaría confinado al componente de estructura de registro.
+Ningún código que use este componente necesita conocer el cambio.
+
+Aparte del mantenimiento, una ventaja de este esquema es que a los
+programadores de un equipo se les puede asignar componentes
+individualmente, con menos interdependencia. El principio de
+programación de componentes se aplica tanto a la gestión de equipos
+como al diseño de programas.%
+\index{E!estructurada, programación!componentes@contra programación de
+  componentes|)}%
+\index{E!estructurada, programación!(modularidad)|)}
+%
+\index{F!forth@\Forth{}!léxico|(}%
+\index{L!léxicos|(}
+Llamaremos ``léxico'' al conjunto de palabras que describe un
+componente.  (Uno de los significados de ``léxico'' es ``conjunto de
+las palabras que pertenecen a una actividad determinada''.) El léxico
+es la interconexión con el componente desde el exterior
+(\Fig{fig1-8}).
+
+En este libro, el término ``léxico'' se refiere únicamente a aquellas
+palabras de un componente que se usan por su nombre fuera del
+componente. Un componente puede también contener definiciones escritas
+únicamente para auxiliar al léxico visible externamente. Llamaremos
+palabras ``internas'' a estas definiciones auxiliares.
+
+\wepsfigt{fig1-8}{Un léxico describe a un componente.}
+
+El léxico proporciona los equivalente lógicos a los objetos de datos y
+algoritmos en forma de nombres. El léxico oculta las estructuras de
+datos y algoritmos del componente (el ``cómo funciona''). Presenta al
+mundo un modelo conceptual del componente descrito en palabras
+sencillas (el ``qué hace'').
+
+Tales palabras se convierten en el lenguaje para describir las
+estructuras de datos y algoritmos de componentes escritos a un nivel
+superior. El ``qué''de un componente se convierte en el ``cómo'' de
+otro de nivel superior.
+
+\wepsfigt{fig1-9}{Toda la aplicación está hecha de componentes.}
+
+Escrita en \Forth{}, toda una aplicación consiste en componentes.
+La \Fig{fig1-9} muestra cómo podría descomponerse una aplicación de robótica.
+
+Incluso podría decirse que cada léxico es un compilador de propósito
+especial, escrito únicamente para auxiliar al código de la aplicación
+de mayor nivel de la manera más eficaz y fiable.
+
+Por cierto, \Forth{} por sí mismo no permite componentes. Ni lo
+necesita. Los componentes son el producto de la descomposición que
+hace el diseñador del programa. (\Forth{} tiene ``pantallas'',%
+\index{P!pantallas}:
+pequeñas unidades de almacenamiento masivo para guardar el código
+fuente. Un componente puede escribirse normalmente en 1 o 2 pantallas
+de \Forth{}.)
+
+Es importante comprender que un léxico puede ser usado por cualquier
+componente de mayor nivel. Cada componente sucesivo \emph{no} oculta a
+sus componentes auxiliares, como suele ser el caso de los enfoques de
+diseño por niveles. En vez de eso, cada léxico es libre de usar todas
+las órdenas bajo él. La orden de movimiento del robot usa el lenguaje
+base, con sus variables, constantes, operadores de pila, operadores
+matemáticos, etcétera, tanto como cualquier otro componente.%
+\index{F!forth@\Forth{}!programación de componentes|)}%
+\index{C!componentes, programación de|)}
+
+Un resultado importante de este enfoque es que toda la aplicación
+emplea una misma sintaxis, que la hace fácil de aprender y mantener.
+Por eso uso el término ``léxico'' y no ``lenguaje''. Los lenguajes
+tienen su propia sintaxis.%
+\index{L!léxicos|)}\index{F!forth@\Forth{}!léxico|)}
+
+Esta disponibilidad de órdenes hace también mucho más fácil el proceso
+de verificación y depuración. Debido a que \Forth{} es interactivo, el
+programador puede teclear y verificar las órdenes primitivas, como hacer
+\begin{Code}
+DERECHO HOMBRO 20 PIVOTAR
+\end{Code}
+desde el ``exterior'' tan fácilmente como las más potentes como
+
+\begin{Code}
+LEVANTAR CAFETERA
+\end{Code}
+Al mismo tiempo, el programador puede (si quiere) sellar
+deliberadamente cualquier orden, incluyendo al propio \Forth{}, para
+evitar que el usuario final las acceda una vez que la aplicación está
+terminada.
+
+Ahora, la metodología de \Forth{} está clara. Programar en \Forth{}
+consiste en extender el lengaje base hacia la aplicación, creando
+nuevas órdenes que puedan usarse para describir el problema en
+cuestión.
+
+Los lenguajes de programación diseñados especialmente para
+aplicaciones particulares como robótica, control de inventarios,
+estadísticas, etc., se conocen como ``lenguajes orientados a la
+aplicación''. \Forth{} es un entorno de programación para \emph{crear}
+lenguajes orientados a la aplicación. (Esa última frase puede ser la
+descripción más sucinta de \Forth{} que pueda encontrarse.)
+
+De hecho, no se deberían escribir aplicaciones serias en \Forth{};
+como lenguaje, no es sencillamente lo bastante potente. Lo que se
+\emph{debe} hacer es escribir un lenguaje específico en \Forth{}
+(léxicos) para modelar el problema, en el cual escribir elegantemente
+la solución.
+
+
+\section{¿Ocultarse de quién?}%
+\index{F!forth@\Forth{}!ocultación de la información|(}%
+\index{I!information, ocultación de la|(}
+Debido a que los lenguajes modernos al uso dan un sentido ligeramente
+distinto a la frase ``ocultación de la información'', habrá que
+aclararlo. ¿De qué, o de quién, se está ocultando la información?
+
+Los lenguajes tradicionales más recientes (como Modula 2) se retuercen
+para asegurarse de que los módulos ocultan a demás sus rutinas y
+estructuras de datos internas. El objetivo es lograr la independencia
+entre módulos (el mínimo de acoplamiento). Parece haber un miedo a que
+los módulos se empeñen en atacarse unos a otros como anticuerpos
+extraños. O que bandas malvadas de módulos invasores salgan a
+estropear las preciosas estructuras de datos de la familia.
+
+\emph{No} es esto lo que nos preocupa. El propósito de ocultar la
+información, tal como se entiende, es simplemente minimizar los
+efectos de un posible cambio de diseño mediante el uso local de cosas
+que podrían cambiar dentro de un componente.
+
+Los programadores de \Forth{} prefieren en general tener el programa
+bajo su propio control y no emplean técnicas para ocultar físicamente
+las estructuras de datos. (Sin embargo, \person{Dewey Val Shorre}
+\cite{shorre71} ha desarrollado en tan sólo 3 líneas una técnica
+brillantemente simple para añadir módulos del estilo de Modula a
+\Forth{}.)%
+\index{I!information, ocultación de la|)}%
+\index{F!forth@\Forth{}!ocultación de la información|)}
+
+
+\section{Ocultar la construcción de estructuras de datos}%
+\index{D!datos, estructuras de!ocultar la construcción de|(}
+Ya se vieron 2 invenciones de \Forth{} hacen posible la metodología
+descrita: las llamadas implícitas y el paso de datos implícito%
+\index{P!paso de datos implícito}. Una tercera característica permite
+que las estructuras de datos de un componente puedan describirse en
+términos de componentes definidos previamente. Esta característica es
+el acceso directo a memoria.
+
+Supongamos que se define una variable llamada \forth{MANZANAS},
+así:\program{manzanas1}
+\begin{Code}
+VARIABLE MANZANAS
+\end{Code}
+Se Podemos almacenar un número en esta variable para indicar cuántas
+manzanas tenemos:
+\begin{Code}
+20 MANZANAS !
+\end{Code}
+Puede mostrarse el contenido de la variable:
+\begin{Code}[commandchars=\&\{\}]
+MANZANAS ? &underline{20 ok}
+\end{Code}
+Puede incrementarse en 1:
+\begin{Code}
+1 MANZANAS +!
+\end{Code}
+(Los principiantes pueden estudiar la mecánica de estas frases en el \App{A}.)
+
+La palabra \forth{MANZANAS} tiene una función: poner en la pila la
+\emph{dirección} de memoria donde se guarda la cuenta de manzanas. La
+cuenta puede entenderse como una ``cosa'', mientras que las palabras
+que fijan la cuenta, leen la cuenta o incrementan la cuenta, pueden
+considerarse ``acciones''.
+
+\Forth{} separa adecuadamente las ``cosas'' de las ``acciones''
+permitiendo que las direcciones de las estructuras de datos se pasen
+mediante la pila y proporcionando las órdenes ``leer'' y ``escribir''.
+
+Se ha discutido la importancia de diseñar según las cosas que pueden
+cambiar. Supongamos que se ha escrito mucho código usando la variable
+\forth{MANZANAS}. Y ahora, a última hora, ¡se descubre que hay que
+llevar la cuenta de 2 tipos distintos de manzanas, rojas y verdes!
+
+No hay que poner el grito en el cielo, sino recordar la función de
+\forth{MANZANAS}: proporcionar una dirección. Si hacen falta 2 cuentas
+separadas, \forth{MANZANAS} puede dar 2 direcciones diferentes
+dependiendo del tipo de manzana del que estemos hablando. Así que
+definiríamos una versión más complicada de\forth{MANZANAS} como sigue:
+
+\begin{Code}
+VARIABLE COLOR  ( puntero a la cuenta actual)
+VARIABLE ROJO  ( cuenta de manzanas rojas)
+VARIABLE VERDE  ( cuenta de manzanas verdes)
+: ROJAS  ( cambia el tipo de manzana a ROJO)  ROJO COLOR ! ;
+: VERDES  ( cambia el tipo de manzana a VERDE)  VERDE COLOR ! ;
+: MANZANAS  (  -- dir de la cuenta de manzanas)  COLOR @ ;
+\end{Code}
+
+\wepsfiga{fig1-10}{Cambiando el puntero indirecto.}
+
+\noindent Se ha redefinido \forth{MANZANAS}. Ahora usa el contenido de
+una variable llamada \forth{COLOR}. \forth{COLOR} es un puntero, bien
+a la variable \forth{ROJO}, bien a la variable \forth{VERDE}. Esas 2
+variables llevan la cuenta real.
+
+Si primero se dice \forth{ROJAS}, se puede usar \forth{MANZANAS} para
+referirse a manzanas rojas. Si se dice \forth{VERDES}, se puede usar
+para referirse a manzanas verdes (\Fig{fig1-10}).
+
+No ha hecho falta cambiar la sintaxis del código existente que usa
+\forth{MANZANAS}. Aún se puede decir
+
+\begin{Code}
+20 MANZANAS !
+\end{Code}
+y
+
+\begin{Code}
+1 MANZANAS +!
+\end{Code}
+Miremos de nuevo a lo que se ha hecho. Se ha cambiado la definición de
+\forth{MANZANAS} de una variable a una definición de 2 puntos, sin
+afectar a su uso. \Forth{} permite ocultar los detalles de cómo está
+definida \forth{MANZANAS} del código que la usa. Lo que parece ser una
+``cosa'' (una variable) en el cçodigo original, está definido
+realmente como una ``acción'' (una definición de 2 puntos) dentro del
+componente.
+
+\Forth{} anima al uso de tipos abstractos de datoa al permitir que las
+estructuras de datos se definan en términos de componentes de menor
+nivel. Sólo \Forth{}, que elimina las llamadas mediante CALL de los
+procedimientos, que permite que las direcciones y datos se pasen
+implícitamente mediante la pila y que proporciona acceso directo a las
+posiciones de memoria con \forth{@} y \forth{!}, puede ofrecer este
+nievl de ocultación de la información.
+
+\Forth{} presta poca atención a si algo es una estructura de datos o
+un algoritmo. Esta indiferencia permite a los programadores una
+increíble libertad al crear las partes de la lengua necesarias para
+describir las aplicaciones.
+
+Tiendo a pensar en cualquier palabra que devuelve una dirección, como
+\forth{MANZANAS}, como en un ``nombre'', independientemente de cómo
+esté definido. Una palabra que realiza una acción obvia es un
+``verbo''.
+
+Las palabras como \forth{ROJAS} y \forth{VERDES} del ejemplo sólo
+pueden llamarse ``adjetivos'', ya que modifican la función de
+\forth{MANZANAS}. La frase
+
+\begin{Code}
+ROJAS MANZANAS ?
+\end{Code}
+es diferente de
+
+\begin{Code}
+VERDES MANZANAS ?
+\end{Code}
+Las palabras en \Forth{} también pueden servir como adverbios y
+preposiciones. No merece la pena tratar de determinar qué parte de la
+lengua es una palabra en particular, ya que a \Forth{} no me importa.
+Sólo hay que disfrutar de la facilidad de describir una aplicación en
+términos naturales.%
+\program{manzanas2}%
+\index{D!datos, estructuras de!ocultar la construcción de|)}
+
+
+\section{Pero, ¿es un lenguaje de alto nivel?}%
+\index{F!forth@\Forth{}!la cuestión de si es un lenguaje de alto
+  nivel|(}%
+\index{L!lenguajes de alto nivel:!forth@\Forth{} como uno de los|(}
+En nuestra breve descripción técnica, se ha visto que los lenguajes de
+alto nivel tradicionales rompieron con el lenguaje ensamblador al
+eliminar no sólo la correspondencia \emph{uno a uno} entre órdenes y
+operaciones de la máquina, sino también la correspondencia
+\emph{lineal}. Claramente, \Forth{} recoge la primera diferencia; en
+cuanto a la segunda, el orden de las palabras que se usan en la
+definición es el orden en el que tales órdenes se compilan.
+
+¿Descalifica esto a \Forth{} del rango de lenguaje de alto nivel?
+Antes de contestar, se explorarán las ventajas del enfoque de
+\Forth{}.
+
+\wepsfigp{img1-028}{Two points of view.}
+
+% the 1984 original didn't have the interview bar here
+\begin{interview}
+Estp es lo que \person{Charles Moore},%
+\index{M!Moore, Charles}
+inventor de \Forth{}, tiene que decir:
+
+\begin{tfquot}
+  Tú defines cada palabra de modo que el ordenador sabe lo que
+  significa. La forma en que lo sabes es que ejecuta algún código como
+  consecuencia de ser invocado. El ordenador lleva a cabo una acción
+  en cada palabra. No almacena la palabra y la recuerda para más
+  tarde.
+
+  En un sentido filosófico, creo que esto significa que el ordenador
+  ``comprende'' la palabra. Comprende lo que la palabra \forthb{DUP},
+  quizá más profundamente que tú mismo, porque nunca hay dudas en su
+  mente de lo que significa \forthb{DUP}.
+
+  La conexión entre palabras que tienen sentido para tí y palabras que
+  tienen sentido para el ordenador es profunda. El ordenador se
+  convierte en el vehículo de la comunicación entre el ser humano y el
+  concepto.
+\end{tfquot}
+\end{interview}
+Una ventaja de la correspondencia entre código fuente y ejecución de
+la máquina es la tremenda simplificación del compilador e intérprete.
+Esta simplificación mejora el rendimiento de varias maneras, como se
+verá en una sección posterior.
+
+Desde el punto de vista de la metodología de la programación, la
+ventaja del enfoque de%
+\index{F!forth@\Forth{}!ventajas de}
+\Forth{} es que es fácil añadir palabras \emph{nuevas} y una sintaxis
+\emph{nueva}. No se puede decir que \Forth{} esté ``buscando''
+palabras: las encuentra y ejecuta. Si se añaden palabras, \Forth{} las
+encontrará y ejecutará también. No hay diferencia entre palabras
+existentes y las que se añadan después.
+
+Y lo que es más, esta ``extensibilidad'' se aplica a todos los tipos
+de palabras, no sólo a las acciones/funciones. Por ejemplo, \Forth{}
+permite añadir nuevas palabras \emph{compiladoras}; como \forthb{IF} y
+\forthb{THEN}, que proporcionan flujo de control estructurado. Se
+puede añadir fácilmente una sentencia \forthb{CASE} o un bucle con
+múltiples salidas si hace falta; o, igualmente importante, quitarlos
+si no se necesitan.
+
+En contraste, cuqlquier lenguaje que dependa del orden de las palabras
+para comprender una sentencia debe ``saber'' todas las palabras
+legales y todas las combinaciones legales. La probabilidad de que
+incluya todas las construcciones que pueden necesitarse es baja. El
+lenguaje existe tal como lo definió su fabricante; no se puede
+extender su conocimiento.
+
+Los investigadores de laboratorios citan la flexibilidad y
+extensibilidad entre las ventajas más importantes de \Forth{} en su
+entorno. Se pueden desarrollar léxicos para ocultar la información
+sobre la variedad de equipos de pruebas conectados al ordenador. Una
+vez que este trabajo ha sido realizado por un programador más
+experimentado, los investigadores son libres de usar su ``caja de
+herramientas informáticas'' de pequeñas palabras para escribir
+programas sencillos para experimentar. Según se añadan equipos, se
+irán añadiendo léxicos.
+
+\person{Mark Bernstein} \index{B!Bernstein, Mark|(}
+ha descrito el problema de usar una biblioteca de procedimientos de
+propósito especial prefabricada en el laboratorio \cite{bern83}: ``El
+ordenador, y no el usuario, domina el experimento.'' Pero con
+\Forth{}, escribe, ``el ordenador anima a los científicos a modificar,
+reparar y mejorar el programa, a experimentar y caracterizar el
+equipo. La iniciativa vuelve a ser prerrogativa del investigador.''%
+\index{B!Bernstein, Mark|)}
+
+\wepsfigp{img1-030}{2 soluciones al problema de la seguridad.}
+
+Para los puristas que cree que \Forth{} no es apto de ser llamado
+lenguaje de alto nivel, \Forth{} complica aún más las cosas. Mientras
+que los lenguajes de programación contemporáneos realizan una
+comprobación fuerte de sintaxis y de tipos de datos, \Forth{} casi no
+hace comprobación sintáctica alguna. Para proporcionar la clase de
+libertad y flexibilidad que se ha visto, no puede decirle a uno que lo
+que quería escribir era \forth{ROJAS MANZANAS} en lugar de
+\forth{MANZANAS ROJAS}. ¡Acabamos de inventar una sintaxis!
+
+Pero \Forth{} más que compensa su omisión al permitir compilar cada
+definición, una a la vez, con un retardo del orden de segundos. Se
+descubren los errores bastante rápido cuando la definición no
+funciona. Además, se puede añadir la adecuada comprobación de sintaxis
+en las definiciones si se desea.
+
+La brocha de un artista no le notifica de los errores; ya lo juzgará
+el pintor. La cacerola del chef y el piano del compositor son simples
+y eficaces. ¿Por qué dejar que un lenguaje de programación trate de
+ser más listo que uno?
+
+Entonces, ¿es \Forth{} un lenguaje de alto nivel? Sobre la
+comprobación de sintaxis, se destaca. Sobre la abstracción y la
+potencia, parece ser de un nivel \emph{infinito}, yendo desde la
+manipulación de bits en un puerto de salida, hasta aplicaciones de
+negocios.%
+\index{L!lenguajes de alto nivel:!forth@\Forth{} como uno de los|)}%
+\index{F!forth@\Forth{}!la cuestión de si es un lenguaje de alto
+  nivel|)}
+
+Es nuestra decisión. (A \Forth{} no le importa.)
+
+
+\section{El lenguaje de diseño}
+%
+\index{F!forth@\Forth{}!diseño@como lenguaje de diseño|(}
+\Forth{} es un lenguaje de diseño. Para el estudiante de la
+Informática tradicional, esta afirmación es auto-contradictoria. ``No
+se diseña con un lenguaje, se plasma con un lenguaje. El diseño
+precede a su realización.''
+
+Los programadores experimentados con \Forth{} no están de acuerdo. En
+\Forth{} se puede escribir código abstracto para el nivel de diseño y
+seguir siendo capaz de probarlo en cualquier momento tomando ventaja
+de la descomposición en léxicos. Un componente puede reescribirse
+fácilmente, según avanza el desarrollo, bajo cualesquiera componentes
+que lo usen. Al principio, las palabras de un componente pueden
+imprimir números en el terminal en vez de controlar motores paso a
+paso. Pueden imprimir sus propios nombres para demostrar que se han
+ejecutado. Pueden no hacer cosa alguna.
+
+Con esta filosofía, se puede escribir una versión simple pero
+verificable de la aplicación, y luego cambiarla y refinarla
+sucesivamente hasta que se alcance el objetivo.
+
+Otro factor que hace posible el diseño con código es que \Forth{},
+como algunos de los lenguajes más recientes, elimina la secuencia de
+desarrollo de ``compilación por lotes''%
+\index{L!lotes, secuencia de desarrollo de compilación por!eliminación de}
+(editar-compilar-probar-editar-compilar-probar). Ya que la
+realimentación es instantánea, el medio se convierte en un aliado en
+el proceso creativo. El programador que usa un lenguaje de compilación
+por lotes rara vez alcanza el estado productivo de la mente que logran
+los artistas cuando la corriente creativa fluye sin obstáculos.
+
+Por estas razones, los que programan en \Forth{} pasan menos tiempo
+planificando que sus correspondientes clásicos, que se sienten
+justificados en la planificación. Para ellos, no planificar es
+imprudente e irresponsable. Los entornos tradicionales forzan a los
+programadores a planear porque los lenguajes de programación
+tradicional no permiten cambios fácilmente.
+
+Desgraciadamente, la previsión humana está limitada incluso en las
+mejores condiciones. Demasiada planificación resulta contraproductiva.
+
+Por supuesto que \Forth{} no elimina la planificación. Permite hacer
+prototipos.%
+\index{P!prototipos}
+Construir un prototipo es una manera más refinada de planear, como es
+la construcción de prototipos cableados en el diseño electrónico.
+
+Como se verá en el siguiente capítulo, la experimentación ha
+demostrado ser más fiable para llegar a la verdad que el tratar de
+adivinar al planear.%
+\index{F!forth@\Forth{}!diseño@como lenguaje de diseño|)}
+
+
+\section{El lenguaje del rendimiento}%
+\index{F!forth@\Forth{}!rendimiento de|(}%
+\index{R!rendimiento|(}
+Aunque el rendimiento no es el tema principal de este libro, el
+principiante en \Forth{} debe estar tranquilo de que sus ventajas no
+son puramente filosóficas. En conjunto, \Forth{} supera a los demás
+lenguajes de alto nivel en velocidad, capacidad y compacidad.
+
+
+\subsection{Velocidad}%
+\index{F!forth@\Forth{}!velocidad de|(}%
+\index{V!velocidad|(}
+Aunque \Forth{} es un lenguaje interpretado, ejecuta un código
+compilado. Por lo tanto, opera unas 10 veces más rápido que BASIC
+interpretado.
+
+\Forth{} está optimizado para la ejecución de palabras mediante una
+técnica conocida como ``código enhebrado'' \cite{bell72},
+\cite{dewar}, \cite{kogge82}. El coste de modularizar en trozos muy
+pequeños de código es relativamente pequeño.
+
+No se ejecuta tan rápido como el código en ensamblador porque el
+intérprete interno (que interpreta la lista de direcciones que
+comprende cada definición de 2 puntos) puede consumir hasta el 50\%
+del tiempo de ejecución de las palabras primitivas, dependiendo del
+procesador.
+
+Pero en aplicaciones grandes, \Forth{} se acerca mucho a la velocidad
+del ensamblador. Aquí hay 3 razones:
+
+Lo primero y fundamental, \Forth{} es sencillo. El uso de una pila de
+datos%
+\index{P!pilas de datos}
+por parte de \Forth{} reduce enormemente el coste de pasar argumentos
+de una palabra a otra. En la mayoría de lenguajes, el paso de
+argumentos entre módulos es una de las principales razones por las que
+el uso de subrutinas reduce el rendimiento.
+
+Segundo, \Forth{} permite definir palabras bien en alto nivel, bien en
+lenguaje de máquina. De ambos modos, no hace falta una secuencia
+especial de llamada. Se puede escribir una definición en alto nivel y,
+habiendo verificado que es correcta, reescribirla en ensamblador sin
+cambiar el código que la usa. En una aplicación típica, tal vez el
+20\% del código se ejecuta el 80\% del tiempo. Sólo las rutinas usadas
+con más frecuencia necesitan escribirse en código de máquina. El
+sistema \Forth{} en sí está en gran medida realizado con definiciones
+en código de máquina, por lo que pocas palabras de una aplicación
+necesitarán codificarse en ensamblador.
+
+\wepsfigp{img1-033}{Los mejores diseños descendentes de ratones y
+  hombres jóvenes.}
+
+Tercero, las aplicaciones en \Forth{} suelen estar mejor diseñadas que
+las escritas completamente en ensamblador. Los programadores de
+\Forth{} sacan ventaja de las cualidades de hacer prototipos del
+lenguaje y prueban varios algoritmos antes de llegar al mejor adaptado
+a sus necesidades. Como \Forth{} anima a hacer cambios, puede llamarse
+también el lenguaje de la optimización.
+
+\Forth{} no garantiza aplicaciones rápidas. Le da al programador un
+entorno creativo en el que diseñar aplicaciones rápidas.%
+\index{F!forth@\Forth{}!velocidad de|)}%
+\index{V!velocidad|)}
+
+\subsection{Capacidad}
+\Forth{}\index{C!capacidad}\index{F!forth@\Forth{}!capacidad de}
+puede hacer lo que otros lenguajes, normalmente más fácil.%
+\index{F!forth@\Forth{}!ventajas de}
+
+En la parte baja, casi todos los sistemas \Forth{} incluyen ensambladores%
+\index{E!ensambladores}. También tienen operadores de estructura de
+control para escribir ejecuciones condicionales y bucles con técnicas
+de programación estructurada. Normalmente permite escribir
+interrupciones; incluso puede escribirse el código para la
+interrupción en alto nivel, si se quiere.
+
+Algunos sistemas \Forth{} tienen multitarea, permitiendo añadir tantas
+tareas en primer o segundo plano como se quiera.
+
+\Forth{} puede escribirse para funcionar sobre un sistema operativo,
+como RT-11, CP/M, o MS-DOS; o, para quien lo prefiera, \Forth{} puede
+escribirse como sistema opertivo autosuficiente, incluyendo sus
+propios controladores de terminal y disco.
+
+Con un compilador cruzado de \Forth{}%
+\index{C!compiladores cruzados} o un compilador de
+aplicaciones\footnote{\emph{target compiler} en el original; se
+  refiere a un compilador cuyo código objeto carece de las cabeceras
+  y, con frecuencia, también el código que convierte a \Forth{} en un
+  compilador interactivo},%
+\index{C!compiladores}%
+\index{A!aplicaciones, compiladores de}
+de \Forth{}, puede usarse \Forth{} para recrear nuevos sistemas
+\Forth{}, para el mismo ordenador o para otros diferentes. Debido a
+que \Forth{} está escrito en \Forth{}, se tiene la inconcebible
+oportunidad de reescribir el sistema operativo de acuerdo con las
+necesidades de la aplicación. O se pueden transportar versiones
+reducidas de las aplicaciones a sistemas empotrados.
+
+\subsection{Tamaño}%
+\index{F!forth@\Forth{}!tamaño de|(}
+Hay 2 consideraciones aquí: el tamaño del sistema base \Forth{} y el
+tamaño de las aplicaciones compiladas en \Forth{}.
+
+El núcleo de \Forth{} es muy flexible. En aplicaciones empotradas, la
+parte de \Forth{} necesaria para ejecutar la aplicación puede caber en
+tan sólo 1k. En un entorno de desarrollo completo, un sistema \Forth{}
+multitarea incluyendo el intérprete, compilador, ensamblador,%
+\index{E!ensambladores}
+editor, sistema operativo y las demás utilidades de apoyo ocupa una
+media de 16k. Esto deja mucho espacio para las aplicaciones. (Y
+algunos \Forth{} en los nuevos procesadores usan direccionamiento de
+32 bits, permitiendo programas inimaginablemente grandes.)
+
+Similarmente, las aplicaciones compiladas en \Forth{} suelen ser muy
+pequeñas; normalmente más pequeñas que sus equivalentes escritas en
+ensamblador. La razón, de nuevo, es el código enhebrado. Cada
+referencia a una palabra definica anteriormente, no importa su
+potencia, sólo usa 2 octetos.
+
+Uno de los nuevos territorios más excitantes de \Forth{} es la
+producción de microprocesadores \Forth{} como el Rockwell R65F11%
+\index{R!Rockwell R65F11 (microprocesador basado en \Forth{})}
+\cite{dumse}. El circuito incluye partes del código y sistema
+operativo de \Forth{} para aplicaciones especializadas. Sólo la
+arquitectura y compacidad de \Forth{} hace posible la existencia de
+microprocesadores basados en \Forth{}.%
+\index{F!forth@\Forth{}!tamaño de|)}%
+\index{F!forth@\Forth{}!rendimiento de|)}%
+\index{R!rendimiento|)}
+
+
+\section{Resumen}
+\Forth ha sido frecuentemente caracterizado como inusual, totalmente
+diferente a cualquier otro lenguaje en estructura o en filosofía. Al
+contrario, \Forth{} incorpora muchos principios de los que ahora
+alardean la mayoría de lenguajes contemporáneos. Diseño estructurado,
+modularidad y ocultación de la información, son algunas de las
+palabras de moda hoy en día.
+
+Algunos lenguajes nuevos se acercan incluso más al espíritu de
+\Forth{}. C, por ejemplo, permite al programador definir nuevas
+funciones en C o en ensamblador, como hace \Forth{}. Y como en
+\Forth{}, la mayoría de C está definido en términos de funciones.
+
+Pero \Forth extiende los conceptos de modularidad y ocultación de la
+información más lejos que cualquier otro lenguaje contemporáneo.
+\Forth{} incluos oculta la manera en que se invocan las palabras y se
+pasan los argumentos locales.
+
+El código resultante se convierte en una concentrada interacción de
+palabras, la más pura expresión del pensamiento abstracto. Como
+resultado, los programadores en \Forth{} suelen ser más productivos y
+escriben código más denso, eficaz y mantenible.
+
+\Forth{} puede no ser el lenguaje definitivo. Pero creo que el
+lenguaje definitivo, si tal cosa es posible, se parecerá más a
+\Forth{} que a cualquier otro lenguaje contemporáneo.%
+\index{F!forth@\Forth{}|)}
+
+
+\begin{references}{99}
+\bibitem{dahl72} \person{O.\@ J.\@ Dahl}, \person{E.\@ W.\@ Dijkstra}, and \person{C.\@ A.\@ R.\@ Hoare},
+\emph{Structured Programming,} London, Academic Press, 1972.
+\bibitem{wirth71} \person{Niklaus Wirth}, ``Program Development by Stepwise
+Refinement,'' \emph{Communications of ACM,} 14, No. 4 (1971), 221-27.
+\bibitem{stevens74-1} \person{W.\@ P.\@ Stevens}, \person{G.\@ J.\@ Myers}, and \person{L.\@ L.\@ Constantine},
+``Structured Design,'' \emph{IBM Systems Journal,} Vol. 13, No. 2, 1974.
+\bibitem{parnas72} \person{David L.\@ Parnas}, ``On the Criteria To Be Used in
+Decomposing Systems into Modules,'' \emph{Communications of the ACM,}
+December 1972.
+\bibitem{liskov75} \person{Barbara H.\@ Liskov} and \person{Stephen N.\@ Zilles},
+``Specification Techniques for Data Abstractions,'' \emph{IEEE
+Transactions on Software Engineering,} March 1975.
+\bibitem{parnas79} \person{David L.\@ Parnas}, ``Designing Software for Ease of
+Extension and Contraction,'' \emph{IEEE Transactions on Software
+Engineering,} March 1979.
+\bibitem{shorre71} \person{Dewey Val Shorre}, ``Adding Modules to \Forth{},''
+1980 FORML Proceedings, p. 71.
+\bibitem{bern83} \person{Mark Bernstein}, ``Programming in the Laboratory,''
+  unpublished paper, 1983.
+\bibitem{bell72} \person{James R.\@ Bell}, ``Threaded Code,'' \emph{Communications
+of ACM,} Vol. 16, No. 6, 370-72.
+\bibitem{dewar} \person{Robert B.\@ K.\@ DeWar}, ``Indirect Threaded Code,''
+\emph{Communications of ACM,} Vol. 18, No. 6, 331.
+\bibitem{kogge82} \person{Peter M.\@ Kogge}, ``An Architectural Trail to
+Threaded-Code Systems,'' \emph{Computer,} March, 1982.
+\bibitem{dumse} \person{Randy Dumse}, ``The R65F11 \Forth{} Chip,'' \emph{\Forth{}
+Dimensions,} Vol. 5, No. 2, p. 25.
+\end{references}
+
