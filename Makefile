@@ -154,7 +154,7 @@ ps :	thinking-forth.ps
 dvi :	thinking-forth.dvi
 
 %.ps	: %.dvi
-	dvips $< -o - | sed -e "s,\`\`toFurther Thinking'',\"Further Thinking\",g" >$@
+	dvips -Pcm-super $< -o - | sed -e "s,\`\`toFurther Thinking'',\"Further Thinking\",g" >$@
 
 
 thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
