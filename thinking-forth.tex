@@ -5,21 +5,9 @@
 %% test harness
 %% pdflatex harness
 
-\newif\ifpdf
-\ifx\pdfoutput\undefined
-  \pdffalse % we are not running PDFLaTeX
-\else
-  \pdfoutput=1 % we are running PDFLaTeX
-  \pdftrue
-\fi
-
 \input{tfoptions}
 
-\ifpdf
-\documentclass[10pt,\tflang,pdftex]{book}
-\else
 \documentclass[10pt,\tflang,dvips]{book}
-\fi
 \usepackage{pst-all}
 \usepackage{pst-blur}
 \usepackage{pst-grad}
@@ -47,12 +35,7 @@
 %\input{epsf}
 \usepackage{array}
 
-% for pdflatex
-\ifpdf
-\DeclareGraphicsExtensions{.pdf,.png}
-\else
 \DeclareGraphicsExtensions{.eps}
-\fi
 
 \makeindex
 
