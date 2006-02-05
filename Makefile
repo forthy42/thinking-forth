@@ -83,6 +83,7 @@ TAR = tar jcf
 MD = mkdir
 RD = rm -rf
 PS2PDF = ps2pdf13 -dPDFSETTINGS=/printer -dEmbedAllFonts=true
+THUMBPDF = thumbpdf --mode=ps2pdf
 
 TOGETHER = 20 # how many pages you bind together - divide by 4
 PSA4 = sed -e 's/%%BoundingBox:.*/%%PageSize: a4\n%%Orientation: Landscape/'
@@ -110,6 +111,8 @@ dist:	$(ALL_SOURCES) $(PNGSOURCES) $(PNGSOURCES:.png=.eps)
 	$(RD) thinking-forth-$(VERSION)
 
 pspdf:	thinking-forth.pdf
+
+thumb:	thinking-forth.tpm
 
 thinking-forth-book.pdf: thinking-forth-book.ps
 	$(PS2PDF) $< $@
@@ -146,6 +149,9 @@ tfoptions.tex:	Makefile
 %.pdf : %.ps
 	$(PS2PDF) $< $@
 
+%.tpm: %.pdf
+	$(THUMBPDF) $<
+
 pdf : $(SOURCES) $(PNGSOURCES:.png=.pdf)
 	pdflatex thinking-forth.tex
 	pdflatex thinking-forth.tex
@@ -160,6 +166,7 @@ dvi :	thinking-forth.dvi
 
 thinking-forth.dvi : $(SOURCES) $(PNGSOURCES:.png=.eps)
 	latex thinking-forth.tex
+	$(MAKE) thumb
 	latex thinking-forth.tex
 
 cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex head.eps \
