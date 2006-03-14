@@ -1586,7 +1586,7 @@ only a byte, let's make each ``slot'' one byte. We'll call the table
 \forth{ROMANS}:
 
 \begin{Code}
-Create romans    ( ones)  char i  c,   char V  c,
+Create romans    ( ones)  char I  c,   char V  c,
                  ( tens)  char X  c,   char L  c,
              ( hundreds)  char C  c,   char D  c,
             ( thousands)  char M  c,
@@ -1618,7 +1618,7 @@ Now we can find our way to any ``arm position'' by adding the contents of
 \forth{ROMANS}:
 
 \begin{Code}
-: COLUMN  ( -- adr-of-column )  ROMANS  COLUMN# @  + ;
+: column  ( -- adr-of-column )  romans  column# @  + ;
 \end{Code}
 Let's see if we can implement one of the words to display a symbol. We'll
 start with \forth{ONER}.
