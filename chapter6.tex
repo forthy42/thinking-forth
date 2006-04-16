@@ -59,7 +59,7 @@ To define a word that computes two-thirds of \emph{any} number,
 we factor out the argument from the definition:
 
 \begin{Code}
-: TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
+: two-thirds  ( n1 -- n2)  2 3 */ ;
 \end{Code}
 When the datum comes in the \emph{middle} of the useful phrase, we
 have to use stack manipulation. For instance, to center a piece of
@@ -72,7 +72,7 @@ But text isn't always 10 characters long. To make the phrase useful
 for any string, you'd factor out the length by writing:
 
 \begin{Code}
-: CENTER ( length -- ) 80  swap -  2/ spaces ;
+: center ( length -- ) 80  swap -  2/ spaces ;
 \end{Code}
 The data stack can also be used to pass addresses. Therefore what's
 factored out may be a \emph{pointer} to data rather than the data
@@ -83,20 +83,20 @@ Sometimes the difference appears to be a function, but you can factor
 it out simply as a number on the stack. For instance:
 
 \begin{description}
-\item[Segment 1:] \forth{WILLY NILLY\ \ PUDDIN' PIE AND}
-\item[Segment 2:] \forth{WILLY NILLY\ \ 8 *\ \ PUDDIN' PIE AND}
+\item[Segment 1:] \forth{willy nilly\ \ puddin' pie and}
+\item[Segment 2:] \forth{willy nilly\ \ 8 *\ \ puddin' pie and}
 \end{description}
 
 \noindent How can you factor out the ``\forth{8 *}'' operation?
 By including ``\forth{*}'' in the factoring and passing it a one or eight:
 
 \begin{Code}
-: NEW  ( n )  WILLY NILLY  *  PUDDIN' PIE and ;
+: new  ( n -- )  willy nilly  *  puddin' pie and ;
 \end{Code}
 
 \begin{description}
-\item[Segment 1:] \forth{1 NEW}
-\item[Segment 2:] \forth{8 NEW}
+\item[Segment 1:] \forth{1 new}
+\item[Segment 2:] \forth{8 new}
 \end{description}
 
 \noindent 
@@ -122,15 +122,15 @@ On the other hand, the difference sometimes \emph{is} a function. Witness:
 \item[Segment 1:]~~
 \begin{minipage}[t]{.6\hsize}
 \begin{Code}[commandchars=\&\{\}]
-BLETCH-A  BLETCH-B   &poorbf{BLETCH-C}
-         BLETCH-D  BLETCH-E  BLETCH-F
+bletch-a  bletch-b   &poorbf{bletch-c}
+         bletch-d  bletch-e  bletch-f
 \end{Code}
 \end{minipage}
 \item[Segment 2:]~~
 \begin{minipage}[t]{.6\hsize}
 \begin{Code}[commandchars=\&\{\}]
-BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
-         BLETCH-D  BLETCH-E  BLETCH-F
+bletch-a  bletch-b  &poorbf{perversity}
+         bletch-d  bletch-e  bletch-f
 \end{Code}
 \end{minipage}
 \end{description}
@@ -138,26 +138,26 @@ BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
 \noindent Wrong approach:
 
 \begin{Code}[commandchars=\&\{\}]
-: BLETCHES  ( t=do-BLETCH-C | f=do-PERVERSITY -- ) 
-   BLETCH-A  BLETCH-B  IF  &poorbf{BLETCH-C}  ELSE  &poorbf{PERVERSITY}
-      THEN  BLETCH-D BLETCH-E BLETCH-F ;
+: bletches  ( t=do-bletch-c | f=do-perversity -- ) 
+   bletch-a  bletch-b  if  &poorbf{bletch-c}  else  &poorbf{perversity}
+      then  bletch-d bletch-e bletch-f ;
 \end{Code}
 
 \begin{description}
-\item[Segment 1:]~~ \forth{TRUE BLETCHES}
-\item[Segment 2:]~~ \forth{FALSE BLETCHES}
+\item[Segment 1:]~~ \forth{true bletches}
+\item[Segment 2:]~~ \forth{false bletches}
 \end{description}
 
 \noindent A better approach:
 
 \begin{Code}
-: BLETCH-AB   BLETCH-A BLETCH-B ;
-: BLETCH-DEF   BLETCH-D BLETCH-E BLETCH-F ;
+: bletch-ab   bletch-a bletch-b ;
+: bletch-def   bletch-d bletch-e bletch-f ;
 \end{Code}
 
 \begin{description}
-\item[Segment 1:]~~ \forth{BLETCH-AB ~}\forthb{BLETCH-C}\forth{~ BLETCH-DEF}
-\item[Segment 2:]~~ \forth{BLETCH-AB ~}\forthb{PERVERSITY}\forth{~ BLETCH-DEF}
+\item[Segment 1:]~~ \forth{bletch-ab ~}\forthb{bletch-c}\forth{~ bletch-def}
+\item[Segment 2:]~~ \forth{bletch-ab ~}\forthb{perversity}\forth{~ bletch-def}
 \end{description}
 
 \index{C!Control flags|(}
@@ -186,7 +186,7 @@ Be alert to repetitions on either side of an
 \begin{Code}
 ... ( c)  dup  bl 127 within
        IF  emit  ELSE
-       drop  ASCII . emit   THEN ...
+       drop [char] . emit   THEN ...
 \end{Code}
 This fragment normally emits an ASCII character, but if the character
 is a control code, it emits a dot. Either way, an \forthb{EMIT} is
@@ -195,7 +195,7 @@ this:
 
 \begin{Code}
 ... ( c)  dup  bl 127 within NOT
-       IF  drop  ASCII .  THEN  emit  ...
+       IF  drop  [char] .  THEN  emit  ...
 \end{Code}
 \index{E!EMIT|)}
 The messiest situation occurs when the difference between two
@@ -221,8 +221,8 @@ Here are two definitions whose differences lies within a \forthb{IF}
 \forthb{THEN} construct:
 
 \begin{Code}
-: ACTIVE    A B or  C and  IF  TUMBLE JUGGLE jump THEN ;
-: LAZY      A B or  C and  IF   SIT  EAT  SLEEP   THEN ;
+: active    A B or  C and  IF  tumble juggle jump THEN ;
+: lazy      A B or  C and  IF   sit  eat  sleep   THEN ;
 \end{Code}
 The condition and control structure remain the same; only the event
 changes. Since you can't factor the \forthb{IF} into one word and the
@@ -230,9 +230,9 @@ changes. Since you can't factor the \forthb{IF} into one word and the
 condition:
 
 \begin{Code}
-: CONDITIONS? ( -- ?) A B or C and ;
-: ACTIVE    CONDITIONS? IF TUMBLE JUGGLE jump THEN ;
-: LAZY      CONDITIONS? IF    SIT  EAT  SLEEP THEN ;
+: conditions? ( -- ?) A B or C and ;
+: active    conditions? IF tumble juggle jump THEN ;
+: lazy      conditions? IF    sit  eat  sleep THEN ;
 \end{Code}
 
 \noindent 
@@ -240,9 +240,9 @@ Depending on the number of repetitions of the same condition and
 control structure, you may even want to factor out both. Watch this:
 
 \begin{Code}
-: CONDITIONALLY   A B or  C and NOT IF  r> drop   THEN ;
-: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE jump ;
-: LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
+: conditionally   A B or  C and 0= IF  r> drop   THEN ;
+: active   conditionally   tumble juggle jump ;
+: lazy   conditionally  sit  eat  sleep ;
 \end{Code}
 The word \forthb{CONDITIONALLY} may---depending on the condition---alter
 the control flow so that the remaining words in each definition will be
@@ -266,30 +266,30 @@ which is meant to initialize three variables associated with each of
 eight channels:
 
 \begin{Code}
-Variable 0STS       Variable 1STS       Variable 2STS 
-Variable 3STS       Variable 4STS       Variable 5STS
-Variable 6STS       Variable 7STS       Variable 0TNR
-Variable 1TNR       Variable 2TNR       Variable 3TNR
-Variable 4TNR       Variable 5TNR       Variable 6TNR
-Variable 7TNR       Variable 0UPS       Variable 1UPS
-Variable 2UPS       Variable 3UPS       Variable 4UPS
-Variable 5UPS       Variable 6UPS       Variable 7UPS
+Variable 0sts       Variable 1sts       Variable 2sts 
+Variable 3sts       Variable 4sts       Variable 5sts
+Variable 6sts       Variable 7sts       Variable 0tnr
+Variable 1tnr       Variable 2tnr       Variable 3tnr
+Variable 4tnr       Variable 5tnr       Variable 6tnr
+Variable 7tnr       Variable 0ups       Variable 1ups
+Variable 2ups       Variable 3ups       Variable 4ups
+Variable 5ups       Variable 6ups       Variable 7ups
 \end{Code}
 
 \begin{Code} 
-: INIT-CHO   0 0STS !  1000 0TNR !  -1 0UPS ! ; 
-: INIT-CH1   0 1STS !  1000 1TNR !  -1 1UPS ! ; 
-: INIT-CH2   0 2STS !  1000 2TNR !  -1 2UPS ! ; 
-: INIT-CH3   0 3STS !  1000 3TNR !  -1 3UPS ! ; 
-: INIT-CH4   0 4STS !  1000 4TNR !  -1 4UPS ! ; 
-: INIT-CH5   0 5STS !  1000 5TNR !  -1 5UPS ! ; 
-: INIT-CH6   0 6STS !  1000 6TNR !  -1 6UPS ! ; 
-: INIT-CH7   0 7STS !  1000 7TNR !  -1 7UPS ! ; 
+: init-cho   0 0sts !  1000 0tnr !  -1 0ups ! ; 
+: init-ch1   0 1sts !  1000 1tnr !  -1 1ups ! ; 
+: init-ch2   0 2sts !  1000 2tnr !  -1 2ups ! ; 
+: init-ch3   0 3sts !  1000 3tnr !  -1 3ups ! ; 
+: init-ch4   0 4sts !  1000 4tnr !  -1 4ups ! ; 
+: init-ch5   0 5sts !  1000 5tnr !  -1 5ups ! ; 
+: init-ch6   0 6sts !  1000 6tnr !  -1 6ups ! ; 
+: init-ch7   0 7sts !  1000 7tnr !  -1 7ups ! ; 
 \end{Code}
 
 \begin{Code} 
-: INIT-ALL-CHS    INIT-CHO  INIT-CH1  INIT-CH2  INIT-CH3
-   INIT-CH4  INIT-CH5  INIT-CH6  INIT-CH7 ;
+: init-all-chs    init-cho  init-ch1  init-ch2  init-ch3
+   init-ch4  init-ch5  init-ch6  init-ch7 ;
 \end{Code}
 First there's a similarity among the names of the variables; then
 there's a similarity in the code used in all the \forth{INIT-CH}
@@ -300,13 +300,13 @@ factored into three data structures, and the lengthy recital of
 \forth{INIT-CH} words has been factored into a \forthb{DO }\forthb{LOOP}:
 
 \begin{Code}
-: ARRAY  ( #cells -- )  Create  2* allot
+: Array  ( #cells -- )  Create  2* allot
    DOES> ( i -- 'cell)  swap  2* + ; 
-8 ARRAY STATUS  ( channel# -- adr)
-8 ARRAY TENOR   (        "       )
-8 ARRAY UPSHOT  (        "       )
-: STABLE   8 0 DO  0 i STATUS !  1000 i TENOR ! 
-   -1 i UPSHOT !  LOOP ;
+8 Array status  ( channel# -- adr)
+8 Array tenor   (        "       )
+8 Array upshot  (        "       )
+: stable   8 0 DO  0 i status !  1000 i tenor ! 
+   -1 i upshot !  LOOP ;
 \end{Code}
 That's all the code we need.
 
@@ -336,27 +336,27 @@ Examine the structure of this code (without worrying about its
 purpose---you'll see the same example later on):\program{color2}
 
 \begin{Code}
-: HUE  ( color -- color') 
-   'LIGHT? @  or  0 'LIGHT? ! ;
-: BLACK   0 HUE ;
-: BLUE   1 HUE ;
-: GREEN   2 HUE ;
-: CYAN   3 HUE ;
-: RED   4 HUE ;
-: MAGENTA   5 HUE ;
-: BROWN   6 HUE ;
-: GRAY   7 HUE ;
+: hue  ( color -- color' ) 
+   'light? @  or  0 'light? ! ;
+: black   0 hue ;
+: blue   1 hue ;
+: green   2 hue ;
+: cyan   3 hue ;
+: red   4 hue ;
+: magenta   5 hue ;
+: brown   6 hue ;
+: gray   7 hue ;
 \end{Code}
 
 \noindent The above approach is technically correct, but less
 memory-efficient than the following approach using defining words:
 
 \begin{Code}
-: HUE   ( color -- )  Create ,
-   DOES>  ( -- color )  @ 'LIGHT? @  or  0 'LIGHT? ! ;
- 0 HUE BLACK         1 HUE BLUE          2 HUE GREEN
- 3 HUE CYAN          4 HUE RED           5 HUE MAGENTA
- 6 HUE BROWN         7 HUE GRAY
+: Hue   ( color -- )  Create ,
+   DOES>  ( -- color )  @ 'light? @  or  0 'light? ! ;
+ 0 Hue black         1 Hue blue          2 Hue green
+ 3 Hue cyan          4 Hue red           5 Hue magenta
+ 6 Hue brown         7 Hue gray
 \end{Code}
 (Defining words are explained in \emph{Starting \Forth{}}, Chapter Eleven).
 
@@ -484,8 +484,8 @@ stack, this may be a good time to ``make a break.''
 \goodbreak
 Suppose you have
 \begin{Code}
-... BALANCE  dup xxx xxx xxx xxx xxx xxx xxx xxx xxx
-     xxx xxx xxx xxx xxx xxx   ( balance) SHOW  ...
+... balance  dup xxx xxx xxx xxx xxx xxx xxx xxx xxx
+     xxx xxx xxx xxx xxx xxx   ( balance) show  ...
 \end{Code}
 which begins by computing the balance and ends by displaying it. In
 the meantime, several lines of code use the balance for purposes of
@@ -495,9 +495,9 @@ stack picture.
 
 This solution is generally a sign of bad factoring. Better to write:
 \begin{Code}
-: REVISE  ( balance -- )  xxx xxx xxx xxx xxx xxx xxx
+: revise  ( balance -- )  xxx xxx xxx xxx xxx xxx xxx
      xxx xxx xxx xxx xxx xxx xxx ;
-... BALANCE  dup REVISE  SHOW  ...
+... balance  dup revise  show  ...
 \end{Code}
 No narrative stack pictures are needed. Furthermore, the programmer
 now has a reusable, testable subset of the definition.
@@ -529,7 +529,7 @@ passages duplicated several times. In writing an editor I found this
 phrase repeated several times:
 
 \begin{Code}
-FRAME  CURSOR @ +
+frame  cursor @ +
 \end{Code}
 Because it appeared several times I factored it into a new word called
 \forth{AT}.
@@ -538,13 +538,13 @@ It's up to you to recognize fragments that are coded differently but
 functionally equivalent, such as:
 
 \begin{Code}
-FRAME  CURSOR @ 1-  +
+frame  cursor @ 1-  +
 \end{Code}
 The \forth{1-} appears to make this phrase different from the one defined as
 \forth{AT}. But in fact, it can be written
 
 \begin{Code}
-AT 1-
+at 1-
 \end{Code}
 On the other hand:
 
@@ -626,23 +626,23 @@ this criterion during the implementation stage as well.
 Here's a very short definition that does little except hide information:
 
 \begin{Code}
-: >body  ( acf -- apf )  2+ ;
+: >body  ( acf -- apf )  cell+ ;
 \end{Code}
-This definition allows you to convert an acf (address of code field) to an
-apf (address of parameter field) without depending on the actual structure
-of a dictionary definition. If you were to use \forthb{2+} instead of the
-word \forthb{>BODY}, you would lose transportability if you ever converted
-to a \Forth{} system in which the heads were separated from the bodies.
-(This is one of a set of words suggested by \person{Kim Harris}, and
-included as an Experimental Proposal in the
-\Forth{}-83 Standard \cite{harris83}.)
+This definition allows you to convert an acf (address of code field) to an apf
+(address of parameter field) without depending on the actual structure of a
+dictionary definition. If you were to use \forthb{2+} instead of the word
+\forthb{>BODY}, you would lose transportability if you ever converted to a
+\Forth{} system in which the heads were separated from the bodies --- or where
+the code field is more than a cell.  (This is one of a set of words suggested
+by \person{Kim Harris}, and now part of the ANS \Forth{} standard
+\cite{harris83}.)
 
 Here's a group of definitions that might be used in writing an editor:
 
 \begin{Code}
-: FRAME  ( -- a)  scr @ block ;
-: CURSOR  ( -- a)  R# ;
-: AT  ( -- a)  FRAME  CURSOR @ + ;
+: frame  ( -- a )  scr @ block ;
+: cursor  ( -- a )  r# ;
+: at  ( -- a )  frame  cursor @ + ;
 \end{Code}
 These three definitions can form the basis for all calculations of
 addresses necessary for moving text around. Use of these three
@@ -655,8 +655,8 @@ a block, you merely have to redefine two of these words, perhaps like
 this:
 
 \begin{Code}
-Create FRAME  1024 allot
-Variable CURSOR
+Create frame  1024 allot
+Variable cursor
 \end{Code}
 The rest of your code can remain intact. 
 
@@ -671,22 +671,22 @@ between a given number of people in a group. (This is a good thing for
 managers of programmer teams to know---the number of communication
 paths increases drastically with each new addition to the team.)
 \begin{Code}
-: PEOPLE>PATHS  ( #people -- #paths )  dup 1-  *  2/ ;
+: people>paths  ( #people -- #paths )  dup 1-  *  2/ ;
 \end{Code}
 This definition does the calculation only. Here's the ``user definition''
 that invokes \forth{PEOPLE>PATHS} to perform the calculation, and then
 displays the result:
 \begin{Code}
-: PEOPLE  ( #people)
-    ." = "  PEOPLE>PATHS  .  ." PATHS " ;
+: people  ( #people -- )
+    ." = "  people>paths  .  ." PATHS " ;
 \end{Code}
 This produces:
 %% I don't know how to underline these.
 \begin{Code}[commandchars=\&\{\}]
-2 PEOPLE&underline{ = 1 PATHS}
-3 PEOPLE&underline{ = 3 PATHS}
-5 PEOPLE&underline{ = 10 PATHS}
-10 PEOPLE&underline{ = 45 PATHS}
+2 people&underline{ = 1 PATHS}
+3 people&underline{ = 3 PATHS}
+5 people&underline{ = 10 PATHS}
+10 people&underline{ = 45 PATHS}
 \end{Code}
 Even if you think you're going to perform a particular calculation
 only once, to display it in a certain way, believe me, you're wrong.
@@ -714,7 +714,7 @@ Here's a better factoring found in some \Forth{} systems:
 
 \begin{Code}
 : (.)  ( n -- a #)  dup abs 0  <# #s  rot sign  #> ;
-: .  ( n)  (.) type space ;
+: .  ( n -- )  (.) type space ;
 \end{Code}
 We find another example of failing to factor the output function from
 the calculation function in our own Roman numeral example in \Chap{4}.
@@ -731,7 +731,7 @@ scr @ block
 into the definition
 
 \begin{Code}
-: FRAME   scr @ block ;
+: frame   scr @ block ;
 \end{Code}
 remember you are doing so only because you may want to change the location
 of the editing frame. Don't blindly replace all occurrences of the phrase
@@ -771,19 +771,19 @@ was purely instructional, to remind the programmer which vocabulary
 was \forth{CURRENT}, and which was \forth{CONTEXT}:
 
 \begin{Code}
-: .CONTEXT   context @  8 -  NFA  id.   ;
-: .CURRENT   current @  8 -  NFA  id.  ;
+: .context   context @  2 cells -  >name  id.  ;
+: .current   current @  2 cells -  >name  id.  ;
 \end{Code}
 \goodbreak
 \noindent If you typed
 
 \begin{Code}
-.CONTEXT
+.context
 \end{Code}
 the system would respond
 
 \begin{Code}[commandchars=\&\{\}]
-.CONTEXT&underline{ FORTH}
+.context&underline{ FORTH}
 \end{Code}
 (They worked---at least on the system used there---by backing up to the
 name field of the vocabulary definition, and displaying it.)
@@ -793,13 +793,13 @@ factoring. It would have been possible to consolidate the repeated
 passage into a third definition:
 
 \begin{Code}
-: .VOCABULARY   ( pointer )  @  8 -  NFA  id. ;
+: .vocabulary   ( pointer -- )  @  2 cells -  >name  id. ;
 \end{Code}
 shortening the original definitions to:
 
 \begin{Code}
-: .CONTEXT   context .VOCABULARY ;
-: .CURRENT   current .VOCABULARY ;
+: .context   context .vocabulary ;
+: .current   current .vocabulary ;
 \end{Code}
 But in this approach, the only difference between the two definitions
 was the pointer to be displayed. Since part of good factoring is to
@@ -811,17 +811,17 @@ definition, and let it take as an argument either the word
 Applying the principles of good naming, I suggested:
 
 \begin{Code}
-: IS  ( adr)   @  8 -  NFA  id. ;
+: is  ( adr -- )   @  2 cells -  >name  id. ;
 \end{Code}
 allowing the syntax
 
 \begin{Code}[commandchars=\&\{\}]
-context IS&underline{ assembler ok}
+context is&underline{ assembler ok}
 \end{Code}
 or
 
 \begin{Code}[commandchars=\&\{\}]
-current IS&underline{ Forth ok}
+current is&underline{ Forth ok}
 \end{Code}
 The initial clue was repetition of code, but the final result came
 from attempting to simplify the command interface.
@@ -830,13 +830,13 @@ Here's another example. The IBM PC has four modes four displaying text
 only:
 
 \begin{quote}\sf
-40 column monochrome
+40 Column monochrome
 
-40 column color
+40 Column color
 
-80 column monochrome
+80 Column monochrome
 
-80 column color
+80 Column color
 \end{quote}
 The word \forth{MODE} is available in the \Forth{} system I use.
 \forth{MODE} takes an argument between 0 and 3 and changes the mode
@@ -851,19 +851,19 @@ columns---40 or 80.
 Here's the most straightforward way to fulfill the requirements:
 
 \begin{Code}
-: 40-B&W       40 #COLUMNS !  0 MODE ;
-: 40-COLOR     40 #COLUMNS !  1 MODE ;
-: 80-B&W       80 #COLUMNS !  2 MODE ;
-: 80-COLOR     80 #COLUMNS !  3 MODE ;
+: 40-b&w       40 #columns !  0 mode ;
+: 40-color     40 #columns !  1 mode ;
+: 80-b&w       80 #columns !  2 mode ;
+: 80-color     80 #columns !  3 mode ;
 \end{Code}
 By factoring to eliminate the repetition, we come up with this version:
 
 \begin{Code}
-: COL-MODE!     ( #columns mode )  MODE  #COLUMNS ! ;
-: 40-B&W       40 0 COL-MODE! ;
-: 40-COLOR     40 1 COL-MODE! ;
-: 80-B&W       80 2 COL-MODE! ;
-: 80-COLOR     80 3 COL-MODE! ;
+: col-mode!     ( #columns mode )  mode  #columns ! ;
+: 40-b&w       40 0 col-mode! ;
+: 40-color     40 1 col-mode! ;
+: 80-b&w       80 2 col-mode! ;
+: 80-color     80 3 col-mode! ;
 \end{Code}
 But by attempting to reduce the number of commands, and also by
 following the injunctions against numerically-prefixed and hyphenated
@@ -871,16 +871,16 @@ names, we realize that we can use the number of columns as a stack
 argument, and \emph{calculate} the mode:
 
 \begin{Code}
-: B&W    ( #cols -- )  dup #COLUMNS !  20 /  2-     MODE ;
-: COLOR  ( #cols -- )  dup #COLUMNS !  20 /  2-  1+ MODE ;
+: b&w    ( #cols -- )  dup #columns !  20 /  2-     mode ;
+: color  ( #cols -- )  dup #columns !  20 /  2-  1+ mode ;
 \end{Code}
 This gives us this syntax:
 
 \begin{Code}
-40 B&W
-80 B&W
-40 COLOR
-80 COLOR
+40 b&w
+80 b&w
+40 color
+80 color
 \end{Code}
 We've reduced the number of commands from four to two.
 
@@ -888,10 +888,10 @@ Once again, though, we have some duplicate code. If we factor out this
 code we get:
 
 \begin{Code}
-: COL-MODE!  ( #columns chroma?)
-   swap dup #COLUMNS !  20 / 2-  +  MODE ;
-: B&W    ( #columns -- )  0 COL-MODE! ;
-: COLOR  ( #columns -- )  1 COL-MODE! ;
+: col-mode!  ( #columns chroma? -- )
+   swap dup #columns !  20 / 2-  +  mode ;
+: b&w    ( #columns -- )  0 col-mode! ;
+: color  ( #columns -- )  1 col-mode! ;
 \end{Code}
 Now we've achieved a nicer syntax, and at the same time greatly
 reduced the size of the object code. With only two commands, as in
@@ -903,20 +903,20 @@ particular system. Names like \forth{BLUE} and \forth{RED} are nicer
 than numbers. One solution might be to define:
 
 \begin{Code}
- 0 Constant BLACK                 1 Constant BLUE
- 2 Constant GREEN                 3 Constant CYAN
- 4 Constant RED                   5 Constant MAGENTA
- 6 Constant BROWN                 7 Constant GRAY
- 8 Constant DARK-GRAY             9 Constant LIGHT-BLUE
-10 Constant LIGHT-GREEN          11 Constant LIGHT-CYAN
-12 Constant LIGHT-RED            13 Constant LIGHT-MAGENTA
-14 Constant YELLOW               15 Constant WHITE
+ 0 Constant black                 1 Constant blue
+ 2 Constant green                 3 Constant cyan
+ 4 Constant red                   5 Constant magenta
+ 6 Constant brown                 7 Constant gray
+ 8 Constant dark-gray             9 Constant light-blue
+10 Constant light-green          11 Constant light-cyan
+12 Constant light-red            13 Constant light-magenta
+14 Constant yellow               15 Constant white
 \end{Code}
 These colors can be used with words such as \forth{BACKGROUND},
 \forth{FOREGROUND}, and \forth{BORDER}:
 
 \begin{Code}
-WHITE BACKGROUND  RED FOREGROUND  BLUE BORDER
+white background  red foreground  blue border
 \end{Code}
 But this solution requires 16 names, and many of them are hyphenated.
 Is there a way to simplify this?
@@ -928,23 +928,23 @@ bit.'') If we factor out the ``lightness,'' we might come up with this
 solution:\program{color3}
 
 \begin{Code}
-Variable 'LIGHT?  ( intensity bit?)
-: HUE  ( color)  Create ,
+Variable 'light?  ( intensity bit?)
+: Hue  ( color)  create ,
    DOES>  ( -- color )  @  'LIGHT? @  or  0 'LIGHT? ! ;
- 0 HUE BLACK         1 HUE BLUE           2 HUE GREEN
- 3 HUE CYAN          4 HUE RED            5 HUE MAGENTA
- 6 HUE BROWN         7 HUE GRAY
-: LIGHT   8 'LIGHT? ! ;
+ 0 Hue black         1 Hue blue           2 Hue green
+ 3 Hue cyan          4 Hue red            5 Hue magenta
+ 6 Hue brown         7 Hue gray
+: light   8 'light? ! ;
 \end{Code}
 With this syntax, the word
 
 \begin{Code}
-BLUE
+blue
 \end{Code}
 by itself will return a ``1'' on the stack, but the phrase
 
 \begin{Code}
-LIGHT BLUE
+light blue
 \end{Code}
 will return a ``9.'' (The adjective \forth{LIGHT} sets flag which is
 used by the hues, then cleared.)
@@ -953,8 +953,8 @@ used by the hues, then cleared.)
 If necessary for readability, we still might want to define:
 
 \begin{Code}
-8 HUE DARK-GRAY
-14 HUE YELLOW
+8 Hue dark-gray
+14 Hue yellow
 \end{Code}
 Again, through this approach we've achieved a more pleasant syntax and
 shorter object code.\program{color4}
@@ -1057,10 +1057,10 @@ left-most and top-most coordinates of the first box.
 Naturally we can define:
 
 \begin{Code}
-8 Constant WIDE
-5 Constant HIGH
-4 Constant AVE
-2 Constant STREET
+8 Constant wide
+5 Constant high
+4 Constant ave
+2 Constant street
 \end{Code}
 (Streets run east and west; avenues run north and south.)
 
@@ -1079,7 +1079,7 @@ we add
 So we could, crudely, define:
 
 \begin{Code}
-24 Constant LEFTMARGIN
+24 Constant leftmargin
 \end{Code}
 and use the same approach for \forth{TOPMARGIN}.
 
@@ -1091,8 +1091,8 @@ In the \Forth{} environment, we can use the full power of \Forth{}
 even when we're compiling. Why not let \Forth{} do the figuring?
 
 \begin{Code}
-WIDE 3 *  AVE 2 *  +  80 swap -  2/ Constant LEFTMARGIN
-HIGH 3 *  STREET 2 * +  24 swap -  2/ Constant TOPMARGIN
+wide 3 *  ave 2 *  +  80 swap -  2/ Constant leftmargin
+high 3 *  street 2 * +  24 swap -  2/ Constant topmargin
 \end{Code}
 
 \begin{tip}
@@ -1111,7 +1111,7 @@ stack.)
 Notice the line immediately following the list of points:
 
 \begin{Code}
-here POINTS -  ( /table)  2/  Constant #POINTS
+here points -  ( /table)  2/  Constant #points
 \end{Code}
 %% I don't know how to offset the Figure 6-2.
 \begin{figure*}[bbbb]
@@ -1119,14 +1119,14 @@ here POINTS -  ( /table)  2/  Constant #POINTS
 \labelfig{fig6-2}
 \begin{center}
 \begin{BVerbatim}
-: P  ( x y -- )  C, C, ;
-CREATE POINTS
-   10 10 P     10 11 P     10 12 P     10 13 P     10 14 P
-   11 10 P     12 10 P     13 10 P     14 10 P
-   11 12 P     12 12 P     13 12 P     14 12 P
-HERE POINTS -  ( /table)  2/  CONSTANT #POINTS
-: @POINTS  ( i -- x y)  2* POINTS + DUP 1+ C@  SWAP C@ ;
-: DRAW  #POINTS 0 DO  I @POINTS  XY  ASCII * EMIT  LOOP ;
+: p  ( x y -- )  c, c, ;
+Create points
+   10 10 p     10 11 p     10 12 p     10 13 p     10 14 p
+   11 10 p     12 10 p     13 10 p     14 10 p
+   11 12 p     12 12 p     13 12 p     14 12 p
+here points -  ( /table)  2/  Constant #points
+: @points  ( i -- x y)  2* points + dup 1+ c@  swap c@ ;
+: draw  #points 0 DO  i @points  xy  [char] * emit  LOOP ;
 \end{BVerbatim}
 \end{center}
 \end{figure*}
@@ -1146,11 +1146,11 @@ Let's examine a series of approaches to the same problem---defining a
 group of related addresses. Here's the first try:
 
 \begin{Code}
-hex 01A0 Constant BASE.PORT.ADDRESS
-BASE.PORT.ADDRESS Constant SPEAKER
-BASE.PORT.ADDRESS 2+ Constant FLIPPER-A
-BASE.PORT.ADDRESS 4 + Constant FLIPPER-B
-BASE.PORT.ADDRESS 6 + Constant WIN-LIGHT
+hex 01a0 Constant base.port.address
+base.port.address Constant speaker
+base.port.address 2+ Constant flipper-a
+base.port.address 4 + Constant flipper-b
+base.port.address 6 + Constant win-light
 decimal
 \end{Code}
 The idea is right, but the implementation is ugly. The only elements
@@ -1162,24 +1162,24 @@ The following approach, which is more readable, combines all the
 repeated code into the ``does'' part  of a defining word:
 
 \begin{Code}
-: PORT  ( offset -- )  Create ,
-   \ DOES>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
-0 PORT SPEAKER
-2 PORT FLIPPER-A
-4 PORT FLIPPER-B
-6 PORT WIN-LIGHT
+: Port  ( offset -- )  Create ,
+   \ DOES>  ( -- 'port) @ base.port.address + ;
+0 Port speaker
+2 Port flipper-a
+4 Port flipper-b
+6 Port win-light
 \end{Code}
 In this solution we're performing the offset calculation at
 \emph{run}-time, every time we invoke one of these names. It would be
 more efficient to perform the calculation at compile time, like this:
 
 \begin{Code}
-: PORT  ( offset -- )  BASE.PORT.ADDRESS + Constant ;
+: Port  ( offset -- )  base.port.address + Constant ;
    \ DOES>  ( -- 'port)
-0 PORT SPEAKER
-2 PORT FLIPPER-A
-4 PORT FLIPPER-B
-6 PORT WIN-LIGHT
+0 Port speaker
+2 Port flipper-a
+4 Port flipper-b
+6 Port win-light
 \end{Code}
 Here we've created a defining word, \forth{PORT}, that has a unique
 \emph{compile}-time behavior, namely adding the offset to
@@ -1199,13 +1199,13 @@ makes a constant out of it, then adds 2 to the address still on the
 stack, for the next invocation of \forth{PORT}.
 
 \begin{Code}
-: PORT   ( 'port -- 'next-port)  dup Create ,  2+ ;
+: Port   ( 'port -- 'next-port)  dup Create ,  2+ ;
    \ DOES>  ( -- 'port)
-BASE.PORT.ADDRESS
-  PORT SPEAKER
-  PORT FLIPPER-A
-  PORT FLIPPER-B
-  PORT WIN-LIGHT
+base.port.address
+  Port speaker
+  Port flipper-a
+  Port flipper-b
+  Port win-light
 drop ( port.address)
 \end{Code}
 Notice we must supply the initial port address on the stack before
@@ -1221,10 +1221,10 @@ as well to refer to it by number here.
 
 \begin{Code}
 hex 01A0  ( base port adr)
-  PORT SPEAKER
-  PORT FLIPPER-A
-  PORT FLIPPER-B
-  PORT WIN-LIGHT
+  Port speaker
+  Port flipper-a
+  Port flipper-b
+  Port win-light
 drop
 \end{Code}
 \index{C!Compile-time factoring|)}
@@ -1249,22 +1249,22 @@ At first we focus our attention on the problem of drawing a
 box---never mind erasing it. We might come up with this:\program{boxes3}
 
 \begin{Code}
-: LAYER   WIDE  0 DO  ASCII * emit  LOOP ;
-: BOX   ( upper-left-x  upper-left-y -- )
-   HIGH  0 DO  2dup  i +  XY LAYER  LOOP  2drop ;
+: layer   wide  0 DO  [char] * emit  LOOP ;
+: box   ( upper-left-x  upper-left-y -- )
+   high  0 DO  2dup  i +  xy layer  LOOP  2drop ;
 \end{Code}
 Having tested this to make sure it works correctly, we turn now to the
 problem of using the same code to \emph{un}draw a box. The solution is
-simple: instead of hard-coding the \forthb{ASCII *} we'd like to change
+simple: instead of hard-coding the \forthb{[CHAR] *} we'd like to change
 the emitted character from an asterisk to a blank. This requires the
 addition of a variable, and some readable words for setting the
 contents of the variable. So:
 
 \begin{Code}
-Variable INK
-: DRAW   ASCII *  INK ! ;
-: UNDRAW   bl  INK ! ;
-: LAYER   WIDTH  0 DO  INK @  emit  LOOP ;
+Variable ink
+: draw   [char] *  ink ! ;
+: undraw   bl  ink ! ;
+: layer   width  0 DO  ink @  emit  LOOP ;
 \end{Code}
 The definition of \forth{BOX}, along with the remainder of the application,
 remains the same.
@@ -1272,12 +1272,12 @@ remains the same.
 This approach allows the syntax
 
 \begin{Code}
-( x y ) DRAW BOX
+( x y ) draw box
 \end{Code}
 or
 
 \begin{Code}
-( x y ) UNDRAW BOX
+( x y ) undraw box
 \end{Code}
 By switching from an explicit value to a variable that contains a
 value, we've added a level of indirection. In this case, we've added
@@ -1317,15 +1317,15 @@ I often have a class of things called arrays. The simplest array
 merely adds a subscript to an address and gives you back an
 address. You can define an array by saying
 \begin{Code}
-Create X   100 allot
+Create x   100 allot
 \end{Code}
 then saying
 \begin{Code}
-X +
+x +
 \end{Code}
 Or you can say
 \begin{Code}
-: X   X + ;
+: x   x + ;
 \end{Code}
 One of the problems that's most frustrating for me is knowing whether
 it's worth creating a defining word for a particular data structure.
@@ -1434,3 +1434,8 @@ Conversion Operators,'' \emph{\Forth{}--83 Standard}, \Forth{} Standards
 Team.
 \end{references}
 
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thinking-forth"
+%%% End: 
