@@ -771,8 +771,8 @@ was purely instructional, to remind the programmer which vocabulary
 was \forth{CURRENT}, and which was \forth{CONTEXT}:
 
 \begin{Code}
-: .context   context @  2 cells -  >name  id.  ;
-: .current   current @  2 cells -  >name  id.  ;
+: .context   context @  body>  >name  id.  ;
+: .current   current @  body>  >name  id.  ;
 \end{Code}
 \goodbreak
 \noindent If you typed
@@ -793,7 +793,7 @@ factoring. It would have been possible to consolidate the repeated
 passage into a third definition:
 
 \begin{Code}
-: .vocabulary   ( pointer -- )  @  2 cells -  >name  id. ;
+: .vocabulary   ( pointer -- )  @  body>  >name  id. ;
 \end{Code}
 shortening the original definitions to:
 
@@ -811,7 +811,7 @@ definition, and let it take as an argument either the word
 Applying the principles of good naming, I suggested:
 
 \begin{Code}
-: is  ( adr -- )   @  2 cells -  >name  id. ;
+: is  ( adr -- )   @  body>  >name  id. ;
 \end{Code}
 allowing the syntax
 
