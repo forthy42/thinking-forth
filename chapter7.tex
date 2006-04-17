@@ -226,7 +226,7 @@ Here's an example of a worst case. Assume you have a word called
 coordinates in this order:
 
 \begin{Code}
-( x1 y1 x2 y2)
+( x1 y1 x2 y2 -- )
 \end{Code}
 where $x_1,y_1$ represent the $x,y$ coordinates for the one end-point, and
 $x_2,y_2$ represent the opposite end-point.
@@ -235,7 +235,7 @@ Now you have to write a box-drawing word called \forth{[BOX]} which
 takes four arguments in this order:
 
 \begin{Code}
-( x1 y1 x2 y2)
+( x1 y1 x2 y2 -- )
 \end{Code}
 where x1 y1 represent the $x,y$ coordinates for the upper left-hand corner
 of the box, and x2 y2 represent the lower right-hand corner coordinates.
@@ -330,7 +330,7 @@ This approach reduces the number of stack arguments to \forth{BOX} as
 part of the design.
 
 \begin{interview}
-\person{Bernd Paysan}:
+\person{Paysan}:
 
 \begin{tfquot}
 I prefer turtle graphics. This is a turtle graphics without cursor
@@ -463,7 +463,7 @@ wrong, returns an error-code identifying the problem. Here's one way
 the stack interface might be designed:
 
 \begin{Code}
-( -- error-code f | -- t)
+( -- error-code f | -- t )
 \end{Code}
 If the flag is true, the operation was successful. If the flag is false,
 it was unsuccessful and there's another value on the stack to indicate the
@@ -473,7 +473,7 @@ You'll find stack manipulation easier, though, if you redesign the interface
 to look like this:
 
 \begin{Code}
-( -- error-code | 0=no-error)
+( -- error-code | 0=no-error )
 \end{Code}
 One value serves both as a flag and (in case of an error) the error code.
 Note that reverse-logic is used; non-zero indicates an error. You can use
@@ -771,8 +771,8 @@ belong only to your application (and not part of your system), and if this
 same situation comes up more than once, apply a technique of factoring:
 
 \begin{Code}
-: bury  ( a -- )  dup 2+  2 cmove ;
-: exhume  ( a -- )  dup 2+  swap 2 cmove ;
+: bury  ( a -- )  dup cell+  1 cells  move ;
+: exhume  ( a -- )  dup cell+  swap 1 cells  move ;
 \end{Code}
 Then instead of defining two variables, such as \forth{CONDITION} and
 \forth{OLD-CONDITION}, define one double-length variable:
@@ -786,7 +786,7 @@ Use \forth{BURY} and \forth{EXHUME} to save and restore the original value:
 : diddle    condition bury  17 condition !  ( diddle )
    condition exhume ;
 \end{Code}
-\forth{BURY} saves the ``old'' version of condition at \forth{CONDITION 2+}.
+\forth{BURY} saves the ``old'' version of condition at \forth{CONDITION CELL+}.
 
 You still have to be careful. Going back to our \forthb{DUMP} example,
 suppose you decided to add the friendly feature of letting the user exit
@@ -1115,7 +1115,7 @@ We've implemented this approach with the code in \Fig{fig7-4}.
 \begin{center}
 \begin{BVerbatim}
 0 Value pointers  \ address of state table patched later
-: Position   ( o -- o+2 ) Create dup ,  2+
+: Position   ( o -- o+cell ) Create dup ,  cell+
    DOES>  ( -- a )  @  pointers + ;
 0  \ initial offset
 Position top
@@ -1187,7 +1187,7 @@ appropriately. For instance:
 \begin{BVerbatim}
 Variable 'pointers  \ pointer to state table
 : pointers ( -- adr-of-current-table )   'pointers @ ;
-: Position   ( o -- o+2 ) Create dup ,  2+
+: Position   ( o -- o+cell ) Create dup ,  cell+
    DOES>  ( -- a )  @ pointers + ;
 0  \ initial offset
 Position top
