@@ -1242,10 +1242,6 @@ described in \emph{Starting \Forth{}}, Chapter Nine. In this section we'll
 discuss a new syntax which I invented and which I think can be used in many
 circumstances more elegantly than the traditional methods.
 
-\begin{tfnote}{Bernd Paysan}
-\forth{DORE}/\forth{MAKE} need to be replaced with \forth{DEFER}/\forth{IS}.
-\end{tfnote}
-
 \index{D!DOER/MAKE|(}%
 The syntax is called \forth{DOER}/\forth{MAKE}. (If your system doesn't
 include these words, refer to \App{B} for code and implementation
@@ -1253,38 +1249,38 @@ details.) It works like this: You define the word whose behavior will be
 vectorable with the defining word \forthb{DOER}, as in
 
 \begin{Code}
-DOER PLATFORM
+Doer platform
 \end{Code}
 Initially, the new word \forth{PLATFORM} does nothing. Then you can write
 words that change what \forth{PLATFORM} does by using the word \forthb{MAKE}:
 
 \begin{Code}
-: LEFTWING   MAKE PLATFORM  ." proponent " ;
-: RIGHTWING  MAKE PLATFORM  ." opponent " ;
+: leftwing   make platform  ." proponent " ;
+: rightwing  make platform  ." opponent " ;
 \end{Code}
 When you invoke \forth{LEFTWING}, the phrase \forth{MAKE PLATFORM} changes
 what \forth{PLATFORM} will do. Now if you type \forth{PLATFORM}, you'll see:
 
 \begin{Code}[commandchars=\&\{\}]
-LEFTWING ok
-PLATFORM &underline{proponent ok}
+leftwing &underline{ ok}
+platform &underline{proponent ok}
 \end{Code}
 \forth{RIGHTWING} will make \forth{PLATFORM} display ``opponent.'' You can
 use \forth{PLATFORM} within another definition:
 
 \begin{Code}
-: SLOGAN   ." Our candidate is a longstanding " PLATFORM
+: slogan   ." Our candidate is a longstanding " platform
    ." of heavy taxation for business. " ;
 \end{Code}
 The statement
 
 \begin{Code}
-LEFTWING SLOGAN
+leftwing slogan
 \end{Code}
 will display one campaign statement, while
 
 \begin{Code}
-RIGHTWING SLOGAN
+rightwing slogan
 \end{Code}
 will display another.
 
@@ -1361,12 +1357,14 @@ behavior is vectored by the code in \forth{DUMP} and \forth{CDUMP}.
 ``\forthb{LOOP}''.)
 
 \begin{Code}[commandchars=\&\{\}]
-DOER .UNIT ( a -- increment)  \ display byte or cell
-: <DUMP>  ( a # )
+Doer .unit ( a -- increment)  \ display byte or cell
+: <dump>  ( a # -- )
    0 DO  i 16 mod 0= IF  cr  dup i +  5 u.r  2 spaces  THEN
-   dup i + &poorbf{.UNIT}  +LOOP  drop ;
-: dump   ( a #)  MAKE .UNIT  @  6 u.r  2 ;AND <DUMP> ;
-: CDUMP ( a #)   MAKE .UNIT c@  4 u.r  1 ;AND <DUMP> ;
+   dup i + &poorbf{.unit}  +LOOP  drop ;
+: dump   ( a # -- )
+   make .unit  @  3 cells u.r  1 cells ;and <dump> ;
+: cdump ( a # -- )
+   make .unit c@  4       u.r  1 chars ;and <dump> ;
 \end{Code}
 Notice how \forth{DUMP} and \forth{CDUMP} \emph{set-up} the vector,
 then go on to \emph{execute} the shell (the word \forth{<DUMP>}).
@@ -1375,18 +1373,18 @@ then go on to \emph{execute} the shell (the word \forth{<DUMP>}).
 command. For instance:
 
 \begin{Code}
-DOER TYPE'
-DOER EMIT'
-DOER SPACES'
-DOER CR'
-: VISIBLE     MAKE TYPE'  type ;AND
-              MAKE EMIT'  emit ;AND
-              MAKE SPACES'  spaces ;AND
-              MAKE CR'  cr ;
-: INVISIBLE   MAKE TYPE'  2drop ;AND
-              MAKE EMIT'  drop ;AND
-              MAKE SPACES'  drop ;AND
-              MAKE CR'  ;
+Doer type'
+Doer emit'
+Doer spaces'
+Doer cr'
+: visible     make type'  type ;and
+              make emit'  emit ;and
+              make spaces'  spaces ;and
+              make cr'  cr ;
+: invisible   make type'  2drop ;and
+              make emit'  drop ;and
+              make spaces'  drop ;and
+              make cr'  ;
 \end{Code}
 Here we've defined a vectorable set of output words, each name having
 a ``prime'' mark at the end. \forth{VISIBLE} sets them to their
@@ -1406,11 +1404,11 @@ shorter message.
 \goodbreak
 We write:
 \begin{Code}
-DOER ANNOUNCE
-: LONG MAKE ANNOUNCE
+Doer announce
+: long make announce
    cr ." You're in a large hall with a huge throne"
    cr ." covered with a red velvet canopy."
-         MAKE ANNOUNCE
+         make announce
    cr ." You're in the throne room." ;
 \end{Code}
 The word \forth{ANNOUNCE} will display either message. First we say
@@ -1427,19 +1425,19 @@ letting each one set the next. The following example (though not terribly
 practical) illustrates the point.
 
 \begin{Code}
-DOER WHERE
-Variable SHIRT
-Variable PANTS
-Variable DRESSER
-Variable CAR
+Doer where
+Variable shirt
+Variable pants
+Variable dresser
+Variable car
 
 : order  \  specify search order
-   MAKE WHERE  SHIRT   MAKE WHERE  PANTS
-   MAKE WHERE  DRESSER   MAKE WHERE CAR
-   MAKE WHERE  0 ;
+   make where  shirt   make where  pants
+   make where  dresser   make where car
+   make where  0 ;
 
-: HUNT  ( -- a|0 )  \  find location containing 17
-   order  5 0 DO  WHERE  dup 0=  over @  17 =  or  IF
+: hunt  ( -- a|0 )  \  find location containing 17
+   order  5 0 DO  where  dup 0=  over @  17 =  or  IF
       LEAVE  ELSE  drop  THEN  LOOP ;
 \end{Code}
 In this code we've created a list of variables, then defined an
@@ -1456,11 +1454,11 @@ We can even define a \forthb{DOER} word that toggles its own behavior
 endlessly:
 
 \begin{Code}
-DOER SPEECH
-: ALTERNATE
-   BEGIN  MAKE SPEECH ." HELLO "
-   MAKE SPEECH ." GOODBYE "
-   0 UNTIL ;
+Doer speech
+: alternate
+   BEGIN  make speech ." Hello "
+   make speech ." Goodbye "
+   AGAIN ;
 \end{Code}
 \item To implement a forward reference. A forward reference is usually
 needed as a ``hook,'' that is, a word invoked in a low-level definition
@@ -1470,12 +1468,12 @@ To implement a forward reference, build the header of the word with
 \forthb{DOER}, before invoking its name.
 
 \begin{Code}
-DOER STILL-UNDEFINED
+Doer still-undefined
 \end{Code}
 Later in the listing, use \forth{MAKE};
 
 \begin{Code}
-MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
+Make still-undefined  all that jazz ;
 \end{Code}
 (Remember, \forth{MAKE} can be used outside a colon definition.)
 
@@ -1491,21 +1489,21 @@ GCD of a, b =  a                     IF b = 0
 This translates nicely into:
 
 \begin{Code}
-DOER GCD ( a b -- gcd)
-MAKE GCD  ?dup  IF  dup rot rot  mod  GCD  THEN ;
+Doer gcd ( a b -- gcd)
+make gcd  ?dup  IF  dup rot rot  mod  gcd  THEN ;
 \end{Code}
 Indirect recursion occurs when one word invokes a second word, while the
 second word invokes the first. This can be done using the form:
 
 \begin{Code}
-DOER B
+Doer B
 : A  ... B ... ;
-MAKE B  ... A ... ;
+make B  ... A ... ;
 \end{Code}
 \item Debugging. I often define:
 
 \begin{Code}
-DOER SNAP
+Doer snap
 \end{Code}
 (short for \forth{SNAPSHOT}), then edit \forth{SNAP} into my
 application at a point where I want to see what's going on. For
@@ -1521,6 +1519,49 @@ The situations in which it's preferable to use the tick-and-execute
 approach are those in which you need control over the address of the
 vector, such as when vectoring through an element in a decision table, or
 attempting to save/restore the contents of the vector.
+
+\section{DEFER/IS instead of DOER/MAKE}
+
+Despite \person{Leo Brodie} has proposed \forth{DOER/MAKE} 20 years
+ago, it didn't become widely used. Instead, a somewhat different
+vectored execution word pair, \forthb{DEFER/IS} are popular now.
+
+Why is this? First of all, \forth{DEFER/IS} are trivial to implement,
+even if you don't know much about the underlying Forth system. They
+don't rely on the return stack, but use execution tokens (what comes
+out of \forth{'}) instead. Look at the portable definition:
+
+\begin{Code}
+: Defer  Create ['] noop ,  DOES>  @ execute ;
+: IS ( xt "name" -- )  state @ IF
+    ' >body postpone Literal postpone !
+  ELSE
+    ' >body !
+  THEN ; immediate
+\end{Code}
+
+Being portable is only one reason --- if \forth{DOER/MAKE} were
+important enough to implement, each \Forth{} would have one. The
+second reason is named vectors. Let's take a look at the \forth{DUMP}
+example written with \forth{DEFER/IS} instead:
+
+\begin{Code}[commandchars=\&\{\}]
+Defer .unit ( a -- increment )  \ display byte or cell
+: <dump>  ( a # -- )
+   0 DO  i 16 mod 0= IF  cr  dup i +  5 u.r  2 spaces  THEN
+   dup i + &poorbf{.unit}  +LOOP  drop ;
+: ?+ ( a -- inc ) @  3 cells u.r  1 cells ;
+: c?+ ( a -- inc ) c@  4 u.r  1 chars ;
+: dump   ( a # -- ) ['] ?+  IS .unit <dump> ;
+: cdump ( a # -- )  ['] c?+ IS .unit <dump> ;
+\end{Code}
+
+This looks more complicated, with the explicit components --- but
+remember: You have to test your program as well. So here, you can use
+your simpe component (\forth{?+} or \forth{c?+}) in isolation, without
+the more complicated logic of the complete application. You can do
+that, because they have a name. And words that have a name can be used
+as factors for other words.
 
 \section{Summary}
 In this chapter we've examined the tradeoffs between using the stack and

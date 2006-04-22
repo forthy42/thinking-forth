@@ -27,7 +27,7 @@ place it on the return stack.  That's all.  \Forth{} execution then
 continues with this address on the return stack, which will cause the
 vectored function to be performed.  It's like saying (in '83-Standard)
 \begin{Code}
-' NOTHING >body >r <return>
+' nothing >body >r <return>
 \end{Code}
 which executes \forth{NOTHING}.  (This trick only works with colon
 definitions.)
@@ -48,7 +48,7 @@ DOER JOE & \\
 
 \noindent Now suppose we define:
 \begin{Code}
-: TEST   MAKE JOE  cr ;
+: test   make joe  cr ;
 \end{Code}
 that is, we define a word that can vector \forth{JOE} to do a carriage
 return.
@@ -68,7 +68,7 @@ TEST & (MAKE) & 0 & JOE & CR & EXIT \\ \hline\noalign{\vspace{2pt}}
 \forthb{MAKE} inside a colon definition, \forthb{STATE} will be true, and
 we'll execute the phrase:
 \begin{Code}
-COMPILE (MAKE)  here marker !  0 ,
+postpone (make)  here marker !  0 ,
 \end{Code}
 We can see how \forthb{MAKE} has compiled the address of the run-time
 routine, \forthb{(MAKE)}, followed by a zero.  (We'll explain what the
@@ -81,30 +81,30 @@ definition \forthb{TEST}:
 
 \bigskip{
 \begin{tabular}{l@{\hspace{4ex}}>{\parindent-2ex}p{.5\textwidth}}
-\verb%R>%		& Gets an address from the return stack.
-			  This address points to the cell just
-			  past \forthb{(MAKE)}, where the zero is.\\ 
-\verb%DUP 2+%		& Gets the address of the second cell after
-			  \forthb{(MAKE)}, where the address of \forthb{JOE} is.\\
-\verb%DUP 2+%		& Gets the address of the third cell after
-			  \forthb{(MAKE)}, where the code we want to
-			  execute begins.  The stack now has:
+\verb%r>%               & Gets an address from the return stack.
+                          This address points to the cell just
+                          past \forthb{(MAKE)}, where the zero is.\\ 
+\verb%dup cell+%        & Gets the address of the second cell after
+                          \forthb{(MAKE)}, where the address of \forthb{JOE} is.\\
+\verb%dup cell+%        & Gets the address of the third cell after
+                          \forthb{(MAKE)}, where the code we want to
+                          execute begins.  The stack now has:
 
-			  \parindent2ex (~'marker,~'joe,~'code~--{}--~)\\
-\verb%SWAP @ >BODY%	& Fetches the contents of the address
-			  pointing to \forth{JOE} (i.e., gets the address 
-			  of \forth{JOE}) and computes \forth{JOE}'s pfa, where
-			  the vector address goes.\\
-\verb%!%		& Stores the address where the new code
-			  begins (\forthb{CR}, etc.) into the vector
-			  address of \forth{JOE}. \\
-			& Now \forth{JOE} points inside the definition of
-			  \forth{TEST}.  When we type \forth{JOE}, we'll do a
-			  carriage return.\\
-\verb%@ ?DUP IF >R THEN%& Fetches the contents of the cell
-			  containing zero.  Since the cell does
-			  contain zero, the \forth{IF THEN} statement is
-			  not performed.\\
+                          \parindent2ex (~'marker,~'joe,~'code~--{}--~)\\
+\verb%swap @ >body%     & Fetches the contents of the address
+                          pointing to \forth{JOE} (i.e., gets the address 
+                          of \forth{JOE}) and computes \forth{JOE}'s pfa, where
+                          the vector address goes.\\
+\verb%!%                & Stores the address where the new code
+                          begins (\forthb{CR}, etc.) into the vector
+                          address of \forth{JOE}. \\
+                        & Now \forth{JOE} points inside the definition of
+                          \forth{TEST}.  When we type \forth{JOE}, we'll do a
+                          carriage return.\\
+\verb%@ ?dup IF >r THEN%& Fetches the contents of the cell
+                          containing zero.  Since the cell does
+                          contain zero, the \forth{IF THEN} statement is
+                          not performed.\\
 \end{tabular}}
 \bigskip
 
@@ -112,7 +112,7 @@ That's the basic idea.  But what about that cell containing zero?  That's
 for the use of \forthb{;AND}.  Suppose we changed \forth{TEST} to read:
 
 \begin{Code}
-: TEST   MAKE JOE  cr ;AND space ;
+: test   make joe  cr ;and space ;
 \end{Code}
 That is, when we invoke \forth{TEST} we'll vector \forth{JOE} to do a
 \forthb{CR}, and we'll do a \forthb{SPACE} right now.  Here's what this
@@ -130,7 +130,7 @@ TEST & (MAKE) & adr & JOE & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2
 \end{center}
 Here's the definition of \forthb{;AND}:
 \begin{Code}
-: ;AND   COMPILE  EXIT  here marker @ ! ;   immediate
+: ;and   postpone  EXIT  here marker @ ! ;   immediate
 \end{Code}
 We can see that \forthb{;AND} has compiled an \forthb{EXIT}\index{E!EXIT},
 just as semicolon would.
@@ -156,15 +156,15 @@ One final note:  on some systems you may encounter a problem.  If you use
 you may not be able to find the most recently defined word.  For instance,
 if you have:
 \begin{Code}
-: REFRAIN   DO-DAH  DO-DAH ;
-MAKE SONG  CHORUS  REFRAIN ;
+: refrain   do-dah  do-dah ;
+make song  chorus  refrain ;
 \end{Code}
 your system might think that refrain has not been defined.  The problem is
 due to the placement of \forth{SMUDGE}.  As a solution, try rearranging
 the order of definitions or, if necessary, put \forth{MAKE} code inside a 
 definition which you then execute:
 \begin{Code}
-: SETUP   MAKE SONG  CHORUS  REFRAIN ;   SETUP
+: setup   make song  chorus  refrain ;   setup
 \end{Code}
 In Laboratory Microsystems PC/FORTH 2.0, the \forth{UNSMUDGE} on line 9
 handles the problem.  This problem does not arise with the
@@ -173,11 +173,11 @@ Laxen/Perry/Harris model.
 The final screen is an example of using \forthb{DOER/MAKE}.  After loading
 the block, enter
 \begin{Code}
-RECITAL
+recital
 \end{Code}
 then enter 
 \begin{Code}
-WHY?
+why?
 \end{Code}
 followed by return, as many times as you like (you'll get a different
 reason each time).
@@ -204,18 +204,18 @@ UNDO      Usage:  UNDO doer-name ; makes it safe to execute
 \end{Screen}
 \vfill
 \begin{Screen}
-\ DOER/MAKE   FORTH-83 Laxen/Perry/Harris model  LPB 12/05/83 
-: NOTHING ;
-: DOER   Create  ['] NOTHING  >body ,  DOES> @ >r ;
+\ DOER/MAKE   ANS Forth with real return-stack   BP 22/04/06 
+: nothing ;
+: Doer   Create  ['] nothing  >body ,  DOES> @ >r ;
 Variable marker
-: (MAKE)  r>  dup 2+  dup 2+  swap @  >body !
+: (make)  r>  dup cell+  dup cell+  swap @  >body !
    @ ?dup IF >r THEN ;
-: MAKE   state @ IF ( compiling)
-   COMPILE (MAKE)  here marker !  0 ,
-   ELSE  here  [compile] '  >body !
-   [compile] ]  THEN ;   immediate
-: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
-: UNDO   ['] NOTHING  >body  [compile] '  >body ! ;
+: make   state @ IF ( compiling)
+   postpone (make)  here marker !  0 , ' ,
+   ELSE  here '  >body !
+   ]  THEN ;   immediate
+: ;and   postpone EXIT  here marker @ ! ;   immediate
+: undo   ['] nothing  >body  '  >body ! ;
 
 \ The code in this screen is in the public domain.
 
@@ -223,79 +223,41 @@ Variable marker
 \end{Screen}
 \vfill
 \begin{Screen}
-( DOER/MAKE   FORTH-83 Lab. Micro PC/FORTH 2.0   LPB 12/05/83 )
-: NOTHING ;
-: DOER   Create  ['] NOTHING  >body ,  DOES> @ >r ;
+\ DOER/MAKE NC ANS Forth with real return-stack  BP 22/04/06 
+: nothing ;
+: Doer   Create  ['] nothing ,  DOES> @ >r ;
 Variable marker
-: (MAKE)  r>  dup 2+  dup 2+  swap @  >body !
+: (make)  r>  dup cell+  dup cell+  swap @  >body !
    @ ?dup IF >r THEN ;
-: MAKE   state @ IF ( compiling)
-   COMPILE (MAKE)  here marker !  0 ,
-   ELSE  here  [compile] '  >body !
-   [compile] ] UNSMUDGE  THEN ;   immediate
-: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
-: UNDO   ['] NOTHING  >body  [compile] '  >body ! ;
+: make   state @ IF ( compiling)
+   postpone (make)  here marker !  0 , ' ,
+   ELSE  here '  >body !
+   ]  THEN ;   immediate
+: ;and   postpone EXIT  here marker @ ! ;   immediate
+: undo   ['] nothing  '  >body ! ;
 
-( The code in this screen is in the public domain.)
+\ The code in this screen is in the public domain.
 
 
 \end{Screen}
 \vfill
 \begin{Screen}
-( DOER/MAKE   FIG model                          LPB 12/05/83 )
-: NOTHING   ;
-: DOES-PFA  ( pfa -- pfa of child of <BUILD-DOES> )   2+ ;
-: DOER   <BUILDS  ' NOTHING ,  DOES> @ >r ;
-0 Variable marker
-: (MAKE)  r>  dup 2+  dup 2+  swap @  2+ DOES-PFA !
-   @ -DUP IF >r THEN ;
-: MAKE  state @ IF ( compiling)
-   COMPILE (MAKE)  here marker !  0 ,
-   ELSE  here  [compile] '  DOES-PFA !
-   SMUDGE    [compile] ] THEN ; immediate
-: ;AND   COMPILE ;s  here marker @ ! ;  immediate
-: UNDO   ' NOTHING  [compile] '  DOES-PFA ! ;
-;s
-The code in this screen is in the public domain.
-
-\end{Screen}
-\vfill
-\begin{Screen}
-( DOER/MAKE   79-Standard  MVP FORTH             LPB 12/05/83 )
-: NOTHING ;
-: DOER   Create  ' NOTHING  ,  DOES> @ >r ;
-Variable marker
-: (MAKE)  r>  dup 2+  dup 2+  swap @  2+ ( pfa) !
-   @ ?dup IF >r THEN ;
-: MAKE   state @ IF ( compiling)
-   COMPILE (MAKE)  here marker !  0 ,
-   ELSE  here  [compile] ' !
-    [compile] ]  THEN ;   immediate
-: ;AND   COMPILE EXIT  here marker @ ! ;   immediate
-: UNDO   ['] NOTHING  [compile] ' ! ;
-
-
-( The code in this screen is in the public domain.)
-
-\end{Screen}
-\vfill
-\begin{Screen}
-( TODDLER: Example of DOER/MAKE                      12/01/83 )
-DOER ANSWER
-: RECITAL
+\ toddler: Example of DOER/MAKE                      12/01/83 )
+Doer answer
+: recital
   cr ." Your daddy is standing on the table.  Ask him 'WHY?' "
-  MAKE ANSWER  ." To change the light bulb."
+  make answer  ." To change the light bulb."
   BEGIN
-  MAKE ANSWER  ." Because it's burned out."
-  MAKE ANSWER  ." Because it was old."
-  MAKE ANSWER  ." Because we put it in there a long time ago."
-  MAKE ANSWER  ." Because it was dark!"
-  MAKE ANSWER  ." Because it was night time!!"
-  MAKE ANSWER  ." Stop saying WHY?"
-  MAKE ANSWER  ." Because it's driving me crazy."
-  MAKE ANSWER  ." Just let me change this light bulb!"
-  false UNTIL ;
-: WHY?   cr  ANSWER  quit ;
+  make answer  ." Because it's burned out."
+  make answer  ." Because it was old."
+  make answer  ." Because we put it in there a long time ago."
+  make answer  ." Because it was dark!"
+  make answer  ." Because it was night time!!"
+  make answer  ." Stop saying WHY?"
+  make answer  ." Because it's driving me crazy."
+  make answer  ." Just let me change this light bulb!"
+  AGAIN ;
+: why?   cr  answer  quit ;
 \end{Screen}
 \index{D!DOER/MAKE|)}
 \vfill
