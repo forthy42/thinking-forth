@@ -131,12 +131,12 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \newcommand{\labelfig}[1]{\label{fig-#1}}
 \newcommand{\program}[1]{\phantomsection\label{#1}}
 \newcommand{\figref}[1]{\ref{fig-#1}}
-\newcommand{\fig}[1]{Figura~\figref{#1}}
-\newcommand{\Fig}[1]{Figura~\figref{#1}}
-\newcommand{\sect}[1]{Sección~\ref{sect-#1}}
-\newcommand{\Sect}[1]{Sección~\ref{sect-#1}}
+\newcommand{\fig}[1]{Figura \figref{#1}}
+\newcommand{\Fig}[1]{Figura \figref{#1}}
+\newcommand{\sect}[1]{Secci \ref{sect-#1}}
+\newcommand{\Sect}[1]{Secci \ref{sect-#1}}
 \newcommand{\Chapmark}[1]{{\def\@currentlabel{\refchapter}\label{chapter-#1}}}
-\newcommand{\Chap}[1]{Capítulo \ref{chapter-#1}}
+\newcommand{\Chap}[1]{Cap~lo \ref{chapter-#1}}
 \newcommand{\App}[1]{Appendice \ref{chapter-#1}}
 
 % Hurenkinder und Schusterjungen verbieten
@@ -361,18 +361,18 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
                {\list{}{\listparindent 2.5em%
                         \itemindent    0pt
                         \leftmargin    0pt
-			\topsep        0pt
+                        \topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\bigbreak\blackline{1ex}\nopagebreak
+                \bigbreak\blackline{1ex}\nopagebreak
                 \item\relax}
                {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
 \newenvironment{interview*}
                {\list{}{\listparindent 2.5em%
                         \itemindent    0pt
                         \leftmargin    0pt
-			\topsep        0pt
+                        \topsep        0pt
                         \parsep        0.5ex \@plus\p@}%
-		\item\relax}
+                \item\relax}
                {\samepage\par\blackline{0pt}\medskip\endlist\goodbreak}
 
 
@@ -399,14 +399,14 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 %\code text was originally also set in roman font
 %1984 edition uses fat romand for Forth words
 \ifeightyfour
-\newcommand{\forth}[1]{\textrm{#1}}
-\newcommand{\forthb}[1]{\textbf{#1}}
-\newcommand{\code}[1]{\textrm{#1}}
+\newcommand{\forth}[1]{\textrm{\selectlanguage{american}#1}}
+\newcommand{\forthb}[1]{\textbf{\selectlanguage{american}#1}}
+\newcommand{\code}[1]{\textrm{\selectlanguage{american}#1}}
 \else
 %1994 edition uses teletype for Forth words
-\newcommand{\forth}[1]{\texttt{#1}}
-\newcommand{\forthb}[1]{\texttt{\poorbf{#1}}}
-\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\forth}[1]{\texttt{\selectlanguage{american}#1}}
+\newcommand{\forthb}[1]{\texttt{\selectlanguage{american}\poorbf{#1}}}
+\newcommand{\code}[1]{\texttt{\selectlanguage{american}#1}}
 \fi
 
 {\catcode`\|0\catcode`\\12%
@@ -432,10 +432,10 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
                    \@makeschapterhead{#1}%
                    \@afterheading
                  \fi
-		 \phantomsection
+                 \phantomsection
                  \addcontentsline{toc}{section}{#1}%
                  \chaptermark{#1}%
-		 }
+                 }
 
 \def\@makechapterhead#1{{\HUGE
 %    \sffamily
@@ -457,7 +457,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
     \parindent 0pt
   \vbox{{\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}%
     \vspace*{0.2ex}{\advance\textwidth-1em\sloppy\MakeUppercase{#1}}\vspace*{0.2ex}%
-	    {\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}}%
+            {\advance\textwidth1em\hrule \@height 3pt \@width\textwidth}}%
   \vspace*{100pt}}}
 
 \def\enumchap#1{\ifcase#1\or Uno\or Dos\or Tres\or Cuatro\or
@@ -484,8 +484,8 @@ Cinco\or Seis\or Siete\or Ocho\or Nueve\or Diez\fi}
                 \twocolumn[\@makeschapterhead{\indexname}]%
                 \@mkboth{\MakeUppercase\indexname}%
                         {\MakeUppercase\indexname}%
-		\phantomsection
-		\addcontentsline{toc}{chapter}{\indexname}%
+                \phantomsection
+                \addcontentsline{toc}{chapter}{\indexname}%
                 \thispagestyle{plain}\parindent\z@
                 \parskip\z@ \@plus .3\p@\relax
                 \let\item\@idxitem}
@@ -512,7 +512,7 @@ Cinco\or Seis\or Siete\or Ocho\or Nueve\or Diez\fi}
 
 %\def\iffloatpage#1#2{\if@fcolmade #1\else #2\fi}
 
-\def\prelimtext{\ifprelim{\gray\small\sf Preimpresión: por favor, informe de los fallos}\fi}
+\def\prelimtext{\ifprelim{\gray\small\sf Preimpresi~por favor, informe de los fallos}\fi}
 
 \def\ps@headings{\let\@mkboth\markboth
   \def\@oddhead{}

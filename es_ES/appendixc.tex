@@ -7,14 +7,14 @@
 \Chapmark{C}
 \chapter{Otras~utilidades descritas en~este~libro}
 
-\initial Este apéndice está aquí para ayudarle a definir algunas de
+\initial Este apéndice está aquí para ayudarle a definir algunas de
 las palabras a la que se hace referencia en este libro y que pueden no
-existir en su sistema. Las definiciones se hacen según la norma del
+existir en su sistema. Las definiciones se hacen según la norma del
 \Forth{}-83.
 
 \section{Del \Chap{4}}
 
-Una definición of \forthb{ASCII}\index{A!ASCII} que funcionará en
+Una definición of \forthb{ASCII}\index{A!ASCII} que funcionará en
 Forth{}-83 es:
 \begin{Code}
 : ASCII  ( -- c)  \  Compilando:  c  ( -- )
@@ -25,10 +25,10 @@ Forth{}-83 es:
 
 \section{Del \Chap{5}}
 
-La palabra \forthb{\bs}\index{S!salto, órdenes de} puede definirse
+La palabra \forthb{\bs}\index{S!salto, órdenes de} puede definirse
 como:
 \begin{Code}
-: \  ( salta el resto de la línea)
+: \  ( salta el resto de la línea)
      >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
 \end{Code}
 Si decide no usar \forthb{EXIT} para concluir una pantalla, puede
@@ -39,10 +39,10 @@ definir \forthb{\bs S} como:
 \index{F!FH|(}%
 La palabra \forthb{FH} puede definirse simplemente como:
 \begin{Code}
-: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
+: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
     BLK @ + ;
 \end{Code}
-Esta descomposición permite usar \forth{FH} de muchas formas, p.e.:
+Esta descomposición permite usar \forth{FH} de muchas formas, p.e.:
 \begin{Code}
 : TEST   [ 1 FH ] LITERAL LOAD ;
 \end{Code}
@@ -50,12 +50,12 @@ or
 \begin{Code}
 : SEE   [ 2 FH ] LITERAL LIST ;
 \end{Code}
-Una versión ligeramente más complicada de \forth{FH} también permite
+Una versión ligeramente más complicada de \forth{FH} también permite
 editar o cargar una pantalla con una frase como ``\forth{14 FH
   LIST}'', relativa a la pantalla que se acaba de listar
 (\forth{SCR}):
 \begin{Code}
-: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
+: FH   \   ( desplazamiento -- desplazamiento-bloque)   "from here" ("desde aquí")
      BLK @  ?DUP 0= IF  SCR @  THEN  + ;
 \end{Code}
 \index{F!FH|)}
@@ -73,10 +73,10 @@ pueden definirse como:
 interpretan cero como ``falso'' y cualquier valor distinto de cero
 como ``verdadero''. Antes de \Forth{}-83, el convenio era indicar
 ``verdadero'' con el valor $1$. Desde \Forth{}-83, sin embargo,
-``verdadero'' se indica con hex \code{FFFF}, que es el número con
+``verdadero'' se indica con hex \code{FFFF}, que es el número con
 signo $-1$ (todos los bits a 1).)
 
-\forthb{WITHIN}\index{W!WITHIN} puede definirse en alto nivel así:
+\forthb{WITHIN}\index{W!WITHIN} puede definirse en alto nivel así:
 \begin{Code}
 : WITHIN  ( n bajo alto+1 -- ?)
      >R  1- OVER <  SWAP R>  < AND ;
@@ -89,10 +89,10 @@ o
 
 \section{Del \Chap{8}}
 
-La manera de hacer \forthb{LEAP}\index{L!LEAP} dependerá de cómo su
+La manera de hacer \forthb{LEAP}\index{L!LEAP} dependerá de cómo su
 sistema hace los bucles \forthb{DO} \forthb{LOOP}. Si \forthb{DO}
-guarda 2 elementos en la pila de retorno (el índice y el límite),
-\forthb{LEAP} debe descartar ambos además de otro elemento de la pila
+guarda 2 elementos en la pila de retorno (el índice y el límite),
+\forthb{LEAP} debe descartar ambos además de otro elemento de la pila
 de retorno para salir:
 \begin{Code}
 : LEAP   R> R> 2DROP  R> DROP ;

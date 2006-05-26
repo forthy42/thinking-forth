@@ -92,7 +92,7 @@ nueva definición \forthb{PRUEBA}:
 			  \forthb{(MAKE)}, donde empieza el código que queremos
 			  ejecutar. La pila tiene ahora:
 
-			  \parindent2ex (~'marker,~'juan,~'code~--{}--~)\\
+			  \parindent2ex (\ 'marker,\ 'juan,\ 'code\ --{}--\ )\\
 \verb%SWAP @ >BODY%	& Lee el contenido de la dirección
 			  que apunta a \forth{JUAN} (o sea, toma la dirección 
 			  de \forth{JUAN}) y calcula la dcp de \forth{JUAN},
@@ -123,7 +123,7 @@ Este es el aspecto de esta versión de \forth{PRUEBA}:
 %! clue, so I just omitted it.
 
 \begin{center}\vspace{10pt}\sf\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
-& dir de & \smash{\rnode{M1}{~\large\strut}} & dir de & dir de & dir de & \rnode{M2}{dir de\large\strut} & dir de \\
+& dir de & \smash{\rnode{M1}{\ \large\strut}} & dir de & dir de & dir de & \rnode{M2}{dir de\large\strut} & dir de \\
 PRUEBA & (MAKE) & dir & JUAN & CR & EXIT & SPACE & EXIT \\ \hline\noalign{\vspace{2pt}}
 \multicolumn{1}{c}{header} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\boxto{adr}{MARCADOR}} & \multicolumn{5}{c}{} \\
 \end{tabular}
