@@ -1,0 +1,115 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Ed Beroset
+%% 
+%% test harness
+%% pdflatex harness
+
+\input{tfoptions}
+
+\documentclass[10pt,\tflang,dvips]{book}
+\usepackage{pst-all}
+\usepackage{pst-blur}
+\usepackage{pst-grad}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{graphics}
+\usepackage{framed}
+\usepackage{babel}
+\usepackage{fancyvrb}
+%\usepackage[0.21]{listings}
+\usepackage{longtable}
+\usepackage[pdfpagelabels,colorlinks=true,linkcolor=\linkcolor,citecolor=\linkcolor,urlcolor=\linkcolor]{hyperref}
+\usepackage{geometry}
+\usepackage{mdwlist}
+\usepackage{makeidx}
+\usepackage[cmbtt]{bold-extra}
+\usepackage[ps2pdf]{thumbpdf}
+\usepackage[\tfoptions]{tf}
+
+% Fonts
+
+%\usepackage{times}
+%\renewcommand{\poorbf}[1]{\textbf{#1}}
+
+%\lstloadlanguages{Forth}
+%\input{epsf}
+\usepackage{array}
+
+\DeclareGraphicsExtensions{.eps}
+
+\hypersetup{%
+        pdftitle={Thinking Forth},    % Titel des Dokuments
+        pdfauthor={Leo Brodie}, % Autor des Dokuments
+}
+
+\makeindex
+
+% stuff left to Bernd:
+
+% chapter title page
+% page footer
+% section and subsection header style
+% caption style
+
+\begin{document}
+
+%% external title page is here
+
+\ifofour
+\input{title}
+\input{copyright}
+\input{bio}
+\input{quotation}
+%\input{preface-ans}
+\input{preface2004}
+\input{preface94}
+\input{preface}
+\input{tocpages}
+\setcounter{sectionlr}{9}
+\else\ifeightyfour
+\input{title}
+\input{bio}
+\input{title2}
+\input{copyright}
+\input{quotation}
+\input{tocpages}
+\input{preface}
+\setcounter{sectionlr}{5}
+\else
+\input{title}
+\input{bio}
+\input{title2}
+\input{copyright}
+\input{quotation}
+\input{tocpages}
+\input{preface94}
+\input{preface}
+\setcounter{sectionlr}{6}
+\fi\fi
+\vfill\pagebreak
+\sectionlabeltrue
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{chapter1}
+%\input{chapter2}
+%\input{chapter3}
+%\input{chapter4}
+%\input{chapter5}
+%\input{chapter6}
+%\input{chapter7}
+%\input{chapter8}
+\input{epilog}
+\input{appendixa}
+\input{appendixb}
+\input{appendixc}
+%\input{appendixd}
+%\input{appendixe}
+% Index
+\cleardoublepage
+\printindex
+% prepare for back page
+%\clearpage\if@twoside \ifodd\c@page\hbox{}\newpage\fi\fi\thispagestyle{empty}
+%\input{backpage}
+%\input{legalcode-by-nc-sa}
+\end{document}
