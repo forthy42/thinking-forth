@@ -399,14 +399,14 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 %\code text was originally also set in roman font
 %1984 edition uses fat romand for Forth words
 \ifeightyfour
-\newcommand{\forth}[1]{\textrm{\selectlanguage{american}#1}}
-\newcommand{\forthb}[1]{\textbf{\selectlanguage{american}#1}}
-\newcommand{\code}[1]{\textrm{\selectlanguage{american}#1}}
+\newcommand{\forth}[1]{\textrm{#1}}
+\newcommand{\forthb}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\textrm{#1}}
 \else
 %1994 edition uses teletype for Forth words
-\newcommand{\forth}[1]{\texttt{\selectlanguage{american}#1}}
-\newcommand{\forthb}[1]{\texttt{\selectlanguage{american}\poorbf{#1}}}
-\newcommand{\code}[1]{\texttt{\selectlanguage{american}#1}}
+\newcommand{\forth}[1]{\texttt{#1}}
+\newcommand{\forthb}[1]{\texttt{\poorbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
 \fi
 
 {\catcode`\|0\catcode`\\12%

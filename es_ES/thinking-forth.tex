@@ -7,7 +7,7 @@
 
 \input{tfoptions}
 
-\documentclass[10pt,\tflang,dvips]{book}
+\documentclass[10pt,dvips]{book}
 \usepackage{pst-all}
 \usepackage{pst-blur}
 \usepackage{pst-grad}
@@ -15,7 +15,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage{graphics}
 \usepackage{framed}
-\usepackage{babel}
+\usepackage[\tflang,american]{babel}
 \usepackage{fancyvrb}
 %\usepackage[0.21]{listings}
 \usepackage{longtable}
@@ -52,9 +52,14 @@
 % section and subsection header style
 % caption style
 
+\layoutspanish
+
 \begin{document}
 
 %% external title page is here
+
+\renewcommand {\shorthandsspanish}{}
+\selectlanguage{spanish}
 
 \ifofour
 \input{title}
@@ -66,7 +71,7 @@
 \input{preface94}
 \input{preface}
 \input{tocpages}
-\setcounter{sectionlr}{9}
+\setcounter{sectionlr}{8}
 \else\ifeightyfour
 \input{title}
 \input{bio}

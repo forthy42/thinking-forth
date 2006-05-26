@@ -61,7 +61,7 @@ PRICE = 90000
 
 PRINTING = "Punchy Printing"
 OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn
-LANG = american
+LANG = spanish
 LINKCOLOR = blue
 # for a printed version, use
 #LINKCOLOR = black
