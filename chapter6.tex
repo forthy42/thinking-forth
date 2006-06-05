@@ -1148,7 +1148,7 @@ group of related addresses. Here's the first try:
 \begin{Code}
 hex 01a0 Constant base.port.address
 base.port.address Constant speaker
-base.port.address 2+ Constant flipper-a
+base.port.address 2 + Constant flipper-a
 base.port.address 4 + Constant flipper-b
 base.port.address 6 + Constant win-light
 decimal
@@ -1163,7 +1163,7 @@ repeated code into the ``does'' part  of a defining word:
 
 \begin{Code}
 : Port  ( offset -- )  Create ,
-   \ DOES>  ( -- 'port) @ base.port.address + ;
+   DOES>  ( -- 'port) @ base.port.address + ;
 0 Port speaker
 2 Port flipper-a
 4 Port flipper-b
@@ -1199,7 +1199,7 @@ makes a constant out of it, then adds 2 to the address still on the
 stack, for the next invocation of \forth{PORT}.
 
 \begin{Code}
-: Port   ( 'port -- 'next-port)  dup Create ,  2+ ;
+: Port   ( 'port -- 'next-port)  dup Constant  2 + ;
    \ DOES>  ( -- 'port)
 base.port.address
   Port speaker
