@@ -1163,7 +1163,7 @@ repeated code into the ``does'' part  of a defining word:
 
 \begin{Code}
 : PORT  ( offset -- )  CREATE ,
-   \ does>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
+   DOES>  ( -- 'port) @ BASE.PORT.ADDRESS + ;
 0 PORT SPEAKER
 2 PORT FLIPPER-A
 4 PORT FLIPPER-B
@@ -1199,7 +1199,7 @@ makes a constant out of it, then adds 2 to the address still on the
 stack, for the next invocation of \forth{PORT}.
 
 \begin{Code}
-: PORT   ( 'port -- 'next-port)  DUP CREATE ,  2+ ;
+: PORT   ( 'port -- 'next-port)  DUP CONSTANT  2+ ;
    \ does>  ( -- 'port)
 BASE.PORT.ADDRESS
   PORT SPEAKER
