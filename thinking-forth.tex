@@ -7,7 +7,7 @@
 
 \input{tfoptions}
 
-\documentclass[10pt,\tflang,dvips]{book}
+\documentclass[10pt,\tflang,\tfsides,dvips]{book}
 \usepackage{pst-all}
 \usepackage{pst-blur}
 \usepackage{pst-grad}
@@ -31,7 +31,9 @@
 
 %\usepackage{times}
 %\renewcommand{\poorbf}[1]{\textbf{#1}}
-
+\ifkindle
+ \renewcommand*\familydefault{\sfdefault} 
+\fi
 %\lstloadlanguages{Forth}
 %\input{epsf}
 \usepackage{array}

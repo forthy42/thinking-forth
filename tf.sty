@@ -42,6 +42,8 @@
 \newif\ifinitial
 \newif\ifprelim
 \newif\ifbnw
+\newif\ifkindle
+\kindlefalse
 \bnwfalse
 \isbnfalse
 \latextocfalse
@@ -60,8 +62,10 @@
 \newdimen\hangmark
 \newdimen\pthick
 \newdimen\cborder
+\newdimen\tfindent
 \pthick0.0041in
 \cborder0.125in
+\tfindent2.5em
 
 \def\linkcolor{blue}
 
@@ -76,10 +80,11 @@ bmargin=1.175in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
 footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 
 % kindle is 3.6 by 4.8, but we will shrink the output to 80%
-\def\kindle{\global\hangout.55in\global\pthick0.0041in
+\def\kindle{\kindletrue\global\hangout.2in\global\pthick0.0041in%
+\global\tfindent1em
 \geometry{verbose,paperwidth=4.5in,paperheight=6in,tmargin=0.2in,%
-bmargin=0.7in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
-footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+bmargin=0.4in,lmargin=0.2in,rmargin=0.3in,headheight=0cm,headsep=0cm,%
+footskip=0.3in,marginparwidth=0.2in,marginparsep=0.1in}}
 
 \def\seventeenbytwentytwo{\global\hangout.66in\global\pthick0.12mm\global\cborder5mm
 \geometry{verbose,paperwidth=17cm,paperheight=22cm,tmargin=0.4in,%
@@ -315,9 +320,11 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \def\tipbox{\@tempdima\ht\@tempboxa\@tempdimb\dp\@tempboxa
 \advance\@tempdimb\ht\@tempboxa
 \hbox to \linewidth{\leavevmode%
-\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+\if@twoside\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 \else\hss\hbox{\hss
-\vbox to \@tempdima{\hbox{\includegraphics{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
+\vbox to \@tempdima{\hbox{\includegraphics[scale=\figscale]{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi\else
+\hss\hbox{\hss
+\vbox to \@tempdima{\hbox{\includegraphics[scale=\figscale]{pointing-r}}\iftipno\hbox{\small\tipno}\fi\vss}~}\fi
 \pst@divide{\@tempdima}{\@tempdimb}{\pst@tempa}%
 \psshadowbox[fillcolor=lightgreen,
 %fillstyle=gradient,gradangle=0,gradbegin=midgreen,gradend=lightgreen,
@@ -325,12 +332,12 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 cornersize=absolute,linearc=1.5ex,framesep=1.5ex,boxsep=false,
 linecolor=midgreen,linewidth=0.3pt,
 shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
-\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
+\if@twoside\ifodd\hypergetpageref{tip-\thechapter.\arabic{tipc}}%
 ~\vbox to \@tempdima{%
-\hbox{\includegraphics{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
+\hbox{\includegraphics[scale=\figscale]{pointing-l}}\iftipno\hbox to 27pt{\hss\small\tipno}\fi\vss}\hss%
 \else
-\hbox to 2.5em{\hss}%
-\fi
+\hbox to \tfindent{\hss}%
+\fi\fi
 }
 }
 
@@ -372,13 +379,13 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \newenvironment{tfquot}
                {\list{}{\listparindent 0em%
                         \itemindent    \listparindent
-                        \leftmargin    2.5em
+                        \leftmargin    \tfindent
                         \parsep        1ex \@plus\p@\small}%
                 \item\relax}
                {\endlist}
 
 \newenvironment{interview}
-               {\list{}{\listparindent 2.5em%
+               {\list{}{\listparindent \tfindent%
                         \itemindent    0pt
                         \leftmargin    0pt
 			\topsep        0pt
@@ -387,7 +394,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
                 \item\relax}
                {\samepage\par\blackline{0pt}\endlist\vspace*{1ex}\goodbreak}
 \newenvironment{interview*}
-               {\list{}{\listparindent 2.5em%
+               {\list{}{\listparindent \tfindent%
                         \itemindent    0pt
                         \leftmargin    0pt
 			\topsep        0pt
@@ -442,8 +449,8 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 
 %% chapter style, chapters without name like Preface are chapter*
 
-\newcommand\HUGE{\@setfontsize\HUGE{33}{38}}
-\newcommand\THUGE{\@setfontsize\HUGE{65}{70}}
+\newcommand\HUGE{\ifkindle\@setfontsize\HUGE{25}{30}\else\@setfontsize\HUGE{33}{38}\fi}
+\newcommand\THUGE{\ifkindle\@setfontsize\HUGE{50}{55}\else\@setfontsize\HUGE{65}{70}\fi}
 \newcounter{appendix}
 
 \def\@schapter#1{\if@twocolumn
@@ -571,7 +578,8 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
   \@esphack}
 
 \def\raggedlr{\noindent
-\ifodd\pagerefpp{s@ctionlr-\arabic{sectionlr}}\raggedleft\else\raggedright\fi
+\if@twoside\ifodd\pagerefpp{s@ctionlr-\arabic{sectionlr}}\raggedleft\else\raggedright\fi
+\else\raggedleft\fi
 \stepcounter{sectionlr}}
 \def\sectionlab#1#2{\global\@namedef{r@#1}{#2}}
 \def\raggedr{\noindent
@@ -600,7 +608,7 @@ Five\or Six\or Seven\or Eight\or Nine\or Ten\fi}
 
 %% indentation
 
-\parindent=2.5em
+\parindent=\tfindent
 \DefineVerbatimEnvironment{Code}{Verbatim}{xleftmargin=\parindent}
 \def\dontbreak{\@nobreaktrue}
 
@@ -642,7 +650,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% description style
 
-\renewcommand*\descriptionlabel[1]{\hspace{2.5em}
+\renewcommand*\descriptionlabel[1]{\hspace{\tfindent}
                                 \normalfont\itshape #1}
 
 %% table of contents style

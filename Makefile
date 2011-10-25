@@ -69,6 +69,7 @@ PRICE = 53500
 PRINTING = "Punchy Printing"
 OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn,bnw
 LANG = american
+SIDES = twoside
 LINKCOLOR = blue
 PDFOUT = /printer
 SCALING = 1
@@ -155,6 +156,7 @@ tfoptions.tex:	Makefile
 	echo "\def\tfversion{$(VERSION)}" >>$@
 	echo "\def\tscale{$(SCALING)}" >>$@
 	echo "\def\figscale{$(FIGSCALE)}" >>$@
+	echo "\def\tfsides{$(SIDES)}" >>$@
 
 %.pdf : %.ps
 	$(PS2PDF) $< $@
