@@ -1,5 +1,7 @@
 # Makefile for Thinking Forth
 
+SHELL := /bin/bash
+
 SOURCES = thinking-forth.tex \
 	tfoptions.tex \
 	bio.tex copyright.tex quotation.tex tocpages.tex title.tex title2.tex \
@@ -68,6 +70,9 @@ PRINTING = "Punchy Printing"
 OPTIONS = 6.14x9.21,2004,tip,tipno,leo,isbn,bnw
 LANG = american
 LINKCOLOR = blue
+PDFOUT = /printer
+SCALING = 1
+FIGSCALE = 1
 # for a printed version, use
 #LINKCOLOR = black
 # BoD options:
@@ -81,7 +86,7 @@ CP = cp
 TAR = tar jcf
 MD = mkdir
 RD = rm -rf
-PS2PDF = ps2pdf13 -dPDFSETTINGS=/printer -dEmbedAllFonts=true
+PS2PDF = ps2pdf13 -dPDFSETTINGS=$(PDFOUT) -dEmbedAllFonts=true
 THUMBPDF = thumbpdf --mode=ps2pdf
 
 TOGETHER = 20 # how many pages you bind together - divide by 4
@@ -130,6 +135,10 @@ bookletter : thinking-forth.ps
 	$(PSLET) >tf-letter.ps
 	$(PS2PDF) tf-letter.ps tf-letter.pdf
 
+
+kindle	: thinking-forth.ps
+	$(PS2PDF) thinking-forth.ps tf-kindle.pdf
+
 #two pages on one A4/Letter page, for printing with Laser printer and
 #using an A4/Letter binding machine (print with long-edge
 2on1.ps: thinking-forth.ps
@@ -144,6 +153,8 @@ tfoptions.tex:	Makefile
 	echo "\def\linkcolor{$(LINKCOLOR)}" >>$@
 	echo "\def\printing{$(PRINTING)}" >>$@
 	echo "\def\tfversion{$(VERSION)}" >>$@
+	echo "\def\tscale{$(SCALING)}" >>$@
+	echo "\def\figscale{$(FIGSCALE)}" >>$@
 
 %.pdf : %.ps
 	$(PS2PDF) $< $@

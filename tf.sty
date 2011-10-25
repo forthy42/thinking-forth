@@ -75,6 +75,12 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 bmargin=1.175in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
 footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 
+% kindle is 3.6 by 4.8, but we will shrink the output to 80%
+\def\kindle{\global\hangout.55in\global\pthick0.0041in
+\geometry{verbose,paperwidth=4.5in,paperheight=6in,tmargin=0.2in,%
+bmargin=0.7in,lmargin=0.5in,rmargin=0.775in,headheight=0cm,headsep=0cm,%
+footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
+
 \def\seventeenbytwentytwo{\global\hangout.66in\global\pthick0.12mm\global\cborder5mm
 \geometry{verbose,paperwidth=17cm,paperheight=22cm,tmargin=0.4in,%
 bmargin=.83in,lmargin=0.7in,rmargin=1.268in,headheight=0cm,headsep=0cm,%
@@ -97,6 +103,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \DeclareOption{tipno}{\tipnotrue}
 \DeclareOption{tip}{\tiptrue}
 \DeclareOption{6x9}{\sixbynine}
+\DeclareOption{kindle}{\kindle}
 \DeclareOption{17x22}{\seventeenbytwentytwo}
 \DeclareOption{17x24}{\seventeenbytwentyfour}
 \DeclareOption{6.14x9.21}{\sixfourteenbyninetwentyone}
@@ -160,6 +167,11 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 % tex includes a latex file, should be a minipage there, only available
 %     in t and b flavour
 
+\renewcommand{\textfraction}{0}
+\renewcommand{\topfraction}{1.1}
+\renewcommand{\bottomfraction}{1.1}
+\renewcommand{\floatpagefraction}{0.35}
+
 \newcommand{\wepsfig}[2]{\begin{figure}[hhhh]
 \caption{#2}\labelfig{#1}eps file missing\end{figure}}
 
@@ -167,7 +179,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \begin{figure}[hhhh]
 \caption{#2}
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \labelfig{#1}
 \end{figure}
 }
@@ -175,7 +187,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \begin{figure*}[tttt]
 \caption{#2}\par
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \labelfig{#1}
 \end{figure*}
 }
@@ -183,7 +195,7 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \begin{figure*}[pppp]
 \caption{#2}\par
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \labelfig{#1}
 \end{figure*}
 }
@@ -191,28 +203,28 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \begin{figure*}[bbbb]
 \caption{#2}\par
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \labelfig{#1}
 \end{figure*}
 }
 \newcommand{\wepsfigx}[1]{
 \begin{figure*}[pppp]
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \labelfig{#1}
 \end{figure*}
 }
 \newcommand{\wepsfigxx}[1]{
 \begin{figure*}[pppp]
 \vspace{20ex}
-\centerline{\includegraphics{#1}}\vspace{20ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{20ex}
 \labelfig{#1}
 \end{figure*}
 }
 \newcommand{\wepsfigp}[2]{
 \begin{figure*}[pppp]
 \vspace{1ex}
-\centerline{\includegraphics{#1}}\vspace{1ex}
+\centerline{\includegraphics[scale=\figscale]{#1}}\vspace{1ex}
 \begin{center}{\emph{#2}}\end{center}
 \vspace{1ex}
 \label{img-#1}
@@ -225,6 +237,14 @@ footskip=0.5in,marginparwidth=0.6in,marginparsep=0.1in}}
 \input{#1}
 \labelfig{#1}
 \end{figure*}
+}
+\newcommand{\wtexfiga}[2]{
+\begin{figure}[pppp]
+\caption{#2}
+\smallskip
+\input{#1}
+\labelfig{#1}
+\end{figure}
 }
 \newcommand{\wtexfigb}[2]{
 \begin{figure*}[bbbb]
@@ -766,7 +786,7 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% initials
 
-\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
+%\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
 
 \ifinitial
 \def\initial#1{\par
