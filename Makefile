@@ -136,8 +136,11 @@ bookletter : thinking-forth.ps
 	$(PSLET) >tf-letter.ps
 	$(PS2PDF) tf-letter.ps tf-letter.pdf
 
+# kindle requires to change a lot of options, so call this with
+kindle :
+	$(MAKE) tf-kindle.pdf OPTIONS=kindle,2004,tip,tipno,leo,isbn,bnw PDFOUT=/ebook FIGSCALE=0.7 SCALING=0.8 SIDES=oneside
 
-kindle	: thinking-forth.ps
+tf-kindle.pdf	: thinking-forth.ps
 	$(PS2PDF) thinking-forth.ps tf-kindle.pdf
 
 #two pages on one A4/Letter page, for printing with Laser printer and
