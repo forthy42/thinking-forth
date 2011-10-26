@@ -354,7 +354,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
 \item\relax
 \stepcounter{tipc}%
 \setbox\@tempboxa\hbox\bgroup\begin{minipage}[t]{\linewidth}
-{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\par\medskip\small
+{\iftip{\sc Tip}\small\else TIP\iftipno{} \tipno\fi\fi}\par\medskip\ifkindle\else\small\fi
 }{\par
 \end{minipage}\egroup%
 \leavevmode\label{tip-\thechapter.\arabic{tipc}}%
@@ -380,7 +380,7 @@ shadowcolor=lightgrey,shadowsize=3pt,blur=true]{\unhbox\@tempboxa}%
                {\list{}{\listparindent 0em%
                         \itemindent    \listparindent
                         \leftmargin    \tfindent
-                        \parsep        1ex \@plus\p@\small}%
+                        \parsep        1ex \@plus\p@\ifkindle\else\small\fi}%
                 \item\relax}
                {\endlist}
 
