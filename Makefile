@@ -178,7 +178,7 @@ cover.dvi:	cover.tex backpage.tex isbn.eps tfoptions.tex pagecount.tex head.eps 
 # get bookland.py from http://www.cgpp.com/bookland/
 
 isbn.eps:	Makefile
-	bookland.py $(ISBN) $(PRICE) >$@
+	-which bookland.py && bookland.py $(ISBN) $(PRICE) >$@
 
 pagecount.tex:	tfoptions.tex thinking-forth.ps
 	grep %%Pages: thinking-forth.ps | sed -e 's/%%Pages: \([0-9]*\)/\\def\\pagecount{\1}/g' | head -1 >$@
