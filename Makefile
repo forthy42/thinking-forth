@@ -1,5 +1,7 @@
 # Makefile for Thinking Forth
 
+SHELL = bash
+
 SOURCES = thinking-forth.tex \
 	tfoptions.tex \
 	bio.tex copyright.tex quotation.tex tocpages.tex title.tex title2.tex \
