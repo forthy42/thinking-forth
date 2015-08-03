@@ -810,9 +810,8 @@ samepage=true,xleftmargin=0em,xrightmargin=0em,baselinestretch=0.8}
 
 %% initials
 
-\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
-
 \ifinitial
+\font\@inifont=yinit scaled 750 \def\inifont{\@inifont\baselineskip 30pt}
 \def\initial#1{\par
 \setbox0\hbox{\lower2\baselineskip\hbox{\inifont \uppercase{#1}}}%
 \hangindent\wd0\hangafter-3\dp0=0pt\noindent\hbox to 0pt{\hss\box0}}
