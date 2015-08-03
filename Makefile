@@ -203,6 +203,12 @@ img%.pdf:	img%.eps
 fig%.pdf:	fig%.eps
 	./eps2pdf $<
 
+pointing%.pdf:	pointing%.eps
+	./eps2pdf $<
+
+logo%.pdf:	logo%.eps
+	./eps2pdf $<
+
 AUTOTRACE = autotrace --despeckle-level 8 --error-threshold 4
 
 #fig%.eps:	fig%.png
