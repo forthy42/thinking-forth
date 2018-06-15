@@ -2,7 +2,8 @@ image: debian:unstable
  
 before_script:
   - apt update -qq
-  - apt-get -y install texlive texlive-pstricks texlive-latex-recommended make
+  - apt-get -y install texlive texlive-pstricks texlive-latex-recommended
+    texlive-fonts-extra cm-super make
  
 stages:
   - build
