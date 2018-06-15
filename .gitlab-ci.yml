@@ -1,0 +1,21 @@
+image: debian:unstable
+ 
+before_script:
+  - apt update -qq
+  - apt-get -y install texlive texlive-pstricks texlive-latex-recommended
+    texlive-fonts-extra cm-super make
+ 
+stages:
+  - build
+
+build-distcheck:
+  stage: build
+  script:
+    - make
+    - mkdir pdfs
+    - mv *.pdf pdfs
+ 
+  # The files which are to be made available in GitLab
+  artifacts:
+    paths:
+      - pdfs/*
