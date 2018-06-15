@@ -1,0 +1,18 @@
+image: debian:unstable
+ 
+before_script:
+  - apt update -qq
+  - apt-get -y install texlive
+ 
+stages:
+  - build
+ 
+build-distcheck:
+  stage: build
+  script:
+    - make
+ 
+  # The files which are to be made available in GitLab
+  artifacts:
+    paths:
+      - *.pdf
